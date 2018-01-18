@@ -1,6 +1,6 @@
 <template>
   <div>
-    hello,world
+    this is login
   </div>
 </template>
 
