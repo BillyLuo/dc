@@ -11,7 +11,7 @@
         </Card>
         <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
           <FormItem prop="user">
-            <Input type="text" v-model="formInline.user" placeholder="Username" class="login-input-user">
+            <Input type="text" v-model="formInline.user" placeholder="Username" :class="'login-input-user'">
               <Icon type="ios-person-outline" slot="prepend"></Icon>
             </Input>
           </FormItem>
