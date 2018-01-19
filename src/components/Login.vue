@@ -5,7 +5,7 @@
       <div class="login-box-background">
         <Card style="width:100%" :class="'login-card'">
           <div style="text-align:center">
-            <img src="../../static/img/coin/icon-eth.png">
+            <img src="/static/img/logo.png">
             <h3>登录蜂巢链-fclink</h3>
           </div>
         </Card>
@@ -16,9 +16,19 @@
             </Input>
           </FormItem>
           <FormItem prop="password">
-            <Input type="password" v-model="formInline.password" placeholder="密码">
+            <Input type="password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
             <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
             </Input>
+          </FormItem>
+          <FormItem prop="tel">
+            <Input type="text" v-model="formInline.tel" placeholder="手机号" :class="'login-input'">
+            <Icon type="ios-telephone-outline" slot="prepend" :class="'login-input-icon'"></Icon>
+            </Input>
+          </FormItem>
+          <FormItem prop="verificationCode">
+            <Input type="text" v-model="formInline.verificationCode" placeholder="验证码" :class="'login-input'" style="width: 200px">
+            </Input>
+            <Button type="primary" :class="'verification-code-button'">获取验证码</Button>
           </FormItem>
           <br />
           <FormItem>
@@ -39,7 +49,7 @@
           particles: {
             color: '#fff',
             shape: 'circle', // "circle", "edge" or "triangle"
-            opacity: 1,
+            opacity: 0.5,
             size: 4,
             size_random: true,
             nb: 150,
@@ -91,11 +101,18 @@
         },
         ruleInline: {
           user: [
-            { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+            { required: true, message: '请输入邮箱或姓名', trigger: 'blur' }
           ],
           password: [
-            { required: true, message: 'Please fill in the password.', trigger: 'blur' },
-            { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+            { required: true, message: '请输入密码.', trigger: 'blur' },
+            { type: 'string', min: 6, message: '密码不能小于6位', trigger: 'blur' }
+          ],
+          tel: [
+            { required: true, message: '请输入手机号.', trigger: 'blur' },
+            { type: 'string', min: 11, message: '手机号格式不正确', trigger: 'blur' }
+          ],
+          verificationCode: [
+            { required: true, message: '请输入验证码.', trigger: 'blur' },
           ]
         },
       }
@@ -103,15 +120,59 @@
     methods: {
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
+          console.log("aaa",this.formInline.user,this.formInline.password);
+
           if (valid) {
-            this.$Message.success('Success!');
+            //this.$Message.success('Success!');
+            this.timeoutDate()
           } else {
             this.$Message.error('Fail!');
           }
         })
+      },
+      timeoutDate(){   //查询数据
+        this.handleSpinCustomShow();
+        let $this = this;
+        let md = this.nodeForge.md.md5.create();
+        md.update(this.formInline.password);
+        const password = md.digest().toHex();
+        this.$ajax({
+          method: 'post',
+          url: 'bizs/lio/pblin.do?fh=LINLIO0000000J00&resp=bd',
+          data: {
+            "user_name":this.formInline.user,
+            "password":password,
+            "login_type":1,
+            "menu_type":1
+          }
+        }).then(function (response) {
+          $this.handleSpinCustomClose();
+          console.log(response);
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+      handleSpinCustomShow () {
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'demo-spin-icon-load',
+                props: {
+                  type: 'load-c',
+                  size: 18
+                }
+              }),
+              h('div', '验证消息中...')
+            ])
+          }
+        });
+      },
+      handleSpinCustomClose (){
+        this.$Spin.hide();
+        this.$Message.success('Success!');
       }
     }
-
   }
 </script>
 
@@ -127,7 +188,7 @@
   #particles-js{
     width: 100%;
     height: 450px;
-    background: linear-gradient(to right,blue,#fff);
+    background: linear-gradient(to right,#afaee866,#d7d6f3,#afaee866,#6486d257,#afaee866,#fff);
     position: absolute;
     z-index: 0
   }
@@ -138,22 +199,31 @@
     width: 400px;
     box-sizing: border-box;
     padding: 45px;
+    padding-top: 25px;
     height: 450px;
     z-index: 1
   }
   .login-form-all>.ivu-form-item{
     width:100%;
-    margin: 25px 0;
+    margin: 13px 0;
   }
   .login-input>.ivu-input-group-prepend{
-    height: 50px;
+    height: 40px;
   }
   .login-input-icon{
     font-size: 20px;
     font-weight: 600;
   }
   .login-input>.ivu-input{
-    height:50px;
+    height:40px;
+  }
+  .verification-code-button{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 38px;
+    border-radius: 0px;
+    border-style: none;
   }
   .login-form-button{
     width: 100%;
@@ -162,5 +232,8 @@
   .login-card{
     background: #ffffff69;
     border: none;
+  }
+  .demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
   }
 </style>
