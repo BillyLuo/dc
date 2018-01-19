@@ -11,7 +11,7 @@
         </MenuItem>
       </Menu>
       <div v-if="isLogined">
-        
+
       </div>
       <div v-else class="login">
         <span class="login-in">登录</span>|
@@ -67,6 +67,7 @@ export default {
 <style scoped lang="scss">
   .home-header {
     background: #fff;
+    box-shadow: 0px 3px 5px #999;
   }
   .header-inner {
     margin: 0 auto;
