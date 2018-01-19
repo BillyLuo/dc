@@ -10,6 +10,12 @@ export default {
     return {
       
     }
+  },
+  created () {
+    console.log('home',this,this.$ajax);
+  },
+  methods: {
+    
   }
 }
 </script>

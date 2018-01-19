@@ -5,8 +5,10 @@ import App from './App'
 import router from './router'
 import 'iview/dist/styles/iview.css';
 import iView from 'iview';
-console.log('iiii---',iView);
+import axios from 'axios'
+
 Vue.use(iView);
+Vue.prototype.$ajax = axios;
 
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.start();
