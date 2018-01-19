@@ -3,26 +3,26 @@
     <div class="wallet-box">
       <div id="particles-js"></div>
       <div class="login-box-background">
-        <Card style="width:100%">
+        <Card style="width:100%" :class="'login-card'">
           <div style="text-align:center">
             <img src="../../static/img/coin/icon-eth.png">
             <h3>登录蜂巢链-fclink</h3>
           </div>
         </Card>
-        <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+        <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
           <FormItem prop="user">
-            <Input type="text" v-model="formInline.user" placeholder="Username" :class="'login-input-user'">
-              <Icon type="ios-person-outline" slot="prepend"></Icon>
+            <Input type="text" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
+              <Icon type="ios-person-outline" slot="prepend" :class="'login-input-icon'"></Icon>
             </Input>
           </FormItem>
           <FormItem prop="password">
-            <Input type="password" v-model="formInline.password" placeholder="Password">
-            <Icon type="ios-locked-outline" slot="prepend"></Icon>
+            <Input type="password" v-model="formInline.password" placeholder="密码">
+            <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
             </Input>
           </FormItem>
           <br />
           <FormItem>
-            <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
+            <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
           </FormItem>
         </Form>
       </div>
@@ -141,21 +141,25 @@
     height: 450px;
     z-index: 1
   }
-  .ivu-form-item{
+  .login-form-all>.ivu-form-item{
     width:100%;
     margin: 25px 0;
   }
-  .ivu-input-group-prepend{
+  .login-input>.ivu-input-group-prepend{
     height: 50px;
   }
-  .ivu-input{
+  .login-input-icon{
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .login-input>.ivu-input{
     height:50px;
   }
-  .ivu-btn{
+  .login-form-button{
     width: 100%;
     height: 35px;
   }
-  .ivu-card{
+  .login-card{
     background: #ffffff69;
     border: none;
   }
