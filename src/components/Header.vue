@@ -67,7 +67,7 @@ export default {
 <style scoped lang="scss">
   .home-header {
     background: #fff;
-    box-shadow: 0px 3px 5px #999;
+    //box-shadow: 0px 3px 5px #999;
   }
   .header-inner {
     margin: 0 auto;
