@@ -11,12 +11,12 @@
         </Card>
         <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
           <FormItem prop="user">
-            <Input type="text" v-model="formInline.user" placeholder="Username" :class="'login-input'">
+            <Input type="text" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
               <Icon type="ios-person-outline" slot="prepend" :class="'login-input-icon'"></Icon>
             </Input>
           </FormItem>
           <FormItem prop="password">
-            <Input type="password" v-model="formInline.password" placeholder="Password">
+            <Input type="password" v-model="formInline.password" placeholder="密码">
             <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
             </Input>
           </FormItem>
