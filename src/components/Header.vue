@@ -14,8 +14,8 @@
 
       </div>
       <div v-else class="login">
-        <span class="login-in">登录</span>|
-        <span class="register">注册</span>
+        <span class="login-in" @click="route('login')">登录</span>|
+        <span class="register" @click="route('register')">注册</span>
       </div>
     </div>
   </div>

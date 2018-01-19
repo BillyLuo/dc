@@ -31,7 +31,7 @@
       </Row>
     </div>
     <div class="account-manage">
-      <Tabs value="name1" :animated="false">
+      <Tabs value="name2" :animated="false">
         <TabPane :label="label1" name="name1">
           <div class="account-list">
             <h3><span>资产列表</span></h3>
@@ -45,13 +45,13 @@
           <div class="financial-management">
             <div>
               <span>起始时间：</span>
-              <DatePicker :editable="false" type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+              <DatePicker @on-change="chooseStartDate" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
               <span style="margin: 0 20px;"> ~ </span>
-              <DatePicker :editable="false" type="date" placeholder="Select date" style="width: 200px;margin-right:30px;"></DatePicker>
-              <Tag>今天</Tag>
-              <Tag>7天</Tag>
-              <Tag>15天</Tag>
-              <Tag>30天</Tag>
+              <DatePicker @on-change="chooseEndDate" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
+              <Button size="small">今天</Button>
+              <Button size="small">7天</Button>
+              <Button size="small">15天</Button>
+              <Button size="small">30天</Button>
             </div>
           </div>
         </TabPane>
@@ -173,6 +173,12 @@ export default {
         return result;
       })
       this.account_list_data = formatList;
+    },
+    chooseStartDate(value) {
+      console.log('startDate----------',value,arguments);
+    },
+    chooseEndDate(value) {
+      console.log('endDate----------',value);
     }
   },
   filters:{
@@ -327,7 +333,11 @@ export default {
       background: #7CBDE6;
     }
   }
+  //财务管理
   .financial-management {
     padding: 20px;
+    button {
+      margin: 0 6px;
+    }
   }
 </style>

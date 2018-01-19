@@ -5,11 +5,13 @@ import App from './App'
 import router from './router'
 import 'iview/dist/styles/iview.css';
 import iView from 'iview';
-import axios from 'axios'
-import particlesJS from "../static/js/particles/js/particles.js"
+import axios from 'axios';
+import particlesJS from "../static/js/particles/js/particles.js";
+import nodeForge from 'node-forge';
 Vue.use(iView);
 Vue.prototype.$ajax = axios;
 Vue.prototype.particlesJS = particlesJS;
+Vue.prototype.nodeForge = nodeForge;
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.start();
     next();
