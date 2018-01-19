@@ -30,14 +30,14 @@
         </Col>
       </Row>
     </div>
-    <div class="account-manage bg-white">
+    <div class="account-manage">
       <Tabs value="name1" :animated="false">
-        <TabPane label="标签一" name="name1">标签一的内容</TabPane>
-        <TabPane label="标签二" name="name2">标签二的内容</TabPane>
-        <TabPane :label="getLabel" name="name3">标签三的内容</TabPane>
+        <TabPane :label="label1" name="name1">标签一的内容</TabPane>
+        <TabPane :label="label2" name="name2">标签二的内容</TabPane>
+        <TabPane :label="label3" name="name3">标签三的内容</TabPane>
+        <TabPane :label="label4" name="name4">标签四的内容</TabPane>
       </Tabs>
     </div>
-    <Input />
   </div>
 </template>
 <script>
@@ -45,10 +45,26 @@ export default {
   mounted () {
   },
   data (){
+
     return {
-      getLabel:(h)=> {
+      label1:(h)=> {
         return h('div',[
-          h('span','wjfl')
+          h('span','账户资产')
+        ])
+      },
+      label2:(h)=> {
+        return h('div',[
+          h('span','账户明细')
+        ])
+      },
+      label3:(h)=> {
+        return h('div',[
+          h('span','资金账号')
+        ])
+      },
+      label4:(h) => {
+        return h('div',[
+          h('span','资金管理')
         ])
       }
     }
@@ -117,17 +133,24 @@ export default {
     }
   }
   .account-manage {
+    .ivu-tabs-nav-wrap{
+      margin-bottom: 0;
+    }
     .ivu-tabs {
       .ivu-tabs-ink-bar{
         display: none !important;
       }
       .ivu-tabs-bar {
-        padding: 30px 0;
         border: none;
         float: left;
-        width: 200px;
+        font-size: 16px;
+        font-weight: 400;
+        width: 160px;
         position: relative;
         z-index: 10;
+      }
+      .ivu-tabs-nav {
+        background: #fff;
       }
       .ivu-tabs-content {
         width: 1000px;
@@ -136,6 +159,9 @@ export default {
       }
       .ivu-tabs-tab {
         display: block;
+        padding: 20px 40px;
+        margin: 0;
+        border-bottom: 1px solid #eee;
       }
     }
   }
