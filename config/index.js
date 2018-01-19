@@ -33,7 +33,18 @@ module.exports = {
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
 
-    cssSourceMap: true
+    cssSourceMap: true,
+    proxyTable: {
+      '/bizs': {
+          target: 'http://192.168.10.208:8001/fbs',
+          //target: 'http://192.168.10.8:8000/fbs',
+          pathRewrite: {'^/bizs' : ''}
+      },
+      '/bizrest': {
+          target: 'http://192.168.10.208:8001/fbs',
+          //target: 'http://192.168.10.8:8000/fbs',
+      },
+    }
   },
 
   build: {
