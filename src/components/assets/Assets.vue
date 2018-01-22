@@ -31,7 +31,7 @@
       </Row>
     </div>
     <div class="account-manage">
-      <Tabs value="name2" :animated="false">
+      <Tabs :class="'vertical-tab'" value="name5" :animated="false">
         <TabPane :label="label1" name="name1">
           <div class="account-list">
             <h3><span>资产列表</span></h3>
@@ -49,30 +49,49 @@
               <span style="margin: 0 20px;"> ~ </span>
               <DatePicker @on-change="chooseEndDate" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
               <Button size="small">今天</Button>
-              <Button size="small">7天</Button>
+              <Button size="small" type="primary">7天</Button>
               <Button size="small">15天</Button>
               <Button size="small">30天</Button>
             </div>
+            <div>
+              <span>操作类型：</span>
+              <Select @on-change="changeType" :filterable="true" v-model="operation_type" style="width:200px;margin: 30px 0;">
+                <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+            </div>
+            <Table stripe :columns="account_detail_column" :data="account_detail_data"/>
           </div>
         </TabPane>
         <TabPane :label="label3" name="name3">
-          <h3><span>我的账号</span></h3>
+          <div class="fund_account">
+            <a href="javascript:;" :class="{active:fund_account_active == item.value}" v-for="(item) in fund_account_lists" :key="item.value" @click="changeFundAccount(item.value)">
+              <span>{{item.label}}</span>
+            </a>
+          </div>
         </TabPane>
         <TabPane :label="label4" name="name4">
           <h3><span>我的资产管理</span></h3>
+        </TabPane>
+        <TabPane label="我的COINS" name="name5">
+          <myCoin></myCoin>
         </TabPane>
       </Tabs>
     </div>
   </div>
 </template>
 <script>
+import myCoin from './myCoin';
 export default {
+  components:{
+    myCoin
+  },
   mounted () {
     this.getAccountList();
     this.formatTel();
   },
   data (){
     return {
+      operation_type:'BTC',
       userinfo:{
         user:'Will',
         tel:'15178874695',
@@ -98,6 +117,10 @@ export default {
           h('span','资金管理')
         ])
       },
+      typeList:[
+        {label:'BTC提现',value:'BTC'},
+        {label:'ETH提现',value:'ETH'}
+      ],
       account_list_column:[
         {title:'币种名称',key:'name'},
         {title:'可用资产',key:'useable',sortable:true},
@@ -137,10 +160,36 @@ export default {
       ],
       account_list_data:[
         
+      ],
+      account_detail_column:[
+        {title:'交易时间',key:'trade_time',sortable:true},
+        {title:'类型',key:'trade_type',sortable:true},
+        {title:'金额',key:'trade_money',sortable:true},
+        {title:'手续费',key:'serice_charge',sortable:true},
+        {title:'状态',key:'trade_status',sortable:true},
+      ],
+      account_detail_data:[
+
+      ],
+      fund_account_active:'bk',
+      fund_account_lists:[
+        {label:'银行卡管理',value:'bk'},
+        {label:'BTC 提现管理',value:'btc'},
+        {label:'Hsr 提现管理',value:'hsr'},
+        {label:'CDT 提现管理',value:'cdt'},
+        {label:'OX 提现管理',value:'ox'},
+        {label:'TNT 提现管理',value:'tnt'},
+        {label:'MANA 提现管理',value:'mana'}
       ]
     }
   },
   methods: {
+    changeFundAccount(value) {
+      this.fund_account_active = value;
+    },
+    changeType(value) {
+      console.log(value);
+    },
     handle(action) {
       console.log(action);
     },
@@ -321,6 +370,7 @@ export default {
       color: #fff;
       outline: none;
       opacity: 0.8;
+      cursor: pointer;
     }
     button:hover {
       opacity: 1;
@@ -338,6 +388,35 @@ export default {
     padding: 20px;
     button {
       margin: 0 6px;
+    }
+  }
+  //资金账号
+  .fund_account {
+    a {
+      display: inline-block;
+      span {
+        color: #495060;
+        font-size: 16px;
+      }
+      padding: 10px 0;
+      margin: 0 20px;
+      opacity: 0.6;
+      transition: 0.2s;
+    }
+    a:hover,a.active{
+      border-bottom: 2px solid #2d8cf0;
+      opacity: 1;
+    }
+  }
+  .my_coin {
+    span {
+      font-size: 16px;
+      margin: 0 10px;
+      padding: 10px 0;
+      cursor: pointer;
+    }
+    span.active {
+      border-bottom: 2px solid #2d8cf0;
     }
   }
 </style>

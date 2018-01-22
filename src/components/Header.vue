@@ -22,6 +22,10 @@
 </template>
 
 <script>
+import router from '../router/index';
+router.afterEach(route => {
+    console.log('------------')
+});
 let menu = [
   {name:'home',text:'首页'},
   {name:'trade',text:'交易中心'},
@@ -37,28 +41,35 @@ export default {
       menu
     }
   },
-  created (){
-    let path = location.pathname;
-    console.log(path);
-    let activeName = 'home';
-    if (path.match('/home')) {
-      activeName = 'home';
-    }else if (path.match('/trade')){
-      activeName = 'trade';
-    }else if (path.match('/assets')){
-      activeName = 'assets';
-    }else if (path.match('/user')){
-      activeName = 'user';
-    }
-    this.activeName = activeName;
+  mounted (){
+    this.initActive();
   },
   methods:{
     route(name){
-      console.log(this.$router);
+      this.initActive(name);
       this.$router.push(name);
     },
     home () {
       this.$router.push('/')
+    },
+    initActive(name){
+      let path = location.pathname;
+      if (name) {
+        path = '/' + name;
+      }
+      console.log(path);
+      let activeName = 'home';
+      if (path.match('/home')) {
+        activeName = 'home';
+      }else if (path.match('/trade')){
+        activeName = 'trade';
+      }else if (path.match('/assets')){
+        activeName = 'assets';
+      }else if (path.match('/user')){
+        activeName = 'user';
+      }
+      console.log(activeName);
+      this.activeName = activeName;
     }
   }
 }
