@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="wallet-box">
-      <div id="particles-js"></div>
-      <div class="login-box-background">
+      <div class="login-left">
+        <img src="/static/img/bg-user.jpg" alt="" width="100%" height="100%">
+      </div>
+      <div class="login-rigth">
         <Card style="width:100%" :class="'login-card'">
           <div style="text-align:center">
             <img src="/static/img/logo.png">
-            <h3>登录蜂巢链-fclink</h3>
+            <h3>登录蜂巢币-fclink</h3>
           </div>
         </Card>
         <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
@@ -44,54 +46,6 @@
 
 <script>
   export default {
-    mounted () {
-        particlesJS('particles-js', {
-          particles: {
-            color: '#fff',
-            shape: 'circle', // "circle", "edge" or "triangle"
-            opacity: 0.5,
-            size: 4,
-            size_random: true,
-            nb: 150,
-            line_linked: {
-              enable_auto: true,
-              distance: 100,
-              color: '#fff',
-              opacity: 1,
-              width: 1,
-              condensed_mode: {
-                enable: false,
-                rotateX: 600,
-                rotateY: 600
-              }
-            },
-            anim: {
-              enable: true,
-              speed: 1
-            }
-          },
-          interactivity: {
-            enable: true,
-            mouse: {
-              distance: 250
-            },
-            detect_on: 'canvas', // "canvas" or "window"
-            mode: 'grab',
-            line_linked: {
-              opacity: .5
-            },
-            events: {
-              onclick: {
-                enable: true,
-                mode: 'push', // "push" or "remove" (particles)
-                nb: 4
-              }
-            }
-          },
-          /* Retina Display Support */
-          retina_detect: true
-        });
-    },
     data () {
       return {
         formInline: {
@@ -176,61 +130,58 @@
 </script>
 
 <style>
-  *{
-    margin: 0;
-    padding: 0;
-  }
   .wallet-box{
-    position: relative;
     width: 100%;
+    height: 585px;
+    padding: 45px 0 65px 0;
   }
-  #particles-js{
-    width: 100%;
+  .login-left{
+    width: 800px;
     height: 450px;
-    background: linear-gradient(to right,#afaee866,#d7d6f3,#afaee866,#6486d257,#afaee866,#fff);
-    position: absolute;
-    z-index: 0
+    float: left;
   }
-  .login-box-background{
-    position: absolute;
-    top: 0;
-    right: 0;
+  .login-rigth{
     width: 400px;
     box-sizing: border-box;
-    padding: 45px;
-    padding-top: 25px;
+    padding: 25px 45px 45px 45px;
     height: 450px;
-    z-index: 1
+    float: right;
+    background: #fff;
+
   }
   .login-form-all>.ivu-form-item{
     width:100%;
-    margin: 13px 0;
+    margin: 0 0 20px 0;
   }
   .login-input>.ivu-input-group-prepend{
-    height: 40px;
+    height: 50px;
   }
   .login-input-icon{
     font-size: 20px;
     font-weight: 600;
   }
   .login-input>.ivu-input{
-    height:40px;
+    height:50px;
+    background: #fafafa;
   }
   .verification-code-button{
     position: absolute;
-    top: 0px;
-    right: 0px;
-    height: 38px;
-    border-radius: 0px;
+    top: 0;
+    right: 0;
+    border-radius: 0;
     border-style: none;
+    height: 50px;
   }
   .login-form-button{
     width: 100%;
-    height: 35px;
+    height: 50px;
   }
   .login-card{
     background: #ffffff69;
     border: none;
+  }
+  .login-card .ivu-card-body{
+    padding-top: 0;
   }
   .demo-spin-icon-load{
     animation: ani-demo-spin 1s linear infinite;

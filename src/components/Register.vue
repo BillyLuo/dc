@@ -43,32 +43,32 @@
               @on-blur="passwordBlur"
             />
             <div class="prompt" v-if="prompt">
-            <p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
-            <p class="p-gray">
-              <span v-html="PromptOne"></span>
-              &nbsp;只能是字母和数字
-            </p>
-            <p class="p-gray">
-              <span v-html="PromptTwo"></span>
-              &nbsp;8-20个字符
-            </p>
-            <p class="p-gray">
-              <span v-html="PromptThree"></span>
-              &nbsp;包含大写和小写字母
-            </p>
-            <p class="p-gray">
-              <span v-html="PromptFour"></span>
-              &nbsp;不能以数字开头
-            </p>
-            <div class="prompt-div">
-              <p class="prompt-div-p">密码强度:</p>
-              <div class="change-longer">
-                <div class="change-longer-children">
-               </div>
+              <p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
+              <p class="p-gray">
+                <span v-html="PromptOne"></span>
+                &nbsp;只能是字母和数字
+              </p>
+              <p class="p-gray">
+                <span v-html="PromptTwo"></span>
+                &nbsp;8-20个字符
+              </p>
+              <p class="p-gray">
+                <span v-html="PromptThree"></span>
+                &nbsp;包含大写和小写字母
+              </p>
+              <p class="p-gray">
+                <span v-html="PromptFour"></span>
+                &nbsp;不能以数字开头
+              </p>
+              <div class="prompt-div">
+                <p class="prompt-div-p">密码强度:</p>
+                <div class="change-longer">
+                  <div class="change-longer-children">
+                  </div>
+                </div>
+                <p class="prompt-div-p2">避免使用您用于其他网站的密码,或易于被其他人猜到的密码。</p>
+              </div>
             </div>
-            <p class="prompt-div-p2">避免使用您用于其他网站的密码,或易于被其他人猜到的密码。</p>
-          </div>
-    </div>
             <p class="register-error-text">
               {{ errorPassword }}
             </p>
@@ -120,7 +120,42 @@
             </div>
           </div>
           <div class="register-input">
-            <Input v-model="password" size="large" placeholder="输入密码" :class="passwordCodeErrorInput" @on-focus="passwordFocus" />
+            <Input
+              v-model="password"
+              size="large"
+              placeholder="输入密码"
+              :class="passwordCodeErrorInput"
+              @on-focus="passwordFocus"
+              @on-change="passwordChange"
+              @on-blur="passwordBlur"
+            />
+            <div class="prompt" v-if="prompt">
+              <p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
+              <p class="p-gray">
+                <span v-html="PromptOne"></span>
+                &nbsp;只能是字母和数字
+              </p>
+              <p class="p-gray">
+                <span v-html="PromptTwo"></span>
+                &nbsp;8-20个字符
+              </p>
+              <p class="p-gray">
+                <span v-html="PromptThree"></span>
+                &nbsp;包含大写和小写字母
+              </p>
+              <p class="p-gray">
+                <span v-html="PromptFour"></span>
+                &nbsp;不能以数字开头
+              </p>
+              <div class="prompt-div">
+                <p class="prompt-div-p">密码强度:</p>
+                <div class="change-longer">
+                  <div class="change-longer-children">
+                  </div>
+                </div>
+                <p class="prompt-div-p2">避免使用您用于其他网站的密码,或易于被其他人猜到的密码。</p>
+              </div>
+            </div>
             <p class="register-error-text">
               {{ errorPassword }}
             </p>
@@ -236,7 +271,8 @@
         this.passwordAgainCodeErrorInput = '';
         this.InvitationCodeErrorInput = '';
         this.getCode = '';   // 倒计时
-        this.telCodeDisabled = false
+        this.telCodeDisabled = false;   // 倒计时按钮状态
+        this.prompt = false;   //  密码提示框状态
       },
       clearTime(){    // 清除定时器
         if(this.getCode){
@@ -343,7 +379,8 @@
 <style>
   .register-box{
     width: 100%;
-    height: 580px;
+    height: 710px;
+    padding: 45px 0 65px 0;
   }
   .register-box>.register-left{
     width: 800px;
@@ -401,15 +438,15 @@
     color: red;
   }
   .prompt{
-  position: absolute;
-  top: 46px;
-  left: 97px;
-  width: 200px;
-  background-color: #f2f2f2;
-  padding: 10px;
-  border-radius: 2px;
-  box-shadow: 0 10px 20px #ccc;
-  z-index: 10;
+    position: absolute;
+    top: 60px;
+    left: 50px;
+    width: 200px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0 7px 20px #000;
+    z-index: 10;
   }
   .prompt p{
     font-size: 12px;
