@@ -3,6 +3,8 @@ import Router from 'vue-router'
 const Home = ()=> import('@/components/Home')
 const Login = ()=> import('@/components/Login')
 const Assets = ()=> import('@/components/assets/Assets')
+const Trade = ()=> import('@/components/Trade')
+
 Vue.use(Router)
 
 export default new Router({
@@ -26,6 +28,11 @@ export default new Router({
       path:'/assets',
       name:'Assets',
       component:Assets
+    },
+    {
+      path:'/trade',
+      name:'Trade',
+      component: Trade
     }
   ]
 })
