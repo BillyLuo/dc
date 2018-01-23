@@ -47,7 +47,7 @@ export default {
   methods:{
     route(name){
       this.initActive(name);
-      this.$router.push(name);
+      this.$router.push('/'+name);
     },
     initActive(name){
       let path = location.pathname;

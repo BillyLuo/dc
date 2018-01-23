@@ -5,7 +5,8 @@ const Login = ()=> import('@/components/Login')
 const Register = ()=> import ('@/components/Register');
 const Assets = ()=> import('@/components/assets/Assets')
 const Trade = ()=> import('@/components/Trade')
-
+const User = ()=> import('@/components/user/user')
+const safeSettings = ()=> import('@/components/user/safesettings');
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +40,14 @@ export default new Router({
       path:'/trade',
       name:'Trade',
       component: Trade
+    },
+    {
+      path:'/user',
+      name:'User',
+      component: User,
+      children:[
+        {path:'/user/safesettings',name:'safeSettings',component:safeSettings}
+      ]
     }
   ]
 })
