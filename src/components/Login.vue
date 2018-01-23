@@ -91,7 +91,6 @@
           /* Retina Display Support */
           retina_detect: true
         });
-
     },
     data () {
       return {
