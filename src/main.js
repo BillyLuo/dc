@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import 'iview/dist/styles/iview.css';
+import './my-theme/index.less';
 import iView from 'iview';
 import axios from 'axios';
 import particlesJS from "../static/js/particles/js/particles.js";

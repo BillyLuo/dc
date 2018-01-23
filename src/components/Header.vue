@@ -1,7 +1,7 @@
 <template>
   <div class="home-header">
     <div class="header-inner clear">
-      <div class="header-logo" @click="home">
+      <div class="header-logo" @click="route('home')">
         <img src="/static/img/logo.png"/>
         <span>蜂巢币</span>
       </div>
@@ -48,9 +48,6 @@ export default {
     route(name){
       this.initActive(name);
       this.$router.push(name);
-    },
-    home () {
-      this.$router.push('/')
     },
     initActive(name){
       let path = location.pathname;
@@ -104,6 +101,7 @@ export default {
       height: 60px;
       vertical-align: middle;
       padding: 10px 0;
+      cursor: pointer;
     }
     span {
       font-size: 20px;
