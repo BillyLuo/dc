@@ -46,7 +46,12 @@ export default new Router({
       name:'User',
       component: User,
       children:[
-        {path:'/user/safesettings',name:'safeSettings',component:safeSettings}
+        {path:'',component:safeSettings},
+        {path:'/user/safesettings',name:'safeSettings',component:safeSettings},
+        {path:'/user/broker',name:'broker',component:null},
+        {path:'/user/api',name:'api',component:null},
+        {path:'/user/loginrecord',name:'loginrecord',component:safeSettings},
+        {path:'/user/authentication',name:'authentication',component:safeSettings}
       ]
     }
   ]

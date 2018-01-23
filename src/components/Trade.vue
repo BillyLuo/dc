@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="clear">
         <div class="tradelists">
              <Menu @on-select="info" mode="horizontal" class="trade-menu" active-name="BTC" >
                 <MenuItem v-for="value in menu" :name="value.name" :key="value.name">
