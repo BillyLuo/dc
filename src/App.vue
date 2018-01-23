@@ -6,17 +6,20 @@
         <router-view/>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Header from './components/Header';
+import Footer from './components/footer.vue';
 import store from 'store'
 console.log('this is store',store);
 export default {
   name: 'App',
   components:{
-    Header
+    Header,
+    Footer
   }
 }
 </script>
