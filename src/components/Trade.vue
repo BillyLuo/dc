@@ -117,7 +117,7 @@
                 <Table :data="datas1" :columns="tableColumns1" stripe></Table>
             </div>
         </div>
-        
+        <div class="clear"></div>
     </div>
 </template>
 
@@ -161,7 +161,7 @@
             padding:20px 24px;
     }
     .trade-contract{
-        min-height: 800px;
+        min-height: 600px;
         background: #fff;
         float: left;
         width:1040px;
