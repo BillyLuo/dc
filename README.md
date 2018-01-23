@@ -1,2 +1,1 @@
-# wallet
-项目
+finchain wallet
