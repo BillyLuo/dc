@@ -21,8 +21,17 @@ html body {
 .float-right{
   float: right;
 }
+.color-white {
+  color: #fff;
+}
 .bg-white {
   background: #fff;
+}
+.bg-dark {
+  background: #000;
+}
+.bg-333 {
+  background: #333;
 }
 .ellipsis {
   overflow: hidden;

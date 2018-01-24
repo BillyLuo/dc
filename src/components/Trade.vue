@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="clear">
         <div class="tradelists">
              <Menu @on-select="info" mode="horizontal" class="trade-menu" active-name="BTC" >
                 <MenuItem v-for="value in menu" :name="value.name" :key="value.name">
@@ -11,7 +11,6 @@
         <div class="tradelist">
             <Menu @on-select="infos" class="trade-menu" active-name="buy" >
                 <MenuItem v-for="value in menu1" :name="value.name" :key="value.name">
-                    <!-- <img :src="value.icon"/>  -->
                     <span>{{ value.text }}</span>
                 </MenuItem>
             </Menu>
@@ -42,7 +41,7 @@
                             <p>
                                 ≈ ￥ <span>{{buymoney}}</span>
                             </p>
-                            <Slider ></Slider>
+                            <!-- <Slider ></Slider> -->
                             <Button class="buy-button buy-button1">
                                 买入 {{btcname}}
                             </Button>
@@ -75,7 +74,7 @@
                             <p>
                                 ≈ ￥ <span>{{buymoney}}</span>
                             </p>
-                            <Slider ></Slider>
+                            <!-- <Slider ></Slider> -->
                             <Button class="buy-button buy-button1">
                                 买入 {{btcname}}
                             </Button>
@@ -167,7 +166,7 @@
         width:1040px;
         padding-top:25px;
         .trade-time{
-            padding: 20px 30px;
+            padding: 0px 30px;
             button{
                 background:#2d8cf0;
                 border:none;
@@ -412,7 +411,7 @@
    
 </style>
 <script>
-
+    import { Menu,MenuItem,DatePicker,Table } from 'iview';
     let menu = [
         {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
         {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
@@ -430,6 +429,10 @@
         // {"name":"YBC",text:"YBC",icon:"/static/img/coin/icon-.png"}
     ]
     export default {
+        components:{
+            DatePicker,Table,
+            Menu,MenuItem
+        },
         data() {
             return {
                 menu,
@@ -644,6 +647,7 @@
                     default:
                         break;
                 }
+                // wx18012316331879480877
                     // this.$ajax({
                     //     method:'get',
                     //     url:'https://api.btctrade.com/api/trades',

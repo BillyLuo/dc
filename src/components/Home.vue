@@ -12,7 +12,6 @@ export default {
     }
   },
   created () {
-    console.log('home',this,this.$ajax);
   },
   methods: {
     

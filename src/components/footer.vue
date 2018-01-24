@@ -45,8 +45,12 @@
   </div>
 </template>
 <script>
+  import { Row,Col } from 'iview'
   export default {
-
+    components:{
+      Row,
+      'i-col':Col
+    }
   }
 </script>
 <style lang="scss">

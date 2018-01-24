@@ -45,7 +45,12 @@
 </template>
 
 <script>
+  import { Form, FormItem, } from 'iview'
+  import nodeForge from 'node-forge';
   export default {
+    components:{
+      Form,FormItem
+    },
     data () {
       return {
         formInline: {
@@ -86,7 +91,7 @@
       timeoutDate(){   //查询数据
         this.handleSpinCustomShow();
         let $this = this;
-        let md = this.nodeForge.md.md5.create();
+        let md = nodeForge.md.md5.create();
         md.update(this.formInline.password);
         const password = md.digest().toHex();
         this.$ajax({

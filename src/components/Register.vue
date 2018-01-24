@@ -186,7 +186,12 @@
   </div>
 </template>
 <script>
+  import {Tabs,TabPane} from 'iview'
   export default {
+    components:{
+      Tabs,
+      TabPane
+    },
     data () {
       return {
         tel: '',
