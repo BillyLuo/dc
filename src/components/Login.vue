@@ -72,7 +72,6 @@
         },
         telCodeText:'发送验证码',
         telCodeDisabled:false,
-        codeCompareSign:false,
         ruleInline: {
           user: [
             { required: true, message: '请输入邮箱或姓名', trigger: 'blur' }
@@ -99,7 +98,7 @@
         })
       },
       telCodeButtonClick(){     // 短信button 事件
-        if(this.tel){
+        if(this.formInline.tel){
           this.telCodeTimeOut();
           this.getCode()
         }else{
@@ -144,11 +143,9 @@
         }else{
           $this.$Message.error('请输入验证码');
         }
-        if(this.codeCompareSign){
-          this.timeoutDate();  // 后台数据验证
-        }
       },
       codeCompare(){   // 验证码对比
+        this.handleSpinCustomShow();
         let $this = this;
         this.$ajax({
           method: 'post',
@@ -159,17 +156,18 @@
         }).then(function (response) {
           if(response.data.err_code == 1){
             $this.$Message.success('验证成功');
-            $this.codeCompareSign = true
+            $this.timeoutDate();  // 后台数据验证
           }else{
+            $this.$Spin.hide();
             $this.$Message.error('验证失败');
           }
         }).catch(function (error) {
+          $this.$Spin.hide();
           $this.$Message.success('失败');
           console.log(error);
         });
       },
       timeoutDate(){   // 后台数据验证
-        this.handleSpinCustomShow();
         let $this = this;
         let md = nodeForge.md.md5.create();
         md.update(this.formInline.password);
