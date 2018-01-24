@@ -18,6 +18,8 @@
 
 <script>
 import userInfo from './userBaseInfo';
+import { Menu, MenuItem } from 'iview';
+console.log(MenuItem);
 let userMenu = [
   {label:'基本信息',value:'safesettings'},
   {label:'金牌经纪人',value:'broker'},
@@ -26,14 +28,14 @@ let userMenu = [
   {label:'实名认证',value:'authentication'}
 ]
 export default {
+  components:{
+    Menu,MenuItem,'user-info': userInfo
+  },
   data (){
     return {
       userMenu,
       activeMenu:userMenu[0].value
     }
-  },
-  components:{
-    'user-info': userInfo
   },
   methods:{
     changeValue(name){

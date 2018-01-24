@@ -37,6 +37,9 @@
 
 <script>
 export default {
+  mounted (){
+    this.formatTel();
+  },
   data () {
     return {
       userinfo: {
@@ -44,6 +47,13 @@ export default {
         tel: '15178874695',
         user_id: '234325'
       },
+    }
+  },
+  methods:{
+    formatTel() {
+      if (this.userinfo && this.userinfo.tel) {
+        this.userinfo.tel = this.userinfo.tel.slice(0, 4) + '****' + this.userinfo.tel.slice(-4);
+      }
     }
   }
 }

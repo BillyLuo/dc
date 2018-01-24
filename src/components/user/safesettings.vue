@@ -39,7 +39,7 @@
               <h3>手机绑定</h3>
               <a href="javascipt:;">1517****4695</a>
              </div>
-             <a href="javascript:;" class="item-status">修改</a>
+             <a href="javascript:;" class="item-status" @click="openPhoneModal">修改</a>
           </div>
         </div>
       </Col>
@@ -67,7 +67,7 @@
               <h3>登录密码设置</h3>
               <a href="javascipt:;">已设置</a>
              </div>
-             <a href="javascript:;" class="item-status">修改</a>
+             <a href="javascript:;" class="item-status" @click="openLoginPassModal">修改</a>
           </div>
         </div>
       </Col>
@@ -79,9 +79,9 @@
             </div>
              <div class="item-content float-left">
               <h3>交易密码设置</h3>
-              <a href="javascipt:;">未设置</a>
+              <a href="javascipt:;" @click="openTradePassModal">未设置</a>
              </div>
-             <a href="javascript:;" class="item-status">绑定</a>
+             <a href="javascript:;" class="item-status" @click="openTradePassModal">绑定</a>
           </div>
         </div>
       </Col>
@@ -93,6 +93,21 @@
         @on-cancel="email_cancel">
         <Input placeholder="邮箱地址" v-model="input_email"/>
     </Modal>
+    <Modal
+        title="修改登录密码"
+        v-model="loginPassModal"
+        @on-ok="loginPassModal">
+    </Modal>
+    <Modal
+        title="设置交易密码"
+        v-model="tradePassModal"
+        @on-ok="trade_pass_ok">
+    </Modal>
+    <Modal
+        title="修改手机"
+        v-model="phoneModal"
+        @on-ok="phone_ok">
+    </Modal>
   </div>
 </template>
 
@@ -101,6 +116,9 @@ export default {
   data () {
     return {
       emailModal: false,
+      loginPassModal: false,
+      tradePassModal: false,
+      phoneModal: false,
       input_email:''
     }
   },
@@ -113,6 +131,24 @@ export default {
     },
     email_cancel (){
       console.log('cancel email',arguments);
+    },
+    openLoginPassModal(){
+      this.loginPassModal = true;
+    },
+    login_pass_ok (){
+
+    },
+    openTradePassModal (){
+      this.tradePassModal = true;
+    },
+    trade_pass_ok (){
+
+    },
+    openPhoneModal (){
+      this.phoneModal = true;
+    },
+    phone_ok (){
+
     }
   }
 }

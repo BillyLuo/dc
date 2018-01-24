@@ -23,8 +23,9 @@
 
 <script>
 import router from '../router/index';
+import { Menu,MenuItem,Row,Col } from 'iview';
 router.afterEach(route => {
-    console.log('------------')
+    // console.log('------------',this)
 });
 let menu = [
   {name:'home',text:'首页'},
@@ -34,6 +35,12 @@ let menu = [
 ]
 export default {
   name:'Header',
+  components:{
+    Menu,
+    MenuItem,
+    Row,
+    Col
+  },
   data(){
     return {
       activeName:'home',
@@ -43,6 +50,7 @@ export default {
   },
   mounted (){
     this.initActive();
+    console.log('----header----',this);
   },
   methods:{
     route(name){
@@ -76,6 +84,10 @@ export default {
   .home-header {
     background: #fff;
     //box-shadow: 0px 3px 5px #999;
+    .ivu-menu-item {
+      font-size: 16px;
+      color: #282828;
+    }
   }
   .header-inner {
     margin: 0 auto;

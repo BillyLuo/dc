@@ -9,7 +9,11 @@
 </template>
 
 <script>
+import { Table } from 'iview';
 export default {
+  components:{
+    Table
+  },
   data (){
     return {
       my_coin_active:'coin',

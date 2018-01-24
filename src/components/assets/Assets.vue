@@ -54,14 +54,18 @@
 <script>
   import myCoin from './myCoin';
   import userInfo from '../user/userBaseInfo';
+  import { Tabs,TabPane,DatePicker,Table } from 'iview';
   export default {
     components: {
+      Table,
+      DatePicker,
+      Tabs,
       myCoin,
+      TabPane,
       'user-info': userInfo
     },
     mounted() {
       this.getAccountList();
-      this.formatTel();
     },
     data() {
       return {
@@ -229,11 +233,6 @@
       },
       handle(action) {
         console.log(action);
-      },
-      formatTel() {
-        if (this.userinfo && this.userinfo.tel) {
-          this.userinfo.tel = this.userinfo.tel.slice(0, 4) + '****' + this.userinfo.tel.slice(-4);
-        }
       },
       getAccountList() {
         let list = [{
