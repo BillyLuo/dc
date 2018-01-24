@@ -34,6 +34,7 @@
           </div>
           <div class="register-input">
             <Input
+              type="password"
               v-model="password"
               size="large"
               placeholder="输入密码"
@@ -74,7 +75,7 @@
             </p>
           </div>
           <div class="register-input">
-            <Input v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus"/>
+            <Input type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus"/>
             <p class="register-error-text">
               {{ errorPasswordAgain }}
             </p>
@@ -121,6 +122,7 @@
           </div>
           <div class="register-input">
             <Input
+              type="password"
               v-model="password"
               size="large"
               placeholder="输入密码"
@@ -161,7 +163,7 @@
             </p>
           </div>
           <div class="register-input">
-            <Input v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus" />
+            <Input type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus" />
             <p class="register-error-text">
               {{ errorPasswordAgain }}
             </p>

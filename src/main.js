@@ -5,10 +5,9 @@ import App from './App'
 import router from './router'
 import './my-theme/index.less';
 import {LoadingBar,Input,Button,RadioGroup,Row,Col,Radio,Checkbox,Switch,Select,Option,Slider,Alert,
-    Card,Message,Notice,Modal,Progress,Badge,Tag,Tooltip,Poptip, Breadcrumb,Circle,BackTop,Spin,Icon
+    Card,Message,Notice,Modal,Progress,Badge,Tag,Tooltip,Poptip, Breadcrumb,Circle,BackTop,Spin,Icon,
 } from 'iview';
 import axios from 'axios';
-// import nodeForge from 'node-forge';
 Vue.component('LoadingBar',LoadingBar);
 Vue.component('Input',Input);
 Vue.component('Button',Button);
@@ -31,7 +30,6 @@ Vue.component('BackTop',BackTop);
 Vue.component('Spin',Spin);
 Vue.component('Icon',Icon);
 Vue.prototype.$ajax = axios;
-// Vue.prototype.nodeForge = nodeForge;
 router.beforeEach((to, from, next) => {
     LoadingBar.start();
     next();
@@ -41,7 +39,7 @@ router.afterEach(route => {
     LoadingBar.finish();
 });
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
@@ -49,4 +47,4 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
-})
+});
