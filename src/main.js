@@ -23,6 +23,7 @@ Vue.component('Option',Option);
 Vue.component('Slider',Option);
 Vue.component('Card',Card);
 Vue.component('Message',Message);
+Vue.use(Message);
 Vue.component('Modal',Modal);
 Vue.component('Progress',Progress);
 Vue.component('Badge',Badge);
