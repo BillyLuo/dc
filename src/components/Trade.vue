@@ -847,8 +847,26 @@
                         break;
                 }
                 // wx18012316331879480877
+                this.$ajax({
+                    method: 'get',
+                    url: '/okcoin/trades.do?symbol=eth_cny',
+                    // proxy: {
+                    //     host: 'localhost',
+                    //     port: ""
+                    // }
+                })
+                .then(function(response){
+                    console.log(response)
+                })
+                // this.$ajax.get('/okcoin/ticker.do?symbol=btc_cny').catch(function(thrown) {
+                //     // if (axios.isCancel(thrown)) {
+                //         console.log('Request canceled', thrown);
+                //     // } else {
+                //         // handle error
+                //     // }
+                // });
                     // this.$ajax({
-                    //     method:'get',
+                    //     method:'get',okcoin
                     //     url:'https://api.btctrade.com/api/trades',
                     //     params:{
                     //         coin:"btc",
@@ -884,55 +902,9 @@
             },
             btc (ss) {
                 console.log(ss)
-                this.datas=[
-                    {
-                        tid: "000",
-                        amount: "12",
-                        price: "3244",
-                        type: "buy",
-                        date: "2017-10-23"
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                        type: "buy",
-                        date: "2017-10-23"
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                        type: "buy",
-                        date: "2017-10-23"
-                    }
-                ]
             },
             eth (ss) {
                 console.log(ss)
-                this.datas=[
-                    {
-                        tid: "111111",
-                        amount: "12",
-                        price: "3244",
-                        type: "buy",
-                        date: "2017-10-23"
-                    },
-                    {
-                        tid: "11111",
-                        amount: "12",
-                        price: "3244",
-                        type: "buy",
-                        date: "2017-10-23"
-                    },
-                    {
-                        tid: "1111111",
-                        amount: "12",
-                        price: "3244",
-                        type: "buy",
-                        date: "2017-10-23"
-                    }
-                ]
             }
         }
     }

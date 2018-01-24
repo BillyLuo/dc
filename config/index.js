@@ -43,6 +43,11 @@ module.exports = {
           target: 'http://172.16.21.22:8001/fbs',
           //target: 'http://192.168.10.8:8000/fbs',
       },
+      '/okcoin': {
+          target: 'http://localhost/okcoin/',
+          //target: 'http://192.168.10.8:8000/fbs',
+          pathRewrite: {'^/okcoin' : ''}
+      },
     }
   },
 
