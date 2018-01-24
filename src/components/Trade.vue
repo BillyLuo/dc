@@ -167,7 +167,7 @@
         width:1040px;
         padding-top:25px;
         .trade-time{
-            padding: 20px 30px;
+            padding: 0px 30px;
             button{
                 background:#2d8cf0;
                 border:none;
@@ -644,6 +644,7 @@
                     default:
                         break;
                 }
+                // wx18012316331879480877
                     // this.$ajax({
                     //     method:'get',
                     //     url:'https://api.btctrade.com/api/trades',
