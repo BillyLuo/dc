@@ -52,10 +52,21 @@
       Form,FormItem
     },
     data () {
+      const validateTel = (rule, value, callback)=> {
+          if(value === ''){
+              callback(new Error("请输入手机号"))
+          }else if(value && !(/^1[34578]\d{9}$/.test(value))){
+            callback(new Error("手机号格式不正确"))
+          }else{
+            callback()
+          }
+      };
       return {
         formInline: {
           user: '',
-          password: ''
+          password: '',
+          tel:'',
+          verificationCode:''
         },
         ruleInline: {
           user: [
@@ -63,11 +74,10 @@
           ],
           password: [
             { required: true, message: '请输入密码.', trigger: 'blur' },
-            { type: 'string', min: 6, message: '密码不能小于6位', trigger: 'blur' }
+            { type: 'string', min: 8, message: '密码不能小于8位', trigger: 'blur' }
           ],
           tel: [
-            { required: true, message: '请输入手机号.', trigger: 'blur' },
-            { type: 'string', min: 11, message: '手机号格式不正确', trigger: 'blur' }
+            { validator: validateTel, trigger: 'blur' }
           ],
           verificationCode: [
             { required: true, message: '请输入验证码.', trigger: 'blur' },
@@ -78,13 +88,12 @@
     methods: {
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
-          console.log("aaa",this.formInline.user,this.formInline.password);
-
+          console.log("valid===",valid);
           if (valid) {
-            //this.$Message.success('Success!');
+            this.Message.success('Success!');
             this.timeoutDate()
           } else {
-            this.$Message.error('Fail!');
+            this.Message.error('Fail!');
           }
         })
       },
@@ -112,7 +121,7 @@
         });
       },
       handleSpinCustomShow () {
-        this.$Spin.show({
+        this.Spin.show({
           render: (h) => {
             return h('div', [
               h('Icon', {
@@ -128,8 +137,8 @@
         });
       },
       handleSpinCustomClose (){
-        this.$Spin.hide();
-        this.$Message.success('Success!');
+        this.Spin.hide();
+        this.Message.success('Success!');
       }
     }
   }
