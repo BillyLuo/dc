@@ -155,11 +155,10 @@
           }
         }).then(function (response) {
           if(response.data.err_code == 1){
-            $this.$Message.success('验证成功');
             $this.timeoutDate();  // 后台数据验证
           }else{
             $this.$Spin.hide();
-            $this.$Message.error('验证失败');
+            $this.$Message.error('验证码错误');
           }
         }).catch(function (error) {
           $this.$Spin.hide();
