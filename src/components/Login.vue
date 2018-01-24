@@ -1,46 +1,49 @@
 <template>
   <div>
-    <div class="wallet-box">
-      <div class="login-left">
-        <img src="/static/img/bg-user.jpg" alt="" width="100%" height="100%">
-      </div>
-      <div class="login-rigth">
-        <Card style="width:100%" :class="'login-card'">
-          <div style="text-align:center">
-            <img src="/static/img/logo.png">
-            <h3>登录蜂巢币-fclink</h3>
-          </div>
-        </Card>
-        <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
-          <FormItem prop="user">
-            <Input type="text" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
+    <div class="wallet-box-background">
+      <div class="wallet-box">
+        <div class="login-left">
+          <img src="/static/img/bg-user.jpg" alt="" width="100%" height="100%">
+        </div>
+        <div class="login-rigth">
+          <Card style="width:100%" :class="'login-card'">
+            <div style="text-align:center">
+              <img src="/static/img/logo.png">
+              <h3>登录蜂巢币-fclink</h3>
+            </div>
+          </Card>
+          <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
+            <FormItem prop="user">
+              <Input type="text" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
               <Icon type="ios-person-outline" slot="prepend" :class="'login-input-icon'"></Icon>
-            </Input>
-          </FormItem>
-          <FormItem prop="password">
-            <Input type="password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
-            <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
-            </Input>
-          </FormItem>
-          <FormItem prop="tel">
-            <Input type="text" v-model="formInline.tel" placeholder="手机号" :class="'login-input'">
-            <Icon type="ios-telephone-outline" slot="prepend" :class="'login-input-icon'"></Icon>
-            </Input>
-          </FormItem>
-          <FormItem prop="verificationCode">
-            <Input type="text" v-model="formInline.verificationCode" placeholder="验证码" :class="'login-input'" style="width: 200px">
-            </Input>
-            <Button type="primary" :class="'verification-code-button'" @click="telCodeButtonClick" :disabled="telCodeDisabled">
-              {{ telCodeText }}
-            </Button>
-          </FormItem>
-          <br />
-          <FormItem>
-            <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
-          </FormItem>
-        </Form>
+              </Input>
+            </FormItem>
+            <FormItem prop="password">
+              <Input type="password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
+              <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem prop="tel">
+              <Input type="text" v-model="formInline.tel" placeholder="手机号" :class="'login-input'">
+              <Icon type="ios-telephone-outline" slot="prepend" :class="'login-input-icon'"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem prop="verificationCode">
+              <Input type="text" v-model="formInline.verificationCode" placeholder="验证码" :class="'login-input'" style="width: 200px">
+              </Input>
+              <Button type="primary" :class="'verification-code-button'" @click="telCodeButtonClick" :disabled="telCodeDisabled">
+                {{ telCodeText }}
+              </Button>
+            </FormItem>
+            <br />
+            <FormItem>
+              <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
+            </FormItem>
+          </Form>
+        </div>
       </div>
     </div>
+
 
   </div>
 
@@ -213,8 +216,13 @@
 </script>
 
 <style>
-  .wallet-box{
+  .wallet-box-background{
     width: 100%;
+    background: #f9f9f9;
+  }
+  .wallet-box{
+    width: 1200px;
+    margin: 0 auto;
     height: 585px;
     padding: 45px 0 65px 0;
   }
