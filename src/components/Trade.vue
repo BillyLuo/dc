@@ -1,5 +1,5 @@
 <template>
-    <div class="clear">
+    <div class="clear trade">
         <div class="tradelists">
              <Menu @on-select="info" mode="horizontal" class="trade-menu" active-name="BTC" >
                 <MenuItem v-for="value in menu" :name="value.name" :key="value.name">
@@ -139,6 +139,10 @@
 </template>
 
 <style lang="scss">
+    .trade{
+        width:1200px;
+        margin: 0 auto;
+    }
     input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
         -webkit-appearance: none !important;
     }
@@ -315,8 +319,12 @@
             }
             .ivu-input:focus{
                 color:#57a3f3;
+                border-color: #57a3f3;
                 -webkit-box-shadow: none;
                 box-shadow: none;
+            }
+            .ivu-input:hover {
+                border-color: #57a3f3;
             }
             .trade-button{
                 button{
