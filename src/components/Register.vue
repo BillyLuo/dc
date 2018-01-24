@@ -63,8 +63,8 @@
               </p>
               <div class="prompt-div">
                 <p class="prompt-div-p">密码强度:</p>
-                <div class="change-longer">
-                  <div class="change-longer-children">
+                <div class="change-longer" >
+                  <div class="change-longer-children" :style="PromptAll">
                   </div>
                 </div>
                 <p class="prompt-div-p2">避免使用您用于其他网站的密码,或易于被其他人猜到的密码。</p>
@@ -152,7 +152,7 @@
               <div class="prompt-div">
                 <p class="prompt-div-p">密码强度:</p>
                 <div class="change-longer">
-                  <div class="change-longer-children">
+                  <div class="change-longer-children" :style="PromptAll">
                   </div>
                 </div>
                 <p class="prompt-div-p2">避免使用您用于其他网站的密码,或易于被其他人猜到的密码。</p>
@@ -225,30 +225,56 @@
         PromptTwo:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
         PromptThree:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
         PromptFour:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
+
+        PromptAll: {},
+        PromptOneWidth: 0,
+        PromptTwoWidth: 0,
+        PromptThreeWidth: 0,
+        PromptFourWidth: 0,
       }
     },
     methods: {
       passwordChange(){    // 密码强度
         if(/[a-zA-Z]+/g.test(this.password) && /[0-9]+/g.test(this.password)){   // 只能是字母和数字
           this.PromptOne = '<i class="fa fa-check" aria-hidden="true" style="color: green"></i>';
+          this.PromptOneWidth = 20
         }else{
           this.PromptOne = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+          this.PromptOneWidth = 0
         }
         if(/^\w{8,20}$/.test(this.password)){       // 8-20个字符
           this.PromptTwo = '<i class="fa fa-check" aria-hidden="true" style="color: green"></i>';
+          if(this.password.length <= 10){
+            this.PromptTwoWidth = 10
+          }else if(this.password.length >10 && this.password.length <=15){
+            this.PromptTwoWidth = 20
+          }else if(this.password.length >15 && this.password.length <=18){
+            this.PromptTwoWidth = 30
+          }else if(this.password.length >18 && this.password.length<=20){
+            this.PromptTwoWidth = 40
+          }
         }else{
           this.PromptTwo = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+          this.PromptTwoWidth = 0
         }
         if(/[A-Z]+/g.test(this.password) && /[a-z]+/g.test(this.password)){ // 包含大写和小写字母
-          this.PromptThree = '<i class="fa fa-check" aria-hidden="true" style="color: green"></i>';
+          this.PromptThree = '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+          this.PromptThreeWidth = 20
         }else{
           this.PromptThree = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+          this.PromptThreeWidth = 0
         }
         if(this.password && /^(?![0-9]+$)/.test(this.password[0])){        // 不能以数字开头
-          this.PromptFour = '<i class="fa fa-check" aria-hidden="true" style="color: green"></i>';
+          this.PromptFour = '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+          this.PromptFourWidth = 20
         }else{
           this.PromptFour = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+          this.PromptFourWidth = 0
         }
+        this.passwordChangeWidth();
+      },
+      passwordChangeWidth(){   // 密码强度条长度
+        this.PromptAll = {'width':this.PromptOneWidth + this.PromptTwoWidth + this.PromptThreeWidth + this.PromptFourWidth + '%'};
       },
       registerTabs(){    // 切换TAbs 状态还原
         this.clearTime();
@@ -279,7 +305,18 @@
         this.InvitationCodeErrorInput = '';
         this.getCode = '';   // 倒计时
         this.telCodeDisabled = false;   // 倒计时按钮状态
+
         this.prompt = false;   //  密码提示框状态
+        this.PromptOne = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+        this.PromptTwo = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+        this.PromptThree = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+        this.PromptFour = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+
+        this.PromptAll = {};
+        this.PromptOneWidth = 0;
+        this.PromptTwoWidth = 0;
+        this.PromptThreeWidth = 0;
+        this.PromptFourWidth = 0;
       },
       clearTime(){    // 清除定时器
         if(this.getCode){

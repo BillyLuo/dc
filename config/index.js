@@ -19,7 +19,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -35,12 +35,12 @@ module.exports = {
     cssSourceMap: true,
     proxyTable: {
       '/bizs': {
-          target: 'http://192.168.10.208:8001/fbs',
+          target: 'http://172.16.21.22:8001/fbs',
           //target: 'http://192.168.10.8:8000/fbs',
           pathRewrite: {'^/bizs' : ''}
       },
       '/bizrest': {
-          target: 'http://192.168.10.208:8001/fbs',
+          target: 'http://172.16.21.22:8001/fbs',
           //target: 'http://192.168.10.8:8000/fbs',
       },
     }
