@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     hello,world
   </div>
 </template>

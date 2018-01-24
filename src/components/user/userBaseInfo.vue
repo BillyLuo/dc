@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="account bg-white">
       <Row>
         <Col span="8">

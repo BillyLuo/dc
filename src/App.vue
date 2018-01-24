@@ -2,9 +2,7 @@
   <div id="app">
     <Header />
     <div id="main">
-      <div class="wrapper">
-        <router-view/>
-      </div>
+      <router-view/>
     </div>
     <Footer />
   </div>

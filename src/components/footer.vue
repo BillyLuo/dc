@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="footer-box">
+    <div class="footer-box wrapper">
       <div class="wrapper">
         <Row>
           <i-col span="12">

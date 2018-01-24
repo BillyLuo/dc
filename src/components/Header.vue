@@ -1,5 +1,5 @@
 <template>
-  <div class="home-header">
+  <div class="home-header wrapper">
     <div class="header-inner clear">
       <div class="header-logo" @click="route('home')">
         <img src="/static/img/logo.png"/>
