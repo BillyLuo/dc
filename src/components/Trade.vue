@@ -15,6 +15,20 @@
                 </MenuItem>
             </Menu>
         </div>
+        <div class="context-title" v-if="types =='buy'">
+            <Row>
+                <Col span="14">
+                    <div class="title-text">
+                        <img src="static/img/icon-safe.png"/>在您进行开始交易之前，您需要完成<a @click="safe()">安全设置</a>
+                    </div>
+                </Col>
+                <Col span="10">
+                    <div class="jiantou btn-style-1 btn-special-1">01.安全设置</div>
+                    <div class="jiantou btn-style-2 btn-special-1">02.充值</div>
+                    <div class="jiantou btn-style-3 btn-special-1">03.下单交易</div>
+                </Col>
+            </Row>
+        </div>
         
         <div class="trade-contract" v-if="types =='buy' ">
             <Row>
@@ -87,7 +101,9 @@
                 <Col span='8'>
                     <div class="trade-record buy-sell">
                         <p class="table-title">最新成交价格</p>
-                        <Table :row-class-name='rowClassName' size='small' :data="datas" :columns="tableColumns" stripe></Table>
+                        <Table :row-class-name='rowClassName' size='small' :data="price_datas" :columns="price_columns" stripe></Table>
+                        <p class="table-title" style="margin-top:20px;">最新成交记录</p>
+                        <Table style="margin-bottom:20px;" :row-class-name='rowClassName' size='small' :data="record_data" :columns="record_columns" stripe></Table>
                     </div>
                 </Col>
             </Row>
@@ -101,7 +117,8 @@
                 <Button>刷新统计</Button>
             </div>
             <div class="trade-table">
-                <Table :data="datas1" :columns="tableColumns1" stripe></Table>
+                <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
+                <Table :data="order_record_data" no-data-text="<img class='wujilu' src='static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
             </div>
         </div>
         <div class="trade-contract" v-else-if="types === 'jiaoyijilu'">
@@ -113,7 +130,8 @@
                 <Button>刷新统计</Button>
             </div>
             <div class="trade-table">
-                <Table :data="datas1" :columns="tableColumns1" stripe></Table>
+                <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
+                <Table :data="order_record_data" no-data-text="<img class='wujilu' src='static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
             </div>
         </div>
         <div class="clear"></div>
@@ -157,7 +175,92 @@
         }
     }
     .ivu-menu-vertical .ivu-menu-item, .ivu-menu-vertical .ivu-menu-submenu-title{
-            padding:20px 24px;
+        padding:20px 24px;
+    }
+    .context-title{
+        height: 55px;
+        background: #fff;
+        
+        float: left;
+        width: 1040px;
+        margin-bottom: 30px;
+        padding: 0 20px;
+        .title-text{
+            font-size:10px;
+            line-height: 55px;
+            img{
+                vertical-align:middle;
+                margin-right: 20px;
+            }
+        }
+        .jiantou{
+            margin-top: 11px;
+            line-height: 32px;
+            width:105px;
+            height:32px;
+            text-align: center;
+            position: relative;
+            float: left;
+        }
+        .btn-style-1{
+            background: #80A4ED;
+            color: #fff;
+        }
+        .btn-style-2{
+            background: #C0D0F0;
+            color: #fff;
+        }
+        .btn-special-1{
+            overflow: visible;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+        .btn-special-1:after, .btn-special-1:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            -webkit-transition: all .6s linear;
+            -moz-transition: all .6s linear;
+            -ms-transition: all .6s linear;
+            transition: all .6s linear;
+        }
+        .btn-special-1:after, .btn-special-1:before {
+            border-left: 20px solid transparent;
+            border-top: 16px solid transparent;
+            border-bottom: 16px solid transparent;
+        }
+        .btn-style-1.btn-special-1:before {
+            border-bottom-color: #80A4ED;
+            border-top-color: #80A4ED;
+        }
+        .btn-special-1:before {
+            right: 100%;
+        }
+        .btn-special-1:after {
+            border-left-color: #80A4ED;
+        }
+        .btn-special-1:after {
+            left: 100%;
+        }
+        .btn-style-2.btn-special-1:before {
+            border-bottom-color: #C0D0F0;
+            border-top-color: #C0D0F0;
+        }
+        .btn-style-2.btn-special-1:after {
+            border-left-color: #C0D0F0;
+        }
+        .btn-style-3 {
+            color: #a0b3da;
+            background-color: #EAF0FC;
+        }
+        .btn-style-3.btn-special-1:before {
+            border-bottom-color: #EAF0FC;
+            border-top-color: #EAF0FC;
+        }
+        .btn-style-3.btn-special-1:after {
+            border-left-color: #EAF0FC;
+        }
     }
     .trade-contract{
         min-height: 600px;
@@ -190,6 +293,15 @@
                 .ivu-table:before{
                     height: 0px !important;
                 }
+            }
+            .ivu-table td{
+                border-bottom:none;
+            }
+            .wujilu{
+                margin-top: 50px;
+            }
+            .tishixinxi{
+                margin-bottom: 50px;
             }
         }
         .trade-buy{
@@ -407,7 +519,8 @@
         
         
         
-   }
+    }
+    
    
 </style>
 <script>
@@ -421,12 +534,9 @@
         // {"name":"YBC",text:"YBC",icon:"/static/img/coin/icon-.png"}
     ]
     let menu1 = [
-        {"name":"buy",text:"买入/卖出",icon:"/static/img/coin/icon-btc.png"},
-        {"name":"weituo",text:"委托管理",icon:"/static/img/coin/icon-eth1.png"},
-        {"name":"jiaoyijilu",text:"交易记录",icon:"/static/img/coin/icon-etc.png"},
-        // {"name":"LTC",text:"LTC",icon:"/static/img/coin/icon-ltc.png"},
-        // {"name":"DOGE",text:"DOGE",icon:"/static/img/coin/icon-doge.png"},
-        // {"name":"YBC",text:"YBC",icon:"/static/img/coin/icon-.png"}
+        {"name":"buy",text:"买入/卖出"},
+        {"name":"weituo",text:"委托管理"},
+        {"name":"jiaoyijilu",text:"交易记录"},
     ]
     export default {
         components:{
@@ -441,7 +551,8 @@
                 btcname:"BTC",
                 buymoney:0,
                 sellmoney:0,
-                datas:[
+                // 最新成交价格
+                price_datas:[
                     {
                         tid: "0000",
                         amount: "12",
@@ -493,7 +604,7 @@
                         price: "3244",
                     }
                 ],
-                tableColumns: [
+                price_columns: [
                     {
                         title: '交易ID',
                         key: 'tid'
@@ -510,7 +621,8 @@
                         }
                     }
                 ],
-                datas1:[
+                // 委托
+                weituo_data:[
                     {
                         buycount: "12",
                         buyprice: "2134",
@@ -551,57 +663,132 @@
                     //     date: "2017-10-23"
                     // }
                 ],
-                tableColumns1: [],
+                weituo_columns: [],
+                // 最新交易记录
+                record_columns:[
+                    {
+                        title: "时间",
+                        key: 'time'
+                    },
+                    {
+                        title: '价格(¥)',
+                        key: 'price',
+                    },
+                    {
+                        title: '数量',
+                        key: 'number'
+                    }
+                ],
+                record_data: [
+                    {
+                        time: '09:48:44',
+                        price: "6804",
+                        number: "3.08"
+                    },
+                    {
+                        time: '09:34:13',
+                        price: "6804",
+                        number: "0.334"
+                    },
+                    {
+                        time: '09:58:25',
+                        price: "6804",
+                        number: "2.000"
+                    },
+                    {
+                        time: '09:18:53',
+                        price: "6804",
+                        number: "3.08"
+                    },
+                    {
+                        time: '09:08:44',
+                        price: "6804",
+                        number: "3.08"
+                    }
+                ],
+                // 委托时间	类型	数量	价格	金额	成交量	成交金额	手续费	平均成交价	状态/操作
+                order_record_data: [],
+                order_record_cloumns: [
+                    {
+                        title: "委托时间",
+                        key: "weituotime",
+                    },
+                    {
+                        title: '类型',
+                        key: 'type'
+                    },
+                    {
+                        title: '数量',
+                        key: 'count'
+                    },
+                    {
+                        title: '价格',
+                        key: 'price'
+                    },
+                    {
+                        title: '金额',
+                        key: 'money'
+                    },
+                    {
+                        title: '成交量',
+                        key: 'volume'
+                    },
+                    {
+                        title: '成交金额',
+                        key: 'amount'
+                    },
+                    {
+                        title: '手续费',
+                        key: 'poundage'
+                    },
+                    {
+                        title: '平均成交价',
+                        key: 'averageprice'
+                    },
+                    {
+                        title: '状态/操作',
+                        key: 'status'
+                    }
+                ]
+
             }
         },
         created () {
-            this.tableColumns1 = [
+            this.weituo_columns = [
                     {
                         title:"总买入数("+this.btcname+")",
-                        key: "buycount"
+                        key: "buycount",
+                        render (h,row){
+                            return Number(row.row.buycount).toFixed(4);
+                        }
                     },
                     {
                         title:"平均买入价(CNYT)",
-                        key: "buyprice"
+                        key: "buyprice",
+                        render (h,row){
+                            return Number(row.row.buyprice).toFixed(4);
+                        }
                     },
                     {
                         title:"总卖出数("+this.btcname+")",
-                        key: "sellcount"
+                        key: "sellcount",
+                        render (h,row){
+                            return Number(row.row.sellcount).toFixed(4);
+                        }
                     },
                     {
                         title:"平均卖出价(CNYT)",
-                        key: "sellprice"
+                        key: "sellprice",
+                        render (h,row){
+                            return Number(row.row.sellprice).toFixed(4);
+                        }
                     }
-                    // {
-                    //     title: '交易ID',
-                    //     key: 'tid'
-                    // },
-                    // {
-                    //     title: '交易数量',
-                    //     key: 'amount',
-                    // },
-                    // {
-                    //     title: '交易价格',
-                    //     key: 'price',
-                    //     render: (h, params) => {
-                    //         return params.row.price
-                    //     }
-                    // },
-                    // {
-                    //     title: '交易类型',
-                    //     key: 'type',
-                    //     render: (h, params) => {
-                    //         let type={"buy":"买入"}
-                    //         return type[params.row.type]
-                    //     }
-                    // },
-                    // {
-                    //     title: '成交时间',
-                    //     key: 'date'
-                    // }
                 ]
         },
         methods: {
+            safe () {
+                this.$router.push("user");
+            },
             rowClassName (row, index) {
                 if (index <5) {
                     return 'table-row-color-5';
@@ -618,22 +805,34 @@
                 this.btcname=name;
                 // this.tssss(name);
                 let key = name;
-                 this.tableColumns1 = [
+                 this.weituo_columns = [
                     {
-                        title:"总买入数("+name+")",
-                        key: "buycount"
+                        title:"总买入数("+this.btcname+")",
+                        key: "buycount",
+                        render (h,row){
+                            return Number(row.row.buycount).toFixed(4);
+                        }
                     },
                     {
                         title:"平均买入价(CNYT)",
-                        key: "buyprice"
+                        key: "buyprice",
+                        render (h,row){
+                            return Number(row.row.buyprice).toFixed(4);
+                        }
                     },
                     {
-                        title:"总卖出数("+name+")",
-                        key: "sellcount"
+                        title:"总卖出数("+this.btcname+")",
+                        key: "sellcount",
+                        render (h,row){
+                            return Number(row.row.sellcount).toFixed(4);
+                        }
                     },
                     {
                         title:"平均卖出价(CNYT)",
-                        key: "sellprice"
+                        key: "sellprice",
+                        render (h,row){
+                            return Number(row.row.sellprice).toFixed(4);
+                        }
                     }
                 ]
                 switch (key) {
