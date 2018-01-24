@@ -100,6 +100,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import '../my-theme/mixin.scss';
   .home-header {
     background: #fff;
     //box-shadow: 0px 3px 5px #999;
@@ -146,7 +147,7 @@ export default {
     height: 30px;
     line-height: 30px;
     border-radius: 15px;
-    background: #407BE1;
+    background: $primary-color;
     text-align: center;
     color: #fff;
     span {
