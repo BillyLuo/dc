@@ -29,6 +29,9 @@ Vue.component('BackTop',BackTop);
 Vue.component('Spin',Spin);
 Vue.component('Icon',Icon);
 Vue.prototype.$ajax = axios;
+Vue.prototype.$Message = Message;
+Vue.prototype.$Spin = Spin;
+Vue.prototype.$Notice = Notice;
 router.beforeEach((to, from, next) => {
     LoadingBar.start();
     next();
