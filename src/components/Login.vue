@@ -98,7 +98,7 @@
         })
       },
       telCodeButtonClick(){     // 短信button 事件
-        if(this.formInline.tel){
+        if(this.formInline.tel && (/^1[34578]\d{9}$/.test(this.formInline.tel))){
           this.telCodeTimeOut();
           this.getCode()
         }else{
