@@ -102,6 +102,7 @@
           $this.handleSpinCustomClose();
           console.log(response);
         }).catch(function (error) {
+          $this.handleSpinCustomClose();
           console.log(error);
         });
       },
