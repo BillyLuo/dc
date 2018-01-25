@@ -1,6 +1,6 @@
 <template>
-  <div class="home-header wrapper">
-    <div class="header-inner clear">
+  <div class="home-header">
+    <div class="header-inner clear wrapper">
       <div class="header-logo" @click="route('home')">
         <img src="/static/img/logo.png"/>
         <span>蜂巢币</span>
@@ -10,12 +10,14 @@
             {{value.text}}
         </MenuItem>
       </Menu>
-      <div v-if="isLogined">
+      <div class="header-right float-left">
+        <div v-if="isLogined">
 
-      </div>
-      <div v-else class="login">
-        <span class="login-in" @click="route('login')">登录</span>|
-        <span class="register" @click="route('register')">注册</span>
+        </div>
+        <div v-else class="login">
+          <span class="login-in" @click="route('login')">登录</span>|
+          <span class="register" @click="route('register')">注册</span>
+        </div>
       </div>
     </div>
   </div>
@@ -102,18 +104,29 @@ export default {
 <style scoped lang="scss">
   @import '../my-theme/mixin.scss';
   .home-header {
-    background: #fff;
-    //box-shadow: 0px 3px 5px #999;
+    height: 70px;
+    width: 100%;
+    position: absolute;
+    top:0;
+    left: auto;
+    right: auto;
+    margin: auto;
+    color: #fff;
+    z-index: 1000;
+    background: #323232;
     .ivu-menu-item {
-      font-size: 16px;
-      color: #282828;
+      color: #fff;
+    }
+    .ivu-menu-light{
+      background: transparent;
     }
   }
   .header-inner {
-    margin: 0 auto;
-    width: 1200px;
+    background: #323232;
     margin-right: auto;
     margin-left: auto;
+    padding: 0 30px;
+    padding-top: 10px;
     ul {
       float: left;
       &::after{
@@ -140,8 +153,12 @@ export default {
       cursor: pointer;
     }
   }
+  .header-right {
+    margin-left: 50px;
+    position: relative;
+    z-index: 1300;
+  }
   .login {
-    float: right;
     margin: 15px 0;
     width: 120px;
     height: 30px;

@@ -23,8 +23,8 @@ export default {
 </script>
 
 <style lang="scss">
-  @import url(./index.scss);
+  @import './index.scss';
   #main {
-    padding-top: 20px;
+    padding-top: 70px;
   }
 </style>
