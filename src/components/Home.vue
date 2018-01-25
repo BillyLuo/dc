@@ -297,10 +297,12 @@
     </section>
     <section class="section8">
       <div class="wrapper">
+        <h3 class="section-title">路线图</h3>
+        <p class="section-sub-title">Road Map</p>
+        <img src="/static/svg/bigpic.svg" />
       </div>
     </section>
     <section class="section9">
-      
     </section>
   </div>
 </template>
@@ -309,6 +311,9 @@
   function initSwiper () {
     var caseExample = new Swiper('#case',{
       loop:true,
+      autoplay:{
+        delay:30000
+      },
       // pagination: {
       //   el: '.swiper-pagination',
       // },
@@ -330,6 +335,9 @@
     }
     var partnersSwiper = new Swiper('#partners',{
       loop:true,
+      autoplay: {
+        delay:30000
+      },
       // pagination: {
       //   el: '.swiper-pagination',
       // },
@@ -357,9 +365,9 @@ export default {
   },
   mounted (){
     initSwiper();
-    window.onscroll = function () {
-      initSwiper();
-    }
+    // window.onscroll = function () {
+    //   initSwiper();
+    // }
   },
   methods: {
     
@@ -687,7 +695,10 @@ export default {
     }
   }
   .section8 {
-    height: 1667px;
     background: #222324;
+    padding-bottom: 125px;
+    .section-sub-title {
+      padding-bottom: 100px;
+    }
   }
 </style>

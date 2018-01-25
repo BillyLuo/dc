@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Header from './components/Header';
-import Footer from './components/footer.vue';
+import Header from './components/header/Header';
+import Footer from './components/footer';
 import store from 'store'
 console.log('this is store',store);
 export default {
