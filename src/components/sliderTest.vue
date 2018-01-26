@@ -17,13 +17,13 @@
           <div class="slider">
             <div class="slider-div-all">
               <div v-for="item in items">
-                <div :class="item.class" :style="item.style">
-                  <div class="slider-div-children"></div>
+                <div :class="item.className" :style="item.style">
+                  <div class="slider-div-children-change" :style="item.styleChildren" ></div>
                 </div>
               </div>
             </div>
             <div class="expected-slider-ivu">
-              <Slider v-model="valueSpeed"  :min="0" :max="200" @on-input="uploadSpeed"></Slider>
+              <Slider v-model="valueSpeed"  :tip-format="uploadSpeed" @on-change="changeHeight" ></Slider>
             </div>
           </div>
           <p class="upload upload-time">
@@ -31,7 +31,7 @@
           </p>
           <div class="upload-time-slider">
             <div class="expected-slider-ivu">
-              <Slider v-model="valueTime" @on-input="uploadTime"></Slider>
+              <Slider v-model="valueTime" :tip-format="uploadTime"></Slider>
             </div>
           </div>
         </div>
@@ -69,20 +69,46 @@
     data () {
       const items = [];
       for (let i = 0; i < 25; i++) {
-        items.push({class:"slider-div-children div-" + i,style:'left:'+ i*21 + 'px;height:'+ (0.22*(Math.pow(i,2)) + i + 6.5) + 'px'})
+        items.push(
+          {
+            className:"slider-div-children div-" + i,
+            style:'left:'+ i*21 + 'px;height:'+ (0.22*(Math.pow(i,2)) + i + 6.5) + 'px',
+            styleChildren:'height:0px'
+          }
+        )
       }
       return {
         valueSpeed: 0,
         valueTime: 0,
-        items:items
+        items:items,
+        sliderLong:[],
       }
     },
     methods:{
-      uploadSpeed(){
-        console.log(this.valueSpeed)
+      uploadSpeed(value){
+        return value*10
       },
       uploadTime(){
-        console.log(this.valueTime)
+        return null
+      },
+      changeHeight(){
+        let num = parseInt(this.valueSpeed/4) == 25 ? 24 :parseInt(this.valueSpeed/4);
+        this.sliderLong.push(num);
+        if(this.sliderLong.length >1){
+          if(this.sliderLong[this.sliderLong.length-1] >= this.sliderLong[this.sliderLong.length-2]){
+            for (let i = 0; i < num+1; i++){
+              this.items[i].styleChildren = 'height:' + (0.22*(Math.pow(i,2)) + i + 6.5) + 'px';
+            }
+          }else{
+            for (let i = this.sliderLong[this.sliderLong.length-1]; i < this.sliderLong[this.sliderLong.length-2]; i++){
+              this.items[i+1].styleChildren = 'height: 0px'
+            }
+          }
+        }else if(this.sliderLong.length = 1){
+          for (let i = 0; i < num+1; i++){
+            this.items[i].styleChildren = 'height:' + (0.22*(Math.pow(i,2)) + i + 6.5) + 'px';
+          }
+        }
       }
     }
   }
@@ -148,6 +174,19 @@
               width: 10px;
               background: #3d3d3d;
             }
+            .slider-div-children-change{
+              position: absolute;
+              bottom: 0;
+              width: 100%;
+              background: $theme-color;
+              transition: all 0.3s ease-in-out;
+              /* Firefox 4 */
+              -moz-transition:all 0.3s ease-in-out;
+              /* Safari and Chrome */
+              -webkit-transition:all 0.3s ease-in-out;
+              /* Opera */
+              -o-transition:all 0.3s ease-in-out;
+            }
           }
         }
         .upload-time{
@@ -170,6 +209,7 @@
           font-size: 18px;
           color: $theme-color;
           font-weight: 600;
+          margin: 0 auto;
         }
         .center-upload-speed{
           margin-top: 110px;
