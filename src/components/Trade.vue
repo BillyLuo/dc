@@ -55,7 +55,7 @@
                             <p>
                                 ≈ ￥ <span>{{buymoney}}</span>
                             </p>
-                            <!-- <Slider ></Slider> -->
+                            <Slider v-model="value" :max="1000" @on-change="ss"></Slider>
                             <Button class="buy-button buy-button1">
                                 买入 {{btcname}}
                             </Button>
@@ -88,7 +88,7 @@
                             <p>
                                 ≈ ￥ <span>{{buymoney}}</span>
                             </p>
-                            <!-- <Slider ></Slider> -->
+                            <Slider ></Slider>
                             <Button class="buy-button buy-button1">
                                 买入 {{btcname}}
                             </Button>
@@ -161,7 +161,11 @@
             .ivu-menu-item{
                 padding:20xp 0px;
             }
+            
         }
+        .ivu-menu{
+                z-index: 0;
+            }
     }
     .tradelist{
         width:140px;
@@ -532,7 +536,7 @@
    
 </style>
 <script>
-    import { Menu,MenuItem,DatePicker,Table } from 'iview';
+    import { Menu,MenuItem,DatePicker,Table,Slider } from 'iview';
     let menu = [
         {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
         {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
@@ -549,12 +553,14 @@
     export default {
         components:{
             DatePicker,Table,
-            Menu,MenuItem
+            Menu,MenuItem,Slider
         },
+        props: ['lang'],
         data() {
             return {
                 menu,
                 menu1,
+                value: 1000,
                 types:"buy",
                 btcname:"BTC",
                 buymoney:0,
@@ -794,6 +800,9 @@
                 ]
         },
         methods: {
+            ss(value){
+                console.log(value)
+            },
             safe () {
                 this.$router.push("user");
             },
@@ -809,7 +818,6 @@
                 this.types = name; 
             },
             info (name) {
-                console.log(name)
                 this.btcname=name;
                 // this.tssss(name);
                 let key = name;
