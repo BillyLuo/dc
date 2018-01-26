@@ -10,31 +10,31 @@
       <div class="expected-return-line">
       </div>
       <div class="slider-change-box clearfix">
-          <div class="left float">
-              <p class="upload">
-                  上传速度
-              </p>
-            <div class="slider">
-              <div class="slider-div-all">
-                  <div v-for="item in items" :key="item.style">
-                      <div :class="item.class" :style="item.style">
-                        <div class="slider-div-children"></div>
-                      </div>
-                  </div>
-              </div>
-              <div class="expected-slider-ivu">
-                <Slider :min="0" :max="300" @on-input="uploadSpeed"></Slider>
+        <div class="left float">
+          <p class="upload">
+            上传速度
+          </p>
+          <div class="slider">
+            <div class="slider-div-all">
+              <div v-for="item in items">
+                <div :class="item.class" :style="item.style">
+                  <div class="slider-div-children"></div>
+                </div>
               </div>
             </div>
-            <p class="upload upload-time">
-                上传时间
-            </p>
-            <div class="upload-time-slider">
-              <div class="expected-slider-ivu">
-                <Slider v-model="valueTime" @on-input="uploadTime"></Slider>
-              </div>
+            <div class="expected-slider-ivu">
+              <Slider v-model="valueSpeed"  :min="0" :max="200" @on-input="uploadSpeed"></Slider>
             </div>
           </div>
+          <p class="upload upload-time">
+            上传时间
+          </p>
+          <div class="upload-time-slider">
+            <div class="expected-slider-ivu">
+              <Slider v-model="valueTime" @on-input="uploadTime"></Slider>
+            </div>
+          </div>
+        </div>
         <div class="center float">
           <div class="center-box center-upload-speed">
             326.00 &nbsp; Mbps
@@ -65,97 +65,98 @@
   </div>
 </template>
 <script>
-export default {
-  data() {
-    const items = [];
-    for (let i = 0; i < 25; i++) {
-      items.push({
-        class: "slider-div-children div-" + i,
-        style:
-          "left:" +
-          i * 21 +
-          "px;height:" +
-          (0.22 * Math.pow(i, 2) + i + 6.5) +
-          "px"
-      });
-    }
-    return {
-      valueSpeed: 0,
-      valueTime: 0,
-      items: items
-    };
-  },
-  methods: {
-    uploadSpeed(value) {
-      console.log('argumets',value,this.valueSpeed);
+  export default {
+    data () {
+      const items = [];
+      for (let i = 0; i < 25; i++) {
+        items.push({class:"slider-div-children div-" + i,style:'left:'+ i*21 + 'px;height:'+ (0.22*(Math.pow(i,2)) + i + 6.5) + 'px'})
+      }
+      return {
+        valueSpeed: 0,
+        valueTime: 0,
+        items:items
+      }
     },
-    uploadTime() {
-      console.log(this.valueTime);
+    methods:{
+      uploadSpeed(){
+        console.log(this.valueSpeed)
+      },
+      uploadTime(){
+        console.log(this.valueTime)
+      }
     }
   }
-};
 </script>
 <style lang="scss">
-$theme-color: #ffb900;
-$text-color: #8b8b8b;
-.clearfix:before,
-.container:after {
-  content: "";
-  display: table;
-}
-.clearfix:after {
-  clear: both;
-}
-.expected-return {
-  width: 100%;
-  background: #000;
-  .expected-return-top {
+  $theme-color:#ffb900;
+  $text-color:#8b8b8b;
+  .clearfix:before,
+  .container:after {
+    content: "";
+    display: table;
+  }
+  .clearfix:after {
+    clear: both;
+  }
+  .expected-return{
     width: 100%;
+    background: #000;
+    .expected-return-top{
+      width: 100%;
 
-    padding-top: 122px;
-    font-size: 33px;
-    color: $theme-color;
-    text-align: center;
-    font-weight: 600;
-  }
-  .expected-return-text {
-    width: 100%;
-    padding-top: 20px;
-    font-size: 18px;
-    color: $text-color;
-    text-align: center;
-  }
-  .expected-return-line {
-    width: 70px;
-    border-top: 2px solid $theme-color;
-    margin: 20px auto;
-  }
-  .slider-change-box {
-    width: 100%;
-    height: 600px;
-    padding: 30px 0;
-    .float {
-      float: left;
-      height: 550px;
-      box-sizing: border-box;
+      padding-top: 122px;
+      font-size: 33px;
+      color: $theme-color;
+      text-align: center;
+      font-weight: 600;
     }
-    .left {
-      width: 45%;
-      .slider {
-        width: 530px;
-        height: 250px;
-        margin: 0 auto;
-        padding: 25px 0;
-        .slider-div-all {
-          width: 100%;
-          height: 170px;
-          position: relative;
-          .slider-div-children {
-            position: absolute;
-            bottom: 0;
-            width: 10px;
-            background: #3d3d3d;
+    .expected-return-text{
+      width: 100%;
+      padding-top: 20px;
+      font-size: 18px;
+      color: $text-color;
+      text-align: center;
+    }
+    .expected-return-line{
+      width: 70px;
+      border-top: 2px solid $theme-color;
+      margin: 20px auto;
+    }
+    .slider-change-box{
+      width: 100%;
+      height: 600px;
+      padding: 30px 0;
+      .float{
+        float: left;
+        height: 550px;
+        box-sizing: border-box;
+      }
+      .left{
+        width: 45%;
+        .slider{
+          width: 530px;
+          height: 250px;
+          margin: 0 auto;
+          padding: 25px 0;
+          .slider-div-all{
+            width: 100%;
+            height: 170px;
+            position: relative;
+            .slider-div-children{
+              position: absolute;
+              bottom: 0;
+              width: 10px;
+              background: #3d3d3d;
+            }
           }
+        }
+        .upload-time{
+          margin-top: 30px;
+        }
+        .upload-time-slider{
+          width: 530px;
+          margin: 0 auto;
+          margin-top: 40px;
         }
       }
       .center{
@@ -169,7 +170,6 @@ $text-color: #8b8b8b;
           font-size: 18px;
           color: $theme-color;
           font-weight: 600;
-          margin: 0 auto;
         }
         .center-upload-speed{
           margin-top: 110px;
@@ -177,94 +177,67 @@ $text-color: #8b8b8b;
         .center-upload-time{
           margin-top: 250px;
         }
-      .upload-time {
-        margin-top: 30px;
       }
-      .upload-time-slider {
-        width: 530px;
-        margin: 0 auto;
-        margin-top: 40px;
+      .right{
+        width: 40%;
+        .right-box-children{
+          width: 390px;
+          height: 160px;
+          margin: 0 auto;
+          background: rgb(49,49,49);
+          text-align: center;
+          color: #fff;
+          box-sizing: border-box;
+          border: 1px solid rgb(49,49,49);
+          font-size: 18px;
+          p{
+            margin-top: 40px;
+          }
+          .p-num{
+            font-size: 23px;
+            font-weight: 600;
+            margin-top: 35px;
+          }
+          .p-color{
+            color: $theme-color;
+          }
+        }
+        .margin{
+          margin-top: 30px;
+        }
       }
-    }
-    .center {
-      width: 15%;
-      .center-box {
-        width: 200px;
-        height: 65px;
-        border: 2px solid $theme-color;
-        text-align: center;
-        line-height: 65px;
-        font-size: 18px;
+      .upload{
+        width: 100%;
         color: $theme-color;
-        font-weight: 600;
-      }
-      .center-upload-speed {
-        margin-top: 110px;
-      }
-      .center-upload-time {
-        margin-top: 250px;
-      }
-    }
-    .right {
-      width: 40%;
-      .right-box-children {
-        width: 390px;
-        height: 160px;
-        margin: 0 auto;
-        background: rgb(49, 49, 49);
-        text-align: center;
-        color: #fff;
-        box-sizing: border-box;
-        border: 1px solid rgb(49, 49, 49);
         font-size: 18px;
-        p {
-          margin-top: 40px;
-        }
-        .p-num {
-          font-size: 23px;
-          font-weight: 600;
-          margin-top: 35px;
-        }
-        .p-color {
-          color: $theme-color;
-        }
+        text-align: center;
+        font-weight: 600;
+        padding: 20px 0;
       }
-      .margin {
-        margin-top: 30px;
+      .expected-slider-ivu{
+        width: 97%;
+        .ivu-slider-bar{
+          height: 10px;
+        }
+        .ivu-slider-wrap{
+          height: 10px;
+        }
+        .ivu-slider-button-wrap{
+          top: -3px;
+        }
+        .ivu-slider-button{
+          width: 16px;
+          height: 16px;
+        }
       }
     }
-    .upload {
+    .expected-bottom{
       width: 100%;
-      color: $theme-color;
-      font-size: 18px;
+      height: 180px;
       text-align: center;
-      font-weight: 600;
-      padding: 20px 0;
-    }
-    .expected-slider-ivu {
-      width: 97%;
-      .ivu-slider-bar {
-        height: 10px;
-      }
-      .ivu-slider-wrap {
-        height: 10px;
-      }
-      .ivu-slider-button-wrap {
-        top: -3px;
-      }
-      .ivu-slider-button {
-        width: 16px;
-        height: 16px;
-      }
+      color: #fff;
+      line-height: 130px;
+      font-size: 16px;
     }
   }
-  .expected-bottom {
-    width: 100%;
-    height: 180px;
-    text-align: center;
-    color: #fff;
-    line-height: 130px;
-    font-size: 16px;
-  }
-}
 </style>
