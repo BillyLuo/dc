@@ -5,14 +5,14 @@
       <router-view/>
     </div>
     <Footer />
+    <BackTop></BackTop>
   </div>
 </template>
 
 <script>
 import Header from './components/header/Header';
 import Footer from './components/footer';
-import store from 'store'
-console.log('this is store',store);
+import store from 'store';
 export default {
   name: 'App',
   components:{

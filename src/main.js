@@ -33,6 +33,9 @@ Vue.prototype.$ajax = axios;
 Vue.prototype.$Message = Message;
 Vue.prototype.$Spin = Spin;
 Vue.prototype.$Notice = Notice;
+
+var VueScrollTo = require('vue-scrollto');
+Vue.use(VueScrollTo);
 router.beforeEach((to, from, next) => {
     LoadingBar.start();
     next();
