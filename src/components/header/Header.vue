@@ -5,11 +5,21 @@
         <img src="/static/img/logo.png"/>
         <span>蜂巢币</span>
       </div>
-      <Menu mode="horizontal" @on-select="route" :active-name="activeName">
-        <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
-            {{value.text}}
-        </MenuItem>
-      </Menu>
+      <div class="home-menu">
+        <Menu :mode="mode" @on-select="route" :active-name="activeName">
+          <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
+              <div v-scroll-to="value.scrollto">{{value.text}}</div>
+          </MenuItem>
+        </Menu>
+      </div>
+      <div class="mobile-menu">
+        <i class="fa fa-bars fa-2x" @click="showMenu(true)"></i>
+        <div class="mobile-menu-content" :style="{display:showMobileMenu?'block':'none'}">
+          <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
+              <div @click="showMenu()" v-scroll-to="value.scrollto">{{value.text}}</div>
+          </MenuItem>
+        </div>
+      </div>
       <div class="header-right float-left">
         <div v-if="isLogined">
 
@@ -30,10 +40,10 @@ router.afterEach(route => {
     // console.log('------------',this)
 });
 let menu = [
-  {name:'home',text:'首页'},
-  {name:'trade',text:'交易中心'},
-  {name:'assets',text:'数字资产'},
-  {name:'user',text:'个人中心'},
+  {name:'home',text:'首页',scrollto:'.home-header'},
+  {name:'trade',text:'团队介绍',scrollto:'#team'},
+  {name:'assets',text:'路线图',scrollto:'#route-map'},
+  // {name:'user',text:'个人中心'},
 ]
 export default {
   name:'Header',
@@ -47,17 +57,48 @@ export default {
     return {
       activeName:'home',
       isLogined:false,
-      menu
+      menu,
+      mode:'horizontal',
+      isMobile:false,
+      showMobileMenu:false
+    }
+  },
+  created(){
+    var w = window.innerWidth;
+    if (w <= 640) {
+      this.isMobile = true;
+      // this.mode = 'vertical';
     }
   },
   mounted (){
     // this.initActive();
-    console.log('----header----',this);
+    var main = document.getElementById('main');
+    if (main) {
+      main.onclick = function () {
+        var menu = document.getElementsByClassName('mobile-menu-content');
+        if (menu.length) {
+          menu[0].style.display= 'none';
+        }
+      }
+    }
   },
   watch:{
     "$route":"getPath"  // 监听事件
   },
   methods:{
+    showMenu(value){
+      if (value) {
+        console.log('showmenu');
+        this.showMobileMenu = true;
+        var menu = document.getElementsByClassName('mobile-menu-content');
+        if (menu.length) {
+          menu[0].style.display= 'block';
+        }
+      }else {
+        console.log('hi');
+        this.showMobileMenu = false;
+      }
+    },
     getPath(){
       let path = this.$route.path;    //或得当前路径
       console.log("----",path)
@@ -74,10 +115,16 @@ export default {
       console.log(this.activeName);
       // this.activeName = activeName;
     },
-    route(name){
-      // this.initActive(name);
-      this.$router.push('/'+name);
+    route (name) {
+      console.log(name);
+      if (!name || name == 'home') {
+        this.$router.push('/');
+      }
     },
+    // route(name){
+      // this.initActive(name);
+      // this.$router.push('/'+name);
+    // },
     // initActive(name){
     //   let path = location.pathname;
     //   if (name) {
@@ -120,13 +167,32 @@ export default {
     .ivu-menu-light{
       background: transparent;
     }
+    .home-menu {
+      display: block;
+    }
+    .mobile-menu {
+      display: none;
+    }
+    @media screen and (max-width: 640px) {
+      & {
+        .home-menu {
+          display: none;
+        }
+        .mobile-menu {
+          display: block;
+        }
+      }
+    }
   }
   .header-inner {
     background: #323232;
     margin-right: auto;
     margin-left: auto;
-    padding: 0 30px;
+    padding: 0 20px;
     padding-top: 10px;
+    .ivu-menu-item,.ivu-menu-item:hover {
+      border-bottom: none;
+    }
     .ivu-menu-item-selected {
       border-bottom: none;
     }
@@ -155,6 +221,11 @@ export default {
       font-size: 20px;
       cursor: pointer;
     }
+    @media screen and (max-width:640px){
+      & {
+        width: 120px;
+      }
+    }
   }
   .header-right {
     margin-left: 50px;
@@ -173,6 +244,25 @@ export default {
     span {
       margin: 0 4px;
       cursor: pointer;
+    }
+  }
+  .mobile-menu {
+    float: right;
+    position: relative;
+    .mobile-menu-content {
+      background: #333;
+      padding: 20px;
+      position: absolute;
+      top: 0px;
+      right: 0;
+      width: 120px;
+      border-radius: 4px;
+      display: none;
+      li {
+        line-height: 30px;
+        font-size: 16px;
+        color: #fff;
+      }
     }
   }
 </style>
