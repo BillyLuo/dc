@@ -170,6 +170,7 @@
           font-size: 18px;
           color: $theme-color;
           font-weight: 600;
+          margin: 0 auto;
         }
         .center-upload-speed{
           margin-top: 110px;
