@@ -33,6 +33,17 @@ Vue.prototype.$ajax = axios;
 Vue.prototype.$Message = Message;
 Vue.prototype.$Spin = Spin;
 Vue.prototype.$Notice = Notice;
+import VueI18n from 'vue-i18n'
+
+Vue.use(VueI18n);
+/*---------基本使用-----------*/
+const i18n = new VueI18n({
+  locale: 'cn',    // 语言标识
+  messages : {
+    'cn': require('./lang/cn'),   // 中文语言包
+    'en': require('./lang/en')    // 英文语言包
+  }
+})
 
 var VueScrollTo = require('vue-scrollto');
 Vue.use(VueScrollTo);
@@ -51,6 +62,7 @@ Vue.config.productionTip = false;
 new Vue({
   el: '#app',
   router,
+  i18n,
   components: { App },
   template: '<App/>'
 });
