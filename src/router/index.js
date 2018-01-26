@@ -7,6 +7,7 @@ const Assets = ()=> import('@/components/assets/Assets')
 const Trade = ()=> import('@/components/Trade')
 const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
+const sliderTest = ()=> import('@/components/sliderTest.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -53,6 +54,11 @@ export default new Router({
         {path:'/user/loginrecord',name:'loginrecord',component:safeSettings},
         {path:'/user/authentication',name:'authentication',component:safeSettings}
       ]
+    },
+    {
+      path:'/sliderTest',
+      name:'sliderTest',
+      component: sliderTest
     }
   ]
 })
