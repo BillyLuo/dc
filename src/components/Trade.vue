@@ -865,7 +865,7 @@
                 // wx18012316331879480877
                 this.$ajax({
                     method: 'get',
-                    url: '/okcoin/trades.do?symbol=eth_cny',
+                    url: '/okcoin/kline.do?symbol=eth_cny&type=1min',
                     // proxy: {
                     //     host: 'localhost',
                     //     port: ""

@@ -23,7 +23,7 @@
               </div>
             </div>
             <div class="expected-slider-ivu">
-              <Slider v-model="valueSpeed"  :tip-format="uploadSpeed" @on-change="changeHeight" ></Slider>
+              <Slider v-model="valueSpeed"  :tip-format="uploadSpeed" @on-input="changeHeight" ></Slider>
             </div>
           </div>
           <p class="upload upload-time">
