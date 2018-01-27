@@ -7,7 +7,7 @@ const Assets = ()=> import('@/components/assets/Assets')
 const Trade = ()=> import('@/components/Trade')
 const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
-const sliderTest = ()=> import('@/components/sliderTest.vue')
+const sliderTest = ()=> import('@/components/sliderTest.vue');
 Vue.use(Router)
 
 export default new Router({
@@ -59,6 +59,6 @@ export default new Router({
       path:'/sliderTest',
       name:'sliderTest',
       component: sliderTest
-    }
+    },
   ]
 })
