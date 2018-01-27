@@ -25,6 +25,6 @@ export default {
 <style lang="scss">
   @import './index.scss';
   #main {
-    padding-top: 70px;
+    // padding-top: 70px;
   }
 </style>

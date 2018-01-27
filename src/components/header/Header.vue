@@ -3,7 +3,7 @@
     <div class="header-inner clear wrapper">
       <div class="header-logo" @click="route('home')">
         <img src="/static/img/logo.png"/>
-        <span>蜂巢币</span>
+        <!-- <span>蜂巢币</span> -->
       </div>
       <div class="home-menu">
         <Menu :mode="mode" @on-select="route" :active-name="activeName">
@@ -13,7 +13,7 @@
         </Menu>
       </div>
       <div class="mobile-menu">
-        <i class="fa fa-bars fa-2x" @click="showMenu(true)"></i>
+        <div @click="showMenu(true)"><Icon type="android-menu"></Icon></div>
         <div class="mobile-menu-content" :style="{display:showMobileMenu?'block':'none'}">
           <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
               <div @click="showMenu()" v-scroll-to="value.scrollto">{{value.text}}</div>
@@ -87,6 +87,7 @@ export default {
   },
   methods:{
     showMenu(value){
+      console.log('menu',value);
       if (value) {
         console.log('showmenu');
         this.showMobileMenu = true;
@@ -160,7 +161,7 @@ export default {
     margin: auto;
     color: #fff;
     z-index: 1000;
-    background: #323232;
+    background: transparent;
     .ivu-menu-item {
       color: #fff;
     }
@@ -169,6 +170,7 @@ export default {
     }
     .home-menu {
       display: block;
+      margin-left: 500px;
     }
     .mobile-menu {
       display: none;
@@ -185,7 +187,7 @@ export default {
     }
   }
   .header-inner {
-    background: #323232;
+    background: transparent;
     margin-right: auto;
     margin-left: auto;
     padding: 0 20px;
@@ -249,6 +251,9 @@ export default {
   .mobile-menu {
     float: right;
     position: relative;
+    i {
+      font-size: 30px;
+    }
     .mobile-menu-content {
       background: #333;
       padding: 20px;

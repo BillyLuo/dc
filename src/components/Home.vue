@@ -9,22 +9,26 @@
           </div>
         </div>
       </div>
-      <div class="white-paper-wrapper">
-        <a href="#"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
-        <h3 class="color-yellow">白皮书</h3>
-        <p>White Paper</p>
-        <a href="#"><Button>DOWNLOAD</Button></a>
-      </div>
-      <div class="home-header-right bg-yellow">
+      <div class="home-header-right clear">
+        <div class="white-paper-wrapper">
+          <a href="#"><Icon type="ios-cloud-download-outline"></Icon></a>
+          <h3 class="color-yellow">白皮书</h3>
+          <p>White Paper</p>
+          <a href="#"><Button>DOWNLOAD</Button></a>
+        </div>
+        <div class="bg-yellow">
 
+        </div>
       </div>
     </header>
     <section class="section1">
       <div class="wrapper">
           <h3 class="section-title color-yellow">什么是超算网？</h3>
           <p class="section-sub-title">What is BAIC</p>
+          <div class="line-yellow"></div>
           <Row>
             <Col :md="8" :sm="12">
+              <div><i class="icon-a1"></i></div>
               <h4>算力交易平台</h4>
               <h6>全球计算资源供给和需求方连接的纽带</h6>
               <p>
@@ -32,6 +36,7 @@
               </p>
             </Col>
             <Col :md="8" :sm="12">
+              <div><i class="icon-a2"></i></div>
               <h4>共享计算网络</h4>
               <h6>地域触及全球的多种共享基础服务</h6>
               <p>
@@ -39,6 +44,7 @@
               </p>
             </Col>
             <Col :md="8" :sm="12">
+              <div><i class="icon-a3"></i></div>
               <h4>开放式共享生态</h4>
               <h6>基于全球算力网络的DApp开发平台</h6>
               <p>
@@ -73,13 +79,15 @@
     </section>
     <section class="section3">
       <div class="wrapper">
-        <h3 class="section-title">ZeusNet链的灵魂</h3>
+        <p class="section-sub-title">ZeusNet链的灵魂</p>
+        <h3 class="section-title">ZeusNet链</h3>
         <p class="section-sub-title">全球唯一具有10条内链并发成块技术的高效联盟链</p>
+        <div class="line-yellow"></div>  
         <div>
           <Row>
             <Col :md="8" :sm="12" :xs="24" class="clear">
               <div class="border-yellow clear item">
-                  <div class="float-left"></div>
+                  <div class="float-left"><i class="icon-b1"></i></div>
                   <div class="float-right">
                     <h4>复杂商用级别</h4>
                     <p>满足复杂商业应用对存链信息尺寸、性能、稳定性、安全性等需求</p>
@@ -88,7 +96,7 @@
             </Col>
             <Col :md="8" :sm="12" :xs="24" class="clear">
               <div class="border-yellow clear item">
-                  <div class="float-left"></div>
+                  <div class="float-left"><i class="icon-b2"></i></div>
                   <div class="float-right">
                     <h4>复杂商用级别</h4>
                     <p>满足复杂商业应用对存链信息尺寸、性能、稳定性、安全性等需求</p>
@@ -97,7 +105,7 @@
             </Col>
             <Col :md="8" :sm="12" :xs="24" class="clear">
               <div class="border-yellow clear item">
-                  <div class="float-left"></div>
+                  <div class="float-left"><i class="icon-b3"></i></div>
                   <div class="float-right">
                     <h4>复杂商用级别</h4>
                     <p>满足复杂商业应用对存链信息尺寸、性能、稳定性、安全性等需求</p>
@@ -106,7 +114,7 @@
             </Col>
             <Col :md="8" :sm="12" :xs="24" class="clear">
               <div class="border-yellow clear item">
-                  <div class="float-left"></div>
+                  <div class="float-left"><i class="icon-c1"></i></div>
                   <div class="float-right">
                     <h4>复杂商用级别</h4>
                     <p>满足复杂商业应用对存链信息尺寸、性能、稳定性、安全性等需求</p>
@@ -115,7 +123,7 @@
             </Col>
             <Col :md="8" :sm="12" :xs="24" class="clear">
               <div class="border-yellow clear item">
-                  <div class="float-left"></div>
+                  <div class="float-left"><i class="icon-c2"></i></div>
                   <div class="float-right">
                     <h4>复杂商用级别</h4>
                     <p>满足复杂商业应用对存链信息尺寸、性能、稳定性、安全性等需求</p>
@@ -124,7 +132,7 @@
             </Col>
             <Col :md="8" :sm="12" :xs="24" class="clear">
               <div class="border-yellow clear item">
-                  <div class="float-left"></div>
+                  <div class="float-left"><i class="icon-c3"></i></div>
                   <div class="float-right">
                     <h4>复杂商用级别</h4>
                     <p>满足复杂商业应用对存链信息尺寸、性能、稳定性、安全性等需求</p>
@@ -133,7 +141,7 @@
             </Col>
             <Col :md="8" :sm="12" :xs="24" class="clear">
               <div class="border-yellow clear item">
-                  <div class="float-left"></div>
+                  <div class="float-left"><i class="icon-d1"></i></div>
                   <div class="float-right">
                     <h4>复杂商用级别</h4>
                     <p>满足复杂商业应用对存链信息尺寸、性能、稳定性、安全性等需求</p>
@@ -159,36 +167,54 @@
         </p>
       </div>
     </section>
+    <Earnings />
     <section class="section5">
       <div class="wrapper">
-        <h3 class="section-title">应用案例</h3>
+        <h3 class="section-title">应用场景</h3>
+        <p class="section-sub-title">Application Scene</p>
+        <div class="line-yellow"></div>
         <div id="case" class="swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <i></i>
-              <h4>区块链网络应用</h4>
+              <div class="case-icon"><i class="icon-e1"></i></div>
+              <h4>无限大、去中心的IPFS共享储存</h4>
               <div>
-                <p>为数字货币的算力需求与矿池,以及大量空闲算力提供者提供一个高效的撮合平台，让优质资源与客户快速对接。</p>
-                <p>数字货币快速获得算力资源支撑其区块链网络的稳定。</p>
-                <p>矿池服务商为高激励的区块链提供算力支持。</p>
+                <p>拥有“无限量”储存空间，同时多了一份去中心化的“隐私安全”保障。</p>
               </div>
             </div>
             <div class="swiper-slide">
-              <i></i>
-              <h4>区块链网络应用</h4>
+              <div class="case-icon"><i class="icon-e2"></i></div>
+              <h4>省时省钱的3D渲染服务</h4>
               <div>
-                <p>为数字货币的算力需求与矿池,以及大量空闲算力提供者提供一个高效的撮合平台，让优质资源与客户快速对接。</p>
-                <p>数字货币快速获得算力资源支撑其区块链网络的稳定。</p>
-                <p>矿池服务商为高激励的区块链提供算力支持。</p>
+                <p>定制个性化的3D渲染方案，从室内设计图到3D电影制作，将最优质的资源推送给最合适的客户，不浪费一秒钟，一分钱！</p>
               </div>
             </div>
             <div class="swiper-slide">
-              <i></i>
-              <h4>区块链网络应用</h4>
+              <div class="case-icon"><i class="icon-e3"></i></div>
+              <h4>“零距离”+“冰点价格”的CDN加速服务</h4>
               <div>
-                <p>为数字货币的算力需求与矿池,以及大量空闲算力提供者提供一个高效的撮合平台，让优质资源与客户快速对接。</p>
-                <p>数字货币快速获得算力资源支撑其区块链网络的稳定。</p>
-                <p>矿池服务商为高激励的区块链提供算力支持。</p>
+                <p>“每公里”级别的节点分布，与用户“零距离”交互，提升直播、视频等大流量用户体验，大幅降低视频转码及加速费用。</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="case-icon"><i class="icon-e4"></i></div>
+              <h4>有效抵御DDoS网络攻击</h4>
+              <div>
+                <p>通过百倍于“云”服务器的节点分布抵御越来越频繁的DDoS网络攻击，大大减少企业DDoS防护费用。</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="case-icon"><i class="icon-e5"></i></div>
+              <h4>IoT安全防护及加速</h4>
+              <div>
+                <p>IoT设备数据入链，有效防止黑客对智能门锁、电视等设备的拦截、投毒，保护设备使用安全。</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="case-icon"><i class="icon-e6"></i></div>
+              <h4>高效的AI学习网络</h4>
+              <div>
+                <p>“低成本、无限量”的GPU算力共同参与数据样本的矩阵化运算，加速AI样本训练。</p>
               </div>
             </div>
           </div>
@@ -196,8 +222,8 @@
           <div class="swiper-pagination"></div>
           
           <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"><i class="fa fa-angle-left"></i></div>
-          <div class="swiper-button-next"><i class="fa fa-angle-right"></i></div>
+          <div class="swiper-button-prev"><Icon type="chevron-left"></Icon></div>
+          <div class="swiper-button-next"><Icon type="chevron-right"></Icon></i></div>
           
           <!-- 如果需要滚动条 -->
           <!-- <div class="swiper-scrollbar"></div> -->
@@ -206,48 +232,32 @@
     </section>
     <section class="section6">
       <div class="wrapper">
-        <h3 class="section-title">优质合作伙伴</h3>
+        <h3 class="section-title">合作伙伴</h3>
         <p class="section-sub-title">
           Cooperative Partner
         </p>
+        <div class="line-black"></div>
         <div>
-          <div id="partners" class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <div class="partner-logo">
-
-                </div>
-                <p>
-                  合作伙伴0fjdls jflds jdlfj ld f j lfl jld jlj  jlfdjl  jlsj lj lfj
-                </p>
-              </div>
-              <div class="swiper-slide">
-                <div class="partner-logo">
-
-                </div>
-                <p>
-                  合作伙伴1fjdls jflds jdlfj ld f j lfl jld jlj  jlfdjl  jlsj lj lfj
-                </p>
-              </div>
-              <div class="swiper-slide">
-                <div class="partner-logo">
-
-                </div>
-                <p>
-                  合作伙伴2fjdls jflds jdlfj ld f j lfl jld jlj  jlfdjl  jlsj lj lfj
-                </p>
-              </div>
-              <div class="swiper-slide">
-                <div class="partner-logo">
-
-                </div>
-                <p>
-                  合作伙伴3fjdls jflds jdlfj ld f j lfl jld jlj  jlfdjl  jlsj lj lfj
-                </p>
-              </div>
-            </div>
-            <div class="swiper-button-prev"><i class="fa fa-angle-left"></i></div>
-            <div class="swiper-button-next"><i class="fa fa-angle-right"></i></div>
+          <div id="cooperation" class="swiper-container">
+            <Row>
+              <Col :md="2"></Col>
+              <Col :md="4" :sm="8">
+                <img src="/static/img/cooperation/yunyou.png" alt="">
+              </Col>
+              <Col :md="4" :sm="8">
+                <img src="/static/img/cooperation/aws.png" alt="">
+              </Col>
+              <Col :md="4" :sm="8">
+                <img src="/static/img/cooperation/onvideo.png" alt="">
+              </Col>
+              <Col :md="4" :sm="8">
+                <img src="/static/img/cooperation/microsoft.png" alt="">
+              </Col>
+              <Col :md="4" :sm="8">
+                <img src="/static/img/cooperation/ali.png" alt="">
+              </Col>
+              <Col :md="2"></Col>
+            </Row>
           </div>
         </div>
       </div>
@@ -256,43 +266,44 @@
       <div class="wrapper">
         <h3 class="section-title">团队介绍</h3>
         <p class="section-sub-title">Team Indroduction</p>
+        <div class="line-yellow"></div>
         <Row>
           <Col :md="2"></Col>
           <Col :md="4">
-            <div class="partner-portrait"></div>
-            <div class="partner-name">田江波</div>
+            <div class="partner-portrait partner1"></div>
+            <div class="partner-name">田家英</div>
             <div class="partner-position">CTO</div>
             <div class="partner-indro">
               北京理工大学计算机专业硕士研究生，北京连云决科技有限公司创始人，曾任蓝汛核心系统平台研发总监，有8年CDN平台架构、研发相关经验。
             </div>
           </Col>
           <Col :md="4">
-            <div class="partner-portrait"></div>
-            <div class="partner-name">吴斌</div>
+            <div class="partner-portrait partner2"></div>
+            <div class="partner-name">吴岳</div>
             <div class="partner-position">COO</div>
             <div class="partner-indro">
               二十多年搜狐和微软IT技术骨干。在微软十三年任职期间，参与和负责大型知名企业的重大项目开发，负责微软私有云、混合云的推广，拥有丰富的系统建设经验。
             </div>
           </Col>
           <Col :md="4">
-            <div class="partner-portrait"></div>
-            <div class="partner-name">谭宜勇</div>
+            <div class="partner-portrait partner3"></div>
+            <div class="partner-name">谭向东</div>
             <div class="partner-position">CEO</div>
             <div class="partner-indro">
               南开大学博士、清华大学博士后。10多年金融系统建设经验，曾多次主持国有大型银行核心系统建设，担任建设银行总行前后台分离项目、建行新一代核心业务系统等项目的总架构师和首席科学家。
             </div>
           </Col>
           <Col :md="4">
-            <div class="partner-portrait"></div>
-            <div class="partner-name">王晋军</div>
+            <div class="partner-portrait partner4"></div>
+            <div class="partner-name">王金安</div>
             <div class="partner-position">合伙人 & 副总裁</div>
             <div class="partner-indro">
               上海复旦大学MSE（软件工程硕士）金融方向客座讲师，在多家上市公司任职经历，参与筹备、建设多家百亿级互金公司、支付公司平台。
             </div>
           </Col>
           <Col :md="4">
-            <div class="partner-portrait"></div>
-            <div class="partner-name">彦远泉</div>
+            <div class="partner-portrait partner5"></div>
+            <div class="partner-name">彦昆</div>
             <div class="partner-position">合伙人 & 副总裁</div>
             <div class="partner-indro">
               近20年IT行业从业经历，曾先后任职于新浪、微软公司，负责产品及技术架构设计、交付与迭代的管理。对于传统企业信息技术、移动互联网新兴技术及智能云计算技术有着较为深入的研究与实践经验。
@@ -306,6 +317,7 @@
       <div class="wrapper">
         <h3 class="section-title">路线图</h3>
         <p class="section-sub-title">Road Map</p>
+        <div class="line-yellow"></div>
         <img src="/static/svg/bigpic.svg" />
       </div>
     </section>
@@ -315,11 +327,13 @@
 </template>
 
 <script>
+import Earnings from './sliderTest';
 function initSwiper() {
   var caseExample = new Swiper("#case", {
     loop: true,
     autoplay: {
-      delay: 30000
+      delay: 5000,
+      disableOnInteraction:false
     },
     // pagination: {
     //   el: '.swiper-pagination',
@@ -365,6 +379,9 @@ export default {
   data() {
     return {};
   },
+  components:{
+    Earnings
+  },
   created() {
     console.log("this---------", this.$Message);
   },
@@ -380,6 +397,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "../my-theme/mixin.scss";
+.line-yellow {
+  height: 2px;
+  width: 60px;
+  background: #ffb900;
+  margin: 0 auto;
+}
+.line-black {
+  height: 2px;
+  width: 60px;
+  background: #2B2A2A;
+  margin: 0 auto;
+}
 .hexagon {
   width: 80px;
   height: 46px;
@@ -416,20 +445,24 @@ export default {
 }
 .home-index {
   position: relative;
+  height: 620px;
   header {
-    background: rgba(0, 0, 0, 0.8);
-    height: 600px;
+    background-image: url(/static/img/bg/banner-bg.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 620px;
   }
   @media screen and (max-width: 640px) {
     header {
-      height: auto;
+      height: 300px;
     }
   }
 }
 .banner1 {
   .banner1-title {
     width: 50%;
-    padding-top: 200px;
+    padding-top: 280px;
     // margin: 20px 0;
     letter-spacing: 2px;
     h3 {
@@ -443,7 +476,7 @@ export default {
   @media screen and (max-width:640px) {
     .banner1-title {
       width: 100%;
-      padding: 50px 0;
+      padding: 100px 0;
       h3 {
         font-size: 24px;
       }
@@ -455,65 +488,58 @@ export default {
   }
 }
 .home-header-right {
-  height: 670px;
-  width: 150px;
   position: absolute;
-  top: -70px;
+  top: 200px;
   right: 0;
-  z-index: 1001;
-  &:before {
-    content: "";
-    border-top: 0px solid transparent;
-    border-left: 360px solid transparent;
-    border-right: 0px solid #ffb900;
-    border-bottom: 670px solid #ffb900;
-    position: absolute;
-    top: 0;
-    right: 100%;
+  .bg-yellow {
+    width: 150px;
+    height: 280px;
+    float: left;
   }
-  @media screen and (max-width: 640px) {
+  @media screen and (max-width: 640px){
     & {
+      position: static;
+    }
+    .bg-yellow {
       display: none;
     }
   }
-}
-.white-paper-wrapper {
-  background: #292a2b;
-  letter-spacing: 1px;
-  width: 390px;
-  height: 280px;
-  border-radius: 8px;
-  padding: 60px 20px;
-  text-align: center;
-  position: absolute;
-  top: 130px;
-  right: 150px;
-  z-index: 1004;
-  i {
-    font-size: 40px;
-    color: #fff;
-    cursor: pointer;
-  }
-  h3 {
-    font-size: 24px;
-  }
-  p {
-    color: #888;
-    font-size: 18px;
-    margin: 10px 0 20px 0;
-  }
-  button {
-    font-weight: 500;
-    border: 1px solid #ffb900;
-    color: #ffb900;
-    width: 118px;
-    height: 38px;
-    background: transparent;
-  }
-  @media screen and (max-width: 640px) {
-    & {
-      width: 100%;
-      position: static;
+  .white-paper-wrapper {
+    background: #292a2b;
+    letter-spacing: 1px;
+    width: 390px;
+    height: 280px;
+    float: left;
+    border-radius: 8px;
+    padding: 60px 20px;
+    text-align: center;
+    z-index: 1100;
+    i {
+      font-size: 40px;
+      color: #fff;
+      cursor: pointer;
+    }
+    h3 {
+      font-size: 24px;
+    }
+    p {
+      color: #888;
+      font-size: 18px;
+      margin: 10px 0 20px 0;
+    }
+    button {
+      font-weight: 500;
+      border: 1px solid #ffb900;
+      color: #ffb900;
+      width: 118px;
+      height: 38px;
+      background: transparent;
+    }
+    @media screen and (max-width: 640px) {
+      & {
+        width: 100%;
+        position: static;
+      }
     }
   }
 }
@@ -531,15 +557,31 @@ export default {
   padding: 10px 0;
 }
 .section1 {
-  background: #222324;
+  background-color: #222324;
+  background-image: url(/static/img/bg/banner2.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   padding-bottom: 180px;
   .ivu-row {
-    padding-top: 80px;
+    padding-top: 60px;
     .ivu-col {
       padding: 30px 60px;
+      div {
+        height: 60px;
+        text-align: center;
+        margin: 20px;
+        i {
+          font-size: 50px;
+          color: #ffb900;
+        }
+      }
     }
   }
-  .section-title {
+  @media screen and (max-width: 640px) {
+    .section-title {
+      padding-top: 350px;
+    }
   }
   h4 {
     font-size: 18px;
@@ -569,7 +611,7 @@ export default {
   }
   .ivu-row {
     .ivu-col {
-      padding: 150px 10%;
+      padding: 150px 14%;
       h3 {
         font-size: 24px;
         color: #1d2022;
@@ -585,6 +627,12 @@ export default {
         font-size: 14px;
         color: #070500;
       }
+    }
+    .ivu-col:last-of-type {
+      background-image: url(/static/img/bg/requirement.png);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100% 100%;
     }
     .section-right {
       h3 {
@@ -602,6 +650,12 @@ export default {
 .section3 {
   padding-bottom: 150px;
   background: #222324;
+  .section-sub-title:first-of-type {
+    padding-top: 120px;
+  }
+  .section-title {
+    padding-top: 10px;
+  }
   .ivu-row {
     padding-top: 50px;
     .ivu-col {
@@ -614,10 +668,14 @@ export default {
           width: 60px;
           height: 60px;
           margin-right: 20px;
-          margin-top: 50px;
+          margin-top: 20px;
+          i {
+            font-size: 60px;
+            color: #ffb900;
+          }
         }
         .float-right {
-          width: 180px;
+          width: 194px;
         }
         h4 {
           color: #ffb900;
@@ -660,23 +718,39 @@ export default {
   background: none;
 }
 .section5 {
-  height: 515px;
-  background: #3b3c3d;
+  padding-bottom: 100px;
+  background: #222324;
   .swiper-container {
+    padding-top: 80px;
     .swiper-button-prev,
     .swiper-button-next {
-      width: 30px;
-      height: 100px;
-      font-size: 70px;
+      i {
+        text-align: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.4);
+        line-height: 50px;
+      }
+      font-size: 30px;
+      width: 50px;
+      height: 50px;
       color: #6f7070;
       font-weight: 100;
       &:hover {
         color: #ffb900;
       }
     }
-    height: 200px;
     .swiper-slide {
       padding: 20px 15%;
+      div {
+        text-align: center;
+        margin: 20px;
+        i {
+          font-size: 50px;
+          color: #ffb900;
+        }
+      }
       h4 {
         color: #ffb900;
         text-align: center;
@@ -686,87 +760,72 @@ export default {
         color: #fff;
         line-height: 2em;
         text-align: center;
+        padding: 0 25%;
+      }
+      @media screen and (max-width: 640px) {
+        p {
+          padding: 0;
+        }
       }
     }
   }
 }
 .section6 {
-  height: 546px;
-  background: #222324;
-  .swiper-container {
-    width: 80%;
-    .swiper-wrapper {
-    }
-    height: 200px;
-    .swiper-button-prev,
-    .swiper-button-next {
-      i {
-        text-align: center;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.4);
-      }
-      font-size: 50px;
-      color: #6f7070;
-      font-weight: 100;
-      &:hover {
-        color: #ffb900;
-      }
-    }
-    .swiper-button-prev {
-      left: 150px;
-    }
-    .swiper-button-next {
-      right: 150px;
-    }
-    @media screen and (max-width: 640px) {
-      & {
-        width: 100%;
-      }
-      .swiper-button-prev {
-        left: 10px;
-      }
-      .swiper-button-next {
-        right: 20px;
-      }
-    }
-    .swiper-slide {
-      padding: 20px 40px;
-      color: #474849;
-      .partner-logo {
-        width: 100px;
-        height: 80px;
+  padding-bottom: 120px;
+  .section-title {
+    color: #333;
+  }
+  background: $primary-color;
+  #cooperation {
+    margin-top: 80px;
+    .ivu-col {
+      min-height: 10px;
+      margin-bottom: 30px;
+      img {
+        display: block;
         margin: 0 auto;
-        margin-bottom: 20px;
-        opacity: 0.8;
-        transition: 0.3s;
       }
-      p {
-        padding: 0 30px;
-      }
-    }
-    .swiper-slide-next {
-      color: #fff;
-      opacity: 1;
-      transition: 0.3s;
     }
   }
+  
 }
 .section7 {
   padding-bottom: 125px;
   background: #3b3c3d;
+  .ivu-row {
+    padding-top: 80px;
+  }
   .ivu-col {
     padding: 20px;
     color: #ffb900;
     .partner-portrait {
-      width: 114px;
-      height: 136px;
+      width: 94px;
+      height: 116px;
       margin: 0 auto;
+      background-position: center;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      margin-bottom: 20px;
+    }
+    .partner1 {
+      background-image: url(/static/img/partner/partner1.png);
+    }
+    .partner2 {
+      background-image: url(/static/img/partner/partner2.png);
+    }
+    .partner3 {
+      background-image: url(/static/img/partner/partner3.png);
+    }
+    .partner4 {
+      background-image: url(/static/img/partner/partner4.png);
+    }
+    .partner5 {
+      background-image: url(/static/img/partner/partner5.png);
     }
     .partner-name {
       font-size: 16px;
       text-align: center;
+      font-weight: 500;
     }
     .partner-position {
       text-align: center;
@@ -781,9 +840,9 @@ export default {
   background: #222324;
   padding-bottom: 140px;
   .section-sub-title {
-    padding-bottom: 100px;
-  }
+    }
   img {
+    padding-top: 100px;
     display: block;
     margin: 0 auto;
     @media screen and (min-width:640px) {
