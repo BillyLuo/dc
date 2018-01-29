@@ -268,8 +268,8 @@
         <p class="section-sub-title">Team Indroduction</p>
         <div class="line-yellow"></div>
         <Row>
-          <Col :md="2"></Col>
-          <Col :md="4">
+          <Col :md="2" :sm="0"></Col>
+          <Col :md="4" :sm="8">
             <div class="partner-portrait partner1"></div>
             <div class="partner-name">田家英</div>
             <div class="partner-position">CTO</div>
@@ -277,7 +277,7 @@
               北京理工大学计算机专业硕士研究生，北京连云决科技有限公司创始人，曾任蓝汛核心系统平台研发总监，有8年CDN平台架构、研发相关经验。
             </div>
           </Col>
-          <Col :md="4">
+          <Col :md="4" :sm="8">
             <div class="partner-portrait partner2"></div>
             <div class="partner-name">吴岳</div>
             <div class="partner-position">COO</div>
@@ -285,7 +285,7 @@
               二十多年搜狐和微软IT技术骨干。在微软十三年任职期间，参与和负责大型知名企业的重大项目开发，负责微软私有云、混合云的推广，拥有丰富的系统建设经验。
             </div>
           </Col>
-          <Col :md="4">
+          <Col :md="4" :sm="8">
             <div class="partner-portrait partner3"></div>
             <div class="partner-name">谭向东</div>
             <div class="partner-position">CEO</div>
@@ -293,7 +293,7 @@
               南开大学博士、清华大学博士后。10多年金融系统建设经验，曾多次主持国有大型银行核心系统建设，担任建设银行总行前后台分离项目、建行新一代核心业务系统等项目的总架构师和首席科学家。
             </div>
           </Col>
-          <Col :md="4">
+          <Col :md="4" :sm="8">
             <div class="partner-portrait partner4"></div>
             <div class="partner-name">王金安</div>
             <div class="partner-position">合伙人 & 副总裁</div>
@@ -301,7 +301,7 @@
               上海复旦大学MSE（软件工程硕士）金融方向客座讲师，在多家上市公司任职经历，参与筹备、建设多家百亿级互金公司、支付公司平台。
             </div>
           </Col>
-          <Col :md="4">
+          <Col :md="4" :sm="8">
             <div class="partner-portrait partner5"></div>
             <div class="partner-name">彦昆</div>
             <div class="partner-position">合伙人 & 副总裁</div>
@@ -309,7 +309,7 @@
               近20年IT行业从业经历，曾先后任职于新浪、微软公司，负责产品及技术架构设计、交付与迭代的管理。对于传统企业信息技术、移动互联网新兴技术及智能云计算技术有着较为深入的研究与实践经验。
             </div>
           </Col>
-          <Col :md="2"></Col>
+          <Col :md="2" :sm="0"></Col>
         </Row>
       </div>
     </section>
