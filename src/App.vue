@@ -18,6 +18,9 @@ export default {
   components:{
     Header,
     Footer
+  },
+  created(){
+    console.log('app created');
   }
 }
 </script>

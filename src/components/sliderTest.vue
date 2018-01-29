@@ -125,6 +125,9 @@
     clear: both;
   }
   .expected-return{
+    @media screen and (max-width: 640px) {
+      display: none;
+    }
     width: 100%;
     background: #000;
     .expected-return-top{
