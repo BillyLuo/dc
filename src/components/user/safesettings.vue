@@ -39,7 +39,7 @@
               <h3>手机绑定</h3>
               <a href="javascipt:;">1517****4695</a>
              </div>
-             <a href="javascript:;" class="item-status" @click="openPhoneModal">修改</a>
+             <a href="javascript:;" class="item-status" @click="openTelModal">修改</a>
           </div>
         </div>
       </Col>
@@ -89,8 +89,30 @@
     <Modal
         title="邮箱认证"
         v-model="emailModal"
+        :loading="emailLoading"
         @on-ok="email_ok"
         @on-cancel="email_cancel">
+        <Input placeholder="邮箱地址" v-model="input_email"/>
+    </Modal>
+    <Modal
+        title="修改手机"
+        v-model="telModal"
+        :loading="true"
+        @on-ok="tel_ok">
+        <Form ref="modifyTel" :model="modifyTel" :rules="modifyTelRules" :label-width="80">
+          <FormItem label="Name" prop="name">
+              <Input v-model="modifyTel.tel" :placeholder="modifyTel.tel" disabled />
+          </FormItem>
+          <FormItem label="短信验证码" prop="mail">
+              <Input v-model="modifyTel.code" placeholder="短信验证码" />
+          </FormItem>
+          </Form>
+    </Modal>
+    <Modal
+        title="邮箱认证"
+        v-model="emailModal"
+        :loading="emailLoading"
+        @on-ok="email_ok">
         <Input placeholder="邮箱地址" v-model="input_email"/>
     </Modal>
     <Modal
@@ -112,15 +134,36 @@
 </template>
 
 <script>
+import { Form, FormItem } from 'iview';
 export default {
   data () {
     return {
       emailModal: false,
+      telModal:false,
       loginPassModal: false,
       tradePassModal: false,
       phoneModal: false,
-      input_email:''
+      input_email:'',
+      emailLoading:true,
+      modifyTel:{
+        tel:'15178875695',
+        code:''
+      },
+      modifyTelRules:{
+        tel:[
+          {required:true},
+          {type:'tel'}
+        ],
+        code:[
+          {required:true,message:'请输入验证码',min:5,trigger:'blur'},
+          {type:'string',min:5}
+        ]
+      }
     }
+  },
+  components:{
+    Form,
+    FormItem
   },
   methods:{
     openEmailModal(){
@@ -128,6 +171,26 @@ export default {
     },
     email_ok () {
       console.log('ok email',arguments);
+      let email = this.input_email;
+      if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(email)) {
+        setTimeout(()=>{
+          this.input_email = '';
+          this.$Message.success('邮箱设置成功。');
+          this.emailModal = false;
+        },1000)
+      }else {
+        console.log('wrong');
+        this.emailLoading = false;
+        this.$Message.warning('请输入正确的邮箱');
+      }
+    },
+    openTelModal(){
+      this.telModal = true;
+    },
+    tel_ok(){
+      this.$refs['modifyTel'].validate((valid)=>{
+        console.log('valid or not',valid);
+      })
     },
     email_cancel (){
       console.log('cancel email',arguments);

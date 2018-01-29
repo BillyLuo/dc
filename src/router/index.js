@@ -9,6 +9,7 @@ const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
 const sliderTest = ()=> import('@/components/sliderTest.vue');
 const TitleScroll = ()=> import('@/components/TitleScroll.vue');
+const NotFound = () => import('@/components/notfound/notFound');
 Vue.use(Router)
 
 export default new Router({
@@ -66,5 +67,9 @@ export default new Router({
       name:'TitleScroll',
       component: TitleScroll
     },
+    {
+      path:'*',
+      component:NotFound
+    }
   ]
 })
