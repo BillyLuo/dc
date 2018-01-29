@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title-scroll-box">
-      <div class="box-margin">
+      <div class="box-margin" id="title-scroll-move-box">
         <ul id="title-scroll-move">
           <li v-for="data in dataArry">
             {{data+1}}
@@ -22,11 +22,36 @@
           dataArry:dataArrys
         }
       },
+    methods:{
+      move(){
+        let move = document.getElementById("title-scroll-move");
+        let moveBox = document.getElementById("title-scroll-move-box");
+        move.onmousedown = (ev)=>{   // 按下鼠标
+          let Event = ev || window.event;
+          let left = moveBox.getBoundingClientRect().left + document.documentElement.scrollLeft;   // moveBox距离左侧位置
+          document.onmousemove =(ev)=>{   // 鼠标移动
+            let e = ev || window.event;
+            let moveLeft = window.getComputedStyle(move,null).left;     //  move left值
+            let  offsetX = e.clientX;       //  鼠标 距离左侧位置
+            let moveLeftNum = parseFloat(moveLeft.replace('px',''));
+            Event.preventDefault();
+            move.style.left = moveLeftNum + offsetX - left + 'px';
+            console.log("move.style.left=====",move.style.left);
+            console.log(moveLeft,offsetX,left)
+          };
+          document.onmouseup = ()=>{   // 鼠标抬起  移除事件
+            document.onmousemove = null;
+            document.onmousedown = null;
+          }
+        }
+      }
+    },
     created(){
-      console.log("aaaaaaa")
+      console.log("页面加载前");
     },
     mounted(){
-        console.log("bbbbb")
+        console.log("页面加载后")
+      this.move(document.getElementById('title-scroll-move'))
     }
   }
 </script>
@@ -46,6 +71,7 @@
         width: 3240px;
         position: absolute;
         top: 0;
+        left: 0;
         cursor: move;
         animation: move-right 30s linear 0s infinite normal running;
         -moz-animation: move-right 30s linear 0s infinite normal running;	/* Firefox */
@@ -57,6 +83,13 @@
           float: left;
           border:1px solid red;
           color: #000;
+          //设置文字不可选中
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
         }
         &:hover{
           animation-play-state:paused;
