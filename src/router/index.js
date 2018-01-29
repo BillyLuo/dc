@@ -8,6 +8,7 @@ const Trade = ()=> import('@/components/Trade')
 const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
 const sliderTest = ()=> import('@/components/sliderTest.vue');
+const TitleScroll = ()=> import('@/components/TitleScroll');
 Vue.use(Router)
 
 export default new Router({
@@ -59,6 +60,11 @@ export default new Router({
       path:'/sliderTest',
       name:'sliderTest',
       component: sliderTest
+    },
+    {
+      path:'/titleScroll',
+      name:'TitleScroll',
+      component: TitleScroll
     },
   ]
 })
