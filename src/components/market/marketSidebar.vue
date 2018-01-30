@@ -6,12 +6,12 @@
         <Tabs size="small">
             <TabPane label="标签一">
                 <Table height="400" @on-row-dblclick="dbclickrow" :columns="columns1" :data="data1"></Table>
-            </TabPane>  
+            </TabPane>
             <TabPane label="标签二">
-                
+
             </TabPane>
             <TabPane label="标签三">
-                
+
             </TabPane>
         </Tabs>
     </div>
@@ -24,7 +24,7 @@ export default {
     components:{
         Tabs,TabPane,Table
     },
-    data: function() {	
+    data: function() {
         return {
             columns1:[
                 {
@@ -179,5 +179,5 @@ export default {
         background-color: rgba(145, 145, 145, 0.178);
     }
 }
-    
+
 </style>
