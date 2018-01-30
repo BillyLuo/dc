@@ -23,7 +23,7 @@
           name: 'ETH / ETH',
           price: '￥' + 7613.219,
           change: '-3.51%',
-          trend:[820+i, 932+i, 901+i, 934+i, 1290+i, 1330+i, 1320+i]
+          trend:[820+i/100, 932+i/100, 901+i/100, 934+i/100, 1290+i/100, 1330+i/100, 1320+i/100]
         })
       }
       return {
@@ -41,15 +41,15 @@
                 },
                 [
                   h('img', {
-                  attrs: {
-                    src: '/static/img/coin/icon-btc.png',
-                    width:'30px',
-                    height:'30px',
-                    style:'float:left;margin-left:25px'
-                  }
-                }),
-                h('span',{class:'img-right-text'}, params.row.name)
-              ]
+                    attrs: {
+                      src: '/static/img/coin/icon-btc.png',
+                      width:'30px',
+                      height:'30px',
+                      style:'float:left;margin-left:25px'
+                    }
+                  }),
+                  h('span',{class:'img-right-text'}, params.row.name)
+                ]
               );
             }
           },
@@ -78,9 +78,8 @@
             render: (h, params) => {
               return h('div',{attrs:{
                 id:'trend-table'+ params.index,
-                style:'width: 100%;\n' +
-                '          height: 65px;\n' +
-                '          border:1px solid red;'
+                style:'width: 240px;\n' +
+                '          height: 65px;position: absolute;top:0'
               }})
             }
           },
@@ -123,17 +122,21 @@
         let myChart = echarts.init(document.getElementById('trend-table'+i));
         const  option = {
           xAxis: {
+            show : false,
             type: 'category',
             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
           },
           yAxis: {
+            show : false,
             type: 'value',
           },
           series: [{
-            data: i.trend,
+            min:this.dataArry[i].trend[0],
+            data: this.dataArry[i].trend,
             type: 'line'
           }]
         };
+        console.log(option)
         myChart.setOption(option);
       }
     }
@@ -190,6 +193,7 @@
           td.ivu-table-column-center{
             height: 65px;
             padding: 10px;
+            position: relative;
             .price-text{
               font-size:14px;
               display:inline-block;
