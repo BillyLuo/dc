@@ -64,7 +64,7 @@
     background-color: #f6f6f6;
     position: fixed;
     top:0;
-    z-index: 8;
+    z-index: 999999999999999;
     .box-margin{
       width: 1200px;
       height: 40px;
