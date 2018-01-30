@@ -74,6 +74,14 @@ export default new Router({
       path: '/market',
       name: 'Market',
       component: Market
+    },
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      savedPosition;
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
     }
-  ]
+  }
 })

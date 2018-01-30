@@ -24,11 +24,10 @@
 </template>
 
 <script>
-function scroll (value) {
+function scroll (e) {
   var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
   var scroll = false;
   if (scrollTop > 100) {
-    console.log(value);
     scroll = true;
   }
   this.scroll = scroll;
@@ -63,7 +62,7 @@ export default {
   },
   mounted (){
     // this.initActive();
-    console.log('----header----',this);
+    // console.log('----header----',this);
     window.onscroll = scroll.bind(this);
   },
   watch:{
@@ -98,6 +97,7 @@ export default {
     margin: auto;
     background: #fff;
     z-index: 1000;
+    transition: 0.5s;
     &.active {
       box-shadow: 0px 5px 5px rgba(0,0,0,0.2);
     }

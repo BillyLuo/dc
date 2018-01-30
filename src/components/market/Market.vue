@@ -1,9 +1,9 @@
 <template>
     <div class="hangqing clear" style="margin-top:80px;">
        
-        <header class="hq-header">
+        <!-- <header class="hq-header">
 
-        </header>
+        </header> -->
         <section class="section1">
             <div class="hq-sidebar">
                 <Sidebar v-on:itemrow="changeState"/>
@@ -39,30 +39,10 @@ import Sidebar from './marketSidebar';
 import Deal from './deal';
 console.log(TradingView);
 function initCharts (symbol) {
-    // new TradingView.widget({
-    //         "container_id":"chart",
-    //         "width": 1000,
-    //         "height": 400,
-    //         "symbol": "BTCUSD",
-    //         "interval": "1",
-    //         "timezone": "Etc/UTC",
-    //         "theme": "Dark",
-    //         "style": "1",
-    //         "locale": "zh_CN",
-    //         "toolbar_bg": "#f1f3f6",
-    //         "enable_publishing": false,
-    //         "withdateranges": true,
-    //         "hide_side_toolbar": false,
-    //         "allow_symbol_change": true,
-    //         "hideideasbutton": true,
-    //         "show_popup_button": true,
-    //         "popup_width": "1000",
-    //         "popup_height": "650"
-    //     });
         new TradingView.widget({
             "container_id":"chart",
             "width": '100%',
-            "height": 445,
+            "height": 500,
             "symbol": symbol?'BINANCE:'+symbol:"BINANCE:BTCUSDT",
             "interval": "1",
             "timezone": "Asia/Hong_Kong",
@@ -393,6 +373,7 @@ export default {
 </script>
 
 <style lang="scss">
+
     .hangqing{
         // width:1200px;
         margin: 0 auto;
@@ -435,5 +416,8 @@ export default {
                 }
             }
         }
+        .ivu-tabs-nav .ivu-tabs-tab:hover {
+        color: #7A98F7;
+    }
     }
 </style>

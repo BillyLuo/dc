@@ -4,13 +4,13 @@
             <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
         </div>
         <Tabs size="small">
-            <TabPane label="标签一">
-                <Table height="400" @on-row-dblclick="dbclickrow" :columns="columns1" :data="data1"></Table>
+            <TabPane label="USDT">
+                <Table height="600" @on-row-dblclick="dbclickrow" :columns="columns1" :data="data1"></Table>
             </TabPane>
-            <TabPane label="标签二">
+            <TabPane label="BTC">
 
             </TabPane>
-            <TabPane label="标签三">
+            <TabPane label="ETH">
 
             </TabPane>
         </Tabs>
@@ -143,6 +143,9 @@ export default {
         background:none;
         border-bottom-color: #1F2943;
     }
+    .ivu-table th, .ivu-table td{
+        height:30px;
+    }
     .ivu-table:before{
         background: none;
     }
@@ -154,6 +157,29 @@ export default {
     }
     .ivu-table-sort i.on {
         color: #7A98F7;
+    }
+    .ivu-table-body{
+        overflow-x: hidden
+    }
+    .ivu-table-body::-webkit-scrollbar{
+        width: 8px;
+        height: 0px;
+        background-color: #f8f8f800;
+    }
+    /*定义滚动条的轨道，内阴影及圆角*/
+    .ivu-table-body::-webkit-scrollbar-track{
+        -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
+        border-radius: 10px;
+        background-color:none;
+        opacity: 0;
+    }
+    /*定义滑块，内阴影及圆角*/
+    .ivu-table-body::-webkit-scrollbar-thumb{
+        /*width: 10px;*/
+        height: 20px;
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
+        background-color: rgba(145, 145, 145, 0.178);
     }
 }
 
