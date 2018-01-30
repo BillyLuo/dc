@@ -129,6 +129,18 @@ export default {
 
                            
                         }
+                        if(params.row.id == "sell"){
+                            return h('span',{
+                                style: {
+                                        color: 'red',
+                                        textAlign: 'center',
+                                        display: 'inline-block',
+                                        width: '100%'
+                                    },
+                            },'卖出')
+
+                           
+                        }
                     }
                 },
                 {
