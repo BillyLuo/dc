@@ -71,44 +71,17 @@ export default {
   },
   methods:{
     getPath(){
-      let path = this.$route.path;    //或得当前路径
-      // console.log("----",path)
-      // console.log(path.match(path))
-      if (path.match('/home')) {
-        this.activeName = 'home';
-      }else if (path.match('/trade')){
-        this.activeName = 'trade';
-      }else if (path.match('/assets')){
-        this.activeName = 'assets';
-      }else if (path.match('/user')){
-        this.activeName = 'user';
-      }
-      console.log(this.activeName);
-      // this.activeName = activeName;
+      let path = this.$route.path;
+      let that =this;
+      menu.map(function(item){
+          if(item.name==path.substr(1,path.length-1)){
+            that.activeName = path.substr(1,path.length-1);
+          }
+      })
     },
     route(name){
-      // this.initActive(name);
       this.$router.push('/'+name);
     },
-    // initActive(name){
-    //   let path = location.pathname;
-    //   if (name) {
-    //     path = '/' + name;
-    //   }
-    //   console.log(path);
-    //   let activeName = 'home';
-    //   if (path.match('/home')) {
-    //     activeName = 'home';
-    //   }else if (path.match('/trade')){
-    //     activeName = 'trade';
-    //   }else if (path.match('/assets')){
-    //     activeName = 'assets';
-    //   }else if (path.match('/user')){
-    //     activeName = 'user';
-    //   }
-    //   console.log(activeName);
-    //   this.activeName = activeName;
-    // }
   }
 }
 </script>
