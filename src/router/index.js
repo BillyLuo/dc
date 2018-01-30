@@ -70,7 +70,9 @@ export default new Router({
     },
     {
       path:'*',
-      component:NotFound,
+      component:NotFound
+    },
+    {
       path: '/market',
       name: 'Market',
       component: Market

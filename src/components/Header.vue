@@ -98,9 +98,13 @@ export default {
     margin: auto;
     background: #fff;
     z-index: 1000;
-    transition: 0.5s;
+    transition: 0.4s;
     &.active {
       box-shadow: 0px 5px 5px rgba(0,0,0,0.2);
+      height: 60px;
+      .header-inner {
+        padding: 0px;
+      }
     }
     .ivu-menu-item {
       // color: #fff;
@@ -113,6 +117,7 @@ export default {
     margin-right: auto;
     margin-left: auto;
     padding: 20px 30px;
+    transition: 0.4s;
     ul {
       float: left;
       &::after{

@@ -2,7 +2,7 @@
   <div id="app">
     <TitleScroll />
     <Header />
-    <div style="margin-top: 150px"></div>
+    <div style="margin-top: 160px"></div>
     <div id="main">
       <div class="main-inner">
         <router-view/>
