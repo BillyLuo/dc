@@ -120,8 +120,6 @@ export default {
     position: fixed;
     top: 50px;
     width: 100%;
-    position: fixed;
-    top:0;
     left: auto;
     right: auto;
     margin: auto;

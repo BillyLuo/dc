@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header />
     <TitleScroll />
+    <Header />
     <div id="main">
       <div class="main-inner">
         <router-view/>
