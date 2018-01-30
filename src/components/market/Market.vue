@@ -1,12 +1,12 @@
 <template>
-    <div class="hangqing clear">
+    <div class="hangqing clear" style="margin-top:80px;">
        
         <header class="hq-header">
 
         </header>
         <section class="section1">
             <div class="hq-sidebar">
-                
+                <Sidebar v-on:itemrow="changeState"/>
             </div>
         </section>
         <section class="section2">
@@ -21,11 +21,11 @@
                         
                     </div> -->
                     <div id="chart">
-                          
                     </div>
+                    
                 </div>
+                <Deal/>
             </div>
-            <!-- TradingView Widget BEGIN -->
 
 
         </section>
@@ -35,8 +35,10 @@
 <script>
 import echarts from 'echarts';
 import TradingView from './trading';
-// console.log(TradingView);
-function initCharts () {
+import Sidebar from './marketSidebar';
+import Deal from './deal';
+console.log(TradingView);
+function initCharts (symbol) {
     // new TradingView.widget({
     //         "container_id":"chart",
     //         "width": 1000,
@@ -60,10 +62,10 @@ function initCharts () {
         new TradingView.widget({
             "container_id":"chart",
             "width": '100%',
-            "height": 500,
-            "symbol": "BTCUSD",
+            "height": 445,
+            "symbol": symbol?'BINANCE:'+symbol:"BINANCE:BTCUSDT",
             "interval": "1",
-            "timezone": "Etc/UTC",
+            "timezone": "Asia/Hong_Kong",
             "theme": "Dark",
             "style": "1",
             "locale": "zh_CN",
@@ -78,8 +80,12 @@ function initCharts () {
             "popup_height": "650"
         });
 } 
+
 export default {
-    name: 'hq',
+    name: 'Market',
+    components:{
+        Sidebar,Deal
+    },
     data: function() {	
         return {
             param:'1min',
@@ -131,6 +137,10 @@ export default {
         // },100)
     },
     methods: {
+        changeState(row){
+            console.log(row.bizhong)
+            initCharts(row.bizhong);
+        },
         selectTime (value) {
             console.log(value)
             //this.drawLine(value);
@@ -387,6 +397,7 @@ export default {
         // width:1200px;
         margin: 0 auto;
         background: #262a42;
+        color:#C7CCE6;
         .hq-header{
             width:100%;
             height:60px;
@@ -399,7 +410,7 @@ export default {
             min-height:300px;
             .hq-sidebar{
                 margin: 10px;
-                background: #efefef;
+                background: #1B1E2E;
                 min-height:100px;
             }
         }
@@ -410,7 +421,7 @@ export default {
             min-height:300px;
             .hq-content{
                 margin: 10px;
-                background: #ccc;
+                // background: #ccc;
                 min-height:100px;
                 .k-charts{
                     width:100%;
