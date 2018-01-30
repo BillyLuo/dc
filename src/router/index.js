@@ -46,7 +46,7 @@ export default new Router({
     },
     {
       path:'/user',
-      name:'User',
+      // name:'User',
       component: User,
       children:[
         {path:'',component:safeSettings},

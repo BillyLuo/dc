@@ -36,7 +36,7 @@
             let moveLeftNum = parseFloat(moveLeft.replace('px',''));
             Event.preventDefault();
             move.style.left = moveLeftNum + offsetX - left + 'px';
-            console.log("move.style.left=====",move.style.left);
+            console.log("move.style.left=====",move,move.style.left);
             console.log(moveLeft,offsetX,left)
           };
           document.onmouseup = ()=>{   // 鼠标抬起  移除事件
