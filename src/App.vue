@@ -2,6 +2,7 @@
   <div id="app">
     <TitleScroll />
     <Header />
+    <div style="margin-top: 150px"></div>
     <div id="main">
       <div class="main-inner">
         <router-view/>
@@ -32,10 +33,4 @@ export default {
 
 <style lang="scss">
   @import './index.scss';
-  #main {
-    padding-top: 70px;
-    .main-inner {
-      padding: 20px 0;
-    }
-  }
 </style>
