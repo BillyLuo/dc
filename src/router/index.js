@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-const Home = ()=> import('@/components/Home')
+const Home = ()=> import('@/components/home/Home')
 const Login = ()=> import('@/components/Login')
 const Register = ()=> import ('@/components/Register');
 const Assets = ()=> import('@/components/assets/Assets')
