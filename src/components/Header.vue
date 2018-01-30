@@ -104,29 +104,26 @@ export default {
 <style scoped lang="scss">
   @import '../my-theme/mixin.scss';
   .home-header {
-    height: 70px;
+    height: 100px;
+    position: fixed;
+    top: 50px;
     width: 100%;
-    position: absolute;
-    top:0;
-    left: auto;
-    right: auto;
-    margin: auto;
-    color: #fff;
+    color: #000;
     z-index: 1000;
-    background: #323232;
+    background: #fff;
     .ivu-menu-item {
-      color: #fff;
+      color: #000;
+      font-size: 16px;
     }
     .ivu-menu-light{
       background: transparent;
     }
   }
   .header-inner {
-    background: #323232;
+    background: #fff;
     margin-right: auto;
     margin-left: auto;
-    padding: 0 30px;
-    padding-top: 10px;
+    padding: 20px 30px;
     ul {
       float: left;
       &::after{
