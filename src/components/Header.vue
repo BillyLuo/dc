@@ -24,11 +24,11 @@
 </template>
 
 <script>
-function scroll (value) {
+function scroll (e) {
   var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
   var scroll = false;
   if (scrollTop > 100) {
-    console.log(value);
+    // console.log(e);
     scroll = true;
   }
   this.scroll = scroll;
@@ -63,7 +63,7 @@ export default {
   },
   mounted (){
     // this.initActive();
-    console.log('----header----',this);
+    // console.log('----header----',this);
     window.onscroll = scroll.bind(this);
   },
   watch:{
@@ -72,8 +72,8 @@ export default {
   methods:{
     getPath(){
       let path = this.$route.path;    //或得当前路径
-      console.log("----",path)
-      console.log(path.match(path))
+      // console.log("----",path)
+      // console.log(path.match(path))
       if (path.match('/home')) {
         this.activeName = 'home';
       }else if (path.match('/trade')){
@@ -125,6 +125,7 @@ export default {
     margin: auto;
     background: #fff;
     z-index: 1000;
+    transition: 0.5s;
     &.active {
       box-shadow: 0px 5px 5px rgba(0,0,0,0.2);
     }
