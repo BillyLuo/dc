@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header />
+    <TitleScroll />
     <div id="main">
       <div class="main-inner">
         <router-view/>
@@ -14,12 +15,14 @@
 <script>
 import Header from './components/Header';
 import Footer from './components/footer';
+import TitleScroll from './components/TitleScroll';
 import store from 'store';
 export default {
   name: 'App',
   components:{
     Header,
-    Footer
+    Footer,
+    TitleScroll
   },
   created(){
     console.log('app created');

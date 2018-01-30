@@ -4,7 +4,9 @@
       <div class="box-margin" id="title-scroll-move-box">
         <ul id="title-scroll-move">
           <li v-for="data in dataArry">
-            {{data+1}}
+            <span class="s1">TNT/TNT</span>
+            <span class="s2">{{data+1}}</span>
+            <span class="s3"></span>
           </li>
         </ul>
       </div>
@@ -58,9 +60,11 @@
 <style lang="scss">
   .title-scroll-box{
     width: 100%;
-    height: 40px;
-    color: #f6f6f6;
-    margin-bottom: 50px;
+    padding: 5px 0;
+    background-color: #f6f6f6;
+    position: fixed;
+    top:0;
+    z-index: 8;
     .box-margin{
       width: 1200px;
       height: 40px;
@@ -68,21 +72,23 @@
       overflow: hidden;
       position: relative;
       ul{
-        width: 3240px;
+        width: 4860px;
         position: absolute;
         top: 0;
         left: 0;
         cursor: move;
-        animation: move-right 30s linear 0s infinite normal running;
-        -moz-animation: move-right 30s linear 0s infinite normal running;	/* Firefox */
-        -webkit-animation: move-right 30s linear 0s infinite normal running;	/* Safari 和 Chrome */
-        -o-animation: move-right 30s linear 0s infinite normal running;	/* Opera */
+        animation: move-right 90s linear 0s infinite normal running;
+        -moz-animation: move-right 90s linear 0s infinite normal running;	/* Firefox */
+        -webkit-animation: move-right 90s linear 0s infinite normal running;	/* Safari 和 Chrome */
+        -o-animation: move-right 90s linear 0s infinite normal running;	/* Opera */
         li{
-          width: 120px;
+          width: 180px;
           height: 40px;
           float: left;
-          border:1px solid red;
           color: #000;
+          font-size: 14px;
+          line-height: 40px;
+          text-align: center;
           //设置文字不可选中
           -webkit-touch-callout: none;
           -webkit-user-select: none;
@@ -90,6 +96,21 @@
           -moz-user-select: none;
           -ms-user-select: none;
           user-select: none;
+          .s1{
+            color: #333;
+            padding-right: 10px;
+          }
+          .s2{
+            color: #1cd018;
+            padding-right: 10px;
+          }
+          .s3{
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background: url("/static/img/icon-arrow.png");
+            background-position: 0px 0px;
+          }
         }
         &:hover{
           animation-play-state:paused;
@@ -120,7 +141,7 @@
       left: 0;
     }
     100% {
-      left: -2040px;
+      left: -3660px;
     }
   }
 </style>

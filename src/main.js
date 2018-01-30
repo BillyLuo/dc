@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import './my-theme/index.less';
 import {LoadingBar,Input,Button,RadioGroup,Row,Col,Radio,Checkbox,Switch,Select,Option,Slider,Alert,
-    Card,Message,Notice,Modal,Progress,Badge,Tag,Tooltip,Poptip, Breadcrumb,Circle,BackTop,Spin,Icon,
+    Card,Message,Notice,Modal,Progress,Badge,Tag,Tooltip,Poptip, Breadcrumb,Circle,BackTop,Spin,Icon,Table
 } from 'iview';
 import axios from 'axios';
 Vue.component('LoadingBar',LoadingBar);
@@ -29,6 +29,7 @@ Vue.component('BackTop',BackTop);
 Vue.component('Spin',Spin);
 Vue.component('Icon',Icon);
 Vue.component('Tooltip',Tooltip);
+Vue.component('Table',Table);
 Vue.prototype.$ajax = axios;
 Vue.prototype.$Message = Message;
 Vue.prototype.$Spin = Spin;

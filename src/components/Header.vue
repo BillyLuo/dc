@@ -43,6 +43,7 @@ let menu = [
   {name:'trade',text:'交易中心'},
   {name:'assets',text:'数字资产'},
   {name:'user',text:'个人中心'},
+  {name:'market',text:'行情中心'},
 ]
 export default {
   name:'Header',
@@ -115,7 +116,9 @@ export default {
 <style scoped lang="scss">
   @import '../my-theme/mixin.scss';
   .home-header {
-    height: 70px;
+    height: 100px;
+    position: fixed;
+    top: 50px;
     width: 100%;
     position: fixed;
     top:0;
@@ -137,8 +140,7 @@ export default {
   .header-inner {
     margin-right: auto;
     margin-left: auto;
-    padding: 0 30px;
-    padding-top: 10px;
+    padding: 20px 30px;
     ul {
       float: left;
       &::after{
