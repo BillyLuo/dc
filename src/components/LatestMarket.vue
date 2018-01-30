@@ -17,7 +17,17 @@
   import echarts from 'echarts';
   export default {
     data () {
+      const dataArry = [];
+      for (let i = 0;i < 26;i++){
+        dataArry.push({
+          name: 'ETH / ETH',
+          price: '￥' + 7613.219,
+          change: '-3.51%',
+          trend:[820+i, 932+i, 901+i, 934+i, 1290+i, 1330+i, 1320+i]
+        })
+      }
       return {
+        dataArry:dataArry,
         columns: [
           {
             title: '币种',
@@ -66,7 +76,12 @@
             key: 'trend',
             align: 'center',
             render: (h, params) => {
-              return h('div',{attrs:{id:'trend-table'}})
+              return h('div',{attrs:{
+                id:'trend-table'+ params.index,
+                style:'width: 100%;\n' +
+                '          height: 65px;\n' +
+                '          border:1px solid red;'
+              }})
             }
           },
           {
@@ -94,28 +109,7 @@
             }
           }
         ],
-        data: [
-          {
-            name: 'ETH / ETH',
-            price: '￥' + 7613.219,
-            change: '-3.51%'
-          },
-          {
-            name: 'ETH / ETH',
-            price: 24,
-            change: '-3.51%'
-          },
-          {
-            name: 'ETH / ETH',
-            price: 30,
-            change: '-3.51%'
-          },
-          {
-            name: 'ETH / ETH',
-            price: 26,
-            change: '-3.51%'
-          }
-        ]
+        data: dataArry
       }
     },
     methods: {
@@ -124,28 +118,24 @@
       }
     },
     mounted(){
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = echarts.init(document.getElementById('trend-table'));
 
-      // 指定图表的配置项和数据
-      const  option = {
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value',
-          splitNumber: 10
-        },
-        series: [{
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line'
-        }]
-      };
-
-
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
+      for(let i=0 ; i< this.dataArry.length;i++){
+        let myChart = echarts.init(document.getElementById('trend-table'+i));
+        const  option = {
+          xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          },
+          yAxis: {
+            type: 'value',
+          },
+          series: [{
+            data: i.trend,
+            type: 'line'
+          }]
+        };
+        myChart.setOption(option);
+      }
     }
   }
 </script>
@@ -224,12 +214,6 @@
           .ivu-table-row-hover{
             background-color: #f8f9fe;
           }
-        }
-        #trend-table{
-          width: 100%;
-          height: 65px;
-          border:1px solid red;
-          position: relative;
         }
       }
     }
