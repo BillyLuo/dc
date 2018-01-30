@@ -224,7 +224,7 @@
     width: 1200px;
     margin: 0 auto;
     height: 585px;
-    padding: 45px 0 65px 0;
+    padding: 0px 0 65px 0;
   }
   .login-left{
     width: 800px;

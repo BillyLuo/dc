@@ -1,0 +1,118 @@
+.setting-item {
+  width: 300px;
+  height: 150px;
+  border: 1px solid #eee;
+  margin: 20px auto;
+  border-radius: 4px;
+  position: relative;
+  .item-pic {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 35px 30px;
+    vertical-align: middle;
+    i {
+      display: block;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background-image: url(/static/img/icon-info.png);
+      background-repeat: no-repeat;
+    }
+  }
+  .item-content {
+    margin-top: 50px;
+    // width: 180px;
+    text-align: left;
+    h3 {
+      color: #666;
+      font-weight: 400;
+    }
+    a {
+      font-size: 12px;
+    }
+  }
+  .item-status {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #aaa;
+    font-size: 12px;
+    padding: 10px;
+    &:hover {
+      color: #333;
+    }
+  }
+}
+$bind-email-color: #6dea6a;
+$bind-name-color: #6ABEEA;
+$bind-phone-color: #CA78FA;
+$bind-code-color: #6F7BF3;
+$bind-loginpass-color: #F4E058;
+$bind-tradepass-color: #FFA257;
+
+.safe-settings .ivu-col {
+  .bind-email{
+    i {
+      background-position: 0 0;
+      background-color: $bind_email_color;
+    }
+    &:hover {
+      border-color: $bind_email_color;
+    }
+  }
+  .bind-name{
+    i {
+      background-position: 0 -70px;
+      background-color: $bind-name-color;
+    }
+    &:hover {
+      border-color: $bind_name_color;
+    }
+  }
+  .bind-phone{
+    i {
+      background-position: 0 -140px ;
+      background-color: $bind-phone-color;
+    }
+    &:hover {
+      border-color: $bind_phone_color;
+    }
+  }
+  .bind-code {
+    i {
+      background-position: 0 -210px;
+      background-color: $bind-code-color;
+    }
+    &:hover {
+      border-color: $bind_code_color;
+    }
+  }
+  .bind-loginpass {
+    i {
+      background-position: 0 -280px ;
+      background-color: $bind-loginpass-color;
+    }
+    &:hover {
+      border-color: $bind_loginpass_color;
+    }
+  }
+  .bind-tradepass{
+    i {
+      background-position: 0 -350px ;
+      background-color: $bind-tradepass-color;
+    }
+    &:hover {
+      border-color: $bind_tradepass_color;
+    }
+  }
+}
+.ivu-input-group-append .ivu-btn.send-code {
+  background: #2d8cf0;
+  color: #fff;
+}
+.ivu-btn-primary.btn-block {
+  width: 100%;
+  margin: 0 auto;
+}

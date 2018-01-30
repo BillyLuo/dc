@@ -1,5 +1,5 @@
 <template>
-  <div class="home-header">
+  <div :class="{'home-header':true,active:scroll}">
     <div class="header-inner clear wrapper">
       <div class="header-logo" @click="route('home')">
         <img src="/static/img/logo.png"/>
@@ -24,6 +24,15 @@
 </template>
 
 <script>
+function scroll (value) {
+  var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+  var scroll = false;
+  if (scrollTop > 100) {
+    console.log(value);
+    scroll = true;
+  }
+  this.scroll = scroll;
+}
 import router from '../router/index';
 import { Menu,MenuItem,Row,Col } from 'iview';
 router.afterEach(route => {
@@ -46,6 +55,7 @@ export default {
   },
   data(){
     return {
+      scroll:false,
       activeName:'home',
       isLogined:false,
       menu
@@ -54,6 +64,7 @@ export default {
   mounted (){
     // this.initActive();
     console.log('----header----',this);
+    window.onscroll = scroll.bind(this);
   },
   watch:{
     "$route":"getPath"  // 监听事件
@@ -109,19 +120,24 @@ export default {
     position: fixed;
     top: 50px;
     width: 100%;
-    color: #000;
-    z-index: 1000;
+    position: fixed;
+    top:0;
+    left: auto;
+    right: auto;
+    margin: auto;
     background: #fff;
+    z-index: 1000;
+    &.active {
+      box-shadow: 0px 5px 5px rgba(0,0,0,0.2);
+    }
     .ivu-menu-item {
-      color: #000;
-      font-size: 16px;
+      // color: #fff;
     }
     .ivu-menu-light{
       background: transparent;
     }
   }
   .header-inner {
-    background: #fff;
     margin-right: auto;
     margin-left: auto;
     padding: 20px 30px;

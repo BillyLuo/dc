@@ -39,7 +39,7 @@
               <h3>手机绑定</h3>
               <a href="javascipt:;">1517****4695</a>
              </div>
-             <a href="javascript:;" class="item-status" @click="openPhoneModal">修改</a>
+             <a href="javascript:;" class="item-status" @click="openTelModal">修改</a>
           </div>
         </div>
       </Col>
@@ -87,40 +87,135 @@
       </Col>
     </Row>
     <Modal
+        width="400"
         title="邮箱认证"
         v-model="emailModal"
-        @on-ok="email_ok"
-        @on-cancel="email_cancel">
+        :loading="emailLoading">
         <Input placeholder="邮箱地址" v-model="input_email"/>
+        <Button :class="'btn-block'" slot="footer" type="primary" @click="email_ok">确定</Button>
     </Modal>
     <Modal
-        title="修改登录密码"
-        v-model="loginPassModal"
-        @on-ok="loginPassModal">
-    </Modal>
-    <Modal
-        title="设置交易密码"
-        v-model="tradePassModal"
-        @on-ok="trade_pass_ok">
-    </Modal>
-    <Modal
+        width="400"
         title="修改手机"
-        v-model="phoneModal"
-        @on-ok="phone_ok">
+        v-model="telModal"
+        :loading="telLoading"
+        @on-ok="tel_ok">
+        <Form :class="'modify-tel'" ref="modifyTel" :model="modifyTelValidate" :rules="modifyTelRules" :label-width="100">
+          <FormItem label="手机号码" prop="tel">
+              <Input v-model="modifyTelValidate.tel" :placeholder="modifyTelValidate.tel" disabled />
+          </FormItem>
+          <FormItem label="短信验证码" prop="code">
+              <Input v-model="modifyTelValidate.code" placeholder="短信验证码">
+                <Button type="primary" slot="append" class="send-code">发送验证码</Button>
+              </Input>
+          </FormItem>
+          <FormItem label="手机号码" prop="new_tel">
+              <Input v-model="modifyTelValidate.new_tel" placeholder="手机号码">
+              </Input>
+          </FormItem>
+          <FormItem label="短信验证码" prop="new_code">
+              <Input v-model="modifyTelValidate.new_code" placeholder="短信验证码">
+                <Button type="primary" slot="append" class="send-code">发送验证码</Button>
+              </Input>
+          </FormItem>
+          <FormItem label="验证码" prop="imgCode">
+              <Input v-model="modifyTelValidate.imgCode" placeholder="验证码">
+              </Input>
+          </FormItem>
+        </Form>
+        <Button :class="'btn-block'" slot="footer" type="primary" @click="tel_ok">确定</Button>
+    </Modal>
+    <Modal
+        width="400"
+        title="修改登录密码"
+        v-model="loginPassModal">
+        <Form :class="'modify-pass'" :label-width="100">
+          <FormItem label="旧登录密码：">
+            <Input placeholder=""></Input>
+          </FormItem>
+          <FormItem label="新登录密码：">
+            <Input placeholder=""></Input>
+          </FormItem>
+          <FormItem label="确认新密码：">
+            <Input placeholder=""></Input>
+          </FormItem>
+          <FormItem label="验证码：">
+            <Input placeholder="">
+              <Button slot="append" class="send-code">
+                发送验证码
+              </Button>
+            </Input>
+          </FormItem>
+        </Form>
+        <Button type="primary" :class="'btn-block'" slot="footer" @click="login_pass_ok">确定</Button>
+    </Modal>
+    <Modal
+        width="400"
+        title="设置交易密码"
+        v-model="tradePassModal">
+        <Form :class="'modify-trade-pass'" :label-width="100">
+          <FormItem label="新交易密码：">
+            <Input placeholder=""></Input>
+          </FormItem>
+          <FormItem label="确认新密码：">
+            <Input placeholder=""></Input>
+          </FormItem>
+          <FormItem label="验证码：">
+            <Input placeholder="">
+              <Button slot="append" class="send-code">
+                发送验证码
+              </Button>
+            </Input>
+          </FormItem>
+        </Form>
+        <Button type="primary" :class="'btn-block'" slot="footer" @click="trade_pass_ok">确定</Button>
     </Modal>
   </div>
 </template>
 
 <script>
+import { Form, FormItem } from 'iview';
 export default {
   data () {
     return {
       emailModal: false,
+      telModal:false,
+      telLoading:true,
       loginPassModal: false,
       tradePassModal: false,
-      phoneModal: false,
-      input_email:''
+      input_email:'',
+      emailLoading:true,
+      modifyTelValidate:{
+        tel:'15178875695',
+        code:'',
+        new_tel:'',
+        new_code:'',
+        imgCode:''
+      },
+      modifyTelRules:{
+        tel:[
+          {required:true},
+          {type:'string'}
+        ],
+        code:[
+          {required:true,message:'请输入验证码',trigger:'blur'},
+          {type:'string',message:'请输入4位验证码',min:4,trigger:'blur'}
+        ],
+        new_tel:[
+          {required:true,min:11,message:'请输入您的新手机号码。',trigger:'blur'}          
+        ],
+        new_code:[
+          {required:true,message:'请输入短信验证码',trigger:'blur'}
+        ],
+        imgCode:[
+          {required:true,message:'请输入验证码',trigger:'blur'}
+        ]
+      }
     }
+  },
+  components:{
+    Form,
+    FormItem
   },
   methods:{
     openEmailModal(){
@@ -128,6 +223,27 @@ export default {
     },
     email_ok () {
       console.log('ok email',arguments);
+      let email = this.input_email;
+      if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(email)) {
+        setTimeout(()=>{
+          this.input_email = '';
+          this.$Message.success('邮箱设置成功。');
+          this.emailModal = false;
+        },1000)
+      }else {
+        console.log('wrong');
+        this.emailLoading = false;
+        this.$Message.warning('请输入正确的邮箱');
+      }
+    },
+    openTelModal(){
+      this.telModal = true;
+    },
+    tel_ok(){
+      this.telLoading = false;
+      this.$refs['modifyTel'].validate((valid)=>{
+        console.log('valid or not',valid);
+      })
     },
     email_cancel (){
       console.log('cancel email',arguments);
@@ -136,18 +252,12 @@ export default {
       this.loginPassModal = true;
     },
     login_pass_ok (){
-
+      console.log('修改登录密码');
     },
     openTradePassModal (){
       this.tradePassModal = true;
     },
     trade_pass_ok (){
-
-    },
-    openPhoneModal (){
-      this.phoneModal = true;
-    },
-    phone_ok (){
 
     }
   }
@@ -155,114 +265,5 @@ export default {
 </script>
 
 <style lang="scss">
-  .setting-item {
-    width: 300px;
-    height: 150px;
-    border: 1px solid #eee;
-    margin: 20px auto;
-    border-radius: 4px;
-    position: relative;
-    .item-pic {
-      display: inline-block;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      margin: 35px 30px;
-      vertical-align: middle;
-      i {
-        display: block;
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        background-image: url(/static/img/icon-info.png);
-        background-repeat: no-repeat;
-      }
-    }
-    .item-content {
-      margin-top: 50px;
-      // width: 180px;
-      text-align: left;
-      h3 {
-        color: #666;
-        font-weight: 400;
-      }
-      a {
-        font-size: 12px;
-      }
-    }
-    .item-status {
-      position: absolute;
-      top: 0;
-      right: 0;
-      color: #aaa;
-      font-size: 12px;
-      padding: 10px;
-      &:hover {
-        color: #333;
-      }
-    }
-  }
-  $bind-email-color: #6dea6a;
-  $bind-name-color: #6ABEEA;
-  $bind-phone-color: #CA78FA;
-  $bind-code-color: #6F7BF3;
-  $bind-loginpass-color: #F4E058;
-  $bind-tradepass-color: #FFA257;
-
-  .safe-settings .ivu-col {
-    .bind-email{
-      i {
-        background-position: 0 0;
-        background-color: $bind_email_color;
-      }
-      &:hover {
-        border-color: $bind_email_color;
-      }
-    }
-    .bind-name{
-      i {
-        background-position: 0 -70px;
-        background-color: $bind-name-color;
-      }
-      &:hover {
-        border-color: $bind_name_color;
-      }
-    }
-    .bind-phone{
-      i {
-        background-position: 0 -140px ;
-        background-color: $bind-phone-color;
-      }
-      &:hover {
-        border-color: $bind_phone_color;
-      }
-    }
-    .bind-code {
-      i {
-        background-position: 0 -210px;
-        background-color: $bind-code-color;
-      }
-      &:hover {
-        border-color: $bind_code_color;
-      }
-    }
-    .bind-loginpass {
-      i {
-        background-position: 0 -280px ;
-        background-color: $bind-loginpass-color;
-      }
-      &:hover {
-        border-color: $bind_loginpass_color;
-      }
-    }
-    .bind-tradepass{
-      i {
-        background-position: 0 -350px ;
-        background-color: $bind-tradepass-color;
-      }
-      &:hover {
-        border-color: $bind_tradepass_color;
-      }
-    }
-  }
+  @import './safesettings';
 </style>

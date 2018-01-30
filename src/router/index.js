@@ -9,6 +9,7 @@ const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
 const sliderTest = ()=> import('@/components/sliderTest.vue');
 const TitleScroll = ()=> import('@/components/TitleScroll.vue');
+const NotFound = () => import('@/components/notfound/notFound');
 const Market = () => import("@/components/market/Market")
 Vue.use(Router)
 
@@ -46,7 +47,7 @@ export default new Router({
     },
     {
       path:'/user',
-      name:'User',
+      // name:'User',
       component: User,
       children:[
         {path:'',component:safeSettings},
@@ -68,6 +69,8 @@ export default new Router({
       component: TitleScroll
     },
     {
+      path:'*',
+      component:NotFound,
       path: '/market',
       name: 'Market',
       component: Market

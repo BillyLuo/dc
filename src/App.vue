@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <TitleScroll />
     <Header />
-    <div style="margin-top: 150px">
-    </div>
+    <TitleScroll />
     <div id="main">
-      <router-view/>
+      <div class="main-inner">
+        <router-view/>
+      </div>
     </div>
     <Footer />
     <BackTop></BackTop>
@@ -33,6 +33,9 @@ export default {
 <style lang="scss">
   @import './index.scss';
   #main {
-    // padding-top: 70px;
+    padding-top: 70px;
+    .main-inner {
+      padding: 20px 0;
+    }
   }
 </style>
