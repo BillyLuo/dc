@@ -9,6 +9,7 @@ const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
 const sliderTest = ()=> import('@/components/sliderTest.vue');
 const TitleScroll = ()=> import('@/components/TitleScroll.vue');
+const Market = () => import("@/components/market/Market")
 Vue.use(Router)
 
 export default new Router({
@@ -66,5 +67,10 @@ export default new Router({
       name:'TitleScroll',
       component: TitleScroll
     },
+    {
+      path: '/market',
+      name: 'Market',
+      component: Market
+    }
   ]
 })

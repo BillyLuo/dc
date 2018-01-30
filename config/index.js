@@ -48,6 +48,16 @@ module.exports = {
           //target: 'http://192.168.10.8:8000/fbs',
           pathRewrite: {'^/okcoin' : ''}
       },
+      '/biy': {
+          target: 'http://localhost/biy/',
+          //target: 'http://192.168.10.8:8000/fbs',
+          pathRewrite: {'^/biy' : ''}
+      },
+      '/huobi': {
+          target: 'http://localhost/huobi/',
+          //target: 'http://192.168.10.8:8000/fbs',
+          pathRewrite: {'^/huobi' : ''}
+      },
     }
   },
 
