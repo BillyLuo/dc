@@ -155,6 +155,29 @@ export default {
     .ivu-table-sort i.on {
         color: #7A98F7;
     }
+    .ivu-table-body{
+        overflow-x: hidden
+    }
+    .ivu-table-body::-webkit-scrollbar{
+        width: 8px;
+        height: 0px;
+        background-color: #f8f8f800;
+    }
+    /*定义滚动条的轨道，内阴影及圆角*/
+    .ivu-table-body::-webkit-scrollbar-track{
+        -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
+        border-radius: 10px;
+        background-color:none;
+        opacity: 0;
+    }
+    /*定义滑块，内阴影及圆角*/
+    .ivu-table-body::-webkit-scrollbar-thumb{
+        /*width: 10px;*/
+        height: 20px;
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
+        background-color: rgba(145, 145, 145, 0.178);
+    }
 }
     
 </style>

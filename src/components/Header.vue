@@ -28,7 +28,7 @@ function scroll (value) {
   var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
   var scroll = false;
   if (scrollTop > 100) {
-    console.log(value);
+    // console.log(value);
     scroll = true;
   }
   this.scroll = scroll;
