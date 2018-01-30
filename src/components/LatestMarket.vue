@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+  import echarts from 'echarts';
   export default {
     data () {
       return {
@@ -124,22 +125,24 @@
     },
     mounted(){
       // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(document.getElementById('trend-table'));
+      let myChart = echarts.init(document.getElementById('trend-table'));
 
       // 指定图表的配置项和数据
-      var option = {
+      const  option = {
         xAxis: {
           type: 'category',
           data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          splitNumber: 10
         },
         series: [{
           data: [820, 932, 901, 934, 1290, 1330, 1320],
           type: 'line'
         }]
       };
+
 
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
@@ -226,6 +229,7 @@
           width: 100%;
           height: 65px;
           border:1px solid red;
+          position: relative;
         }
       }
     }
