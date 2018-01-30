@@ -4,13 +4,13 @@
             <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
         </div>
         <Tabs size="small">
-            <TabPane label="标签一">
-                <Table height="400" @on-row-dblclick="dbclickrow" :columns="columns1" :data="data1"></Table>
+            <TabPane label="USDT">
+                <Table height="600" @on-row-dblclick="dbclickrow" :columns="columns1" :data="data1"></Table>
             </TabPane>
-            <TabPane label="标签二">
+            <TabPane label="BTC">
 
             </TabPane>
-            <TabPane label="标签三">
+            <TabPane label="ETH">
 
             </TabPane>
         </Tabs>
@@ -142,6 +142,9 @@ export default {
     .ivu-table td,.ivu-table th{
         background:none;
         border-bottom-color: #1F2943;
+    }
+    .ivu-table th, .ivu-table td{
+        height:30px;
     }
     .ivu-table:before{
         background: none;
