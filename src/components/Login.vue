@@ -219,12 +219,12 @@
   .wallet-box-background{
     width: 100%;
     background: #f9f9f9;
+    padding: 65px 0;
+    height: 585px;
   }
   .wallet-box{
     width: 1200px;
     margin: 0 auto;
-    height: 585px;
-    padding: 0px 0 65px 0;
   }
   .login-left{
     width: 800px;

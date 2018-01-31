@@ -426,12 +426,12 @@
   .register-box-background{
     background: #f9f9f9;
     width: 100%;
+    padding: 65px 0;
   }
   .register-box{
     width: 1200px;
     margin: 0 auto;
-    height: 710px;
-    padding: 0px 0 65px 0;
+    height: 580px;
   }
   .register-box>.register-left{
     width: 800px;
