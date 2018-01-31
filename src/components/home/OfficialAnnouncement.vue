@@ -33,6 +33,9 @@
               </div>
             </div>
           </div>
+          <div class="pagination-Announcement">
+            <div class="swiper-pagination" id="Official-Announcement"></div>
+          </div>
         </div>
       </div>
 
@@ -43,7 +46,7 @@
   export default {
     data(){
       let swiperArry = [];
-      for (let i = 0; i<3;i++){
+      for (let i = 0; i<10;i++){
         swiperArry.push([{opacity:0.5},{opacity:1}])
       }
       return{
@@ -70,10 +73,11 @@
           }
         },
         pagination: {
-          el: '.swiper-pagination',
+          el: '#Official-Announcement',
+          type: 'bullets',
           clickable :true,
+//          dynamicBullets:true
         },
-
       })
 
     }
@@ -163,6 +167,17 @@
           width: 187px;
           height: 250px;
           background: url("/static/img/pic-01.jpg");
+        }
+      }
+      .pagination-Announcement{
+        width: 100%;
+        margin-top: 50px;
+        height: 19px;
+        #Official-Announcement{
+          position: static;
+          span{
+            margin: 0 10px;
+          }
         }
       }
     }
