@@ -188,12 +188,6 @@ export default {
                     sum: '1.34'
                 },
                 {
-                    id: 'buy',
-                    price: '123421',
-                    count: '3432',
-                    sum: '1.34'
-                },
-                {
                     id: 'sell',
                     price: '123421',
                     count: '3432',
@@ -336,6 +330,7 @@ export default {
                     .ivu-table{
                         background:none;
                         color:#C7CCE6;
+                        min-height:410px;
                     }
                     .ivu-table-wrapper{
                         border:none;
@@ -357,7 +352,7 @@ export default {
                         color: #7A98F7;
                     }
                     .ivu-table th, .ivu-table td{
-                        height:33.5px;
+                        height:36px;
                     }
                 }
             }
