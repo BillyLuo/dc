@@ -1,6 +1,6 @@
 <template>
   <div class="header-swiper-box">
-    <div class="swiper-container">
+    <div class="swiper-container header-swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <div class="hander-swiper-img hander-swiper-1">
@@ -34,8 +34,11 @@
     methods:{
     },
     mounted(){
-      let mySwiper = new Swiper('.swiper-container', {
-        autoplay: true,//可选选项，自动滑动\
+      let mySwiper = new Swiper('.header-swiper-container', {
+        speed:2000,
+        autoplay : {
+          delay:3000
+        },
         pagination: {
           el: '.swiper-pagination',
           clickable :true,

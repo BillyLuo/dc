@@ -14,40 +14,12 @@
         <div class="right">
           <div class="swiper-container swiper-container-right">
             <div class="swiper-wrapper">
-              <div class="swiper-slide">
+              <div class="swiper-slide" v-for="data in swiperArray">
                 <div class="s1">
                   <div class="title-img"></div>
                   <div class="text">
                     <h4>
-                      <span>许子敬</span>
-                      <em>澳洲科银资本 CEO</em>
-                    </h4>
-                    <div class="line"></div>
-                    <p>币赢网是一个开放的平台，时不时还会有福利发布
-                      交易方便快捷</p>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="s1">
-                  <div class="title-img"></div>
-                  <div class="text">
-                    <h4>
-                      <span>许子敬</span>
-                      <em>澳洲科银资本 CEO</em>
-                    </h4>
-                    <div class="line"></div>
-                    <p>币赢网是一个开放的平台，时不时还会有福利发布
-                      交易方便快捷</p>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="s1">
-                  <div class="title-img"></div>
-                  <div class="text">
-                    <h4>
-                      <span>许子敬</span>
+                      <span>WILL</span>
                       <em>澳洲科银资本 CEO</em>
                     </h4>
                     <div class="line"></div>
@@ -58,7 +30,6 @@
               </div>
             </div>
           </div>
-          <div class="swiper-pagination"></div>
         </div>
       </div>
     </div>
@@ -67,17 +38,19 @@
 <script>
   export default {
     data(){
-      return{}
+      let swiperArray = [];
+      for(let i=0 ; i<10; i++){
+        swiperArray.push(i)
+      }
+      return{
+        swiperArray:swiperArray
+      }
     },
     mounted(){
       let mySwiper = new Swiper('.swiper-container-right', {
-        autoplay: true,//可选选项，自动滑动\
+        autoplay: false,//可选选项，自动滑动\
         slidesPerView:2,
         spaceBetween:35,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable :true,
-        },
       })
     }
   }
@@ -109,7 +82,7 @@
           font-size: 20px;
         }
         .p3{
-          width: 100%;
+          width: 90%;
           height: 1px;
           background: rgba(255,255,255,.11);
           margin-bottom: 15px;
@@ -125,6 +98,11 @@
         width: 58%;
         height: 290px;
         float: right;
+        overflow: hidden;
+        padding-top: 35px;
+        .swiper-container{
+          overflow: visible;
+        }
         .s1{
           position: relative;
           background-color: #fff;
@@ -140,8 +118,9 @@
             background-size: 100% 100%;
             background-color: #aaaaaa;
             position: absolute;
-            top: 0;
-            right: 0;
+            top: -30px;
+            right: 15px;
+            box-shadow: 0 0 15px #333;
           }
           .text{
             h4{

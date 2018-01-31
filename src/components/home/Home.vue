@@ -5,6 +5,7 @@
     <BlockchainCalculator/>
     <ChooseUs/>
     <OfficialAnnouncement/>
+    <OfficialNews/>
   </div>
 </template>
 <script>
@@ -13,6 +14,7 @@
   import BlockchainCalculator from './BlockchainCalculator'
   import ChooseUs from './chooseUs.vue'
   import OfficialAnnouncement from './OfficialAnnouncement'
+  import OfficialNews from './OfficialNews.vue'
   export default {
     data(){
       return{}
@@ -22,7 +24,8 @@
       LatestMarket,
       BlockchainCalculator,
       ChooseUs,
-      OfficialAnnouncement
+      OfficialAnnouncement,
+      OfficialNews
     }
   }
 </script>
