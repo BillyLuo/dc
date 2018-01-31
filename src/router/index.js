@@ -54,8 +54,8 @@ export default new Router({
         {path:'/user/safesettings',name:'safeSettings',component:safeSettings},
         {path:'/user/broker',name:'broker',component:null},
         {path:'/user/api',name:'api',component:null},
-        {path:'/user/loginrecord',name:'loginrecord',component:safeSettings},
-        {path:'/user/authentication',name:'authentication',component:safeSettings}
+        {path:'/user/loginrecord',name:'loginrecord',component:null},
+        {path:'/user/authentication',name:'authentication',component:null}
       ]
     },
     {
