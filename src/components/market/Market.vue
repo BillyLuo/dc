@@ -25,6 +25,7 @@
                     
                 </div>
                 <Deal/>
+                <depth/>
             </div>
 
 
@@ -37,6 +38,7 @@ import echarts from 'echarts';
 import TradingView from './trading';
 import Sidebar from './marketSidebar';
 import Deal from './deal';
+import depth from './depth';
 console.log(TradingView);
 function initCharts (symbol) {
         new TradingView.widget({
@@ -64,7 +66,7 @@ function initCharts (symbol) {
 export default {
     name: 'Market',
     components:{
-        Sidebar,Deal
+        Sidebar,Deal,depth
     },
     data: function() {	
         return {
@@ -113,7 +115,7 @@ export default {
     mounted () {
         //this.drawLine(this.param);
         // setTimeout(()=>{
-            initCharts();
+            // initCharts();
         // },100)
     },
     methods: {
