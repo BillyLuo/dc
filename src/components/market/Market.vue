@@ -1,5 +1,5 @@
 <template>
-    <div class="hangqing clear" style="margin-top:80px;">
+    <div class="hangqing clear" style="padding-top:36px;">
        
         <!-- <header class="hq-header">
 
