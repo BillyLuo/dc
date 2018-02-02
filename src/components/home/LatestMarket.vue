@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background:#fff;">
     <div class="latest-market">
       <div class="wrapper">
         <div class="wrapper-title">
