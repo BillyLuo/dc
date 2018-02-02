@@ -47,7 +47,7 @@
     width: 100%;
     height: 36px;
     background-color: rgba(242,244,249,.75);
-    position: absolute;
+    // position: absolute;
     z-index: 2;
     .center{
       width: 1200px;
