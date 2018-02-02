@@ -13,15 +13,15 @@
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
                                             <Input number></Input>
-                                            <span>{{ 'USDT' }}</span>
+                                            <span>{{ params.bizhong }}</span>
                                             <p>≈ <i> sdsfd </i> CNY</p>
                                         </FormItem>
                                         <FormItem label="买入量" class="deal-input">
                                             <Input number></Input>
-                                            <span>{{ "BTC" }}</span>
+                                            <span>{{ params.currency }}</span>
                                         </FormItem>
                                         <p class="count-money">交易额 <i>0.12341234</i> <span>USDT</span></p>
-                                        <Button class="mairu">买入{{ "BTC" }}</Button>
+                                        <Button class="mairu">买入{{ params.currency }}</Button>
                                     </Form>
                                 </div>
                             </Col>
@@ -33,15 +33,15 @@
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
                                             <Input number></Input>
-                                            <span>{{ 'USDT' }}</span>
+                                            <span>{{ params.bizhong }}</span>
                                             <p>≈ <i> sdsfd </i> CNY</p>
                                         </FormItem>
                                         <FormItem label="卖出量" class="deal-input">
                                             <Input number></Input>
-                                            <span>{{ "BTC" }}</span>
+                                            <span>{{ params.currency }}</span>
                                         </FormItem>
                                         <p class="count-money">交易额 <i>0.12341234</i> <span>USDT</span></p>
-                                        <Button class="mairu">卖出{{ "BTC" }}</Button>
+                                        <Button class="mairu">卖出{{ params.currency }}</Button>
                                     </Form>
                                 </div>
                             </Col>
@@ -55,13 +55,13 @@
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
                                             <Input disabled placeholder="以市场上最优价格买入" number></Input>
-                                            <span>{{ 'USDT' }}</span>
+                                            <span>{{ params.bizhong }}</span>
                                         </FormItem>
                                         <FormItem label="买入量" class="deal-input">
                                             <Input number></Input>
-                                            <span>{{ "BTC" }}</span>
+                                            <span>{{ params.currency }}</span>
                                         </FormItem>
-                                        <Button class="mairu">买入{{ "BTC" }}</Button>
+                                        <Button class="mairu">买入{{ params.currency }}</Button>
                                     </Form>
                                 </div>
                             </Col>
@@ -73,13 +73,13 @@
                                     <Form  label-position="top">
                                         <FormItem  label="卖出价" class="deal-input">
                                             <Input disabled placeholder="以市场上最优价格卖出" number></Input>
-                                            <span>{{ 'USDT' }}</span>
+                                            <span>{{ params.bizhong }}</span>
                                         </FormItem>
                                         <FormItem label="卖出量" class="deal-input">
                                             <Input number></Input>
-                                            <span>{{ "BTC" }}</span>
+                                            <span>{{ params.currency }}</span>
                                         </FormItem>
-                                        <Button class="mairu">卖出{{ "BTC" }}</Button>
+                                        <Button class="mairu">卖出{{ params.currency }}</Button>
                                     </Form>
                                 </div>
                             </Col>
@@ -91,7 +91,7 @@
             <Col span="8" class="new-price">
                 <div class="price-list">
                     <div class="list-title">
-                        最新价 <span>{{0.12321432}} {{'ETH'}}</span>
+                        最新价 <span>{{0.12321432}} {{ params.currency }}</span>
                     </div>
                     <div class="list-table">
                         <Table :columns="columns1" :data="data1"></Table>
@@ -110,6 +110,7 @@ export default {
     components:{
         Tabs,TabPane,Form,FormItem,Table
     },
+    props: ['params'],
     data: function() {	
         return {
             columns1:[
@@ -219,6 +220,9 @@ export default {
                 }
             ]
         }
+    },
+    mounted () {
+        console.log(this.params.currency)
     },
     methods: {}
 }

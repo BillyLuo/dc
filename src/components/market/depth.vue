@@ -29,71 +29,84 @@ export default {
     components:{
         Table
     },
+    props: ['params'],
     data: function() {	
         return {
-            btcname: 'ETH',
-            prices: 'DUST',
+            currency: this.params.currency,
+            bizhong: 'DUST',
             columns:[],
             datas: []
         }
     },
-    created(){
-        this.columns=[
-            {
-                title: '时间',
-                key: 'time'
-            },
-            {
-                title: '方向',
-                key: 'buysell',
-                render: (h,params) => {
-                    if(params.row.buysell == "buy"){
-                        return h('span',{
-                            style: {
-                                    color: 'green',
-                                    // textAlign: 'center',
-                                    // display: 'inline-block',
-                                    // width: '100%'
-                                },
-                        },'买入')
-
-                        
-                    }
-                    if(params.row.buysell == "sell"){
-                        return h('span',{
-                            style: {
-                                    color: 'red',
-                                    // textAlign: 'center',
-                                    // display: 'inline-block',
-                                    // width: '100%'
-                                },
-                        },'卖出')
-
-                        
-                    }
-                }
-            },
-            {
-                title: '价格('+this.prices+')',
-                key: 'price',
-            },
-            {
-                title: '数量('+this.btcname+')',
-                key: 'num'
-            }
-        ]
-        for (var i=0; i<10;i++){
-            if(i%2 == 0){
-                this.datas.push({time: '09:48:0'+i,buysell: 'buy',price: (Math.random()*1000).toFixed(4),num: (Math.random()*10).toFixed(4)})
-            }else{
-                this.datas.push({time: '09:48:0'+i,buysell: 'sell',price: (Math.random()*1000).toFixed(4),num: (Math.random()*10).toFixed(4)})
-            }
-        }
+    watch:{
+        params: 'xuanran'
     },
     mounted(){
-        this.cahvas ()
+        console.log(this.params)
+        this.cahvas ();
+        this.infoDate();
     },
     methods: {
+        xuanran(a){
+            console.log("=======",a)
+            this.currency = a.currency;
+            this.bizhong= a.bizhong;
+
+            this.infoDate();
+        },
+        infoDate(){
+            this.columns=[
+                {
+                    title: '时间',
+                    key: 'time'
+                },
+                {
+                    title: '方向',
+                    key: 'buysell',
+                    render: (h,params) => {
+                        if(params.row.buysell == "buy"){
+                            return h('span',{
+                                style: {
+                                        color: 'green',
+                                        // textAlign: 'center',
+                                        // display: 'inline-block',
+                                        // width: '100%'
+                                    },
+                            },'买入')
+
+                            
+                        }
+                        if(params.row.buysell == "sell"){
+                            return h('span',{
+                                style: {
+                                        color: 'red',
+                                        // textAlign: 'center',
+                                        // display: 'inline-block',
+                                        // width: '100%'
+                                    },
+                            },'卖出')
+
+                            
+                        }
+                    }
+                },
+                {
+                    title: '价格('+this.bizhong+')',
+                    key: 'price',
+                },
+                {
+                    title: '数量('+this.currency+')',
+                    key: 'num'
+                }
+            ];
+            for (var i=0; i<10;i++){
+                if(i%2 == 0){
+                    this.datas.push({time: '09:48:0'+i,buysell: 'buy',price: (Math.random()*1000).toFixed(4),num: (Math.random()*10).toFixed(4)})
+                }else{
+                    this.datas.push({time: '09:48:0'+i,buysell: 'sell',price: (Math.random()*1000).toFixed(4),num: (Math.random()*10).toFixed(4)})
+                }
+            }
+        },
         cahvas () {
              let myChart = echarts.init(document.getElementById('canvas'))
                 myChart.showLoading();

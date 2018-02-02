@@ -3,15 +3,15 @@
         <div class="to-login">
             <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
         </div>
-        <Tabs size="small">
-            <TabPane label="USDT">
+        <Tabs size="small" @on-click="getname">
+            <TabPane label="USDT" name='USDT'>
                 <Table height="600" @on-row-dblclick="dbclickrow" :columns="columns1" :data="data1"></Table>
             </TabPane>
-            <TabPane label="BTC">
-
+            <TabPane label="BTC" name='BTC'>
+                <Table height="600" @on-row-dblclick="dbclickrow" :columns="columns1" :data="data2"></Table>
             </TabPane>
-            <TabPane label="ETH">
-
+            <TabPane label="ETH" name='ETH'>
+                <Table height="600" @on-row-dblclick="dbclickrow" :columns="columns1" :data="data3"></Table>
             </TabPane>
         </Tabs>
     </div>
@@ -26,6 +26,7 @@ export default {
     },
     data: function() {
         return {
+
             columns1:[
                 {
                     title: '币种',
@@ -43,59 +44,63 @@ export default {
                     sortable: true
                 }
             ],
+            bizhong: 'USDT',
             data1:[
-                {
-                    bizhong: 'ETHUSDT',
-                    keyprice: '2993',
-                    zhangfu: '0.43'
-                },
-                {
-                    bizhong: 'BTC',
-                    keyprice: '299452',
-                    zhangfu: '0.43'
-                },
-                {
-                    bizhong: 'BTC',
-                    keyprice: '299333',
-                    zhangfu: '0.43'
-                },
-                {
-                    bizhong: 'BTC',
-                    keyprice: '2993',
-                    zhangfu: '0.43'
-                },
-                {
-                    bizhong: 'BTC',
-                    keyprice: '299452',
-                    zhangfu: '0.43'
-                },
-                {
-                    bizhong: 'BTC',
-                    keyprice: '299333',
-                    zhangfu: '0.43'
-                },
-                {
-                    bizhong: 'BTC',
-                    keyprice: '2993',
-                    zhangfu: '0.43'
-                },
-                {
-                    bizhong: 'BTC',
-                    keyprice: '299452',
-                    zhangfu: '0.43'
-                },
-                {
-                    bizhong: 'BTC',
-                    keyprice: '299333',
-                    zhangfu: '0.43'
-                }
-            ]
+            ],
+            data2: [],
+            data3: []
         }
     },
+    mounted(){
+        this.datas();
+    },
     methods: {
+        getname(name){
+            console.log(name)
+            this.bizhong = name
+        },
         dbclickrow(row,index){
             console.log(row,index)
-            this.$emit('itemrow', row)
+            let ss = {
+                row:row,
+                bizhong: this.bizhong,
+                currency: row.bi
+            }
+            this.$emit('itemrow', ss)
+        },
+        datas (){
+            let that=this;
+            this.$ajax.get('/huobi/v1/common/symbols')
+            .then(function(respones){
+                console.log(respones)
+                let data = respones.data.data;
+                data.map((item) => {
+                    if(item['symbol-partition'] == "main" && item['quote-currency']=='usdt'){
+                        let ss = item['base-currency'];
+                        let base = item['base-currency'];
+                        that.data1.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'USDT',bi: base.toLocaleUpperCase()})
+                    }
+                    if(item['symbol-partition'] == "main" && item['quote-currency']=='btc'){
+                        let ss = item['base-currency'];
+                        let base = item['base-currency'];
+                        that.data2.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'BTC',bi: base.toLocaleUpperCase()})
+                    }
+                    if(item['symbol-partition'] == "main" && item['quote-currency']=='eth'){
+                        let ss = item['base-currency'];
+                        let base = item['base-currency'];
+                        that.data3.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'ETH',bi: base.toLocaleUpperCase()})
+                    }
+                })
+                console.log(that.data1.sort(compare('bizhong')))
+                function compare(property){
+                    return function(a,b){
+                        var value1 = a[property];
+                        var value2 = b[property];
+                        return value1 - value2;
+                    }
+                }
+
+            })
         }
     }
 }

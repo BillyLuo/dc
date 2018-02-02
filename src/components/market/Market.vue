@@ -24,8 +24,8 @@
                     </div>
                     
                 </div>
-                <Deal/>
-                <depth/>
+                <Deal :params='params'/>
+                <depth :params='params'/>
             </div>
 
 
@@ -45,7 +45,7 @@ function initCharts (symbol) {
             "container_id":"chart",
             "width": '100%',
             "height": 500,
-            "symbol": symbol?'BINANCE:'+symbol:"BINANCE:BTCUSDT",
+            "symbol": symbol?''+symbol:"BINANCE:BTCUSDT",
             "interval": "1",
             "timezone": "Asia/Hong_Kong",
             "theme": "Dark",
@@ -71,6 +71,9 @@ export default {
     data: function() {	
         return {
             param:'1min',
+            // 计价币种
+            bizhong: 'USDT',
+            currency: 'BTC',
             cityList: [
                 {
                     value: '1min',
@@ -109,19 +112,34 @@ export default {
                     label: '1year'
                 }
             ],
-            model1: ''
+            model1: '',
+            params: {}
+        }
+    },
+    created(){
+        this.params={
+            bizhong: this.bizhong,
+            currency: this.currency
         }
     },
     mounted () {
+        
         //this.drawLine(this.param);
         // setTimeout(()=>{
-            // initCharts();
+            initCharts();
         // },100)
     },
     methods: {
+        
         changeState(row){
-            console.log(row.bizhong)
-            initCharts(row.bizhong);
+            console.log(row)
+            this.bizhong= row.bizhong;
+            this.currency = row.currency;
+            this.params={
+                bizhong: this.bizhong,
+                currency: this.currency
+            }
+            initCharts(row.row.key);
         },
         selectTime (value) {
             console.log(value)

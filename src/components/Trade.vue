@@ -143,7 +143,7 @@
     .trade{
         width:1200px;
         margin: 0 auto;
-        padding-top:36px;
+        padding-top:50px;
     }
     input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
         -webkit-appearance: none !important;
@@ -865,17 +865,17 @@
                         break;
                 }
                 // wx18012316331879480877
-                this.$ajax({
-                    method: 'get',
-                    url: '/okcoin/kline.do?symbol=eth_cny&type=1min',
-                    // proxy: {
-                    //     host: 'localhost',
-                    //     port: ""
-                    // }
-                })
-                .then(function(response){
-                    console.log(response)
-                })
+                // this.$ajax({
+                //     method: 'get',
+                //     url: '/okcoin/kline.do?symbol=eth_cny&type=1min',
+                //     // proxy: {
+                //     //     host: 'localhost',
+                //     //     port: ""
+                //     // }
+                // })
+                // .then(function(response){
+                //     console.log(response)
+                // })
                 // this.$ajax.get('/okcoin/ticker.do?symbol=btc_cny').catch(function(thrown) {
                 //     // if (axios.isCancel(thrown)) {
                 //         console.log('Request canceled', thrown);
