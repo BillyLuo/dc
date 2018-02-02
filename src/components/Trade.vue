@@ -55,7 +55,8 @@
                             <p>
                                 ≈ ￥ <span>{{buymoney}}</span>
                             </p>
-                            <Slider v-model="value" :max="1000" @on-change="ss"></Slider>
+                            <!-- <Slider v-model="value" :max="1000" @on-change="ss"></Slider> -->
+                            <Slider></Slider>
                             <Button class="buy-button buy-button1">
                                 买入 {{btcname}}
                             </Button>

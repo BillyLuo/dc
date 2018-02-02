@@ -63,6 +63,7 @@
 <style lang="scss">
   .office-news{
     width: 100%;
+    background: #fff;
     .center{
       width:1200px;
       margin: 0 auto;
