@@ -126,7 +126,7 @@ export default {
         
         //this.drawLine(this.param);
         // setTimeout(()=>{
-            initCharts();
+            // initCharts();
         // },100)
     },
     methods: {

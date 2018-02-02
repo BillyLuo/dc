@@ -55,16 +55,27 @@ export default {
             this.infoDate();
         },
         infoDate(){
+            let that=this;
             this.columns=[
                 {
                     title: '时间',
-                    key: 'time'
+                    key: 'ts',
+                    render: (h,params) =>{
+                        if(params.row.ts){
+                            var date = new Date(params.row.ts)
+                            console.log(date)
+                            console.log(date.getHours()+':'+date.getMinutes()+':'+date.getSeconds())
+                            return date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
+                        }else{
+                            return ""
+                        }
+                    }
                 },
                 {
                     title: '方向',
-                    key: 'buysell',
+                    key: 'direction',
                     render: (h,params) => {
-                        if(params.row.buysell == "buy"){
+                        if(params.row.direction == "buy"){
                             return h('span',{
                                 style: {
                                         color: 'green',
@@ -73,10 +84,9 @@ export default {
                                         // width: '100%'
                                     },
                             },'买入')
-
                             
                         }
-                        if(params.row.buysell == "sell"){
+                        if(params.row.direction == "sell"){
                             return h('span',{
                                 style: {
                                         color: 'red',
@@ -96,16 +106,18 @@ export default {
                 },
                 {
                     title: '数量('+this.currency+')',
-                    key: 'num'
+                    key: 'amount'
                 }
             ];
-            for (var i=0; i<10;i++){
-                if(i%2 == 0){
-                    this.datas.push({time: '09:48:0'+i,buysell: 'buy',price: (Math.random()*1000).toFixed(4),num: (Math.random()*10).toFixed(4)})
-                }else{
-                    this.datas.push({time: '09:48:0'+i,buysell: 'sell',price: (Math.random()*1000).toFixed(4),num: (Math.random()*10).toFixed(4)})
-                }
-            }
+            this.$ajax.get('/huobi/market/history/trade?size=10&symbol='+this.params.currency.toLocaleLowerCase()+''+this.params.bizhong.toLocaleLowerCase())
+            .then(function(response){
+                response.data.data.map((item)=>{
+                    console.log(item.data)
+                    that.datas.push(item.data[0])
+                })
+                
+            })
+            
         },
         cahvas () {
              let myChart = echarts.init(document.getElementById('canvas'))
