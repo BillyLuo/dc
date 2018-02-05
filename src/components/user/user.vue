@@ -1,5 +1,5 @@
 <template>
-  <div class="user-center wrapper">
+  <div class="user-center">
     <user-info></user-info>
     <div class="user-main clear">
       <div class="user-menu" active-name="user-menu">

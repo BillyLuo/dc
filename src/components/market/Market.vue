@@ -1,5 +1,5 @@
 <template>
-    <div class="hangqing clear" style="padding-top:36px;">
+    <div class="hangqing clear">
        
         <!-- <header class="hq-header">
 
@@ -126,7 +126,7 @@ export default {
         
         //this.drawLine(this.param);
         // setTimeout(()=>{
-            initCharts();
+            // initCharts();
         // },100)
     },
     methods: {

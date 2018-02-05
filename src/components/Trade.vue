@@ -143,7 +143,7 @@
     .trade{
         width:1200px;
         margin: 0 auto;
-        padding-top:50px;
+        // padding-top:50px;
     }
     input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
         -webkit-appearance: none !important;

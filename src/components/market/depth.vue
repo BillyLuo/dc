@@ -14,7 +14,7 @@
                     <div class="depth-title">
                         实时交易
                     </div>
-                    <Table :columns='columns' :data='datas'></Table>
+                    <Table :columns='columns' height='470' :data='datas'></Table>
                 </div>
             </Col>
         </Row>
@@ -51,8 +51,14 @@ export default {
             console.log("=======",a)
             this.currency = a.currency;
             this.bizhong= a.bizhong;
-
             this.infoDate();
+        },
+        addzero (number) {
+            if(number < 10){
+                return "0"+number;
+            }else{
+                return number;
+            }
         },
         infoDate(){
             let that=this;
@@ -63,9 +69,9 @@ export default {
                     render: (h,params) =>{
                         if(params.row.ts){
                             var date = new Date(params.row.ts)
-                            console.log(date)
-                            console.log(date.getHours()+':'+date.getMinutes()+':'+date.getSeconds())
-                            return date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
+                            // console.log(date)
+                            // console.log(date.getHours()+':'+date.getMinutes()+':'+date.getSeconds())
+                            return that.addzero(date.getHours())+':'+that.addzero(date.getMinutes())+':'+that.addzero(date.getSeconds())
                         }else{
                             return ""
                         }
@@ -109,15 +115,15 @@ export default {
                     key: 'amount'
                 }
             ];
-            this.$ajax.get('/huobi/market/history/trade?size=10&symbol='+this.params.currency.toLocaleLowerCase()+''+this.params.bizhong.toLocaleLowerCase())
+            this.$ajax.get('/huobi/market/history/trade?size=100&symbol='+this.params.currency.toLocaleLowerCase()+''+this.params.bizhong.toLocaleLowerCase())
             .then(function(response){
+                that.datas=[];
                 response.data.data.map((item)=>{
                     console.log(item.data)
                     that.datas.push(item.data[0])
                 })
                 
             })
-            
         },
         cahvas () {
              let myChart = echarts.init(document.getElementById('canvas'))
@@ -267,6 +273,26 @@ export default {
             .ivu-table th, .ivu-table td{
                 height:42.5px;
             }
+        }
+        .ivu-table-body::-webkit-scrollbar{
+            width: 8px;
+            height: 0px;
+            background-color: #f8f8f800;
+        }
+        /*定义滚动条的轨道，内阴影及圆角*/
+        .ivu-table-body::-webkit-scrollbar-track{
+            -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
+            border-radius: 10px;
+            background-color:none;
+            opacity: 0;
+        }
+        /*定义滑块，内阴影及圆角*/
+        .ivu-table-body::-webkit-scrollbar-thumb{
+            /*width: 10px;*/
+            height: 20px;
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
+            background-color: rgba(145, 145, 145, 0.178);
         }
         
     }

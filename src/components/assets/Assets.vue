@@ -1,5 +1,5 @@
 <template>
-  <div id="assets" class="wrapper">
+  <div id="assets" class="">
     <user-info></user-info>
     <div class="account-manage">
       <Tabs :class="'vertical-tab'" value="name1" :animated="false">
