@@ -280,6 +280,10 @@
 
 <style lang="scss">
   @import '../../my-theme/mixin.scss';
+  #assets{
+    width:1200px;
+    margin: 0 auto;
+  }
   .account-manage {
     .ivu-tabs-tabpane {
       h3 {

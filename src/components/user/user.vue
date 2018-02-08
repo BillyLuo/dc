@@ -54,6 +54,8 @@ export default {
     padding-bottom: 20px;
   }
   .user-center {
+    width:1200px;
+    margin: 0 auto;
     .user-menu {
       width: 160px;
       float: left;
