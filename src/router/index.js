@@ -9,7 +9,7 @@ const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
 const sliderTest = ()=> import('@/components/sliderTest.vue');
 const NotFound = () => import('@/components/notfound/notFound');
-const Market = () => import("@/components/market/Market")
+const Market = () => import("@/components/market/Market");
 Vue.use(Router)
 
 export default new Router({

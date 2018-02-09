@@ -5,7 +5,7 @@
                 <div class="depth-title">
                     深度图
                 </div>    
-                <div id="canvas" :style="{width: '100%', height: '400px'}">
+                <div id="canvas" :style="{width: '100%', height: '470px'}">
 
                 </div>
             </Col>
@@ -119,103 +119,78 @@ export default {
             .then(function(response){
                 that.datas=[];
                 response.data.data.map((item)=>{
-                    console.log(item.data)
+                    // console.log(item.data)
                     that.datas.push(item.data[0])
                 })
                 
             })
         },
         cahvas () {
-             let myChart = echarts.init(document.getElementById('canvas'))
+            let biddata,askdata;
+            this.$ajax.get('/huobi/market/depth?symbol=btcusdt&type=step3')
+            .then((response)=>{
+                console.log(response.data)
+                biddata = response.data.tick.bids;
+                askdata = response.data.tick.asks;
+                let myChart = echarts.init(document.getElementById('canvas'))
                 myChart.showLoading();
                 myChart.clear();
-            let option = {
-                title: {
-                    text: '堆叠区域图'
-                },
-                tooltip : {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'cross',
-                        label: {
-                            backgroundColor: '#6a7985'
+            let option1 = {
+                    backgroundColor:'#181B2A',
+                    tooltip: {
+                        trigger: 'axis',
+                        formatter: function(val){
+                            return val[0].seriesId + "</br>价格"+val[0].data[0]+"</br>数量"+val[0].data[1]
                         }
-                    }
-                },
-                legend: {
-                    data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: {}
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis : [
-                    {
-                        type : 'category',
-                        boundaryGap : false,
-                        data : ['周一','周二','周三','周四','周五','周六','周日']
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : [
-                    {
-                        name:'邮件营销',
-                        type:'line',
-                        stack: '总量',
-                        areaStyle: {normal: {}},
-                        data:[120, 132, 101, 134, 90, 230, 210]
                     },
-                    {
-                        name:'联盟广告',
-                        type:'line',
-                        stack: '总量',
-                        areaStyle: {normal: {}},
-                        data:[220, 182, 191, 234, 290, 330, 310]
+                    grid:{
+                        left:'5%',
+                        right:0,
+                        bottom:30,
+                        top:20
                     },
-                    {
-                        name:'视频广告',
-                        type:'line',
-                        stack: '总量',
-                        areaStyle: {normal: {}},
-                        data:[150, 232, 201, 154, 190, 330, 410]
+                    xAxis: {
+                        // show: false,
+                        name:'',
+                        type: 'category',
+                        // data: ssw,
+                        // boundaryGap: true
                     },
-                    {
-                        name:'直接访问',
-                        type:'line',
-                        stack: '总量',
-                        areaStyle: {normal: {}},
-                        data:[320, 332, 301, 334, 390, 330, 320]
+                    yAxis:{ 
+                        // show: false,
+                        splitLine:{show: false},//去除网格线
+                        type:'value',
                     },
-                    {
-                        name:'搜索引擎',
-                        type:'line',
-                        stack: '总量',
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top'
+                    
+                    series: [
+                        {
+                            id:"买入",
+                            type: 'line',
+                            symbol: "",
+                            symbolSize: 0,
+                            name: '数量',
+                            data: biddata,
+                            lineStyle: {
+                                color: 'red'
                             }
-                        },
-                        areaStyle: {normal: {}},
-                        data:[820, 932, 901, 934, 1290, 1330, 1320]
-                    }
-                ]
-            };
-
-            myChart.hideLoading();
-                myChart.setOption(option)
-
+                        }, 
+                        {
+                            id: '卖出',
+                            type: 'line',
+                            name: '数量',
+                            symbol: '',
+                            symbolSize: 0,
+                            data: askdata,
+                            lineStyle: {
+                                color: 'green'
+                            }
+                        }
+                    ]
+                };
+                myChart.hideLoading();
+                myChart.setOption(option1)
+            })
+            
         }
     }
 }
