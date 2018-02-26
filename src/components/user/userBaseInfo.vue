@@ -87,7 +87,7 @@ export default {
       height: 30px;
       line-height: 30px;
     }
-    .user-vip {
+    @at-root .user-vip {
       display: inline-block;
       font-size: 12px;
       width: 60px;

@@ -7,6 +7,7 @@ const Assets = ()=> import('@/components/assets/Assets')
 const Trade = ()=> import('@/components/Trade')
 const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
+const RealCertification = ()=> import('@/components/user/realCertification');
 const sliderTest = ()=> import('@/components/sliderTest.vue');
 const NotFound = () => import('@/components/notfound/notFound');
 const Market = () => import("@/components/market/Market");
@@ -54,7 +55,7 @@ export default new Router({
         {path:'/user/broker',name:'broker',component:null},
         {path:'/user/api',name:'api',component:null},
         {path:'/user/loginrecord',name:'loginrecord',component:null},
-        {path:'/user/authentication',name:'authentication',component:null}
+        {path:'/user/authentication',name:'authentication',component:RealCertification}
       ]
     },
     {

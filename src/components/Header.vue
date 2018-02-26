@@ -11,8 +11,11 @@
         </MenuItem>
       </Menu>
       <div class="header-right float-left">
-        <div v-if="isLogined">
-
+        <div v-if="isLogined" class="logined">
+          <div class="user-name float-left">{{userInfo.username}}</div>
+          <div class="user-level float-left">
+            <span class="user-vip">VIP{{userInfo.userLevel}}</span>
+          </div>
         </div>
         <div v-else class="login">
           <span class="login-in" @click="route('login')">登录</span>|
@@ -57,7 +60,11 @@ export default {
       scroll:false,
       activeName:'home',
       isLogined:false,
-      menu
+      menu,
+      userInfo:{
+        username:15178874695,
+        userLevel:1
+      }
     }
   },
   mounted (){
@@ -147,6 +154,10 @@ export default {
     margin-left: 50px;
     position: relative;
     z-index: 1300;
+  }
+  .logined {
+    padding: 17px 0;
+    line-height: 26px;
   }
   .login {
     margin: 15px 0;

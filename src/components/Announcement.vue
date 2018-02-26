@@ -8,7 +8,7 @@
       <div class="right">
         <div class="swiper-container announcement-swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(data,index) in swiperData">
+            <div class="swiper-slide" v-for="(data,index) in swiperData" :key="index+1">
               <div class="announcement-text">
                 <a href="javascript:;">{{index+1}}-Coinw即将开通BeeChat (CHAT)充值及上线公告</a>
               </div>
@@ -36,7 +36,9 @@
     },
     mounted(){
       let mySwiper = new Swiper('.announcement-swiper-container', {
-        autoplay: true,//可选选项，自动滑动
+        autoplay: {
+          delay:4000
+        },//可选选项，自动滑动
         direction : 'vertical',
       })
     }
@@ -84,6 +86,10 @@
           line-height: 42px;
           a{
             color: #75829d;
+            &:hover {
+              color: #2d8cf0;
+              text-decoration: underline;
+            }
           }
         }
       }

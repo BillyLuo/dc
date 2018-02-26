@@ -68,10 +68,10 @@
       };
       return {
         formInline: {
-          user: '',
-          password: '',
-          tel:'',
-          verificationCode:''
+          user: '15178874695',
+          password: 'Aa123456',
+          tel:'15178874695',
+          verificationCode:'2234'
         },
         telCodeText:'发送验证码',
         telCodeDisabled:false,
@@ -149,51 +149,13 @@
       },
       codeCompare(){   // 验证码对比
         this.handleSpinCustomShow();
-        let $this = this;
-        this.$ajax({
-          method: 'post',
-          url: '/bizs/biz/pbmcd.do?fh=REGBIZ0000000J00&resp=bd',
-          data: {
-            input_code:this.formInline.verificationCode
-          }
-        }).then(function (response) {
-          if(response.data.err_code == 1){
-            $this.timeoutDate();  // 后台数据验证
-          }else{
-            $this.$Spin.hide();
-            $this.$Message.error('验证码错误');
-          }
-        }).catch(function (error) {
-          $this.$Spin.hide();
-          $this.$Message.success('失败');
-          console.log(error);
-        });
       },
       timeoutDate(){   // 后台数据验证
         let $this = this;
         let md = nodeForge.md.md5.create();
         md.update(this.formInline.password);
         const password = md.digest().toHex();
-        this.$ajax({
-          method: 'post',
-          url: 'bizs/lio/pblin.do?fh=LINLIO0000000J00&resp=bd',
-          data: {
-            "user_name":this.formInline.user,
-            "password":password,
-            "login_type":1,
-            "menu_type":1
-          }
-        }).then(function (response) {
-          $this.$Spin.hide();
-          if(response.data.err_code == "1"){
-            $this.$Message.success('登录成功!');
-          }else if(response.data.err_code == "2"){
-            $this.$Message.error('用户名或密码错误!');
-          }
-        }).catch(function (error) {
-          $this.$Spin.hide();
-          console.log(error);
-        });
+        
       },
       handleSpinCustomShow () {   // loading
         this.$Spin.show({
@@ -206,10 +168,16 @@
                   size: 18
                 }
               }),
-              h('div', '验证消息中...')
+              h('div', '登录中...')
             ])
           }
         });
+        setTimeout(() => {
+          this.$Spin.hide();
+          this.$router.push({
+            path:'/home'
+          })
+        },2000);
       },
     }
   }

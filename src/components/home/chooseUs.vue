@@ -114,9 +114,8 @@
             width: 75px;
             height: 75px;
             border-radius: 100%;
-            background: url("/static/img/partner/partner5.png");
+            background: url(/static/img/portrait.jpg);
             background-size: 100% 100%;
-            background-color: #aaaaaa;
             position: absolute;
             top: -30px;
             right: 15px;
