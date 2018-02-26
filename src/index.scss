@@ -70,6 +70,12 @@ body {
 .main-inner{
   background: #F9F9F9;
 }
-
+.divide {
+  border-bottom: 1px solid #f4f4f4;
+}
+.btn-block {
+  display: block;
+  width: 100%;
+}
 @import './media.scss';
 @import './assets/icomoon/style.css';

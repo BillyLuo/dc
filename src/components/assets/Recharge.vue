@@ -4,7 +4,7 @@
     <div class="divide"></div>
     <div class="recharge-address clear">
       <div class="float-left">充值地址</div>
-      <div class="float-right"></div>
+      <input :value="rechargeAddress" readonly :class="'float-left recharge-address-detail'" />
     </div>
     <div class="recharge-note">
       <div class="recharge-note-title">充值须知</div>
@@ -14,6 +14,10 @@
         <li>最小充值金额是：0.0001 您的{{currencyType}}地址不会改变，可以重复充值，如有更改，我们会通过网站公告或邮件通知您。</li>
       </ul>
     </div>
+    <div class="recharge-record">
+      <h3>{{currencyType}}充值记录</h3>
+      <Table :class="'no-border-table'" stripe :columns="record_column" :data="record_data" />
+    </div>
   </div>
 </template>
 
@@ -22,7 +26,35 @@ export default {
   data () {
     return {
       title:'ETH充值',
-      currencyType:'ETH'
+      currencyType:'ETH',
+      rechargeAddress:'0xf323jfaafdfiedfjbgnmnn2',
+      record_column:[
+        {
+          title: '最后更新',
+          key: 'lastupdate'
+        },
+        {
+          title: '充值地址',
+          key: 'rechargeaddress',
+          sortable: false
+        },
+        {
+          title: '充值数量',
+          key: 'rechargecount',
+          sortable: true
+        },
+        {
+          title: '确认数',
+          key: 'count',
+          sortable: true
+        },
+        {
+          title: '状态',
+          key: 'status',
+          sortable: false
+        }
+      ],
+      record_data:[]
     }
   }
 }
@@ -54,7 +86,22 @@ export default {
     border-bottom: 1px solid #f4f4f4;
   }
   .recharge-address {
-    margin: 30px 0;
+    margin: 50px 0;
+    div.float-left {
+      width: 100px;
+      line-height: 40px;
+      margin-right: 40px;
+    }
+    .recharge-address-detail {
+      width: 600px;
+      height: 40px;
+      padding: 0 10px;
+      background: #fafafa;
+      border: 1px solid #f5f5f5;
+      color: #666;
+      appearance: none;
+    }
+    
   }
   .recharge-note {
     border: 1px solid #F2F6FE;
@@ -70,5 +117,44 @@ export default {
   .recharge-note-content {
     color: #999;
     line-height: 1.8em;
+    li {
+      position: relative;
+      padding-left: 15px;
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 6px;
+        height: 6px;
+        background-color: #fff;
+        border-radius: 50%;
+        -webkit-transform: translate(0,-50%);
+        -moz-transform: translate(0,-50%);
+        -ms-transform: translate(0,-50%);
+        transform: translate(0,-50%);
+        top: .9em;
+        background-color: #3166D2;
+      }
+    }
+  }
+  .recharge-record {
+    margin-top: 50px;
+    &>h3 {
+      font-weight: 400;
+      position: relative;
+      height: 40px;
+      line-height: 40px;
+      margin-bottom: 40px;
+      &::after{
+        content: '';
+        display: inline-block;
+        width: 60px;
+        height: 2px;
+        background-color: #FDD11A;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+    }
   }
 </style>
