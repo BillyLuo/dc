@@ -15,7 +15,7 @@
                                             <Input number></Input>
                                             <span>{{ params.bizhong }}</span>
                                             <p>≈ <i> sdsfd </i> CNY</p>
-                                        </FormItem>
+                                        </FormItem> 
                                         <FormItem label="买入量" class="deal-input">
                                             <Input number></Input>
                                             <span>{{ params.currency }}</span>
