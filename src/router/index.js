@@ -14,6 +14,7 @@ const RealCertification = ()=> import('@/components/user/realCertification');
 const sliderTest = ()=> import('@/components/sliderTest.vue');
 const NotFound = () => import('@/components/notfound/notFound');
 const Market = () => import("@/components/market/Market");
+const Broker = () => import("@/components/user/broker");
 Vue.use(Router)
 
 export default new Router({
@@ -61,7 +62,7 @@ export default new Router({
       children:[
         {path:'',component:safeSettings},
         {path:'/user/safesettings',name:'safeSettings',component:safeSettings},
-        {path:'/user/broker',name:'broker',component:null},
+        {path:'/user/broker',name:'broker',component:Broker},
         {path:'/user/api',name:'api',component:null},
         {path:'/user/loginrecord',name:'loginrecord',component:null},
         {path:'/user/authentication',name:'authentication',component:RealCertification}

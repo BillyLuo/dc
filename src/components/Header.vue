@@ -78,14 +78,16 @@ export default {
   methods:{
     getPath(){
       let path = this.$route.path;
+      console.log(path)
+      console.log(path.split("/"))
       let that =this;
       menu.map(function(item){
-          if(item.name==path.substr(1,path.length-1)){
-            that.activeName = path.substr(1,path.length-1);
+          if(item.name==path.split("/")[1]){
+            that.activeName = path.split("/")[1];
           }
-          if (path.match('/assets')) {
-            that.activeName = 'assets'
-          }
+          // if (path.match('/assets')) {
+          //   that.activeName = 'assets'
+          // }
       })
     },
     route(name){
