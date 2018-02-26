@@ -4,6 +4,9 @@ const Home = ()=> import('@/components/home/Home')
 const Login = ()=> import('@/components/Login')
 const Register = ()=> import ('@/components/Register');
 const Assets = ()=> import('@/components/assets/Assets')
+const AssetsList = ()=> import('@/components/assets/AssetsList');
+const Recharge = ()=> import('@/components/assets/Recharge')
+const Withdraw = ()=> import('@/components/assets/Withdraw')
 const Trade = ()=> import('@/components/Trade')
 const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
@@ -38,7 +41,13 @@ export default new Router({
     {
       path:'/assets',
       name:'Assets',
-      component:Assets
+      component:Assets,
+      children:[
+        {path:'',component:AssetsList},
+        {path:'/assets/assetslist',component:AssetsList},
+        {path:'/assets/recharge',component:Recharge},
+        {path:'/assets/withdraw',component:Withdraw}
+      ]
     },
     {
       path:'/trade',

@@ -4,12 +4,7 @@
     <div class="account-manage">
       <Tabs :class="'vertical-tab'" value="name1" :animated="false">
         <TabPane :label="label1" name="name1">
-          <div class="account-list">
-            <h3><span>资产列表</span></h3>
-            <div>
-              <Table :class="'no-border-table'" stripe :columns="account_list_column" :data="account_list_data" />
-            </div>
-          </div>
+          <router-view></router-view>
         </TabPane>
         <TabPane :label="label2" name="name2">
           <h3><span>我的财务管理</span></h3>
@@ -65,7 +60,7 @@
       'user-info': userInfo
     },
     mounted() {
-      this.getAccountList();
+      
     },
     data() {
       return {
@@ -97,67 +92,6 @@
           {
             label: 'ETH提现',
             value: 'ETH'
-          }
-        ],
-        account_list_column: [{
-            title: '币种名称',
-            key: 'name'
-          },
-          {
-            title: '可用资产',
-            key: 'useable',
-            sortable: true
-          },
-          {
-            title: '冻结资产',
-            key: 'freeze',
-            sortable: true
-          },
-          {
-            title: '总量',
-            key: 'total',
-            sortable: true
-          },
-          {
-            title: '操作',
-            key: 'option',
-            render: (h, obj) => {
-              let that = this;
-              return h('div', {
-                'class': {
-                  'account-options': true
-                }
-              }, [
-                h('button', {
-                  'class': {
-                    'account-in': true
-                  },
-                  domProps: {
-                    innerHTML: '冲币'
-                  },
-                  on: {
-                    click: this.handle.bind(this, {
-                      type: 'in',
-                      data: obj
-                    })
-                  }
-                }),
-                h('button', {
-                  'class': {
-                    'account-out': true
-                  },
-                  domProps: {
-                    innerHTML: '提币'
-                  },
-                  on: {
-                    click: this.handle.bind(this, {
-                      type: 'out',
-                      data: obj
-                    })
-                  }
-                }),
-              ])
-            }
           }
         ],
         account_list_data: [
@@ -231,33 +165,6 @@
       changeType(value) {
         console.log(value);
       },
-      handle(action) {
-        console.log(action);
-      },
-      getAccountList() {
-        let list = [{
-            name: 'BTC',
-            useable: '0.33',
-            freeze: '0.00',
-            total: '3.33'
-          },
-          {
-            name: 'ETH',
-            useable: '45.19',
-            freeze: '0.00',
-            total: '66.62'
-          }
-        ]
-        let formatList = list.map((value, index) => {
-          let result = {};
-          result.name = value.name;
-          result.useable = '$ ' + value.useable;
-          result.freeze = '$ ' + value.freeze;
-          result.total = '$ ' + value.total;
-          return result;
-        })
-        this.account_list_data = formatList;
-      },
       chooseStartDate(value) {
         console.log('startDate----------', value, arguments);
       },
@@ -286,7 +193,7 @@
   }
   .account-manage {
     .ivu-tabs-tabpane {
-      h3 {
+      &>h3 {
         font-weight: 400;
         padding-left: 20px;
         span {
@@ -316,9 +223,9 @@
         background: #fff;
       }
       .ivu-tabs-content {
-        width: 1040px;
+        width: 1020px;
         padding: 20px;
-        float: left;
+        float: right;
         min-height: 400px;
         background: #fff;
       }
@@ -349,11 +256,11 @@
   
   .account-options {
     button {
-      width: 44px;
+      width: 54px;
       height: 22px;
       border: 0;
       border-radius: 4px;
-      margin: 2px;
+      margin: 4px;
       color: #fff;
       outline: none;
       opacity: 0.8;

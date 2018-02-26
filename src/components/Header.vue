@@ -3,7 +3,7 @@
     <div class="header-inner clear wrapper">
       <div class="header-logo" @click="route('home')">
         <img src="/static/img/logo.png"/>
-        <span>蜂巢币</span>
+        <span>交易网</span>
       </div>
       <Menu mode="horizontal" @on-select="route" :active-name="activeName">
         <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
@@ -82,6 +82,9 @@ export default {
       menu.map(function(item){
           if(item.name==path.substr(1,path.length-1)){
             that.activeName = path.substr(1,path.length-1);
+          }
+          if (path.match('/assets')) {
+            that.activeName = 'assets'
           }
       })
     },
