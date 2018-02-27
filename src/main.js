@@ -4,12 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import './my-theme/index.less';
-import {LoadingBar,Input,Button,RadioGroup,Row,Col,Radio,Checkbox,Switch,Select,Option,Slider,Alert,
+import {LoadingBar,Input,InputNumber,Button,RadioGroup,Row,Col,Radio,Checkbox,Switch,Select,Option,Slider,Alert,
     Card,Message,Notice,Modal,Progress,Badge,Tag,Tooltip,Poptip, Breadcrumb,Circle,BackTop,Spin,Icon,Table
 } from 'iview';
 import axios from 'axios';
 Vue.component('LoadingBar',LoadingBar);
 Vue.component('Input',Input);
+Vue.component('InputNumber',InputNumber);
 Vue.component('Button',Button);
 Vue.component('RadioGroup',RadioGroup);
 Vue.component('Row',Row);

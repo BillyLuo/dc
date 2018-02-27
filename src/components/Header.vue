@@ -78,8 +78,8 @@ export default {
   methods:{
     getPath(){
       let path = this.$route.path;
-      console.log(path)
-      console.log(path.split("/"))
+      // console.log(path)
+      // console.log(path.split("/"))
       let that =this;
       menu.map(function(item){
           if(item.name==path.split("/")[1]){

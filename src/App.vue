@@ -31,7 +31,7 @@ export default {
     Announcement
   },
   created(){
-    console.log('app created');
+    // console.log('app created');
   }
 }
 </script>

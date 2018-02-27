@@ -49,10 +49,10 @@
       }
     },
     created(){
-      console.log("页面加载前");
+      // console.log("页面加载前");
     },
     mounted(){
-        console.log("页面加载后")
+        // console.log("页面加载后")
       this.move(document.getElementById('title-scroll-move'))
     }
   }

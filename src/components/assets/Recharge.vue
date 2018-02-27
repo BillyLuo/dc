@@ -82,9 +82,6 @@ export default {
       bottom: 0px;
     }
   }
-  .divide {
-    border-bottom: 1px solid #f4f4f4;
-  }
   .recharge-address {
     margin: 50px 0;
     div.float-left {
