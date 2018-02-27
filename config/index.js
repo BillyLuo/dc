@@ -34,30 +34,36 @@ module.exports = {
 
     cssSourceMap: true,
     proxyTable: {
-      '/bizs': {
-          target: 'http://172.16.21.22:8001/fbs',
-          //target: 'http://192.168.10.8:8000/fbs',
-          pathRewrite: {'^/bizs' : ''}
-      },
-      '/bizrest': {
-          target: 'http://172.16.21.22:8001/fbs',
-          //target: 'http://192.168.10.8:8000/fbs',
-      },
-      '/okcoin': {
-          target: 'http://localhost/okcoin/',
-          //target: 'http://192.168.10.8:8000/fbs',
-          pathRewrite: {'^/okcoin' : ''}
-      },
-      '/biy': {
-          target: 'http://localhost/biy/',
-          //target: 'http://192.168.10.8:8000/fbs',
-          pathRewrite: {'^/biy' : ''}
-      },
-      '/huobi': {
-          target: 'http://localhost/huobi/',
-          //target: 'http://192.168.10.8:8000/fbs',
-          pathRewrite: {'^/huobi' : ''}
-      },
+        '/bizs': {
+            target: 'http://172.16.21.22:8001/fbs',
+            //target: 'http://192.168.10.8:8000/fbs',
+            pathRewrite: {'^/bizs' : ''}
+        },
+        '/bizrest': {
+            target: 'http://172.16.21.22:8001/fbs',
+            //target: 'http://192.168.10.8:8000/fbs',
+        },
+        '/okcoin': {
+            target: 'http://localhost/okcoin/',
+            //target: 'http://192.168.10.8:8000/fbs',
+            pathRewrite: {'^/okcoin' : ''}
+        },
+        //   MURPHY
+        '/murphy': {
+            target: 'http://localhost/murphy/',
+            //target: 'http://192.168.10.8:8000/fbs',
+            pathRewrite: {'^/murphy' : ''}
+        },
+        '/biy': {
+            target: 'http://localhost/biy/',
+            //target: 'http://192.168.10.8:8000/fbs',
+            pathRewrite: {'^/biy' : ''}
+        },
+        '/huobi': {
+            target: 'http://localhost/huobi/',
+            //target: 'http://192.168.10.8:8000/fbs',
+            pathRewrite: {'^/huobi' : ''}
+        },
     }
   },
 

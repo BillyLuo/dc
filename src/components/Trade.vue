@@ -104,7 +104,7 @@
                         <p class="table-title">最新成交价格</p>
                         <Table :row-class-name='rowClassName' size='small' :data="price_datas" :columns="price_columns" stripe></Table>
                         <p class="table-title" style="margin-top:20px;">最新成交记录</p>
-                        <Table style="margin-bottom:20px;" :row-class-name='rowClassName' size='small' :data="record_data" :columns="record_columns" stripe></Table>
+                        <Table class='chengjiaojilu' style="margin-bottom:20px;" :row-class-name='rowClassName' size='small' :data="record_data" :columns="record_columns" stripe></Table>
                     </div>
                 </Col>
             </Row>
@@ -856,6 +856,7 @@
 
             }
         }
+       
         .trade-record{
             .table-row-color-5{
                 color: #2d8cf0;
@@ -883,7 +884,32 @@
             }
         }
         
-        
+        .chengjiaojilu{
+            .table-row-color-5{
+                color: #2d8cf0;
+            }
+            .table-row-color-5:hover td{
+                background: none !important;
+                 color:#2d8cf0;
+            }
+            .table-row-color-10{
+                color:#f5322d;
+            }
+            .table-row-color-10:hover td{
+                background: none !important;
+                color:#f5322d;
+            }
+            .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td{
+                background:none;
+            }
+            .table-title{
+                line-height: 40px;
+                background: #f8f8f9;
+                border: 1px solid #dddee1;
+                border-bottom: none;
+                padding-left: 18px;
+            }
+        }
         
     }
     
