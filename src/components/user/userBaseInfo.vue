@@ -87,20 +87,6 @@ export default {
       height: 30px;
       line-height: 30px;
     }
-    @at-root .user-vip {
-      display: inline-block;
-      font-size: 12px;
-      width: 60px;
-      height: 26px;
-      line-height: 26px;
-      color: #fff;
-      text-align: right;
-      padding-right: 4px;
-      vertical-align: middle;
-      background-image: url(/static/img/icon-vip.png);
-      background-repeat: no-repeat;
-      background-size: 100% 26px;
-    }
     .user-id {
       color: #3166D2;
       margin-right: 20px;

@@ -10,11 +10,20 @@
             {{value.text}}
         </MenuItem>
       </Menu>
-      <div class="header-right float-left">
+      <div class="header-right float-left header-user">
         <div v-if="isLogined" class="logined">
           <div class="user-name float-left">{{userInfo.username}}</div>
           <div class="user-level float-left">
             <span class="user-vip">VIP{{userInfo.userLevel}}</span>
+          </div>
+          <div class="login-out">
+            <div>
+              <div class="login-out-title">个人中心</div>
+              <div class="divide"></div>
+              <div class="all-asset">账户总资产：<span>0 CNYT</span></div>
+              <div class="divide"></div>
+              <button class="login-out-btn" @click="loginOut">登出</button>
+            </div>
           </div>
         </div>
         <div v-else class="login">
@@ -27,6 +36,7 @@
 </template>
 
 <script>
+import bus from '../bus/bus.js';
 function scroll (e) {
   var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
   var scroll = false;
@@ -59,7 +69,7 @@ export default {
     return {
       scroll:false,
       activeName:'home',
-      isLogined:false,
+      isLogined:true,
       menu,
       userInfo:{
         username:15178874695,
@@ -70,7 +80,15 @@ export default {
   mounted (){
     // this.initActive();
     // console.log('----header----',this);
+    var that = this;
     window.onscroll = scroll.bind(this);
+    bus.$on('login',(value) => {
+      if (value) {
+        that.isLogined = true;
+      }else {
+        that.isLogined = false;
+      }
+    })
   },
   watch:{
     "$route":"getPath"  // 监听事件
@@ -81,6 +99,7 @@ export default {
       // console.log(path)
       // console.log(path.split("/"))
       let that =this;
+      this.activeName = 'home';
       menu.map(function(item){
           if(item.name==path.split("/")[1]){
             that.activeName = path.split("/")[1];
@@ -93,6 +112,15 @@ export default {
     route(name){
       this.$router.push('/'+name);
     },
+    loginOut () {
+      this.isLogined = false;
+      this.$router.push({
+        path:'/',
+        params:{
+          isLogined:false
+        }
+      })
+    }
   }
 }
 </script>
@@ -122,6 +150,9 @@ export default {
     }
     .ivu-menu-light{
       background: transparent;
+    }
+    .user-name {
+      cursor: default;
     }
   }
   .header-inner {
@@ -160,6 +191,13 @@ export default {
     position: relative;
     z-index: 1300;
   }
+  .header-user {
+    height: 70px;
+    // margin-top: 20px;
+    &:hover .login-out {
+      display: block;
+    }
+  }
   .logined {
     padding: 17px 0;
     line-height: 26px;
@@ -176,6 +214,88 @@ export default {
     span {
       margin: 0 4px;
       cursor: pointer;
+    }
+  }
+  .login-out {
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      -webkit-transform: translate(-50%,0);
+      -moz-transform: translate(-50%,0);
+      -ms-transform: translate(-50%,0);
+      transform: translate(-50%,0);
+      border-bottom: 10px solid #fff;
+      -webkit-transform: translate(-50%,1px);
+      -moz-transform: translate(-50%,1px);
+      -ms-transform: translate(-50%,1px);
+      transform: translate(-50%,1px);
+    }
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      -webkit-transform: translate(-50%,0);
+      -moz-transform: translate(-50%,0);
+      -ms-transform: translate(-50%,0);
+      transform: translate(-50%,0);
+      border-bottom: 10px solid #F6F7FC;
+      -webkit-transform: translate(-50%,0);
+      -moz-transform: translate(-50%,0);
+      -ms-transform: translate(-50%,0);
+      transform: translate(-50%,0);
+    }
+    display: none;
+    background: #fff;
+    position: absolute;
+    width: 200px;
+    left: 0;
+    top: 60px;
+    border: 1px solid #F6F7FC;
+    box-shadow: 0 4px 4px rgba(0,0,0,.1);
+    .login-out-title {
+      font-size: 14px;
+      display: inline-block;
+      border-bottom: 2px solid #3166D2;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 20px;
+    }
+    .all-asset {
+      height: 50px;
+      line-height: 50px;
+      padding: 0 20px;
+      color: #666;
+      span {
+        display: inline-block;
+        border-radius: 12px;
+        padding: 2px 12px;
+        height: 24px;
+        color: #fff;
+        background-color: #3166D2;
+        text-align: center;
+        line-height: 20px;
+      }
+    }
+    .login-out-btn {
+      width: 100%;
+      height: 36px;
+      border: none;
+      color: #192E5B;
+      background: #F6F7FC;
+      letter-spacing: 2px;
+      outline: none;
+      &:hover {
+        background: rgba(190, 203, 245,.3);
+      }
     }
   }
 </style>

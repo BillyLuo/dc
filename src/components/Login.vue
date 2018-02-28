@@ -175,9 +175,12 @@
         setTimeout(() => {
           this.$Spin.hide();
           this.$router.push({
-            path:'/home'
+            name:'Home',
+            params:{
+              isLogined:true
+            }
           })
-        },2000);
+        },1000);
       },
     }
   }

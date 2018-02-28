@@ -9,6 +9,7 @@
   </div>
 </template>
 <script>
+  import bus from '../../bus/bus.js';
   import HeaderSwiper from './headerSwiper';
   import LatestMarket from './LatestMarket';
   import BlockchainCalculator from './BlockchainCalculator'
@@ -26,6 +27,11 @@
       ChooseUs,
       OfficialAnnouncement,
       OfficialNews
+    },
+    mounted(){
+      console.log(this.$route);
+      let isLogined = this.$route.params.isLogined;
+      bus.$emit('login',isLogined);
     }
   }
 </script>
