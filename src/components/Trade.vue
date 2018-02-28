@@ -98,7 +98,7 @@
                             </Button>
                         </div>
                     </div>
-                </Col>
+                </Col> 
                 <Col span='8'>
                     <div class="trade-record buy-sell">
                         <p class="table-title">最新成交价格</p>
@@ -170,182 +170,77 @@
                 buymoney:0,
                 sellmoney:0,
                 // 最新成交价格
-                price_datas:[
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    },
-                    {
-                        tid: "0000",
-                        amount: "12",
-                        price: "3244",
-                    }
-                ],
+                price_datas:[],
                 price_columns: [
                     {
                         title: '交易ID',
-                        key: 'tid'
+                        key: 'tradeid'
                     },
                     {
                         title: '交易数量',
-                        key: 'amount',
+                        key: 'tradecount',
                     },
                     {
                         title: '交易价格',
-                        key: 'price',
+                        key: 'tradeprice',
                         render: (h, params) => {
-                            return params.row.price
+                            console.log(params)
+                            return params.row.tradeprice
                         }
                     }
                 ],
-                // 委托
-                weituo_data:[
-                    {
-                        buycount: "12",
-                        buyprice: "2134",
-                        sellcount: "21",
-                        sellprice: "3000"
-                    },
-                    {
-                        buycount: "12",
-                        buyprice: "2134",
-                        sellcount: "21",
-                        sellprice: "3000"
-                    },
-                    {
-                        buycount: "12",
-                        buyprice: "2134",
-                        sellcount: "21",
-                        sellprice: "3000"
-                    }
-                    // {
-                    //     tid: "0000",
-                    //     amount: "12",
-                    //     price: "3244",
-                    //     type: "buy",
-                    //     date: "2017-10-23"
-                    // },
-                    // {
-                    //     tid: "0000",
-                    //     amount: "12",
-                    //     price: "3244",
-                    //     type: "buy",
-                    //     date: "2017-10-23"
-                    // },
-                    // {
-                    //     tid: "0000",
-                    //     amount: "12",
-                    //     price: "3244",
-                    //     type: "buy",
-                    //     date: "2017-10-23"
-                    // }
-                ],
-                weituo_columns: [],
+               
                 // 最新交易记录
                 record_columns:[
                     {
                         title: "时间",
-                        key: 'time'
+                        key: 'tradetime',
+                        render: (h,params) => {
+                            return params.row.tradetime.substr(11,20)
+                        }
                     },
                     {
                         title: '价格(¥)',
-                        key: 'price',
+                        key: 'tradeprice'
+                        
                     },
                     {
                         title: '数量',
-                        key: 'number'
+                        key: 'tradecount'
                     }
                 ],
-                record_data: [
-                    {
-                        time: '09:48:44',
-                        price: "6804",
-                        number: "3.08"
-                    },
-                    {
-                        time: '09:34:13',
-                        price: "6804",
-                        number: "0.334"
-                    },
-                    {
-                        time: '09:58:25',
-                        price: "6804",
-                        number: "2.000"
-                    },
-                    {
-                        time: '09:18:53',
-                        price: "6804",
-                        number: "3.08"
-                    },
-                    {
-                        time: '09:08:44',
-                        price: "6804",
-                        number: "3.08"
-                    }
-                ],
-                // 委托时间	类型	数量	价格	金额	成交量	成交金额	手续费	平均成交价	状态/操作
+                record_data: [],
+                 // 委托
+                weituo_data:[],
+                weituo_columns: [],
                 order_record_data: [],
                 order_record_cloumns: [
                     {
                         title: "委托时间",
-                        key: "weituotime",
+                        key: "entrusttime",
                     },
                     {
                         title: '类型',
-                        key: 'type'
+                        key: 'tradetype',
+                        render: (h,params) =>{
+                            if(params.row.tradetype == "1"){
+                                return "买入"
+                            }else  if(params.row.tradetype == "2"){
+                                return "卖出"
+                            }
+                        }
                     },
                     {
                         title: '数量',
-                        key: 'count'
+                        key: 'tradecount'
                     },
                     {
                         title: '价格',
-                        key: 'price'
+                        key: 'tradeprice'
                     },
                     {
                         title: '金额',
-                        key: 'money'
+                        key: 'amount'
                     },
                     {
                         title: '成交量',
@@ -353,65 +248,156 @@
                     },
                     {
                         title: '成交金额',
-                        key: 'amount'
+                        key: 'transactionamount'
                     },
                     {
                         title: '手续费',
-                        key: 'poundage'
+                        key: 'brokerage'
                     },
                     {
                         title: '平均成交价',
-                        key: 'averageprice'
+                        key: 'avetransactionprice'
                     },
                     {
                         title: '状态/操作',
-                        key: 'status'
+                        key: 'status',
+                        render: (h,params) =>{
+                            if(params.row.status == "1"){
+                                return "成交"
+                            }else if(params.row.status == "2"){
+                                return "部分"
+                            }else if(params.row.status == "3"){
+                                return  h('div', [
+                                            h('Button', {
+                                                props: {
+                                                    type: 'primary',
+                                                    size: 'small'
+                                                },
+                                                style: {
+                                                    marginRight: '5px'
+                                                },
+                                                on: {
+                                                    click: () => {
+                                                        this.show(params.index)
+                                                    }
+                                                }
+                                            }, '撤销')
+                                        ]);
+                            }
+                        }
                     }
                 ]
 
             }
         },
         created () {
-            this.weituo_columns = [
-                {
-                    title:"总买入数("+this.btcname+")",
-                    key: "buycount",
-                    render (h,row){
-                        return Number(row.row.buycount).toFixed(4);
-                    }
-                },
-                {
-                    title:"平均买入价(CNYT)",
-                    key: "buyprice",
-                    render (h,row){
-                        return Number(row.row.buyprice).toFixed(4);
-                    }
-                },
-                {
-                    title:"总卖出数("+this.btcname+")",
-                    key: "sellcount",
-                    render (h,row){
-                        return Number(row.row.sellcount).toFixed(4);
-                    }
-                },
-                {
-                    title:"平均卖出价(CNYT)",
-                    key: "sellprice",
-                    render (h,row){
-                        return Number(row.row.sellprice).toFixed(4);
-                    }
-                }
-            ]
+            this.weituolist();
         },
         mounted () {
-            this.$ajax.get('/huobi/v1/common/currencys')
-            .then(function(response){
-                console.log(response.data.data)
-            })
+            // this.$ajax.get('/huobi/v1/common/currencys')
+            // .then(function(response){
+            //     console.log(response.data.data)
+            // })
+            this.query();
         },
         methods: {
+            // 委托列表表头
+            weituolist () {
+                this.weituo_columns = [
+                    {
+                        title:"总买入数("+this.btcname+")",
+                        key: "totalbuynum",
+                        render (h,row){
+                            return Number(row.row.totalbuynum).toFixed(4);
+                        }
+                    },
+                    {
+                        title:"平均买入价(CNYT)",
+                        key: "avebuyprice",
+                        render (h,row){
+                            return Number(row.row.avebuyprice).toFixed(4);
+                        }
+                    },
+                    {
+                        title:"总卖出数("+this.btcname+")",
+                        key: "totalsellnum",
+                        render (h,row){
+                            return Number(row.row.totalsellnum).toFixed(4);
+                        }
+                    },
+                    {
+                        title:"平均卖出价(CNYT)",
+                        key: "avesellprice",
+                        render (h,row){
+                            return Number(row.row.avesellprice).toFixed(4);
+                        }
+                    }
+                ]
+            },
+            // 查询交易记录
+            query () {
+                let that = this;
+                this.price_datas = [];
+                this.record_data = [];
+                console.log("=================")
+                // 币种
+                this.$ajax.get("/murphy/txs/tps/pbfct.do")
+                .then((response)=>{
+                    console.log(response)
+                })
+
+                // 交易记录
+                this.$ajax({
+                    method: 'post',
+                    url: '/murphy/txs/tps/pblds.do',
+                    data: {
+                        "currencycode":"eth",
+                        "count":"5"
+                    }
+                })
+                .then(function (response) {
+                    console.log(response.data.latestDeal);
+                    let  latestDeal=response.data.latestDeal;
+                    function compare(property){
+                        return function(obj1,obj2){
+                            var value1 = obj1[property];
+                            var value2 = obj2[property];
+                            return value1 - value2;     // 升序
+                        }
+                    }
+                    var sortObj = latestDeal.sort(compare("tradetype"));
+
+                    // 最新成交价格
+                    that.price_datas = sortObj;
+                    // 最新成交记录
+                    latestDeal.map(function(item,index){
+                        if(index<5){
+                            that.record_data.push(item);
+                        }
+                    })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
             ss(value){
                 console.log(value)
+            },
+            //查询委托
+            query_entrust () {
+                this.$ajax({
+                    method: 'post',
+                    url: '/murphy/txs/tps/pbets.do',
+                    data: {
+                        accountid:"",//账户ID
+                        currencycode:"",//币种
+                        starttime:"",//开始时间
+                        endtime:"",//结束时间
+                    }
+                })
+                .then((response)=>{
+                    console.log(resopnse)
+                })
             },
             safe () {
                 this.$router.push("user");
@@ -425,42 +411,17 @@
                 return '';
             },
             infos (name) {
+                console.log(name)
+                if(name != "buy"){
+
+                }
                 this.types = name; 
+                
             },
             info (name) {
                 this.btcname=name;
-                // this.tssss(name);
                 let key = name;
-                 this.weituo_columns = [
-                    {
-                        title:"总买入数("+this.btcname+")",
-                        key: "buycount",
-                        render (h,row){
-                            return Number(row.row.buycount).toFixed(4);
-                        }
-                    },
-                    {
-                        title:"平均买入价(CNYT)",
-                        key: "buyprice",
-                        render (h,row){
-                            return Number(row.row.buyprice).toFixed(4);
-                        }
-                    },
-                    {
-                        title:"总卖出数("+this.btcname+")",
-                        key: "sellcount",
-                        render (h,row){
-                            return Number(row.row.sellcount).toFixed(4);
-                        }
-                    },
-                    {
-                        title:"平均卖出价(CNYT)",
-                        key: "sellprice",
-                        render (h,row){
-                            return Number(row.row.sellprice).toFixed(4);
-                        }
-                    }
-                ]
+                this.weituolist();
                 switch (key) {
                     case "BTC":
                             this.btc("00")
@@ -476,6 +437,7 @@
             },
             btc (ss) {
                 console.log(ss)
+                this.query();
             },
             eth (ss) {
                 console.log(ss)
