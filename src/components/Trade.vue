@@ -184,7 +184,6 @@
                         title: '交易价格',
                         key: 'tradeprice',
                         render: (h, params) => {
-                            console.log(params)
                             return params.row.tradeprice
                         }
                     }
@@ -336,12 +335,13 @@
             },
             // 查询交易记录
             query () {
+                this.query_entrust();
                 let that = this;
                 this.price_datas = [];
                 this.record_data = [];
                 console.log("=================")
                 // 币种
-                this.$ajax.get("/murphy/txs/tps/pbfct.do")
+                this.$ajax.get("/bizs/tps/pbfct.do")
                 .then((response)=>{
                     console.log(response)
                 })
@@ -349,7 +349,7 @@
                 // 交易记录
                 this.$ajax({
                     method: 'post',
-                    url: '/murphy/txs/tps/pblds.do',
+                    url: '/bizs/tps/pblds.do',
                     data: {
                         "currencycode":"eth",
                         "count":"5"
@@ -379,6 +379,9 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+
+            
+
             },
             ss(value){
                 console.log(value)
@@ -387,7 +390,7 @@
             query_entrust () {
                 this.$ajax({
                     method: 'post',
-                    url: '/murphy/txs/tps/pbets.do',
+                    url: '/bizs/tps/pbets.do',
                     data: {
                         accountid:"",//账户ID
                         currencycode:"",//币种
@@ -395,8 +398,8 @@
                         endtime:"",//结束时间
                     }
                 })
-                .then((response)=>{
-                    console.log(resopnse)
+                .then((response) => {
+                    console.log(response)
                 })
             },
             safe () {
@@ -413,7 +416,7 @@
             infos (name) {
                 console.log(name)
                 if(name != "buy"){
-
+                    this.query_entrust()
                 }
                 this.types = name; 
                 
@@ -441,6 +444,7 @@
             },
             eth (ss) {
                 console.log(ss)
+                this.query();
             }
         }
     }

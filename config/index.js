@@ -34,36 +34,27 @@ module.exports = {
 
     cssSourceMap: true,
     proxyTable: {
+       
+        
+        //   wallet
         '/bizs': {
-            target: 'http://172.16.21.22:8001/fbs',
-            //target: 'http://192.168.10.8:8000/fbs',
+            target: 'http://172.16.21.31:8000/txs',
             pathRewrite: {'^/bizs' : ''}
         },
-        '/bizrest': {
-            target: 'http://172.16.21.22:8001/fbs',
-            //target: 'http://192.168.10.8:8000/fbs',
-        },
-        '/okcoin': {
-            target: 'http://localhost/okcoin/',
-            //target: 'http://192.168.10.8:8000/fbs',
-            pathRewrite: {'^/okcoin' : ''}
-        },
-        //   MURPHY
-        '/murphy': {
-            target: 'http://172.16.21.31:8000/',
-            //target: 'http://192.168.10.8:8000/fbs',
-            pathRewrite: {'^/murphy' : ''}
-        },
-        '/biy': {
-            target: 'http://localhost/biy/',
-            //target: 'http://192.168.10.8:8000/fbs',
-            pathRewrite: {'^/biy' : ''}
-        },
-        '/huobi': {
-            target: 'http://localhost/huobi/',
-            //target: 'http://192.168.10.8:8000/fbs',
-            pathRewrite: {'^/huobi' : ''}
-        },
+
+        // '/okcoin': {
+        //     target: 'http://localhost/okcoin/',
+        //     pathRewrite: {'^/okcoin' : ''}
+        // },
+
+        // '/biy': {
+        //     target: 'http://localhost/biy/',
+        //     pathRewrite: {'^/biy' : ''}
+        // },
+        // '/huobi': {
+        //     target: 'http://localhost/huobi/',
+        //     pathRewrite: {'^/huobi' : ''}
+        // },
     }
   },
 
