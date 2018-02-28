@@ -50,7 +50,7 @@ module.exports = {
         },
         //   MURPHY
         '/murphy': {
-            target: 'http://localhost/murphy/',
+            target: 'http://172.16.21.31:8000/',
             //target: 'http://192.168.10.8:8000/fbs',
             pathRewrite: {'^/murphy' : ''}
         },
