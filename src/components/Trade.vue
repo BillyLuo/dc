@@ -19,7 +19,7 @@
             <Row>
                 <Col span="14">
                     <div class="title-text">
-                        <img src="static/img/icon-safe.png"/>在您进行开始交易之前，您需要完成<a @click="safe()">安全设置</a>
+                        <img src="/static/img/icon-safe.png"/>在您进行开始交易之前，您需要完成<a @click="safe()">安全设置</a>
                     </div>
                 </Col>
                 <Col span="10">
