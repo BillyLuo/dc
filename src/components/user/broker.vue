@@ -17,7 +17,7 @@
                                     <input type="text" id="extension" value="https://www.coinw.com/newUser/register.html?r=159929" class="ta-c input-style-5 fs-14 pl15 pr15 radius-sm ff-hen">
                                 </div>
                                 <div class="col12-lg-5">
-                                    <button class="w100 btn btn-h42 btn-rounded btn-style-1 fs-16" data-clipboard-target="#extension">复制</button>
+                                    <button class="w100 btn btn-h42 btn-rounded btn-style-1 fs-16" data-clipboard-target="#extension">{{ btnText }}</button>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +61,8 @@
 </template>
 
 <script>
-import {Tabs,TabPane} from "iview"
+import {Tabs,TabPane} from "iview";
+import Clipboard from 'clipboard';
     export default {
         name: 'broker',
         components: {
@@ -70,6 +71,7 @@ import {Tabs,TabPane} from "iview"
         },
         data () {
             return {
+                btnText: "复制",
                 data1:[],
                 data2:[],
                 data3:[
@@ -147,6 +149,24 @@ import {Tabs,TabPane} from "iview"
                 
                 ]
             }
+        },
+        mounted() {
+            let $this = this;
+            console.log(Clipboard)
+            if($this.btnText == "复制"){
+                var clipboard = new Clipboard('.btn-rounded');
+                clipboard.on('success', function(e) {
+                    console.info('Action:', e.action);
+                    console.info('Text:', e.text);
+                    console.info('Trigger:', e.trigger);
+                    e.clearSelection();
+                    $this.btnText = "去粘贴";
+                });
+            }
+            
+        },
+        methods: {
+
         }
     }
 </script>
@@ -162,7 +182,7 @@ import {Tabs,TabPane} from "iview"
        .ivu-tabs-nav-scroll{
             height:60px;
             .ivu-tabs-nav .ivu-tabs-tab{
-                padding:19px 16px;
+                padding:20px 16px;
             }
             
         }

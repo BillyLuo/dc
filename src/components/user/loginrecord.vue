@@ -151,7 +151,7 @@ import {Tabs,TabPane} from "iview"
        .ivu-tabs-nav-scroll{
             height:60px;
             .ivu-tabs-nav .ivu-tabs-tab{
-                padding:19px 16px;
+                padding:20px 16px;
             }
             
         }
