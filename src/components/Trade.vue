@@ -23,9 +23,10 @@
                     </div>
                 </Col>
                 <Col span="10">
-                    <div class="jiantou btn-style-1 btn-special-1">01.安全设置</div>
+                    <step :step="stepJson"></step>
+                    <!-- <div class="jiantou btn-style-1 btn-special-1">01.安全设置</div>
                     <div class="jiantou btn-style-2 btn-special-1">02.充值</div>
-                    <div class="jiantou btn-style-3 btn-special-1">03.下单交易</div>
+                    <div class="jiantou btn-style-3 btn-special-1">03.下单交易</div> -->
                 </Col>
             </Row>
         </div>
@@ -141,6 +142,7 @@
 
 <script>
     import { Menu,MenuItem,DatePicker,Table,Slider } from 'iview';
+    import step from './step';
     let menu = [
         {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
         {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
@@ -157,11 +159,12 @@
     export default {
         components:{
             DatePicker,Table,
-            Menu,MenuItem,Slider
+            Menu,MenuItem,Slider,step
         },
         props: ['lang'],
         data() {
             return {
+                stepJson:["01.安全设置","02.充值","03.下单交易"],
                 menu,
                 menu1,
                 value: 1000,
@@ -521,74 +524,74 @@
                 margin-right: 20px;
             }
         }
-        .jiantou{
-            margin-top: 11px;
-            line-height: 32px;
-            width:105px;
-            height:32px;
-            text-align: center;
-            position: relative;
-            float: left;
-        }
-        .btn-style-1{
-            background: #80A4ED;
-            color: #fff;
-        }
-        .btn-style-2{
-            background: #C0D0F0;
-            color: #fff;
-        }
-        .btn-special-1{
-            overflow: visible;
-            margin-right: 10px;
-            margin-left: 10px;
-        }
-        .btn-special-1:after, .btn-special-1:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            -webkit-transition: all .6s linear;
-            -moz-transition: all .6s linear;
-            -ms-transition: all .6s linear;
-            transition: all .6s linear;
-        }
-        .btn-special-1:after, .btn-special-1:before {
-            border-left: 20px solid transparent;
-            border-top: 16px solid transparent;
-            border-bottom: 16px solid transparent;
-        }
-        .btn-style-1.btn-special-1:before {
-            border-bottom-color: #80A4ED;
-            border-top-color: #80A4ED;
-        }
-        .btn-special-1:before {
-            right: 100%;
-        }
-        .btn-special-1:after {
-            border-left-color: #80A4ED;
-        }
-        .btn-special-1:after {
-            left: 100%;
-        }
-        .btn-style-2.btn-special-1:before {
-            border-bottom-color: #C0D0F0;
-            border-top-color: #C0D0F0;
-        }
-        .btn-style-2.btn-special-1:after {
-            border-left-color: #C0D0F0;
-        }
-        .btn-style-3 {
-            color: #a0b3da;
-            background-color: #EAF0FC;
-        }
-        .btn-style-3.btn-special-1:before {
-            border-bottom-color: #EAF0FC;
-            border-top-color: #EAF0FC;
-        }
-        .btn-style-3.btn-special-1:after {
-            border-left-color: #EAF0FC;
-        }
+        // .jiantou{
+        //     margin-top: 11px;
+        //     line-height: 32px;
+        //     width:105px;
+        //     height:32px;
+        //     text-align: center;
+        //     position: relative;
+        //     float: left;
+        // }
+        // .btn-style-1{
+        //     background: #80A4ED;
+        //     color: #fff;
+        // }
+        // .btn-style-2{
+        //     background: #C0D0F0;
+        //     color: #fff;
+        // }
+        // .btn-special-1{
+        //     overflow: visible;
+        //     margin-right: 10px;
+        //     margin-left: 10px;
+        // }
+        // .btn-special-1:after, .btn-special-1:before {
+        //     content: '';
+        //     position: absolute;
+        //     top: 0;
+        //     bottom: 0;
+        //     -webkit-transition: all .6s linear;
+        //     -moz-transition: all .6s linear;
+        //     -ms-transition: all .6s linear;
+        //     transition: all .6s linear;
+        // }
+        // .btn-special-1:after, .btn-special-1:before {
+        //     border-left: 20px solid transparent;
+        //     border-top: 16px solid transparent;
+        //     border-bottom: 16px solid transparent;
+        // }
+        // .btn-style-1.btn-special-1:before {
+        //     border-bottom-color: #80A4ED;
+        //     border-top-color: #80A4ED;
+        // }
+        // .btn-special-1:before {
+        //     right: 100%;
+        // }
+        // .btn-special-1:after {
+        //     border-left-color: #80A4ED;
+        // }
+        // .btn-special-1:after {
+        //     left: 100%;
+        // }
+        // .btn-style-2.btn-special-1:before {
+        //     border-bottom-color: #C0D0F0;
+        //     border-top-color: #C0D0F0;
+        // }
+        // .btn-style-2.btn-special-1:after {
+        //     border-left-color: #C0D0F0;
+        // }
+        // .btn-style-3 {
+        //     color: #a0b3da;
+        //     background-color: #EAF0FC;
+        // }
+        // .btn-style-3.btn-special-1:before {
+        //     border-bottom-color: #EAF0FC;
+        //     border-top-color: #EAF0FC;
+        // }
+        // .btn-style-3.btn-special-1:after {
+        //     border-left-color: #EAF0FC;
+        // }
     }
     .trade-contract{
         min-height: 600px;
