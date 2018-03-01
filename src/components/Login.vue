@@ -5,7 +5,7 @@
         <div class="login-left">
           <img src="/static/img/bg-user.jpg" alt="" width="100%" height="100%">
         </div>
-        <div class="login-rigth">
+        <div class="login-right">
           <Card style="width:100%" :class="'login-card'">
             <div style="text-align:center">
               <img src="/static/img/logo.png">
@@ -23,7 +23,7 @@
               <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
               </Input>
             </FormItem>
-            <FormItem prop="tel">
+            <!-- <FormItem prop="tel">
               <Input type="text" v-model="formInline.tel" placeholder="手机号" :class="'login-input'">
               <Icon type="ios-telephone-outline" slot="prepend" :class="'login-input-icon'"></Icon>
               </Input>
@@ -34,11 +34,16 @@
               <Button type="primary" :class="'verification-code-button'" @click="telCodeButtonClick" :disabled="telCodeDisabled">
                 {{ telCodeText }}
               </Button>
+            </FormItem> -->
+            <FormItem>
+              <Checkbox v-model="rememberpass" @on-change="togglepass">记住密码</Checkbox>
             </FormItem>
-            <br />
             <FormItem>
               <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
             </FormItem>
+            <div style="font-size: 12px;">
+              <span  class="color-999" >没有账号？ </span><a href="javascript:;" @click="goRigister"> 请注册</a> <a class="float-right" href="javascript:;" @click="resetpass">忘记密码？</a>
+            </div>
           </Form>
         </div>
       </div>
@@ -68,11 +73,12 @@
       };
       return {
         formInline: {
-          user: '15178874695',
-          password: 'Aa123456',
-          tel:'15178874695',
+          user: 'finchain',
+          password: '123456',
+          tel:'15373872695',
           verificationCode:'2234'
         },
+        rememberpass:'记住密码',
         telCodeText:'发送验证码',
         telCodeDisabled:false,
         ruleInline: {
@@ -81,7 +87,7 @@
           ],
           password: [
             { required: true, message: '请输入密码.', trigger: 'blur' },
-            { type: 'string', min: 8, message: '密码不能小于8位', trigger: 'blur' }
+            { type: 'string', min: 6, message: '密码不能小于6位', trigger: 'blur' }
           ],
           tel: [
             { validator: validateTel, trigger: 'blur' }
@@ -93,6 +99,19 @@
       }
     },
     methods: {
+      togglepass(value) {
+        // console.log(value);
+      },
+      resetpass () {
+        this.$router.push({
+          path:'/resetpass'
+        })
+      },
+      goRigister () {
+        this.$router.push({
+          path:'/register'
+        })
+      },
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -136,7 +155,7 @@
             $this.$Message.success('短信获取失败');
           }
         }).catch(function (error) {
-          $this.$Message.success('失败');
+          $this.$Message.warning('短信发送失败，请稍后重试');
           console.log(error);
         });
       },
@@ -158,6 +177,9 @@
         
       },
       handleSpinCustomShow () {   // loading
+        var that = this;
+        var loginname = this.formInline.user;
+        var pwd = this.formInline.password;
         this.$Spin.show({
           render: (h) => {
             return h('div', [
@@ -172,6 +194,28 @@
             ])
           }
         });
+        // this.$ajax({
+        //   method:'post',
+        //   url:'/bizs/tps/pblin.do',
+        //   data:{
+        //     loginname,
+        //     pwd
+        //   }
+        // }).then((data)=>{
+        //   console.log(data);
+        //   that.$Spin.hide();
+        //   if (data.status == 200 && data.data.err_code == '1') {
+        //     that.$router.push({
+        //       name:'Home',
+        //       params:{
+        //         isLogined:true
+        //       }
+        //     })
+        //   }
+        // }).catch((err)=>{
+        //   console.log('wrong---',err);
+        //   that.$Spin.hide();
+        // })
         setTimeout(() => {
           this.$Spin.hide();
           this.$router.push({
@@ -190,7 +234,7 @@
   .wallet-box-background{
     width: 100%;
     background: #f9f9f9;
-    padding: 65px 0;
+    padding: 20px 0;
     height: 585px;
   }
   .wallet-box{
@@ -202,14 +246,13 @@
     height: 450px;
     float: left;
   }
-  .login-rigth{
+  .login-right{
     width: 400px;
     box-sizing: border-box;
     padding: 25px 45px 45px 45px;
     height: 450px;
     float: right;
     background: #fff;
-
   }
   .login-form-all>.ivu-form-item{
     width:100%;
@@ -242,6 +285,7 @@
   .login-card{
     background: #ffffff69;
     border: none;
+    margin-bottom: 20px;
   }
   .login-card .ivu-card-body{
     padding-top: 0;

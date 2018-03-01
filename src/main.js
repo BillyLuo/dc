@@ -32,6 +32,7 @@ Vue.component('Icon',Icon);
 Vue.component('Tooltip',Tooltip);
 Vue.component('Table',Table);
 Vue.prototype.$ajax = axios;
+Vue.prototype.$Modal = Modal;
 Vue.prototype.$Message = Message;
 Vue.prototype.$Spin = Spin;
 Vue.prototype.$Notice = Notice;

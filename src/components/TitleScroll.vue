@@ -3,7 +3,7 @@
     <div class="title-scroll-box">
       <div class="box-margin" id="title-scroll-move-box">
         <ul id="title-scroll-move">
-          <li v-for="data in dataArry">
+          <li v-for="data in dataArry" :key="data">
             <span class="s1">TNT/TNT</span>
             <span class="s2">{{data+1}}</span>
             <span class="s3"></span>
@@ -77,10 +77,10 @@
         top: 0;
         left: 0;
         cursor: move;
-        animation: move-right 90s linear 0s infinite normal running;
-        -moz-animation: move-right 90s linear 0s infinite normal running;	/* Firefox */
-        -webkit-animation: move-right 90s linear 0s infinite normal running;	/* Safari 和 Chrome */
-        -o-animation: move-right 90s linear 0s infinite normal running;	/* Opera */
+        // animation: move-right 90s linear 0s infinite normal running;
+        // -moz-animation: move-right 90s linear 0s infinite normal running;	
+        // -webkit-animation: move-right 90s linear 0s infinite normal running;	
+        // -o-animation: move-right 90s linear 0s infinite normal running;	
         li{
           width: 180px;
           height: 40px;

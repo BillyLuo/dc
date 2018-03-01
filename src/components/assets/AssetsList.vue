@@ -90,33 +90,33 @@ export default {
       }
     },
     getAccountList() {
-      let list = [{
-          name: 'BTC',
-          useable: '0.33',
-          freeze: '0.00',
-          total: '3.33'
-        },
-        {
-          name: 'ETH',
-          useable: '45.19',
-          freeze: '0.00',
-          total: '66.62'
-        }
-      ]
-      let formatList = list.map((value, index) => {
-        let result = {};
-        result.name = value.name;
-        result.useable = '$ ' + value.useable;
-        result.freeze = '$ ' + value.freeze;
-        result.total = '$ ' + value.total;
-        return result;
+      this.$ajax.post('/bizs/tps/pblaf.do/',{
+
+      }).then((data) => {
+        console.log('success',data.data.accountFund);
+        let list = data.data.accountFund;
+        let formatList = list.map((value, index) => {
+          let result = {};
+          result.name = value.currencyname;
+          result.useable = '$ ' + value.usablefund;
+          result.freeze = '$ ' + value.frozenfund;
+          result.total = '$ ' + value.total;
+          return result;
+        })
+        this.account_list_data = formatList;
       })
-      this.account_list_data = formatList;
     },
   }
 }
 </script>
 
 <style>
-
+  .account-list h3 {
+    display: inline-block;
+    font-weight: normal;
+    height: 60px;
+    line-height: 60px;
+    border-bottom: 2px solid #2d8cf0;
+    padding: 0 10px;
+  }
 </style>

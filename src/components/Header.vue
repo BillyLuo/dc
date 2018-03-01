@@ -5,7 +5,7 @@
         <img src="/static/img/logo.png"/>
         <span>交易网</span>
       </div>
-      <Menu mode="horizontal" @on-select="route" :active-name="activeName">
+      <Menu ref="main_menu" mode="horizontal" @on-select="route" :active-name="activeName">
         <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
             {{value.text}}
         </MenuItem>
@@ -69,7 +69,7 @@ export default {
     return {
       scroll:false,
       activeName:'home',
-      isLogined:true,
+      isLogined:false,
       menu,
       userInfo:{
         username:15178874695,
@@ -80,47 +80,66 @@ export default {
   mounted (){
     // this.initActive();
     // console.log('----header----',this);
+    this.getPath();
     var that = this;
     window.onscroll = scroll.bind(this);
     bus.$on('login',(value) => {
       if (value) {
         that.isLogined = true;
-      }else {
-        that.isLogined = false;
       }
     })
+    // this.init();
   },
   watch:{
     "$route":"getPath"  // 监听事件
   },
   methods:{
+    init() {
+      if (!this.isLogined) {
+        this.$router.push({
+          name:'Home'
+        })
+      }
+    },
     getPath(){
       let path = this.$route.path;
       // console.log(path)
       // console.log(path.split("/"))
-      let that =this;
       this.activeName = 'home';
+      let that =this;
       menu.map(function(item){
           if(item.name==path.split("/")[1]){
             that.activeName = path.split("/")[1];
           }
-          // if (path.match('/assets')) {
-          //   that.activeName = 'assets'
-          // }
       })
     },
     route(name){
-      this.$router.push('/'+name);
+      var isLogined = this.isLogined;
+      if (!this.isLogined && name != 'register' && name && name!='home') {
+        this.$router.push({
+          name:'Login'
+        })
+        this.$refs.main_menu.currentActiveName = 'home';
+        if (name != 'home' && name != 'login' && name != 'register') {
+          this.$Modal.info({
+            content:'请您先登录'
+          });
+        }     
+      }else {
+        this.$router.push({
+          path:'/'+name
+        });
+      }
     },
     loginOut () {
       this.isLogined = false;
       this.$router.push({
-        path:'/',
+        path:'/login',
         params:{
           isLogined:false
         }
       })
-    }
+    },
   }
 }
 </script>
@@ -256,22 +275,23 @@ export default {
     display: none;
     background: #fff;
     position: absolute;
-    width: 200px;
-    left: 0;
+    width: 240px;
+    left: -40%;
     top: 60px;
     border: 1px solid #F6F7FC;
     box-shadow: 0 4px 4px rgba(0,0,0,.1);
+    font-size: 12px;
     .login-out-title {
       font-size: 14px;
       display: inline-block;
       border-bottom: 2px solid #3166D2;
-      height: 40px;
-      line-height: 40px;
+      height: 50px;
+      line-height: 50px;
       padding: 0 20px;
     }
     .all-asset {
-      height: 50px;
-      line-height: 50px;
+      height: 60px;
+      line-height: 60px;
       padding: 0 20px;
       color: #666;
       span {

@@ -36,10 +36,15 @@ module.exports = {
     proxyTable: {
        
         
-        //   wallet
+        //   测试
+        // '/bizs': {
+        //     target: 'http://172.16.21.31:8000/txs',
+        //     pathRewrite: {'^/bizs' : ''}
+        // },
+        //208
         '/bizs': {
-            target: 'http://172.16.21.31:8000/txs',
-            pathRewrite: {'^/bizs' : ''}
+          target: 'http://172.16.21.22:8002/txs',
+          pathRewrite: {'^/bizs' : ''}
         },
 
         // '/okcoin': {
