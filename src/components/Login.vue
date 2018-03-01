@@ -6,20 +6,23 @@
           <img src="/static/img/bg-user.jpg" alt="" width="100%" height="100%">
         </div>
         <div class="login-right">
-          <Card style="width:100%" :class="'login-card'">
+          <div style="width:100%" :class="'login-card'">
             <div style="text-align:center">
               <img src="/static/img/logo.png">
               <h3>登录蜂巢币-fclink</h3>
             </div>
-          </Card>
+          </div>
           <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
+            <div style="height:38px;">
+              <Alert type="error" show-icon :class="loginError.length>0?'show':'hide'">{{loginError}}</Alert>
+            </div>
             <FormItem prop="user">
-              <Input type="text" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
+              <Input @on-enter="handleSubmit('formInline')" type="text" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
               <Icon type="ios-person-outline" slot="prepend" :class="'login-input-icon'"></Icon>
               </Input>
             </FormItem>
             <FormItem prop="password">
-              <Input type="password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
+              <Input @on-enter="handleSubmit('formInline')" type="password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
               <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
               </Input>
             </FormItem>
@@ -71,6 +74,30 @@
             callback()
           }
       };
+      let validateUser = (rule,value,c) => {
+        if (!value) {
+          c('请输入账号');
+        }else if (!(value.match(/^1[34578]\d{9}$/) || value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))) {
+          c('手机或者邮箱格式有误');
+        }else {
+          c();
+        }
+      }
+      let validatePwd = (rule,value,c) => {
+        if (!value) {
+          c('请输入密码');
+        }else if (!value.match(/[a-z]/g) || !value.match(/[A-Z]/g) || !value.match(/\d/g)){
+          c('密码应至少包含1个大写字母，1个小写字母和1个数字');
+        }else if (value.length < 8) {
+          c('密码不能小于8位。')
+        }else if (value.length > 64 ){
+          c('密码不能大于64位');
+        }else if (value.match(/[^a-zA-Z0-9_]/g)) {
+          c('密码不应包含特殊字符');
+        }else {
+          c();
+        }
+      }
       return {
         formInline: {
           user: 'finchain',
@@ -78,16 +105,16 @@
           tel:'15373872695',
           verificationCode:'2234'
         },
+        loginError:'',
         rememberpass:'记住密码',
         telCodeText:'发送验证码',
         telCodeDisabled:false,
         ruleInline: {
           user: [
-            { required: true, message: '请输入邮箱或姓名', trigger: 'blur' }
+            { validator:validateUser, trigger: 'blur' }
           ],
           password: [
-            { required: true, message: '请输入密码.', trigger: 'blur' },
-            { type: 'string', min: 6, message: '密码不能小于6位', trigger: 'blur' }
+            { validator: validatePwd, trigger: 'blur' },
           ],
           tel: [
             { validator: validateTel, trigger: 'blur' }
@@ -104,7 +131,7 @@
       },
       resetpass () {
         this.$router.push({
-          path:'/resetpass'
+          path:'/reset'
         })
       },
       goRigister () {
@@ -194,37 +221,45 @@
             ])
           }
         });
-        // this.$ajax({
-        //   method:'post',
-        //   url:'/bizs/tps/pblin.do',
-        //   data:{
-        //     loginname,
-        //     pwd
-        //   }
-        // }).then((data)=>{
-        //   console.log(data);
-        //   that.$Spin.hide();
-        //   if (data.status == 200 && data.data.err_code == '1') {
-        //     that.$router.push({
-        //       name:'Home',
-        //       params:{
-        //         isLogined:true
-        //       }
-        //     })
-        //   }
-        // }).catch((err)=>{
-        //   console.log('wrong---',err);
-        //   that.$Spin.hide();
-        // })
-        setTimeout(() => {
-          this.$Spin.hide();
-          this.$router.push({
-            name:'Home',
-            params:{
-              isLogined:true
-            }
-          })
-        },1000);
+        if (this.loginError) {
+          return;
+        }
+        this.$ajax({
+          method:'post',
+          url:'/bizs/tps/pblin.do',
+          data:{
+            loginname,
+            pwd
+          }
+        }).then((data)=>{
+          console.log(data);
+          that.$Spin.hide();
+          if (data.status == 200 && data.data.err_code == '1') {
+            that.$router.push({
+              name:'Home',
+              params:{
+                isLogined:true
+              }
+            })
+          }else {
+            that.loginError = '您输入的账号或密码有误';  
+            setTimeout(() => {
+              that.loginError = '';
+            }, 3000);          
+          }
+        }).catch((err)=>{
+          console.log('wrong---',err);
+          that.$Spin.hide();
+        })
+        // setTimeout(() => {
+        //   this.$Spin.hide();
+        //   this.$router.push({
+        //     name:'Home',
+        //     params:{
+        //       isLogined:true
+        //     }
+        //   })
+        // },1000);
       },
     }
   }
@@ -285,7 +320,9 @@
   .login-card{
     background: #ffffff69;
     border: none;
-    margin-bottom: 20px;
+    padding: 10px 0;
+    outline: none;
+    box-shadow: 0;
   }
   .login-card .ivu-card-body{
     padding-top: 0;

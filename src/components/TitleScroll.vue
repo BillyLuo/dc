@@ -37,7 +37,7 @@
             let  offsetX = e.clientX;       //  鼠标 距离左侧位置
             let moveLeftNum = parseFloat(moveLeft.replace('px',''));
             Event.preventDefault();
-            move.style.left = moveLeftNum + offsetX - left + 'px';
+            // move.style.left = moveLeftNum + offsetX - left + 'px';
             console.log("move.style.left=====",move,move.style.left);
             console.log(moveLeft,offsetX,left)
           };
@@ -77,10 +77,10 @@
         top: 0;
         left: 0;
         cursor: move;
-        // animation: move-right 90s linear 0s infinite normal running;
-        // -moz-animation: move-right 90s linear 0s infinite normal running;	
-        // -webkit-animation: move-right 90s linear 0s infinite normal running;	
-        // -o-animation: move-right 90s linear 0s infinite normal running;	
+        animation: move-right 90s linear 0s infinite normal running;
+        -moz-animation: move-right 90s linear 0s infinite normal running;	
+        -webkit-animation: move-right 90s linear 0s infinite normal running;	
+        -o-animation: move-right 90s linear 0s infinite normal running;	
         li{
           width: 180px;
           height: 40px;

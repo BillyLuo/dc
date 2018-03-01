@@ -3,6 +3,7 @@ import Router from 'vue-router'
 const Home = ()=> import('@/components/home/Home')
 const Login = ()=> import('@/components/Login')
 const Register = ()=> import ('@/components/Register');
+const ResetPassword = ()=> import('@/components/reset/ResetPassword');
 const Assets = ()=> import('@/components/assets/Assets')
 const AssetsList = ()=> import('@/components/assets/AssetsList');
 const Recharge = ()=> import('@/components/assets/Recharge')
@@ -86,6 +87,11 @@ export default new Router({
       name: 'Market',
       component: Market
     },
+    {
+      path:'/reset',
+      name:'Reset',
+      component:ResetPassword
+    }
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {

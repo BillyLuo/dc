@@ -47,19 +47,19 @@ module.exports = {
           pathRewrite: {'^/bizs' : ''}
         },
 
-        // '/okcoin': {
-        //     target: 'http://localhost/okcoin/',
-        //     pathRewrite: {'^/okcoin' : ''}
-        // },
+        '/okcoin': {
+            target: 'http://localhost/okcoin/',
+            pathRewrite: {'^/okcoin' : ''}
+        },
 
-        // '/biy': {
-        //     target: 'http://localhost/biy/',
-        //     pathRewrite: {'^/biy' : ''}
-        // },
-        // '/huobi': {
-        //     target: 'http://localhost/huobi/',
-        //     pathRewrite: {'^/huobi' : ''}
-        // },
+        '/biy': {
+            target: 'http://localhost/biy/',
+            pathRewrite: {'^/biy' : ''}
+        },
+        '/huobi': {
+            target: 'http://localhost/huobi/',
+            pathRewrite: {'^/huobi' : ''}
+        },
     }
   },
 

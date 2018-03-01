@@ -26,7 +26,7 @@
         <div class="safe-settings">
           <div>您已设置3个保护项，还有三个可以设置</div>
           <div class="set-safe">
-            <Button class="primary-border primary-color" type="ghost">保护项设置</Button>
+            <Button class="primary-border primary-color" type="ghost" @click="protect">保护项设置</Button>
           </div>
         </div>
         </Col>
@@ -54,6 +54,11 @@ export default {
       if (this.userinfo && this.userinfo.tel) {
         this.userinfo.tel = this.userinfo.tel.slice(0, 4) + '****' + this.userinfo.tel.slice(-4);
       }
+    },
+    protect() {
+      this.$router.push({
+        path:'/user'
+      })
     }
   }
 }

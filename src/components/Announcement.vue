@@ -88,7 +88,7 @@
             color: #75829d;
             &:hover {
               color: #2d8cf0;
-              text-decoration: underline;
+              border-bottom: 1px solid #2d8cf0;
             }
           }
         }

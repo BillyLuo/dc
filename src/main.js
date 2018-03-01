@@ -21,6 +21,7 @@ Vue.component('i-switch',Switch);
 Vue.component('Select',Select);
 Vue.component('Option',Option);
 Vue.component('Slider',Slider);
+Vue.component('Alert',Alert);
 Vue.component('Card',Card);
 Vue.component('Message',Message);
 Vue.component('Modal',Modal);

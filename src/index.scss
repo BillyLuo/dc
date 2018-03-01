@@ -10,6 +10,12 @@ body {
   margin: 0 auto;
   padding-top:27px;
 }
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
 .clear::before,.clear::after{
   content: '';
   display: block;
