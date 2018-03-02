@@ -4,6 +4,8 @@ const Home = ()=> import('@/components/home/Home')
 const Login = ()=> import('@/components/Login')
 const Register = ()=> import ('@/components/Register');
 const ResetPassword = ()=> import('@/components/reset/ResetPassword');
+const ResetByEmail = ()=> import('@/components/reset/ResetByEmail');
+const ResetByPhone = ()=> import('@/components/reset/ResetByPhone');
 const Assets = ()=> import('@/components/assets/Assets')
 const AssetsList = ()=> import('@/components/assets/AssetsList');
 const Recharge = ()=> import('@/components/assets/Recharge')
@@ -91,6 +93,16 @@ export default new Router({
       path:'/reset',
       name:'Reset',
       component:ResetPassword
+    },
+    {
+      path:'/resetByEmail',
+      name:'ResetByEmail',
+      component:ResetByEmail
+    },
+    {
+      path:'/resetByPhone',
+      name:'ResetByEmail',
+      component:ResetByPhone
     }
   ],
   scrollBehavior (to, from, savedPosition) {

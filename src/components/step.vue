@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="clear">
         <div class="jiantou btn-style-1 btn-special-1">{{ first }}</div>
         <div class="jiantou btn-style-2 btn-special-1">{{ second }}</div>
         <div class="jiantou btn-style-3 btn-special-1">{{ third }}</div>

@@ -5,12 +5,12 @@
         <h3>请选择登录密码找回方式</h3>
       </div>
       <Row>
-        <Col span="12">
-          <Card class="reset-card">
+        <Col span="12" class="reset-card">
+          <Card>
             <i class="reset-email"></i>
             <p>通过邮箱找回</p>
             <span>需要登录邮箱找回密码</span>
-            <Button type="primary" class="btn-block" size="large">点击找回</Button>
+            <Button type="primary" class="btn-block" size="large" @click="reset('resetByEmail')">点击找回</Button>
           </Card>
         </Col>
         <Col span="12" class="reset-card">
@@ -18,7 +18,7 @@
             <i class="reset-phone"></i>
             <p>通过手机找回</p>
             <span>需要手机验证找回密码</span>
-            <Button type="primary" class="btn-block" size="large">点击找回</Button>
+            <Button type="primary" class="btn-block" size="large" @click="reset('resetByPhone')">点击找回</Button>
           </Card>
         </Col>
       </Row>
@@ -28,7 +28,13 @@
 
 <script>
 export default {
-  
+  methods:{
+    reset(value) {
+      this.$router.push({
+        path:'/'+value
+      })
+    }
+  }
 }
 </script>
 
@@ -37,10 +43,10 @@ export default {
     padding: 30px 0 40px;
   }
   .reset-password {
-    padding: 20px;
+    padding: 20px 30px;
     background: #fff;
-    .ivu-col {
-      padding: 0 15px;
+    .ivu-row {
+      padding: 0 10px;
     }
   }
   .reset-title {
@@ -49,7 +55,7 @@ export default {
       text-align: center;
       height: 80px;
       line-height: 80px;
-      border-bottom: 2px solid #3166D2;
+      border-bottom: 3px solid #3166D2;
       margin-bottom: 40px;
     }
   }
@@ -57,6 +63,10 @@ export default {
     text-align: center;
     margin-top: 40px;
     margin-bottom: 40px;
+    padding: 0 20px;
+    &>.ivu-card {
+      padding: 20px 20px;
+    }
     p {
       font-size: 20px;
     }
@@ -67,6 +77,11 @@ export default {
       margin: 20px 0;
       color: #666;
       font-size: 16px;
+    }
+    .btn-block {
+      height: 50px;
+      font-size: 16px;
+      margin-bottom: 20px;
     }
   }
   .reset-phone,.reset-email {
