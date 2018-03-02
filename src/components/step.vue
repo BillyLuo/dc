@@ -1,23 +1,34 @@
 <template>
-    <div class="clear">
-        <div class="jiantou btn-style-1 btn-special-1">{{ first }}</div>
-        <div class="jiantou btn-style-2 btn-special-1">{{ second }}</div>
-        <div class="jiantou btn-style-3 btn-special-1">{{ third }}</div>
+    <div>
+        <div v-if="currentStep == 1 || !currentStep" class="clear">
+            <div class="jiantou btn-style-1 btn-special-1">{{ first }}</div>
+            <div class="jiantou btn-style-2 btn-special-1">{{ second }}</div>
+            <div class="jiantou btn-style-3 btn-special-1">{{ third }}</div>
+        </div>
+        <div v-if="currentStep == 2" class="clear">
+            <div class="jiantou btn-style-2 btn-special-1">{{ first }}</div>
+            <div class="jiantou btn-style-1 btn-special-1">{{ second }}</div>
+            <div class="jiantou btn-style-3 btn-special-1">{{ third }}</div>
+        </div>
+        <div v-if="currentStep == 3" class="clear">
+            <div class="jiantou btn-style-3 btn-special-1">{{ first }}</div>
+            <div class="jiantou btn-style-2 btn-special-1">{{ second }}</div>
+            <div class="jiantou btn-style-1 btn-special-1">{{ third }}</div>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        props:["step"],
+        props:["step",'currentStep'],
         data() {
             return {
                 first: this.step[0],
                 second: this.step[1],
-                third: this.step[2]
+                third: this.step[2],
             }
         },
         mounted () {
-            console.log(this.step)
             
         }
     }
@@ -32,6 +43,7 @@
             text-align: center;
             position: relative;
             float: left;
+            cursor: default;
         }
         .btn-style-1{
             background: #80A4ED;
@@ -92,4 +104,7 @@
         .btn-style-3.btn-special-1:after {
             border-left-color: #EAF0FC;
         }
+    .step2 {
+
+    }
 </style>

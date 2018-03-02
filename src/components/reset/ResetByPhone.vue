@@ -1,7 +1,7 @@
 <template>
   <div class="reset-by-phone wrapper">
     <div class="reset-step">
-      <Step :step="['01. 填写账户','02. 设置密码','03. 完成']" />
+      <Step :step="['01. 填写账户','02. 设置密码','03. 完成']" :currentStep="step"/>
     </div>
     <div class="reset-form">
       <div class="reset-form-inner">
@@ -156,6 +156,6 @@ export default {
   .reset-success {
     text-align: center;
     font-weight: normal;
-    margin: 50px 0;
+    margin: 80px 0;
   }
 </style>

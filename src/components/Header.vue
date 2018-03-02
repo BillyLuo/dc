@@ -69,7 +69,7 @@ export default {
     return {
       scroll:false,
       activeName:'home',
-      isLogined:false,
+      isLogined:true,
       menu,
       userInfo:{
         username:15178874695,
