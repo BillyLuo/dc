@@ -60,6 +60,7 @@
 <script>
   import { Form, FormItem, } from 'iview'
   import nodeForge from 'node-forge';
+  import cookies from 'cookiesjs';
   export default {
     components:{
       Form,FormItem
@@ -240,6 +241,11 @@
               params:{
                 isLogined:true
               }
+            })
+            cookies({
+              name: loginname
+            },{
+              expires: 60*30
             })
           }else {
             that.loginError = '您输入的账号或密码有误';  

@@ -37,6 +37,7 @@
 
 <script>
 import bus from '../bus/bus.js';
+import cookies from 'cookiesjs';
 function scroll (e) {
   var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
   var scroll = false;
@@ -69,7 +70,7 @@ export default {
     return {
       scroll:false,
       activeName:'home',
-      isLogined:false,
+      isLogined:true,
       menu,
       userInfo:{
         username:15178874695,
@@ -102,8 +103,11 @@ export default {
       }
     },
     getPath(){
+      console.log(cookies("name"));
+
+
       let path = this.$route.path;
-      // console.log(path)
+      console.log(path)
       // console.log(path.split("/"))
       this.activeName = 'home';
       let that =this;
@@ -112,6 +116,18 @@ export default {
             that.activeName = path.split("/")[1];
           }
       })
+
+      if(!cookies("name") && path != "/home"){
+        this.$router.push({
+            path:'/login'
+          });
+      }else if(!cookies("name") && path == "/home"){
+        this.$router.push({
+            path:'/home'
+          });
+      }
+
+
     },
     route(name){
       var isLogined = this.isLogined;
