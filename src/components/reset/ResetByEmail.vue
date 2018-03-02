@@ -1,12 +1,12 @@
 <template>
   <div class="reset-by-email wrapper">
     <div class="reset-step">
-      <Step :step="['01. 填写账户','02. 设置密码','03. 完成']" />
+      <Step :step="['01. 填写账户','02. 设置密码','03. 完成']" :currentStep="step" />
     </div>
     <div class="reset-form">
       <div class="reset-form-inner">
         <h3 class="reset-title">您正通过 <span>电子邮件</span> 找回登录密码</h3>
-        <Form :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
+        <Form v-if="step == 1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
           <form-item label="邮箱地址：" prop="email">
             <Input type="email" size="large" placeholder="邮箱地址" v-model="resetForm.email"/>
           </form-item>
@@ -24,9 +24,29 @@
             <img src="/static/img/VScode.jpg" class="img-code"/>
           </form-item>
           <div class="reset-btn-wrapper">
-            <Button type="primary" size="large" class="btn-block">提交</Button>
+            <Button type="primary" size="large" class="btn-block" @click="submitEmail">提交</Button>
           </div>
         </Form>
+        <Form v-if="step == 2" :label-width="100" style="width: 500px;margn: 0 auto">
+          <FormItem label="登录账号：" prop="loginname">
+            <Input size="large" value=""/>
+          </FormItem>
+          <FormItem label="新登录密码：" prop="pwd">
+            <Input size="large" placeholder="新登录密码" value=""/>
+          </FormItem>
+          <FormItem label="确认密码：" prop="repeatPwd">
+            <Input size="large" placeholder="确认密码" value=""/>
+          </FormItem>
+          <div class="reset-btn-wrapper">
+            <Button type="primary" size="large" class="btn-block" @click="next(3)">下一步</Button>
+          </div>
+        </Form>
+        <div v-if="step == 3">
+          <h3 class="reset-success">恭喜，重置登录密码成功</h3>
+          <div class="reset-btn-wrapper">
+            <Button type="primary" size="large" class="btn-block" @click="login">立即登录</Button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -51,6 +71,7 @@ console.log('reset---rules',resetRules);
 export default {
   data () {
     return {
+      step:1,
       sendText:'发送验证码',
       resetForm: {
         email:'323434@qq.com',
@@ -61,11 +82,33 @@ export default {
       resetRules:resetRules
     }
   },
+  mounted(){
+    console.log(this.$route);
+    var query = this.$route.query;
+    if (query && query.step) {
+      console.log(query.step.match(/^[123]{1}$/g));
+      if (query.step.match(/^[123]{1}$/g)) {
+        this.step = query.step;
+      }else {
+        this.step = 1;
+      }
+    }
+  },
   components:{
     Form,FormItem,Step
   },
   methods:{
-
+    submitEmail(){
+      this.step = 2;
+    },
+    next(value) {
+      this.step = value;
+    },
+    login(){
+      this.$router.push({
+        name:'Login'
+      })
+    }
   }
 }
 </script>
@@ -119,5 +162,10 @@ export default {
     height: 36px;
     float: right;
     vertical-align: middle;
+  }
+  .reset-success {
+    text-align: center;
+    font-weight: normal;
+    margin: 80px 0;
   }
 </style>
