@@ -15,7 +15,7 @@
                 </MenuItem>
             </Menu>
         </div>
-        <div class="context-title" v-if="types =='buy'">
+        <div class="context-title" v-if="types =='buy' && s < 5">
             <Row>
                 <Col span="14">
                     <div class="title-text">
@@ -23,7 +23,7 @@
                     </div>
                 </Col>
                 <Col span="10">
-                    <step :step="stepJson"></step>
+                    <step :step="stepJson" :currentStep="'1'"></step>
                     <!-- <div class="jiantou btn-style-1 btn-special-1">01.安全设置</div>
                     <div class="jiantou btn-style-2 btn-special-1">02.充值</div>
                     <div class="jiantou btn-style-3 btn-special-1">03.下单交易</div> -->
@@ -31,7 +31,7 @@
             </Row>
         </div>
         
-        <div class="trade-contract" v-if="types =='buy' ">
+        <div class="trade-contract" v-if="types =='buy'">
             <Row>
                 <Col span='8'>
                     <div class="trade-buy buy-sell">
@@ -167,6 +167,7 @@
                 stepJson:["01.安全设置","02.充值","03.下单交易"],
                 menu,
                 menu1,
+                s: 3,
                 value: 1000,
                 types:"buy",
                 btcname:"BTC",

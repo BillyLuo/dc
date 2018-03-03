@@ -121,15 +121,29 @@ export default {
         this.$router.push({
             path:'/login'
           });
+          return false
       }else if(!cookies("name") && path == "/home"){
-        this.$router.push({
+          this.$router.push({
             path:'/home'
           });
+          return false
+      }
+    },
+    route(name){
+
+      if(!cookies("name") && name != "home"){
+        this.$router.push({
+            path:'/login'
+          });
+          return false
+      }else if(!cookies("name") && name == "home"){
+          this.$router.push({
+            path:'/home'
+          });
+          return false
       }
 
 
-    },
-    route(name){
       var isLogined = this.isLogined;
       if (!this.isLogined && name != 'register' && name && name!='home') {
         this.$router.push({
