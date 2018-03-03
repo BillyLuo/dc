@@ -103,11 +103,11 @@ export default {
       }
     },
     getPath(){
-      console.log(cookies("name"));
+      // console.log(cookies("name"));
 
 
       let path = this.$route.path;
-      console.log(path)
+      // console.log(path)
       // console.log(path.split("/"))
       this.activeName = 'home';
       let that =this;

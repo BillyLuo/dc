@@ -152,7 +152,7 @@ import Clipboard from 'clipboard';
         },
         mounted() {
             let $this = this;
-            console.log(Clipboard)
+            // console.log(Clipboard)
             if($this.btnText == "复制"){
                 var clipboard = new Clipboard('.btn-rounded');
                 clipboard.on('success', function(e) {

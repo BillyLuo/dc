@@ -120,7 +120,7 @@
             </div>
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
-                <Table :data="order_record_data" no-data-text="<img class='wujilu' src='static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <Table :data="order_record_data" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
             </div>
         </div>
         <div class="trade-contract" v-else-if="types === 'jiaoyijilu'">
@@ -133,7 +133,7 @@
             </div>
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
-                <Table :data="order_record_data" no-data-text="<img class='wujilu' src='static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <Table :data="order_record_data" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
             </div>
         </div>
         <div class="clear"></div>

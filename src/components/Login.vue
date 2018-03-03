@@ -101,8 +101,8 @@
       }
       return {
         formInline: {
-          user: 'finchain',
-          password: '123456',
+          user: 'finchain@360.com',
+          password: 'Aa123123',
           tel:'15373872695',
           verificationCode:'2234'
         },
