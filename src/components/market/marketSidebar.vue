@@ -72,7 +72,7 @@ export default {
             let that=this;
             this.$ajax.get('/huobi/v1/common/symbols')
             .then(function(respones){
-                console.log(respones)
+                console.log('----success-----',respones)
                 let data = respones.data.data;
                 data.map((item) => {
                     if(item['symbol-partition'] == "main" && item['quote-currency']=='usdt'){
@@ -100,6 +100,8 @@ export default {
                     }
                 }
 
+            }).catch((err) => {
+                console.log('---err---',err);
             })
         }
     }
