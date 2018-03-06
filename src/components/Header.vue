@@ -37,7 +37,7 @@
 
 <script>
 import bus from '../bus/bus.js';
-import cookies from 'cookiesjs';
+import cookies from 'cookies-js';
 function scroll (e) {
   var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
   var scroll = false;
@@ -103,7 +103,7 @@ export default {
       }
     },
     getPath(){
-      // console.log(cookies("name"));
+      // console.log(cookies.get("name"));
 
 
       let path = this.$route.path;
@@ -118,34 +118,38 @@ export default {
           }
       })
 
-      if(!cookies("name") && (path == "/trade" || path == "/assets" || path == "/user" || path == "/market")){
+      if(!cookies.get("name") && (path == "/trade" || path == "/assets" || path == "/user" || path == "/market")){
         this.$router.push({
             path:'/login'
           });
-          cookies({"name":null})
+          cookies.set("name", "",{expires: 0})
           return false
-      }else if(!cookies("name") && path == "/home"){
+      }else if(!cookies.get("name") && path == "/home"){
           this.$router.push({
             path:'/home'
           });
-          cookies({"name":null})
+          cookies.set("name", "",{expires: 0})
           return false
       }
     },
     route(name){
 
-      if(!cookies("name")  && (name == "trade" || name == "assets" || name == "user" || name == "market")){
+      if(!cookies.get("name")  && (name == "trade" || name == "assets" || name == "user" || name == "market")){
           this.$router.push({
             path:'/login'
           });
-          cookies({"name":null})
+          cookies.set("name", "",{expires: 0})
           return false
-      }else if(!cookies("name") && name == "home"){
+      }else if(!cookies.get("name") && name == "home"){
           this.$router.push({
             path:'/home'
           });
-          cookies({"name":null})
+          cookies.set("name", "",{expires: 0})
           return false
+      }else {
+        this.$router.push({
+          path:'/'+name
+        });
       }
 
 
@@ -160,7 +164,7 @@ export default {
             content:'请您先登录'
           });
         } 
-        cookies({"name":null})    
+        cookies.set("name", "",{expires: 0})    
       }else {
         this.$router.push({
           path:'/'+name
@@ -169,7 +173,7 @@ export default {
     },
     loginOut () {
       this.isLogined = false;
-      cookies({"name":null})
+      cookies.set("name", "",{expires: 0}) 
       this.$router.push({
         path:'/login',
         params:{

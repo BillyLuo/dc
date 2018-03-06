@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import './my-theme/index.less';
-import cookies from "cookiesjs"
+import cookies from "cookies-js"
 import {LoadingBar,Input,InputNumber,Button,RadioGroup,Row,Col,Radio,Checkbox,Switch,Select,Option,Slider,Alert,
     Card,Message,Notice,Modal,Progress,Badge,Tag,Tooltip,Poptip, Breadcrumb,Circle,BackTop,Spin,Icon,Table
 } from 'iview';
@@ -39,7 +39,9 @@ Vue.component('Table',Table);
 axios.interceptors.response.use(function (response) {  
   // console.log(response)
   if (response.status== 200 && response.statusText == "OK"){  
-    cookies.expires = 1800;
+    cookies.set("name",cookies.get("name"),{
+        expires: 1800
+    })
   }  
   return response
 }) 

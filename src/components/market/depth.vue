@@ -153,6 +153,7 @@ export default {
                         // show: false,
                         name:'',
                         type: 'category',
+                        boundaryGap: false,
                         // data: ssw,
                         // boundaryGap: true
                     },
@@ -172,6 +173,9 @@ export default {
                             data: biddata,
                             lineStyle: {
                                 color: 'red'
+                            },
+                            areaStyle: {
+                                color:'red'
                             }
                         }, 
                         {
@@ -182,6 +186,9 @@ export default {
                             symbolSize: 0,
                             data: askdata,
                             lineStyle: {
+                                color: 'green'
+                            },
+                            areaStyle: {
                                 color: 'green'
                             }
                         }
