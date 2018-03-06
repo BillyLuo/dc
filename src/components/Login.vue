@@ -243,7 +243,7 @@
               }
             })
             cookies({
-              name: loginname
+              name: this.formInline.user
             },{
               expires: 60*30
             })

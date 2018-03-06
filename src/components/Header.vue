@@ -70,7 +70,7 @@ export default {
     return {
       scroll:false,
       activeName:'home',
-      isLogined:true,
+      isLogined:false,
       menu,
       userInfo:{
         username:15178874695,
@@ -116,7 +116,7 @@ export default {
             that.activeName = path.split("/")[1];
           }
       })
-
+      console.log(cookies("name"))
       if(!cookies("name") && path != "/home"){
         this.$router.push({
             path:'/login'
@@ -132,9 +132,10 @@ export default {
     route(name){
 
       if(!cookies("name") && name != "home"){
-        this.$router.push({
+          this.$router.push({
             path:'/login'
           });
+          cookies({"name":null})
           return false
       }else if(!cookies("name") && name == "home"){
           this.$router.push({
@@ -154,7 +155,8 @@ export default {
           this.$Modal.info({
             content:'请您先登录'
           });
-        }     
+        } 
+        cookies({"name":null})    
       }else {
         this.$router.push({
           path:'/'+name
@@ -163,6 +165,7 @@ export default {
     },
     loginOut () {
       this.isLogined = false;
+      cookies({"name":null})
       this.$router.push({
         path:'/login',
         params:{

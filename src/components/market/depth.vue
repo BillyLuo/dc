@@ -133,8 +133,8 @@ export default {
                 biddata = response.data.tick.bids;
                 askdata = response.data.tick.asks;
                 let myChart = echarts.init(document.getElementById('canvas'))
-                myChart.showLoading();
-                myChart.clear();
+                // myChart.showLoading();
+                // myChart.clear();
             let option1 = {
                     backgroundColor:'#181B2A',
                     tooltip: {
