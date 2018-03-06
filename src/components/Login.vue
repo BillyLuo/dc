@@ -172,7 +172,7 @@
         let $this = this;
         this.$ajax({
           method: 'post',
-          url: '/bizs/biz/pbsms.do?fh=LIOCOD0000000J00&resp=bd',
+          url: '/trade/biz/pbsms.do?fh=LIOCOD0000000J00&resp=bd',
           data: {
             tel:this.formInline.tel
           }
@@ -227,7 +227,7 @@
         }
         this.$ajax({
           method:'post',
-          url:'/bizs/tps/pblin.do',
+          url:'/trade/tps/pblin.do',
           data:{
             loginname,
             pwd

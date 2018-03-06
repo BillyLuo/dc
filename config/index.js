@@ -42,9 +42,9 @@ module.exports = {
         //     pathRewrite: {'^/bizs' : ''}
         // },
         //208
-        '/bizs': {
+        '/trade': {
           target: 'http://172.16.21.22:8002/txs',
-          pathRewrite: {'^/bizs' : ''}
+          pathRewrite: {'^/trade' : ''}
         },
 
         '/okcoin': {

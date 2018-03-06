@@ -349,7 +349,7 @@
                 this.record_data = [];
                 console.log("=================")
                 // 币种
-                this.$ajax.get("/bizs/tps/pbfct.do")
+                this.$ajax.get("/trade/tps/pbfct.do")
                 .then((response)=>{
                     console.log(response)
                 })
@@ -357,7 +357,7 @@
                 // 交易记录
                 this.$ajax({
                     method: 'post',
-                    url: '/bizs/tps/pblds.do',
+                    url: '/trade/tps/pblds.do',
                     data: {
                         "currencycode":"eth",
                         "count":"5"
@@ -398,7 +398,7 @@
             query_entrust () {
                 this.$ajax({
                     method: 'post',
-                    url: '/bizs/tps/pbets.do',
+                    url: '/trade/tps/pbets.do',
                     data: {
                         accountid:"",//账户ID
                         currencycode:"",//币种

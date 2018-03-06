@@ -90,7 +90,7 @@ export default {
       }
     },
     getAccountList() {
-      this.$ajax.post('/bizs/tps/pblaf.do/',{
+      this.$ajax.post('/trade/tps/pblaf.do/',{
 
       }).then((data) => {
         // console.log('success',data.data.accountFund);
