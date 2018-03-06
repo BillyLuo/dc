@@ -1,9 +1,9 @@
 <template>
-  <div class="user-center">
+  <div class="user-center" @click="changeActiveName">
     <user-info></user-info>
     <div class="user-main clear">
       <div class="user-menu" active-name="user-menu">
-        <Menu width="160px" :active-name="activeMenu" @on-select="changeValue">
+        <Menu ref="safesettings" width="160px" :active-name="activeMenu" @on-select="changeValue">
           <MenuItem v-for="item in userMenu" :name="item.value" :key="item.value">
             {{item.label}}
           </MenuItem>
@@ -19,7 +19,6 @@
 <script>
 import userInfo from './userBaseInfo';
 import { Menu, MenuItem } from 'iview';
-console.log(MenuItem);
 let userMenu = [
   {label:'基本信息',value:'safesettings'},
   {label:'金牌经纪人',value:'broker'},
@@ -39,9 +38,14 @@ export default {
   },
   methods:{
     changeValue(name){
-      console.log(name,this.$router);
       this.$router.push({
         path:'/user/'+name
+      })
+    },
+    changeActiveName () {
+      var that = this;
+      this.$nextTick(()=> {
+        // that.$refs['safesettings'].currentActiveName  = 'api';
       })
     }
   }

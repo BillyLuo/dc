@@ -9,7 +9,7 @@
             </div>
              <div class="item-content float-left">
               <h3>绑定您的邮箱</h3>
-              <a href="javascipt:;" @click="openEmailModal">未绑定</a>
+              <a href="javascript:;" @click="openEmailModal">未绑定</a>
              </div>
              <a href="javascript:;" @click="openEmailModal" class="item-status">绑定</a>
           </div>
@@ -23,7 +23,7 @@
             </div>
              <div class="item-content float-left">
               <h3>实名认证</h3>
-              <a href="javascipt:;">已认证</a>
+              <a href="javascript:;">已认证</a>
              </div>
              <a href="javascript:;" class="item-status">您的账号已通过实名认证</a>
           </div>
@@ -37,7 +37,7 @@
             </div>
              <div class="item-content float-left">
               <h3>手机绑定</h3>
-              <a href="javascipt:;">1517****4695</a>
+              <a href="javascript:;">1517****4695</a>
              </div>
              <a href="javascript:;" class="item-status" @click="openTelModal">修改</a>
           </div>
@@ -51,7 +51,7 @@
             </div>
              <div class="item-content float-left">
               <h3>谷歌验证码</h3>
-              <a href="javascipt:;">未绑定</a>
+              <a href="javascript:;">未绑定</a>
              </div>
              <a href="javascript:;" class="item-status">绑定</a>
           </div>
@@ -65,7 +65,7 @@
             </div>
              <div class="item-content float-left">
               <h3>登录密码设置</h3>
-              <a href="javascipt:;">已设置</a>
+              <a href="javascript:;">已设置</a>
              </div>
              <a href="javascript:;" class="item-status" @click="openLoginPassModal">修改</a>
           </div>
@@ -79,7 +79,7 @@
             </div>
              <div class="item-content float-left">
               <h3>交易密码设置</h3>
-              <a href="javascipt:;" @click="openTradePassModal">未设置</a>
+              <a href="javascript:;" @click="openTradePassModal">未设置</a>
              </div>
              <a href="javascript:;" class="item-status" @click="openTradePassModal">绑定</a>
           </div>

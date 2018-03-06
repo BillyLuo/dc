@@ -137,6 +137,7 @@ export default {
           });
           return false
       }else if(!cookies("name") && name == "home"){
+          
           this.$router.push({
             path:'/home'
           });

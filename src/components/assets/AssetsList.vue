@@ -82,7 +82,7 @@ export default {
   },
   methods:{
     handle(action) {
-      console.log(action);
+      // console.log(action);
       if (action.type == 'in') {
         this.$router.push('/assets/recharge')
       }else if(action.type == 'out') {
@@ -93,8 +93,8 @@ export default {
       this.$ajax.post('/bizs/tps/pblaf.do/',{
 
       }).then((data) => {
-        console.log('success',data.data.accountFund);
-        let list = data.data.accountFund;
+        // console.log('success',data.data.accountFund);
+        let list = (data.data && data.data.accountFund) ? data.data.accountFund : [];
         let formatList = list.map((value, index) => {
           let result = {};
           result.name = value.currencyname;

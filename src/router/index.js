@@ -25,7 +25,7 @@ Vue.use(Router)
 
 export default new Router({
   mode:'history',
-  base:'tradex',
+  // base:'tradex',
   routes: [
     {
       path: '/',
@@ -48,10 +48,10 @@ export default new Router({
     },
     {
       path:'/assets',
-      name:'Assets',
+      // name:'Assets',
       component:Assets,
       children:[
-        {path:'',component:AssetsList},
+        {path:'',name:'Assets',component:AssetsList},
         {path:'/assets/assetslist',component:AssetsList},
         {path:'/assets/recharge',component:Recharge},
         {path:'/assets/withdraw',component:Withdraw}
@@ -101,7 +101,7 @@ export default new Router({
     },
     {
       path:'/resetByPhone',
-      name:'ResetByEmail',
+      name:'ResetByPhone',
       component:ResetByPhone
     }
   ],

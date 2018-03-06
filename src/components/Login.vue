@@ -206,8 +206,8 @@
       },
       handleSpinCustomShow () {   // loading
         var that = this;
-        var loginname = this.formInline.user;
-        var pwd = this.formInline.password;
+        var loginname = this.formInline.user.trim();
+        var pwd = this.formInline.password.trim();
         this.$Spin.show({
           render: (h) => {
             return h('div', [

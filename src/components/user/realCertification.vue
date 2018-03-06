@@ -1,47 +1,60 @@
 <template>
   <div class="real-certification">
-    <div class="certification-item clear">
-      <div class="certification-pic float-left">
-        <i class="icon-card icon-1"></i>
+    <div v-if="level == 1">
+      <div class="certification-item clear">
+        <div class="certification-pic float-left">
+          <i class="icon-card icon-1"></i>
+        </div>
+        <div class="certification-text float-left">
+          <h3>您的账号已通过实名认证</h3>
+          <p>
+            您实名认证以后，您的账户<span>每天最多可累计提现五万人民币。如您有大额资金操作，请完成C2级别认证，以获得更高级别的资金权限。</span>
+            我们会严格保密您的身份信息，不会向任何第三方透露。
+          </p>
+        </div>
       </div>
-      <div class="certification-text float-left">
-        <h3>您的账号已通过实名认证</h3>
-        <p>
-          您实名认证以后，您的账户<span>每天最多可累计提现五万人民币。如您有大额资金操作，请完成C2级别认证，以获得更高级别的资金权限。</span>
-          我们会严格保密您的身份信息，不会向任何第三方透露。
-        </p>
+      <div class="certification-item clear">
+        <div class="certification-pic float-left">
+          <i class="icon-card icon-2"></i>
+        </div>
+        <div class="certification-text float-left">
+          <h3>您尚未进行<a>C2身份认证</a></h3>
+          <p>
+            您C2认证以后，您的账户<span>每天最多可累计提现五十万人民币。如您有大额资金操作，请完成C3级别认证，以获得更高级别的资金权限。</span>
+            我们会严格保密您的身份信息，不会向任何第三方透露。
+          </p>
+        </div>
+      </div>
+      <div class="certification-item clear">
+        <div class="certification-pic float-left">
+          <i class="icon-card icon-3"></i>
+        </div>
+        <div class="certification-text float-left">
+          <h3>如需更大权限，请添加<a>客服QQ</a></h3>
+          <p>
+            您C3认证以后，您的账户<span>每天最多可累计提现三百万人民币。</span>
+            我们会严格保密您的身份信息，不会向任何第三方透露。
+          </p>
+        </div>
       </div>
     </div>
-    <div class="certification-item clear">
-      <div class="certification-pic float-left">
-        <i class="icon-card icon-2"></i>
-      </div>
-      <div class="certification-text float-left">
-        <h3>您尚未进行<a>C2身份认证</a></h3>
-        <p>
-          您C2认证以后，您的账户<span>每天最多可累计提现五十万人民币。如您有大额资金操作，请完成C3级别认证，以获得更高级别的资金权限。</span>
-          我们会严格保密您的身份信息，不会向任何第三方透露。
-        </p>
-      </div>
-    </div>
-    <div class="certification-item clear">
-      <div class="certification-pic float-left">
-        <i class="icon-card icon-3"></i>
-      </div>
-      <div class="certification-text float-left">
-        <h3>如需更大权限，请添加<a>客服QQ</a></h3>
-        <p>
-          您C3认证以后，您的账户<span>每天最多可累计提现三百万人民币。</span>
-          我们会严格保密您的身份信息，不会向任何第三方透露。
-        </p>
-      </div>
+    <div v-if="level == 0">
+      <nameCertification />
     </div>
   </div>
 </template>
 
 <script>
+import nameCertification from './nameCertification';
 export default {
-  
+  components:{
+    nameCertification
+  },
+  data () {
+    return {
+      level:0
+    }
+  }
 }
 </script>
 
