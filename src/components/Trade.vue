@@ -47,10 +47,10 @@
                             <Button>限单价</Button>
                         </div>
                         <div class="trade-input">
-                            <Input number>
+                            <Input number v-model="buyprice">
                                 <span slot="prepend">买入价 ¥</span>
                             </Input>
-                            <Input number>
+                            <Input number v-model="buycount">
                                 <span slot="prepend">买入量 {{btcname}}</span>
                             </Input>
                             <p>
@@ -70,7 +70,7 @@
                 <Col span='8'>
                     <div class="trade-sell buy-sell">
                         <div class='sell-title'>
-                            <span  class="text-buy">买入</span>CNY/<span>{{btcname}}</span>
+                            <span  class="text-buy">卖出</span>CNY/<span>{{btcname}}</span>
                         </div>
                         <div class="money">
                             <p class="buy-money">可用：<span>0.00000000</span> CNY</p>
@@ -81,10 +81,10 @@
                             <Button>限单价</Button>
                         </div>
                         <div class="trade-input">
-                            <Input number>
-                                <span slot="prepend">买入价 ¥</span>
+                            <Input number v-model="sellprice">
+                                <span slot="prepend">卖出价 ¥</span>
                             </Input>
-                            <Input number>
+                            <Input number v-model="sellcount">
                                 <span slot="prepend">买入量 {{btcname}}</span>
                             </Input>
                             <p>
@@ -92,7 +92,7 @@
                             </p>
                             <Slider ></Slider>
                             <Button class="buy-button buy-button1">
-                                买入 {{btcname}}
+                                卖出 {{btcname}}
                             </Button>
                             <Button class="buy-button" style="margin-bottom:30px;">
                                 立即充值
@@ -103,7 +103,7 @@
                 <Col span='8'>
                     <div class="trade-record buy-sell">
                         <p class="table-title">最新成交价格</p>
-                        <Table :row-class-name='rowClassName' size='small' :data="price_datas" :columns="price_columns" stripe></Table>
+                        <Table :row-class-name='rowClassName' @on-row-dblclick="dblclick" size='small' :data="price_datas" :columns="price_columns" stripe></Table>
                         <p class="table-title" style="margin-top:20px;">最新成交记录</p>
                         <Table class='chengjiaojilu' style="margin-bottom:20px;" :row-class-name='rowClassName' size='small' :data="record_data" :columns="record_columns" stripe></Table>
                     </div>
@@ -173,6 +173,10 @@
                 btcname:"BTC",
                 buymoney:0,
                 sellmoney:0,
+                buyprice:'',
+                buycount:'',
+                sellprice:'',
+                sellcount:'',
                 // 最新成交价格
                 price_datas:[],
                 price_columns: [
@@ -449,6 +453,18 @@
             eth (ss) {
                 console.log(ss)
                 this.query();
+            },
+            dblclick (row,index) {
+                // console.log("==========dbclick===========")
+                // console.log(row,index)
+                if(index<5){
+                    this.buycount = row.tradecount;
+                    this.buyprice = row.tradeprice;
+                    this.buymoney = (this.buycount*this.buyprice).toFixed(6);
+                }else{
+                    this.sellcount = row.tradecount;
+                    this.sellprice = row.tradeprice;
+                }
             }
         }
     }

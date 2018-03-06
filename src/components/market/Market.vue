@@ -145,249 +145,249 @@ export default {
             console.log(value)
             //this.drawLine(value);
         },
-        drawLine(param){
-            let data;
-            let myChart = echarts.init(document.getElementById('canvas'))
-                myChart.showLoading();
-                myChart.clear();
-            this.$ajax.get('/huobi/history/kline?symbol=ethusdt&period='+param)
-            .then(function(response){
-                console.log(response)
-                data = response.data.data;
+    // drawLine(param){
+        //     let data;
+        //     let myChart = echarts.init(document.getElementById('canvas'))
+        //         myChart.showLoading();
+        //         myChart.clear();
+        //     this.$ajax.get('/huobi/history/kline?symbol=ethusdt&period='+param)
+        //     .then(function(response){
+        //         console.log(response)
+        //         data = response.data.data;
 
-                function compare(property){
-                    return function(a,b){
-                        var value1 = a[property];
-                        var value2 = b[property];
-                        return value1 - value2;
-                    }
-                }
-                data.sort(compare('id'))
+        //         function compare(property){
+        //             return function(a,b){
+        //                 var value1 = a[property];
+        //                 var value2 = b[property];
+        //                 return value1 - value2;
+        //             }
+        //         }
+        //         data.sort(compare('id'))
 
-                let data1 = [];
-                let data2 = [];
-                // for(var i=0;i<data.length;i++){
-                //     var date = new Date(data[i].id*1000)
-                //     data1.push(date.getHours()+":"+date.getMinutes())
-                //     // 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest),成交量，成交笔数,data[i].amount,data[i].count
-                //     // data2.push([data[i].open,data[i].close,data[i].low,data[i].high])
-                // }
+        //         let data1 = [];
+        //         let data2 = [];
+        //         // for(var i=0;i<data.length;i++){
+        //         //     var date = new Date(data[i].id*1000)
+        //         //     data1.push(date.getHours()+":"+date.getMinutes())
+        //         //     // 数据意义：开盘(open)，收盘(close)，最低(lowest)，最高(highest),成交量，成交笔数,data[i].amount,data[i].count
+        //         //     // data2.push([data[i].open,data[i].close,data[i].low,data[i].high])
+        //         // }
 
-                data2 = data.map(function(item){
-                    var date = new Date(item.id*1000)
-                    data1.push(date.getHours()+":"+date.getMinutes())
-                    return [item.open,item.close,item.low,item.high]
-                })
-            let upColor = '#ec0000';
-            let upBorderColor = '#8A0000';
-            let downColor = '#00da3c';
-            let downBorderColor = '#008F28';
-            let option={};
-            function calculateMA(dayCount) { 
-                let result = [];
-                for (let i = 0, len = data2.length; i < len; i++) {
-                    if (i < dayCount) {
-                        result.push('-');
-                        continue;
-                    }
-                    let sum = 0;
-                    for (let j = 0; j < dayCount; j++) {
-                        sum += data2[i - j][1];
-                    }
-                    result.push(sum / dayCount);
-                }
-                return result;
-            };
+        //         data2 = data.map(function(item){
+        //             var date = new Date(item.id*1000)
+        //             data1.push(date.getHours()+":"+date.getMinutes())
+        //             return [item.open,item.close,item.low,item.high]
+        //         })
+        //     let upColor = '#ec0000';
+        //     let upBorderColor = '#8A0000';
+        //     let downColor = '#00da3c';
+        //     let downBorderColor = '#008F28';
+        //     let option={};
+        //     function calculateMA(dayCount) { 
+        //         let result = [];
+        //         for (let i = 0, len = data2.length; i < len; i++) {
+        //             if (i < dayCount) {
+        //                 result.push('-');
+        //                 continue;
+        //             }
+        //             let sum = 0;
+        //             for (let j = 0; j < dayCount; j++) {
+        //                 sum += data2[i - j][1];
+        //             }
+        //             result.push(sum / dayCount);
+        //         }
+        //         return result;
+        //     };
                 
-                option = {
-                    backgroundColor:'#21202D',
+        //         option = {
+        //             backgroundColor:'#21202D',
                     
-                    title: {
-                        text: 'K线数据',
-                        left: 0,
-                        textStyle:{color: '#fff'}
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross'
-                        },
-                        formatter: function (params) {
-                            // console.log(params)
-                            var res = "时间:"+params[0].name;
-                            res += '<br/>  开盘 : ' + params[0].value[1].toFixed(4) + '<br/>  最高 : ' + params[0].value[4].toFixed(4);
-                            res += '<br/>  收盘 : ' + params[0].value[2].toFixed(4) + '<br/>  最低 : ' + params[0].value[3].toFixed(4);
-                            return res;
-                        }
+        //             title: {
+        //                 text: 'K线数据',
+        //                 left: 0,
+        //                 textStyle:{color: '#fff'}
+        //             },
+        //             tooltip: {
+        //                 trigger: 'axis',
+        //                 axisPointer: {
+        //                     type: 'cross'
+        //                 },
+        //                 formatter: function (params) {
+        //                     // console.log(params)
+        //                     var res = "时间:"+params[0].name;
+        //                     res += '<br/>  开盘 : ' + params[0].value[1].toFixed(4) + '<br/>  最高 : ' + params[0].value[4].toFixed(4);
+        //                     res += '<br/>  收盘 : ' + params[0].value[2].toFixed(4) + '<br/>  最低 : ' + params[0].value[3].toFixed(4);
+        //                     return res;
+        //                 }
                         
-                    },
-                    toolbox: {
-                        show : true,
-                        feature : {
-                            restore : {show: true},
-                            saveAsImage : {show: true},
-                            // dataView : {show: true},
-                            // magicType: {
-                            //     type: ['line', 'bar', 'stack', 'tiled']
-                            // }
-                        }
-                    },
-                    legend: {
-                        show:false,
-                        data: [ '开', '收', '低', '高'],
-                        inactiveColor: '#777',
-                    },
-                    grid: {
-                        left: '3%',
-                        right: '5%',
-                        bottom: '15%'
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: data1,
-                        scale: true,
-                        boundaryGap : false,
-                        axisLine: {onZero: false},
-                        splitLine: {show: false},
-                        splitNumber: 30,
-                        min: 'dataMin',
-                        max: 'dataMax',
-                        axisLine: {
-                            lineStyle:{
-                                color:"#777"
-                            }
-                        }
-                    },
-                    yAxis: {
-                        scale: true,
-                        position: 'right',
-                        splitNumber:10,
-                        splitArea: {
-                            show: false
-                        },
-                        axisLine:{
-                            lineStyle:{
-                                color:"#777"
-                            }
-                        }
-                    },
-                    brush: {
-                        // left:'30px',
-                        // toolbox: ['rect','polygon','lineX','lineY','keep','clear'],
-                        // xAxisIndex: 'all',
-                        // brushLink: 'all',
-                        // outOfBrush: {
-                        //     colorAlpha: 0.1
-                        // }
-                    },
-                    dataZoom: [
-                        {
-                            type: 'inside',
-                            start: 50,
-                            end: 100
-                        },
-                        {
-                            show: true,
-                            type: 'slider',
-                            y: '90%',
-                            start: 50,
-                            end: 100
-                        }
-                    ],
-                    series: [
-                        {
-                            name: '',
-                            type: 'candlestick',
-                            data: data2,
-                            itemStyle: {
-                                normal: {
-                                    color: upColor,
-                                    color0: downColor,
-                                    borderColor: upBorderColor,
-                                    borderColor0: downBorderColor
-                                }
-                            },
-                            markPoint: {
-                                label: {
-                                    normal: {
-                                        show:true,
-                                        formatter: function (param) {
-                                            return param != null ? Math.round(param.value) : '';
-                                        }
-                                    }
-                                },
-                                data: [
-                                    {
-                                        name: 'highest value',
-                                        type: 'max',
-                                        valueDim: 'highest'
-                                    },
-                                    {
-                                        name: 'lowest value',
-                                        type: 'min',
-                                        valueDim: 'lowest'
-                                    },
-                                    {
-                                        name: 'average value on close',
-                                        type: 'average',
-                                        valueDim: 'close'
-                                    }
-                                ],
-                                tooltip: {
-                                    formatter: function (param) {
-                                        // console.log(param)
-                                        return param.name + '<br>' + (param.data.coord || '');
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            name: '开',
-                            type: 'line',
-                            data: calculateMA(5),
-                            smooth: true,
-                            symbol:"none",
-                            lineStyle: {
-                                normal: {opacity: 0.5}
-                            }
-                        },
-                        {
-                            name: '收',
-                            type: 'line',
-                            data: calculateMA(10),
-                            smooth: true,
-                            symbol:"none",
-                            lineStyle: {
-                                normal: {opacity: 0.5}
-                            }
-                        },
-                        {
-                            name: '低',
-                            type: 'line',
-                            data: calculateMA(20),
-                            smooth: true,
-                            symbol:"none",
-                            lineStyle: {
-                                normal: {opacity: 0.5}
-                            }
-                        },
-                        {
-                            name: '高',
-                            type: 'line',
-                            data: calculateMA(30),
-                            smooth: true,
-                            symbol:"none",
-                            lineStyle: {
-                                normal: {opacity: 0.5}
-                            }
-                        },
+        //             },
+        //             toolbox: {
+        //                 show : true,
+        //                 feature : {
+        //                     restore : {show: true},
+        //                     saveAsImage : {show: true},
+        //                     // dataView : {show: true},
+        //                     // magicType: {
+        //                     //     type: ['line', 'bar', 'stack', 'tiled']
+        //                     // }
+        //                 }
+        //             },
+        //             legend: {
+        //                 show:false,
+        //                 data: [ '开', '收', '低', '高'],
+        //                 inactiveColor: '#777',
+        //             },
+        //             grid: {
+        //                 left: '3%',
+        //                 right: '5%',
+        //                 bottom: '15%'
+        //             },
+        //             xAxis: {
+        //                 type: 'category',
+        //                 data: data1,
+        //                 scale: true,
+        //                 boundaryGap : false,
+        //                 axisLine: {onZero: false},
+        //                 splitLine: {show: false},
+        //                 splitNumber: 30,
+        //                 min: 'dataMin',
+        //                 max: 'dataMax',
+        //                 axisLine: {
+        //                     lineStyle:{
+        //                         color:"#777"
+        //                     }
+        //                 }
+        //             },
+        //             yAxis: {
+        //                 scale: true,
+        //                 position: 'right',
+        //                 splitNumber:10,
+        //                 splitArea: {
+        //                     show: false
+        //                 },
+        //                 axisLine:{
+        //                     lineStyle:{
+        //                         color:"#777"
+        //                     }
+        //                 }
+        //             },
+        //             brush: {
+        //                 // left:'30px',
+        //                 // toolbox: ['rect','polygon','lineX','lineY','keep','clear'],
+        //                 // xAxisIndex: 'all',
+        //                 // brushLink: 'all',
+        //                 // outOfBrush: {
+        //                 //     colorAlpha: 0.1
+        //                 // }
+        //             },
+        //             dataZoom: [
+        //                 {
+        //                     type: 'inside',
+        //                     start: 50,
+        //                     end: 100
+        //                 },
+        //                 {
+        //                     show: true,
+        //                     type: 'slider',
+        //                     y: '90%',
+        //                     start: 50,
+        //                     end: 100
+        //                 }
+        //             ],
+        //             series: [
+        //                 {
+        //                     name: '',
+        //                     type: 'candlestick',
+        //                     data: data2,
+        //                     itemStyle: {
+        //                         normal: {
+        //                             color: upColor,
+        //                             color0: downColor,
+        //                             borderColor: upBorderColor,
+        //                             borderColor0: downBorderColor
+        //                         }
+        //                     },
+        //                     markPoint: {
+        //                         label: {
+        //                             normal: {
+        //                                 show:true,
+        //                                 formatter: function (param) {
+        //                                     return param != null ? Math.round(param.value) : '';
+        //                                 }
+        //                             }
+        //                         },
+        //                         data: [
+        //                             {
+        //                                 name: 'highest value',
+        //                                 type: 'max',
+        //                                 valueDim: 'highest'
+        //                             },
+        //                             {
+        //                                 name: 'lowest value',
+        //                                 type: 'min',
+        //                                 valueDim: 'lowest'
+        //                             },
+        //                             {
+        //                                 name: 'average value on close',
+        //                                 type: 'average',
+        //                                 valueDim: 'close'
+        //                             }
+        //                         ],
+        //                         tooltip: {
+        //                             formatter: function (param) {
+        //                                 // console.log(param)
+        //                                 return param.name + '<br>' + (param.data.coord || '');
+        //                             }
+        //                         }
+        //                     }
+        //                 },
+        //                 {
+        //                     name: '开',
+        //                     type: 'line',
+        //                     data: calculateMA(5),
+        //                     smooth: true,
+        //                     symbol:"none",
+        //                     lineStyle: {
+        //                         normal: {opacity: 0.5}
+        //                     }
+        //                 },
+        //                 {
+        //                     name: '收',
+        //                     type: 'line',
+        //                     data: calculateMA(10),
+        //                     smooth: true,
+        //                     symbol:"none",
+        //                     lineStyle: {
+        //                         normal: {opacity: 0.5}
+        //                     }
+        //                 },
+        //                 {
+        //                     name: '低',
+        //                     type: 'line',
+        //                     data: calculateMA(20),
+        //                     smooth: true,
+        //                     symbol:"none",
+        //                     lineStyle: {
+        //                         normal: {opacity: 0.5}
+        //                     }
+        //                 },
+        //                 {
+        //                     name: '高',
+        //                     type: 'line',
+        //                     data: calculateMA(30),
+        //                     smooth: true,
+        //                     symbol:"none",
+        //                     lineStyle: {
+        //                         normal: {opacity: 0.5}
+        //                     }
+        //                 },
 
-                    ]
-                };
-                myChart.hideLoading();
-                myChart.setOption(option)
-            })
-        }
+        //             ]
+        //         };
+        //         myChart.hideLoading();
+        //         myChart.setOption(option)
+        //     })
+        // }
     }
 }
 </script>
