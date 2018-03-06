@@ -94,6 +94,12 @@ export default {
   watch:{
     "$route":"getPath"  // 监听事件
   },
+  mounted(){
+    var isLogined = true;
+    if (isLogined) {
+      this.isLogined = true;
+    }
+  },
   methods:{
     init() {
       if (!this.isLogined) {
