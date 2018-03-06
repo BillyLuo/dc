@@ -15,7 +15,6 @@
     "axios": "^0.17.1",
     "clipboard": "^1.7.1",
     "cookies-js": "^1.2.3",
-    "cookiesjs": "^2.0.0",
     "iview": "^2.9.0",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",

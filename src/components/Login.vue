@@ -243,7 +243,7 @@
               }
             })
             cookies.set("name",loginname,{
-              expires: 10
+              expires: 1800
             })
           }else {
             that.loginError = '您输入的账号或密码有误';  

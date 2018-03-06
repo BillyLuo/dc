@@ -81,24 +81,27 @@ export default {
   mounted (){
     // this.initActive();
     // console.log('----header----',this);
-    this.getPath();
-    var that = this;
-    window.onscroll = scroll.bind(this);
-    bus.$on('login',(value) => {
-      if (value) {
-        that.isLogined = true;
-      }
-    })
+    console.log(cookies.get("name"))
+     this.getPath();
+      var that = this;
+      window.onscroll = scroll.bind(this);
+      bus.$on('login',(value) => {
+        if (value) {
+          console.log(value)
+          that.isLogined = true;
+        }
+      })
+
+    if(cookies.get("name")){
+      that.isLogined = true;
+    }else{
+      that.isLogined = false;
+    }
+    
     // this.init();
   },
   watch:{
     "$route":"getPath"  // 监听事件
-  },
-  mounted(){
-    var isLogined = true;
-    if (isLogined) {
-      this.isLogined = true;
-    }
   },
   methods:{
     init() {
@@ -109,12 +112,7 @@ export default {
       }
     },
     getPath(){
-      // console.log(cookies.get("name"));
-
-
       let path = this.$route.path;
-      // console.log(path)
-      // console.log(path.split("/"))
       this.activeName = 'home';
       let that =this;
       menu.map(function(item){
@@ -129,12 +127,14 @@ export default {
             path:'/login'
           });
           cookies.set("name", "",{expires: 0})
+          this.isLogined = false;
           return false
       }else if(!cookies.get("name") && path == "/home"){
           this.$router.push({
             path:'/home'
           });
           cookies.set("name", "",{expires: 0})
+          this.isLogined = false;
           return false
       }
     },
@@ -145,12 +145,14 @@ export default {
             path:'/login'
           });
           cookies.set("name", "",{expires: 0})
+          this.isLogined = false;
           return false
       }else if(!cookies.get("name") && name == "home"){
           this.$router.push({
             path:'/home'
           });
           cookies.set("name", "",{expires: 0})
+          this.isLogined = false;
           return false
       }else {
         this.$router.push({
@@ -160,6 +162,7 @@ export default {
 
 
       var isLogined = this.isLogined;
+      console.log(isLogined)
       if (!this.isLogined && name != 'register' && name && name!='home') {
         this.$router.push({
           name:'Login'
