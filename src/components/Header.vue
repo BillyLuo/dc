@@ -113,35 +113,38 @@ export default {
       let that =this;
       menu.map(function(item){
           if(item.name==path.split("/")[1]){
+            console.log(path.split("/")[1])
             that.activeName = path.split("/")[1];
           }
       })
-      console.log(cookies("name"))
-      if(!cookies("name") && path != "/home"){
+
+      if(!cookies("name") && (path == "/trade" || path == "/assets" || path == "/user" || path == "/market")){
         this.$router.push({
             path:'/login'
           });
+          cookies({"name":null})
           return false
       }else if(!cookies("name") && path == "/home"){
           this.$router.push({
             path:'/home'
           });
+          cookies({"name":null})
           return false
       }
     },
     route(name){
 
-      if(!cookies("name") && name != "home"){
+      if(!cookies("name")  && (name == "trade" || name == "assets" || name == "user" || name == "market")){
           this.$router.push({
             path:'/login'
           });
           cookies({"name":null})
           return false
       }else if(!cookies("name") && name == "home"){
-          
           this.$router.push({
             path:'/home'
           });
+          cookies({"name":null})
           return false
       }
 

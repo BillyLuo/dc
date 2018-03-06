@@ -234,7 +234,7 @@
           }
         }).then((data)=>{
           console.log(data);
-          that.$Spin.hide();
+         
           if (data.status == 200 && data.data.err_code == '1') {
             that.$router.push({
               name:'Home',
@@ -245,7 +245,7 @@
             cookies({
               name: this.formInline.user
             },{
-              expires: 60*30
+              expires: 1800
             })
           }else {
             that.loginError = '您输入的账号或密码有误';  
@@ -253,6 +253,7 @@
               that.loginError = '';
             }, 3000);          
           }
+          that.$Spin.hide();
         }).catch((err)=>{
           console.log('wrong---',err);
           that.$Spin.hide();
