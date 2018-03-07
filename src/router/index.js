@@ -58,8 +58,8 @@ export default new Router({
       ]
     },
     {
-      path:'/trade',
-      name:'Trade',
+      path:'/trading',
+      // name:'Trade',
       component: Trade
     },
     {

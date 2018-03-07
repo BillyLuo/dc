@@ -44,7 +44,7 @@ function initCharts (symbol) {
         new TradingView.widget({
             "container_id":"chart",
             "width": '100%',
-            "height": 500,
+            "height": 600,
             "symbol": symbol?''+symbol:"BINANCE:BTCUSDT",
             "interval": "1",
             "timezone": "Asia/Hong_Kong",
