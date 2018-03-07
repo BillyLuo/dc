@@ -92,6 +92,7 @@
         v-model="emailModal"
         :loading="emailLoading">
         <Input placeholder="邮箱地址" v-model="input_email"/>
+        <div class="errmsg">{{emailErrMsg}}</div>
         <Button :class="'btn-block'" slot="footer" type="primary" @click="email_ok">确定</Button>
     </Modal>
     <Modal
@@ -179,6 +180,7 @@ export default {
   data () {
     return {
       emailModal: false,
+      emailErrMsg:'',
       telModal:false,
       telLoading:true,
       loginPassModal: false,
@@ -227,13 +229,14 @@ export default {
       if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(email)) {
         setTimeout(()=>{
           this.input_email = '';
+          this.emailErrMsg = '';
           this.$Message.success('邮箱设置成功。');
           this.emailModal = false;
         },1000)
       }else {
         console.log('wrong');
         this.emailLoading = false;
-        this.$Message.warning('请输入正确的邮箱');
+        this.emailErrMsg = '请输入正确的邮箱';
       }
     },
     openTelModal(){

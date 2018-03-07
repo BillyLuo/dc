@@ -22,6 +22,8 @@
               <div class="divide"></div>
               <div class="all-asset">账户总资产：<span>0 CNYT</span></div>
               <div class="divide"></div>
+              <div class="uid">UID: <span>234325</span></div>
+              <div class="divide"></div>
               <button class="login-out-btn" @click="loginOut">登出</button>
             </div>
           </div>
@@ -140,7 +142,7 @@ export default {
       }
     },
     route(name){
-
+      cookies.set('name','will');
       if(!cookies.get("name")  && (name == "trade" || name == "assets" || name == "user" || name == "market")){
           this.$router.push({
             path:'/login'
@@ -165,15 +167,15 @@ export default {
       var isLogined = this.isLogined;
       console.log(isLogined)
       if (!this.isLogined && name != 'register' && name && name!='home') {
-        this.$router.push({
-          name:'Login'
-        })
         this.$refs.main_menu.currentActiveName = 'home';
         if (name != 'home' && name != 'login' && name != 'register') {
           this.$Modal.info({
             content:'请您先登录'
           });
         } 
+        this.$router.push({
+          name:'Login'
+        })
         cookies.set("name", "",{expires: 0})    
       }else {
         this.$router.push({
@@ -200,7 +202,7 @@ export default {
   .home-header {
     height: 100px;
     position: fixed;
-    top: 50px;
+    top: 40px;
     width: 100%;
     left: auto;
     right: auto;
@@ -274,8 +276,9 @@ export default {
   }
   .login {
     margin: 15px 0;
-    width: 120px;
+    width: 130px;
     height: 30px;
+    font-size: 14px;
     line-height: 30px;
     border-radius: 15px;
     background: $primary-color;
@@ -341,8 +344,8 @@ export default {
       padding: 0 20px;
     }
     .all-asset {
-      height: 60px;
-      line-height: 60px;
+      height: 50px;
+      line-height: 50px;
       padding: 0 20px;
       color: #666;
       span {
@@ -356,9 +359,15 @@ export default {
         line-height: 20px;
       }
     }
+    .uid {
+      height: 48px;
+      line-height: 48px;
+      color: #666;
+      padding: 0 20px;
+    }
     .login-out-btn {
       width: 100%;
-      height: 36px;
+      height: 40px;
       border: none;
       color: #192E5B;
       background: #F6F7FC;

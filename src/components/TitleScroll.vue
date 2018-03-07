@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="title-scroll-box">
+    <div class="title-scroll-box" id="scroll-wrapper"  @mouseenter="scroller(false)" @mouseleave="scroller(true)">
       <div class="box-margin" id="title-scroll-move-box">
         <ul id="title-scroll-move">
-          <li v-for="data in dataArry" :key="data">
+          <li v-for="data in dataArry" :key="data" :class="{down:data%2==0?true:false}">
             <span class="s1">TNT/TNT</span>
             <span class="s2">{{data+1}}</span>
             <span class="s3"></span>
@@ -21,30 +21,34 @@
           dataArrys.push(i)
         }
         return{
-          dataArry:dataArrys
+          dataArry:dataArrys,
+          left:0,
+          scrolling:false,
+          timer:null
         }
       },
     methods:{
-      move(){
-        let move = document.getElementById("title-scroll-move");
-        let moveBox = document.getElementById("title-scroll-move-box");
-        move.onmousedown = (ev)=>{   // 按下鼠标
-          let Event = ev || window.event;
-          let left = moveBox.getBoundingClientRect().left + document.documentElement.scrollLeft;   // moveBox距离左侧位置
-          document.onmousemove =(ev)=>{   // 鼠标移动
-            let e = ev || window.event;
-            let moveLeft = window.getComputedStyle(move,null).left;     //  move left值
-            let  offsetX = e.clientX;       //  鼠标 距离左侧位置
-            let moveLeftNum = parseFloat(moveLeft.replace('px',''));
-            Event.preventDefault();
-            // move.style.left = moveLeftNum + offsetX - left + 'px';
-            console.log("move.style.left=====",move,move.style.left);
-            console.log(moveLeft,offsetX,left)
-          };
-          document.onmouseup = ()=>{   // 鼠标抬起  移除事件
-            document.onmousemove = null;
-            document.onmousedown = null;
-          }
+      scroll (num) {
+        var box = document.getElementById('title-scroll-move-box');
+        this.left = num;        
+        box.style.transform = 'translate('+num+'px,'+'0px)';
+      },
+      scroller (value) {
+        var that = this;
+        console.log(value);
+        if (value) {
+          that.timer = setInterval(function () {
+            var num = that.left;
+            // console.log(num);
+            num --;
+            if (num < -3600) {
+              num = 0;
+            }
+            that.left = num;
+            that.scroll(num);
+          },20);
+        }else if (that.timer){
+          clearInterval(that.timer);
         }
       }
     },
@@ -52,35 +56,66 @@
       // console.log("页面加载前");
     },
     mounted(){
-        // console.log("页面加载后")
-      this.move(document.getElementById('title-scroll-move'))
+      var that = this;
+      if (!that.timer) {
+        that.timer = setInterval(function () {
+          var num = that.left;
+          // console.log(num);
+          num --;
+          if (num < -3600) {
+            num = 0;
+          }
+          that.left = num;
+          that.scroll(num);
+        },20);
+      }
+      var myScroll = new IScroll('#scroll-wrapper', { eventPassthrough: true, scrollX: true, scrollY: false, preventDefault: false });
+      myScroll.on('scrollEnd',function () {
+        // console.log(this);
+        var box = document.getElementById('title-scroll-move-box');
+        box.style.transform = 'translate('+this.x+'px,'+this.y+'px)';
+        that.left = this.x;
+        that.scrolling = false;
+        // that.scroller(true);
+      })
+      myScroll.on('scrollStart',function () {
+        that.scrolling = true;
+      })
     }
   }
 </script>
 <style lang="scss">
   .title-scroll-box{
     width: 100%;
-    padding: 5px 0;
+    // padding: 5px 0;
+    height: 50px;
     background-color: #f6f6f6;
     position: fixed;
     top:0;
     z-index: 999;
+    .title-scroll-move {
+      width: 100%;
+      margin:0;
+      padding: 0;
+      list-style-type: none;
+    }
     .box-margin{
-      width: 1200px;
+      width: 4860px;
       height: 40px;
       margin: 0 auto;
       overflow: hidden;
-      position: relative;
+      position: absolute;
+      background-color: #f6f6f6;
       ul{
         width: 4860px;
         position: absolute;
         top: 0;
         left: 0;
         cursor: move;
-        animation: move-right 90s linear 0s infinite normal running;
-        -moz-animation: move-right 90s linear 0s infinite normal running;	
-        -webkit-animation: move-right 90s linear 0s infinite normal running;	
-        -o-animation: move-right 90s linear 0s infinite normal running;	
+        // animation: move-right 90s linear 0s infinite normal running;
+        // -moz-animation: move-right 90s linear 0s infinite normal running;	
+        // -webkit-animation: move-right 90s linear 0s infinite normal running;	
+        // -o-animation: move-right 90s linear 0s infinite normal running;	
         li{
           width: 180px;
           height: 40px;
@@ -101,7 +136,7 @@
             padding-right: 10px;
           }
           .s2{
-            color: #1cd018;
+            color: #f00;
             padding-right: 10px;
           }
           .s3{
@@ -112,11 +147,13 @@
             background-position: 0px 0px;
           }
         }
-        &:hover{
-          animation-play-state:paused;
-          -moz-animation-play-state:paused;
-          -webkit-animation-play-state:paused;
-          -o-animation-play-state:paused;
+        li.down {
+          .s3 {
+            background-position: 0 -15px;
+          }
+          .s2 {
+            color: #1cd018;
+          }
         }
       }
     }
