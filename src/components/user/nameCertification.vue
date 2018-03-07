@@ -79,6 +79,7 @@ export default {
     },
     submitIdentification() {
       this.showModal = false;
+      this.$emit('levelChange',{level:1});
     }
   }
 }

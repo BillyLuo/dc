@@ -507,9 +507,10 @@ export default {
 	width: 100%;
 	margin-bottom: 14px;
 	position: relative;
+	height: 48px;
 }
 .register-input input{
-	height: 50px;
+	height: 40px;
 	background: #fafafa;
 }
 .errorInput input{
@@ -518,18 +519,18 @@ export default {
 .register-input .register-vsCode{
 	position: absolute;
 	width: 110px;
-	height: 50px;
+	height: 40px;
 	top:0;
 	right:0;
 }
 .register-input button{
 	width: 100%;
-	height: 50px;
+	height: 40px;
 	font-size: 14px;
 }
 .register-input .register-error-text{
 	position: absolute;
-	top: 48px;
+	top: 42px;
 	left: 10px;
 	font-size: 12px;
 	color: red;

@@ -2,11 +2,11 @@
   <div id="assets" class="">
     <user-info></user-info>
     <div class="account-manage">
-      <Tabs :class="'vertical-tab'" value="name1" :animated="false">
-        <TabPane :label="label1" name="name1">
+      <Tabs :class="'vertical-tab'" v-model="currentTab" :animated="false" @on-click="tabClick">
+        <TabPane :label="label1" name="accountAssets">
           <router-view></router-view>
         </TabPane>
-        <TabPane :label="label2" name="name2">
+        <TabPane :label="label2" name="accountDetail">
           <h3><span>我的财务管理</span></h3>
           <div class="financial-management">
             <div>
@@ -28,17 +28,17 @@
             <Table :class="'no-border-table'" stripe :columns="account_detail_column" :data="account_detail_data" />
           </div>
         </TabPane>
-        <TabPane :label="label3" name="name3">
+        <!-- <TabPane :label="label3" name="fundAccount">
           <div class="fund_account">
             <a href="javascript:;" :class="{active:fund_account_active == item.value}" v-for="(item) in fund_account_lists" :key="item.value" @click="changeFundAccount(item.value)">
               <span>{{item.label}}</span>
             </a>
           </div>
         </TabPane>
-        <TabPane :label="label4" name="name4">
+        <TabPane :label="label4" name="fundsManagement">
           <h3><span>我的资产管理</span></h3>
-        </TabPane>
-        <TabPane label="我的COINS" name="name5">
+        </TabPane> -->
+        <TabPane label="我的COINS" name="myCoin">
           <myCoin></myCoin>
         </TabPane>
       </Tabs>
@@ -64,6 +64,7 @@
     },
     data() {
       return {
+        currentTab:'accountAssets',
         operation_type: 'BTC',
         label1: (h) => {
           return h('div', [
@@ -170,6 +171,14 @@
       },
       chooseEndDate(value) {
         console.log('endDate----------', value);
+      },
+      tabClick(name) {
+        console.log('name---',name,this.currentTab);
+        if (name == 'accountAssets') {
+          this.$router.push({
+            path:'/assets'
+          })
+        }
       }
     },
     filters: {
