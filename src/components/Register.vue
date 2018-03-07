@@ -19,7 +19,7 @@
 				{{ errorVsCode }}
 			</p>
 			<div class="register-vsCode">
-				<img src="/static/img/VScode.jpg" alt="" width="100%" height="100%">
+				<img src="/trade/tps/pbccs.do" alt="" width="100%" height="100%">
 			</div>
 			</div>
 			<div class="register-input">
@@ -107,7 +107,7 @@
 				{{ errorVsCode }}
 			</p>
 			<div class="register-vsCode">
-				<img src="/static/img/VScode.jpg" alt="" width="100%" height="100%">
+				<img src="/trade/tps/pbccs.do?1" alt="" width="100%" height="100%">
 			</div>
 			</div>
 			<div class="register-input">
@@ -116,7 +116,7 @@
 				{{ errorTelCode }}
 			</p>
 			<div class="register-vsCode">
-				<Button type="primary" @click="telCodeTimeOut" :disabled="telCodeDisabled">
+				<Button type="primary" @click="telCodeTimeOut1" :disabled="telCodeDisabled">
 				{{ telCodeText }}
 				</Button>
 			</div>
@@ -325,20 +325,86 @@ export default {
 		clearTimeout(this.getCode);
 		}
 	},
-	telCodeTimeOut(){   //验证码倒计时
-		let $this = this;
-		this.telCodeText = 60;
-		this.telCodeDisabled = true;
-		this.getCode = setInterval(function(){
-		$this.telCodeText -=1;
-		if($this.telCodeText <=1){
-			clearTimeout($this.getCode);
-			$this.telCodeText = "重新获取";
-			$this.telCodeDisabled = false;
+	telCodeTimeOut(){   //验证码倒计时 手机
+		if(!this.tel){
+			this.errorTel = "请输入手机号";
+			this.telErrorInput = "errorInput";
+			return false;
+		}else{
+			let $this = this;
+			this.telCodeText = 60;
+			this.telCodeDisabled = true;
+			this.getCode = setInterval(function(){
+				$this.telCodeText -=1;
+				if($this.telCodeText <=1){
+					clearTimeout($this.getCode);
+					$this.telCodeText = "重新获取";
+					$this.telCodeDisabled = false;
+				}
+			},1000);
+
+			this.$ajax({
+				method: "post",
+				url: "/trade/tps/pbscs.do",
+				data:{
+					"verifystr":this.tel,
+					"type":"mobile"
+				}
+			}).then(function(data){
+				console.log(data)
+				if(data.data.err_code == "1"){
+					$this.$Modal.info({
+						content:'验证码发送成功，请注意查收。'
+					})
+				}else{
+					$this.$Modal.info({
+						content:'验证码发送失败，请重新发送。'
+					})
+				}
+			})
 		}
-		},1000);
+	},
+	telCodeTimeOut1(){   //验证码倒计时 邮箱
+
+		if(!this.email){
+			this.errorEmail = "请输入邮箱";
+			this.emailErrorInput = "errorInput"
+			return false;
+		}else{
+			let $this = this;
+			this.telCodeText = 60;
+			this.telCodeDisabled = true;
+			this.getCode = setInterval(function(){
+				$this.telCodeText -=1;
+				if($this.telCodeText <=1){
+					clearTimeout($this.getCode);
+					$this.telCodeText = "重新获取";
+					$this.telCodeDisabled = false;
+				}
+			},1000);
+			this.$ajax({
+				method: "post",
+				url: "/trade/tps/pbscs.do",
+				data:{
+					"verifystr":this.email,
+					"type":"email"
+				}
+			}).then(function(data){
+				console.log(data)
+				if(data.data.err_code == "1"){
+					$this.$Modal.info({
+						content:'验证码发送成功，请注意查收。'
+					})
+				}else{
+					$this.$Modal.info({
+						content:'验证码发送失败，请重新发送。'
+					})
+				}
+			})
+		}
 	},
 	submitTel(){    //手机注册
+		let that  = this;
 		if(!this.tel && !this.vsCode && !this.telCode && !this.password && !this.passwordAgain){
 			if(!this.tel){
 				this.errorTel = "请输入手机号";
@@ -367,7 +433,7 @@ export default {
 				return false;
 			}
 			// 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
-			if(this.password && !(/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/.test(this.password))){
+			if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20)){
 				this.errorPassword = "密码格式不正确请重新输入。";
 				this.passwordCodeErrorInput = "errorInput"
 				return false;
@@ -385,11 +451,37 @@ export default {
 				})
 				return false;
 			}
+			
+			this.$ajax({
+				method: 'post',
+				url: '/trade/tps/pbrus.do',
+				data: {
+					"loginname":this.tel,
+					"checkcode":this.errorVsCode,
+					"msgcheckcode":this.telCode,
+					"password":this.password,
+					"confirmpassword":this.passwordAgain,
+					"invitedcode":this.InvitationCode
+				}
+			}).then(function(data){
+				console.log(data)
+				if(data.data.err_code == "1"){
+					that.$Modal.info({
+						content:'注册成功。'
+					})
+				}else{
+					that.$Modal.info({
+						content:'注册失败,'+data.data.msg
+					})
+				}
+			})
+		
 		}
 	},
 	submitEmail(){   // 邮箱注册
 		console.log("邮箱")
 		console.log(this.email,this.vsCode,this.telCode,this.password,this.passwordAgain)
+		let that = this;
 		if(!this.email && !this.vsCode && !this.telCode && !this.password && !this.passwordAgain){
 			if(!this.email){
 				this.errorEmail = "请输入邮箱";
@@ -419,7 +511,7 @@ export default {
 				return false;
 			}
 			// 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
-			if(this.password && !(/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/.test(this.password))){
+			if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20 )){
 				this.errorPassword = "密码格式不正确请重新输入。";
 				this.passwordCodeErrorInput = "errorInput"
 				return false;
@@ -436,6 +528,29 @@ export default {
 				})
 				return false;
 			}
+			this.$ajax({
+				method: 'post',
+				url: '/trade/tps/pbrus.do',
+				data: {
+					"loginname":this.email,
+					"checkcode":this.errorVsCode,
+					"msgcheckcode":this.telCode,
+					"password":this.password,
+					"confirmpassword":this.passwordAgain,
+					"invitedcode":this.InvitationCode
+				}
+			}).then(function(data){
+				console.log(data)
+				if(data.data.err_code == "1"){
+					that.$Modal.info({
+						content:'注册成功。'
+					})
+				}else{
+					that.$Modal.info({
+						content:'注册失败,'+data.data.msg
+					})
+				}
+			})
 		}
 	},
 	telFocus(){      // 获得焦点  消除错误提示

@@ -47,10 +47,10 @@
                             <Button>限单价</Button>
                         </div>
                         <div class="trade-input">
-                            <Input number v-model="buyprice">
+                            <Input :number="true" v-model="buyprice" @on-change="buy_price" :maxlength="14">
                                 <span slot="prepend">买入价 ¥</span>
                             </Input>
-                            <Input number v-model="buycount">
+                            <Input :number="true" v-model="buycount" @on-change="buy_count" :maxlength="14">
                                 <span slot="prepend">买入量 {{btcname}}</span>
                             </Input>
                             <p>
@@ -81,14 +81,14 @@
                             <Button>限单价</Button>
                         </div>
                         <div class="trade-input">
-                            <Input number v-model="sellprice">
+                            <Input v-model="sellprice" :number="true"  @on-change="sell_price" :maxlength="14">
                                 <span slot="prepend">卖出价 ¥</span>
                             </Input>
-                            <Input number v-model="sellcount">
+                            <Input v-model="sellcount" :number="true" @on-change="sell_count" :maxlength="14">
                                 <span slot="prepend">买入量 {{btcname}}</span>
                             </Input>
                             <p>
-                                ≈ ￥ <span>{{buymoney}}</span>
+                                ≈ ￥ <span>{{sellmoney}}</span>
                             </p>
                             <Slider ></Slider>
                             <Button class="buy-button buy-button1">
@@ -308,6 +308,70 @@
             this.query();
         },
         methods: {
+            buy_price(){
+                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
+                var b = p.test(this.buyprice);//true
+                let buyp;
+                let that =this;
+                if(!b){
+                    setTimeout(function(){
+                        that.buyprice = that.buyprice.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+                        that.buyprice = that.buyprice.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
+                        that.buyprice = that.buyprice.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
+                        that.buyprice = that.buyprice.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
+                        console.log(that.buyprice)
+                    },10)
+                }
+
+            },
+            buy_count(){
+                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
+                var b = p.test(this.buycount);//true
+                let buyp;
+                let that =this;
+                if(!b){
+                    setTimeout(function(){
+                        that.buycount = that.buycount.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+                        that.buycount = that.buycount.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
+                        that.buycount = that.buycount.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
+                        that.buycount = that.buycount.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
+                        console.log(that.buycount)
+                    },10)
+                }
+
+            },
+            sell_price(){
+                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
+                var b = p.test(this.sellprice);//true
+                let buyp;
+                let that =this;
+                if(!b){
+                    setTimeout(function(){
+                        that.sellprice = that.sellprice.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+                        that.sellprice = that.sellprice.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
+                        that.sellprice = that.sellprice.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
+                        that.sellprice = that.sellprice.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
+                        console.log(that.sellprice)
+                    },10)
+                }
+
+            },
+            sell_count(){
+                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
+                var b = p.test(this.sellcount);//true
+                let buyp;
+                let that =this;
+                if(!b){
+                    setTimeout(function(){
+                        that.sellcount = that.sellcount.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+                        that.sellcount = that.sellcount.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
+                        that.sellcount = that.sellcount.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
+                        that.sellcount = that.sellcount.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
+                        console.log(that.sellcount)
+                    },10)
+                }
+
+            },
             // 委托列表表头
             weituolist () {
                 this.weituo_columns = [
@@ -464,6 +528,7 @@
                 }else{
                     this.sellcount = row.tradecount;
                     this.sellprice = row.tradeprice;
+                    this.sellmoney = (this.sellcount*this.sellprice).toFixed(6);
                 }
             }
         }
