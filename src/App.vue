@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <TitleScroll />
+    <!-- <TitleScroll /> -->
     <Header />
-    <div style="margin-top: 160px"></div>
+    <div style="margin-top: 120px"></div>
     <div>
-      <Announcement/>
+      <!-- <Announcement/> -->
     </div>
     <div id="main">
       <div class="main-inner">

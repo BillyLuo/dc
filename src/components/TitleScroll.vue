@@ -69,9 +69,8 @@
           that.scroll(num);
         },20);
       }
-      var myScroll = new IScroll('#scroll-wrapper', { eventPassthrough: true, scrollX: true, scrollY: false, preventDefault: false });
+      var myScroll = new IScroll('#scroll-wrapper', { eventPassthrough: true, scrollX: true, scrollY: false,probeType:3, preventDefault: false });
       myScroll.on('scrollEnd',function () {
-        // console.log(this);
         var box = document.getElementById('title-scroll-move-box');
         box.style.transform = 'translate('+this.x+'px,'+this.y+'px)';
         that.left = this.x;

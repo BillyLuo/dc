@@ -201,7 +201,7 @@ export default {
   .home-header {
     height: 100px;
     position: fixed;
-    top: 40px;
+    top: 0px;
     width: 100%;
     left: auto;
     right: auto;
@@ -246,7 +246,7 @@ export default {
     height: 60px;
     float: left;
     img {
-      width: 40px;
+      width: 46px;
       height: 60px;
       vertical-align: middle;
       padding: 10px 0;
