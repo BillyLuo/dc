@@ -3,7 +3,7 @@
     <div class="header-inner clear wrapper">
       <div class="header-logo" @click="route('home')">
         <img src="/static/img/logo.png"/>
-        <span>交易网</span>
+        <span>福币中心</span>
       </div>
       <Menu ref="main_menu" mode="horizontal" @on-select="route" :active-name="activeName">
         <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
@@ -254,7 +254,7 @@ export default {
       cursor: pointer;
     }
     span {
-      font-size: 20px;
+      font-size: 16px;
       cursor: pointer;
     }
   }

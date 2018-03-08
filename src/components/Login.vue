@@ -9,7 +9,7 @@
           <div style="width:100%" :class="'login-card'">
             <div style="text-align:center">
               <img src="/static/img/logo.png">
-              <h3>登录蜂巢币-fclink</h3>
+              <h3>登录福币中心</h3>
             </div>
           </div>
           <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
@@ -328,6 +328,14 @@
     padding: 10px 0;
     outline: none;
     box-shadow: 0;
+  }
+  .login-card img {
+    width: 68px;
+    height: 64px;
+  }
+  .login-card h3 {
+    font-weight: 400;
+    padding: 10px 0;
   }
   .login-card .ivu-card-body{
     padding-top: 0;

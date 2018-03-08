@@ -7,12 +7,12 @@
             <TabPane label="USDT" name='USDT'>
                 <Table height="600" @on-row-click="dbclickrow" :columns="columns1" :data="data1"></Table>
             </TabPane>
-            <TabPane label="BTC" name='BTC'>
+            <!-- <TabPane label="BTC" name='BTC'>
                 <Table height="600" @on-row-click="dbclickrow" :columns="columns1" :data="data2"></Table>
             </TabPane>
             <TabPane label="ETH" name='ETH'>
                 <Table height="600" @on-row-click="dbclickrow" :columns="columns1" :data="data3"></Table>
-            </TabPane>
+            </TabPane> -->
         </Tabs>
     </div>
 </template>

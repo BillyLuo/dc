@@ -21,7 +21,7 @@ import userInfo from './userBaseInfo';
 import { Menu, MenuItem } from 'iview';
 let userMenu = [
   {label:'基本信息',value:'safesettings'},
-  {label:'金牌经纪人',value:'broker'},
+  // {label:'金牌经纪人',value:'broker'},
   {label:'API访问',value:'api'},
   {label:'登录记录',value:'loginrecord'},
   {label:'实名认证',value:'authentication'}
@@ -38,6 +38,13 @@ export default {
   },
   methods:{
     changeValue(name){
+      if (name == 'api') {
+        this.$Modal.info({
+          title:'提示',
+          content:'功能暂未开放'
+        })
+        return false;
+      }
       this.$router.push({
         path:'/user/'+name
       })

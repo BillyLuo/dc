@@ -53,7 +53,7 @@
               <h3>谷歌验证码</h3>
               <a href="javascript:;">未绑定</a>
              </div>
-             <a href="javascript:;" class="item-status">绑定</a>
+             <a href="javascript:;" class="item-status" @click="google">绑定</a>
           </div>
         </div>
       </Col>
@@ -262,6 +262,12 @@ export default {
     },
     trade_pass_ok (){
 
+    },
+    google(){
+      this.$Modal.info({
+        title:'提示',
+        content:'功能暂未开放'
+      })
     }
   }
 }
