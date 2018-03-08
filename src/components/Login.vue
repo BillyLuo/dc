@@ -65,6 +65,9 @@
     components:{
       Form,FormItem
     },
+    mounted(){
+      
+    },
     data () {
       const validateTel = (rule, value, callback)=> {
           if(value === ''){

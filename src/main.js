@@ -1,6 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import Vuex from 'vuex';
+import store from './store';
 import App from './App'
 import router from './router'
 import './my-theme/index.less';
@@ -66,6 +68,7 @@ Vue.prototype.$Notice = Notice;
 import VueI18n from 'vue-i18n'
 
 Vue.use(VueI18n);
+console.log('---store----',store);
 /*---------基本使用-----------*/
 const i18n = new VueI18n({
   locale: 'cn',    // 语言标识
@@ -113,6 +116,7 @@ new Vue({
   el: '#app',
   router,
   i18n,
+  store,
   components: { App },
   template: '<App/>'
 });

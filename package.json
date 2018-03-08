@@ -12,6 +12,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "ajv": "^6.2.1",
     "axios": "^0.17.1",
     "clipboard": "^1.7.1",
     "cookies-js": "^1.2.3",

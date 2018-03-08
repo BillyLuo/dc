@@ -83,13 +83,13 @@ export default {
   mounted (){
     // this.initActive();
     // console.log('----header----',this);
-    console.log(cookies.get("name"))
+    // console.log(cookies.get("name"))
       this.getPath();
       var that = this;
       window.onscroll = scroll.bind(this);
       bus.$on('login',(value) => {
         if (value) {
-          console.log(value)
+          // console.log(value)
           that.isLogined = true;
         }
       })
@@ -116,12 +116,12 @@ export default {
     },
     getPath(){
       let path = this.$route.path;
-      console.log(path)
+      // console.log(path)
       this.$refs.main_menu.currentActiveName = 'home';
       let that =this;
       menu.map(function(item){
           if(item.name==path.split("/")[1]){
-            console.log(path.split("/")[1])
+            // console.log(path.split("/")[1])
             that.$refs.main_menu.currentActiveName = path.split("/")[1];
           }
       })
@@ -175,7 +175,7 @@ export default {
 
 
       var isLogined = this.isLogined;
-      console.log(isLogined)
+      // console.log(isLogined)
       if (!this.isLogined && name != 'register' && name && name!='home') {
         this.$refs.main_menu.currentActiveName = 'home';
         if (name != 'home' && name != 'login' && name != 'register') {
