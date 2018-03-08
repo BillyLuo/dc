@@ -142,7 +142,7 @@ export default {
       }
     },
     route(name){
-      cookies.set('name','will');
+      // cookies.set('name','will');
       if(!cookies.get("name")  && (name == "trade" || name == "assets" || name == "user" || name == "market")){
           this.$router.push({
             path:'/login'

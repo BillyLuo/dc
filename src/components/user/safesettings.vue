@@ -9,9 +9,9 @@
             </div>
              <div class="item-content float-left">
               <h3>绑定您的邮箱</h3>
-              <a href="javascript:;" @click="openEmailModal">未绑定</a>
+              <a href="javascript:;" :class="{active:userinfo.email.bound,disabled:true}" @click="openEmailModal">{{userinfo.email.bound?'已绑定':'未绑定'}}</a>
              </div>
-             <a href="javascript:;" @click="openEmailModal" class="item-status">绑定</a>
+             <a href="javascript:;" @click="openEmailModal" :class="{'item-status':true,disabled:userinfo.email.bound}">{{userinfo.email.bound?userinfo.email.value:'绑定'}}</a>
           </div>
         </div>
       </Col>
@@ -23,9 +23,10 @@
             </div>
              <div class="item-content float-left">
               <h3>实名认证</h3>
-              <a href="javascript:;">已认证</a>
+              <a v-if="userinfo.nameAuth.bound" class="active disabled" href="javascript:;">已认证</a>
+              <a v-else>认证</a>
              </div>
-             <a href="javascript:;" class="item-status">您的账号已通过实名认证</a>
+             <a href="javascript:;" class="item-status disabled">您的账号已通过实名认证</a>
           </div>
         </div>
       </Col>
@@ -37,7 +38,8 @@
             </div>
              <div class="item-content float-left">
               <h3>手机绑定</h3>
-              <a href="javascript:;">1517****4695</a>
+              <a href="javascript:;" v-if="userinfo.phone.bound" class="active">1517****4695</a>
+              <a href="javascript:;" v-else @click="openTelModal">绑定</a>
              </div>
              <a href="javascript:;" class="item-status" @click="openTelModal">修改</a>
           </div>
@@ -65,7 +67,8 @@
             </div>
              <div class="item-content float-left">
               <h3>登录密码设置</h3>
-              <a href="javascript:;">已设置</a>
+              <a v-if="userinfo.loginPass.bound" class="active" href="javascript:;">已设置</a>
+              <a v-else href="javascript:;">设置</a>
              </div>
              <a href="javascript:;" class="item-status" @click="openLoginPassModal">修改</a>
           </div>
@@ -79,7 +82,10 @@
             </div>
              <div class="item-content float-left">
               <h3>交易密码设置</h3>
-              <a href="javascript:;" @click="openTradePassModal">未设置</a>
+              <a v-if="userinfo.tradePass.bound" class="active">
+                已设置
+              </a>
+              <a v-else href="javascript:;" @click="openTradePassModal">未设置</a>
              </div>
              <a href="javascript:;" class="item-status" @click="openTradePassModal">绑定</a>
           </div>
@@ -179,6 +185,28 @@ import { Form, FormItem } from 'iview';
 export default {
   data () {
     return {
+      userinfo:{
+        email:{
+          bound:false,
+          value:''
+        },
+        nameAuth:{
+          bound:true,
+          value:''
+        },
+        phone:{
+          bound:true,
+          value:'15178874695'
+        },
+        loginPass:{
+          bound:true,
+          value:''
+        },
+        tradePass:{
+          bound:false,
+          value:''
+        }
+      },
       emailModal: false,
       emailErrMsg:'',
       telModal:false,
@@ -221,7 +249,11 @@ export default {
   },
   methods:{
     openEmailModal(){
-      this.emailModal = true;
+      if (!this.userinfo.email.bound) {
+        this.emailModal = true;
+      }else {
+
+      }
     },
     email_ok () {
       console.log('ok email',arguments);
@@ -232,6 +264,10 @@ export default {
           this.emailErrMsg = '';
           this.$Message.success('邮箱设置成功。');
           this.emailModal = false;
+          this.userinfo.email = {
+            bound:true,
+            value:email
+          }
         },1000)
       }else {
         console.log('wrong');
@@ -266,7 +302,8 @@ export default {
     google(){
       this.$Modal.info({
         title:'提示',
-        content:'功能暂未开放'
+        content:'功能暂未开放',
+        'closable':true
       })
     }
   }

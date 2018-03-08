@@ -13,7 +13,7 @@
         <div class="swiper-text">
           <div class="swiper-container News-swiper-container">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(Array,index) in Arrays">
+              <div class="swiper-slide" v-for="(Array,index) in Arrays" :key="index">
                 <div class="s1">
                   <div class="left">
                     <p>01.{{index+1}}</p>

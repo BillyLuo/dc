@@ -32,6 +32,15 @@
     a {
       font-size: 12px;
     }
+    a.active {
+      color: #aaa;
+      &:hover {
+        color: #333;
+      }
+      &.disabled:hover {
+        color: #aaa;
+      }
+    }
   }
   .item-status {
     position: absolute;
@@ -42,6 +51,9 @@
     padding: 10px;
     &:hover {
       color: #333;
+    }
+    &.disabled:hover {
+      color: #aaa;
     }
   }
 }

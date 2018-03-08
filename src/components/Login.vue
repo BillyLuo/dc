@@ -223,6 +223,7 @@
           }
         });
         if (this.loginError) {
+          this.$Spin.hide();
           return;
         }
         this.$ajax({
