@@ -323,6 +323,11 @@
                     },10)
                 }
 
+                setTimeout(function(){
+                    that.buymoney = (that.buycount*that.buyprice).toFixed(6);
+                },20)
+                
+
             },
             buy_count(){
                 var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
@@ -338,7 +343,9 @@
                         console.log(that.buycount)
                     },10)
                 }
-
+                setTimeout(function(){
+                    that.buymoney = (that.buycount*that.buyprice).toFixed(6);
+                },20)
             },
             sell_price(){
                 var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
@@ -354,6 +361,9 @@
                         console.log(that.sellprice)
                     },10)
                 }
+                setTimeout(function(){
+                    that.sellmoney = (that.sellcount*that.sellprice).toFixed(6);
+                },20)
 
             },
             sell_count(){
@@ -370,7 +380,9 @@
                         console.log(that.sellcount)
                     },10)
                 }
-
+                setTimeout(function(){
+                    that.sellmoney = (that.sellcount*that.sellprice).toFixed(6);
+                },20)
             },
             // 委托列表表头
             weituolist () {
@@ -416,6 +428,9 @@
                 this.$ajax.get("/trade/tps/pbfct.do")
                 .then((response)=>{
                     console.log(response)
+                })
+                .then((data)=>{
+                    console.log(data)
                 })
 
                 // 交易记录

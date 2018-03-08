@@ -84,7 +84,7 @@ export default {
     // this.initActive();
     // console.log('----header----',this);
     console.log(cookies.get("name"))
-     this.getPath();
+      this.getPath();
       var that = this;
       window.onscroll = scroll.bind(this);
       bus.$on('login',(value) => {
@@ -98,6 +98,7 @@ export default {
       that.isLogined = true;
     }else{
       that.isLogined = false;
+      this.$router.push("login")
     }
     
     // this.init();
