@@ -116,17 +116,22 @@ export default {
     },
     getPath(){
       let path = this.$route.path;
-      this.activeName = 'home';
+      console.log(path)
+      this.$refs.main_menu.currentActiveName = 'home';
       let that =this;
       menu.map(function(item){
           if(item.name==path.split("/")[1]){
             console.log(path.split("/")[1])
-            that.activeName = path.split("/")[1];
+            that.$refs.main_menu.currentActiveName = path.split("/")[1];
           }
       })
 
-      if(!cookies.get("name") && (path == "/trade" || path == "/assets" || path == "/user" || path == "/market")){
-        this.$router.push({
+      if(!cookies.get("name") && (path == "/trading" || path == "/assets" || path == "/user" || path == "/market")){
+          this.$Modal.info({
+            content:'请您先登录'
+          });
+          this.$refs.main_menu.currentActiveName = 'user';
+          this.$router.push({
             path:'/login'
           });
           cookies.set("name", "",{expires: 0})
@@ -142,8 +147,13 @@ export default {
       }
     },
     route(name){
-      cookies.set('name','will');
-      if(!cookies.get("name")  && (name == "trade" || name == "assets" || name == "user" || name == "market")){
+      // cookies.set('name','will');
+      if(!cookies.get("name")  && (name == "trading" || name == "assets" || name == "user" || name == "market")){
+          this.$refs.main_menu.currentActiveName = 'user';
+          this.$Modal.info({
+            content:'请您先登录'
+          });
+          // this.activeName = 'user';
           this.$router.push({
             path:'/login'
           });

@@ -1,13 +1,13 @@
 <template>
     <div class="clear trade wrapper">
-        <div class="tradelists clear">
+        <!-- <div class="tradelists clear">
              <Menu @on-select="info" mode="horizontal" class="trade-menu" active-name="BTC" >
                 <MenuItem v-for="value in menu" :name="value.name" :key="value.name">
                      
                     <span><img :src="value.icon"/>{{ value.text }}</span>
                 </MenuItem>
             </Menu>
-        </div>
+        </div> -->
         <div class="tradelist">
             <Menu @on-select="infos" class="trade-menu" active-name="buy" >
                 <MenuItem v-for="value in menu1" :name="value.name" :key="value.name">
@@ -143,14 +143,14 @@
 <script>
     import { Menu,MenuItem,DatePicker,Table,Slider } from 'iview';
     import step from './step';
-    let menu = [
-        {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
-        {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
-        {"name":"ETC",text:"ETC",icon:"/static/img/coin/icon-etc.png"},
-        {"name":"LTC",text:"LTC",icon:"/static/img/coin/icon-ltc.png"},
-        {"name":"DOGE",text:"DOGE",icon:"/static/img/coin/icon-doge.png"},
-        // {"name":"YBC",text:"YBC",icon:"/static/img/coin/icon-.png"}
-    ]
+    // let menu = [
+    //     {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
+    //     {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
+    //     {"name":"ETC",text:"ETC",icon:"/static/img/coin/icon-etc.png"},
+    //     {"name":"LTC",text:"LTC",icon:"/static/img/coin/icon-ltc.png"},
+    //     {"name":"DOGE",text:"DOGE",icon:"/static/img/coin/icon-doge.png"},
+    //     // {"name":"YBC",text:"YBC",icon:"/static/img/coin/icon-.png"}
+    // ]
     let menu1 = [
         {"name":"buy",text:"买入/卖出"},
         {"name":"weituo",text:"委托管理"},
@@ -165,7 +165,7 @@
         data() {
             return {
                 stepJson:["01.安全设置","02.充值","03.下单交易"],
-                menu,
+                // menu,
                 menu1,
                 s: 3,
                 value: 1000,
@@ -463,9 +463,6 @@
                         }
                     })
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
 
             
 
@@ -475,6 +472,7 @@
             },
             //查询委托
             query_entrust () {
+                let that = this;
                 this.$ajax({
                     method: 'post',
                     url: '/trade/tps/pbets.do',
@@ -487,6 +485,14 @@
                 })
                 .then((response) => {
                     console.log(response)
+                    that.weituo_data = [{
+                        avebuyprice : response.data.avebuyprice,
+                        avesellprice: response.data.avesellprice,
+                        totalbuynum: response.data.totalbuynum,
+                        totalsellnum: response.data.totalsellnum
+                    }]
+
+                    that.order_record_data = response.data.tradeDeatil;
                 })
             },
             safe () {
