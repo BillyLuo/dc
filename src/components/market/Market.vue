@@ -46,7 +46,7 @@ function initCharts (symbol) {
             "width": '100%',
             "height": 600,
             "symbol": symbol?''+symbol:"BINANCE:BTCUSDT",
-            "interval": "1",
+            "interval": "15",
             "timezone": "Asia/Hong_Kong",
             "theme": "Dark",
             "style": "1",

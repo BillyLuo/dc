@@ -61,7 +61,7 @@
                             <Button class="buy-button buy-button1">
                                 买入 {{btcname}}
                             </Button>
-                            <Button class="buy-button" style="margin-bottom:30px;">
+                            <Button class="buy-button" style="margin-bottom:30px;" @click='chongzhi'>
                                 立即充值
                             </Button>
                         </div>
@@ -94,8 +94,8 @@
                             <Button class="buy-button buy-button1">
                                 卖出 {{btcname}}
                             </Button>
-                            <Button class="buy-button" style="margin-bottom:30px;">
-                                立即充值
+                            <Button class="buy-button" style="margin-bottom:30px;" @click='tixian'>
+                                立即提现
                             </Button>
                         </div>
                     </div>
@@ -551,6 +551,12 @@
                     this.sellprice = row.tradeprice;
                     this.sellmoney = (this.sellcount*this.sellprice).toFixed(6);
                 }
+            },
+            chongzhi () {
+                this.$router.push("assets/recharge")
+            },
+            tixian () {
+                this.$router.push("assets/withdraw")
             }
         }
     }
@@ -628,72 +634,72 @@
             }
         }
         // .jiantou{
-        //     margin-top: 11px;
-        //     line-height: 32px;
-        //     width:105px;
-        //     height:32px;
-        //     text-align: center;
-        //     position: relative;
-        //     float: left;
-        // }
-        // .btn-style-1{
-        //     background: #80A4ED;
-        //     color: #fff;
-        // }
-        // .btn-style-2{
-        //     background: #C0D0F0;
-        //     color: #fff;
-        // }
-        // .btn-special-1{
-        //     overflow: visible;
-        //     margin-right: 10px;
-        //     margin-left: 10px;
-        // }
-        // .btn-special-1:after, .btn-special-1:before {
-        //     content: '';
-        //     position: absolute;
-        //     top: 0;
-        //     bottom: 0;
-        //     -webkit-transition: all .6s linear;
-        //     -moz-transition: all .6s linear;
-        //     -ms-transition: all .6s linear;
-        //     transition: all .6s linear;
-        // }
-        // .btn-special-1:after, .btn-special-1:before {
-        //     border-left: 20px solid transparent;
-        //     border-top: 16px solid transparent;
-        //     border-bottom: 16px solid transparent;
-        // }
-        // .btn-style-1.btn-special-1:before {
-        //     border-bottom-color: #80A4ED;
-        //     border-top-color: #80A4ED;
-        // }
-        // .btn-special-1:before {
-        //     right: 100%;
-        // }
-        // .btn-special-1:after {
-        //     border-left-color: #80A4ED;
-        // }
-        // .btn-special-1:after {
-        //     left: 100%;
-        // }
-        // .btn-style-2.btn-special-1:before {
-        //     border-bottom-color: #C0D0F0;
-        //     border-top-color: #C0D0F0;
-        // }
-        // .btn-style-2.btn-special-1:after {
-        //     border-left-color: #C0D0F0;
-        // }
-        // .btn-style-3 {
-        //     color: #a0b3da;
-        //     background-color: #EAF0FC;
-        // }
-        // .btn-style-3.btn-special-1:before {
-        //     border-bottom-color: #EAF0FC;
-        //     border-top-color: #EAF0FC;
-        // }
-        // .btn-style-3.btn-special-1:after {
-        //     border-left-color: #EAF0FC;
+            //     margin-top: 11px;
+            //     line-height: 32px;
+            //     width:105px;
+            //     height:32px;
+            //     text-align: center;
+            //     position: relative;
+            //     float: left;
+            // }
+            // .btn-style-1{
+            //     background: #80A4ED;
+            //     color: #fff;
+            // }
+            // .btn-style-2{
+            //     background: #C0D0F0;
+            //     color: #fff;
+            // }
+            // .btn-special-1{
+            //     overflow: visible;
+            //     margin-right: 10px;
+            //     margin-left: 10px;
+            // }
+            // .btn-special-1:after, .btn-special-1:before {
+            //     content: '';
+            //     position: absolute;
+            //     top: 0;
+            //     bottom: 0;
+            //     -webkit-transition: all .6s linear;
+            //     -moz-transition: all .6s linear;
+            //     -ms-transition: all .6s linear;
+            //     transition: all .6s linear;
+            // }
+            // .btn-special-1:after, .btn-special-1:before {
+            //     border-left: 20px solid transparent;
+            //     border-top: 16px solid transparent;
+            //     border-bottom: 16px solid transparent;
+            // }
+            // .btn-style-1.btn-special-1:before {
+            //     border-bottom-color: #80A4ED;
+            //     border-top-color: #80A4ED;
+            // }
+            // .btn-special-1:before {
+            //     right: 100%;
+            // }
+            // .btn-special-1:after {
+            //     border-left-color: #80A4ED;
+            // }
+            // .btn-special-1:after {
+            //     left: 100%;
+            // }
+            // .btn-style-2.btn-special-1:before {
+            //     border-bottom-color: #C0D0F0;
+            //     border-top-color: #C0D0F0;
+            // }
+            // .btn-style-2.btn-special-1:after {
+            //     border-left-color: #C0D0F0;
+            // }
+            // .btn-style-3 {
+            //     color: #a0b3da;
+            //     background-color: #EAF0FC;
+            // }
+            // .btn-style-3.btn-special-1:before {
+            //     border-bottom-color: #EAF0FC;
+            //     border-top-color: #EAF0FC;
+            // }
+            // .btn-style-3.btn-special-1:after {
+            //     border-left-color: #EAF0FC;
         // }
     }
     .trade-contract{
