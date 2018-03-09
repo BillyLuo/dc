@@ -11,7 +11,7 @@
               <h3>绑定您的邮箱</h3>
               <a href="javascript:;" :class="{active:userinfo.email.bound,disabled:true}" @click="openEmailModal">{{userinfo.email.bound?'已绑定':'未绑定'}}</a>
              </div>
-             <a href="javascript:;" @click="openEmailModal" :class="{'item-status':true,disabled:userinfo.email.bound}">{{userinfo.email.bound?userinfo.email.value:'绑定'}}</a>
+             <a href="javascript:;" @click="openEmailModal" :class="{'item-status':true,disabled:userinfo.email.bound}">{{userinfo.email.bound?userinfo.email.value.slice(0,4)+'****'+userinfo.email.value.match(/@.+$/):'绑定'}}</a>
           </div>
         </div>
       </Col>

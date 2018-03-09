@@ -46,9 +46,14 @@
     position: absolute;
     top: 0;
     right: 0;
+    width: 100%;
+    text-align: right;
     color: #aaa;
     font-size: 12px;
     padding: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     &:hover {
       color: #333;
     }

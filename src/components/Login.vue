@@ -26,6 +26,12 @@
               <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
               </Input>
             </FormItem>
+            <FormItem prop="checkcode" :class="'item-checkcode login-input'">
+              <Input v-model="formInline.checkcode" placeholder="请输入图片验证码" @on-enter="handleSubmit('formInline')">
+                <img class="checkcode" slot="append" :src="checkUrl" @click="changeCode"/>
+              </Input>
+              <div style="text-align: right;padding: 4px;height: 20px;">看不清？<a href="javascript:;" @click="changeCode">换一张图片</a>。</div>
+            </FormItem>
             <!-- <FormItem prop="tel">
               <Input type="text" v-model="formInline.tel" placeholder="手机号" :class="'login-input'">
               <Icon type="ios-telephone-outline" slot="prepend" :class="'login-input-icon'"></Icon>
@@ -106,6 +112,7 @@
         formInline: {
           user: 'finchain@360.com',
           password: 'Aa123123',
+          checkcode:'',
           tel:'15373872695',
           verificationCode:'2234'
         },
@@ -113,6 +120,7 @@
         rememberpass:'记住密码',
         telCodeText:'发送验证码',
         telCodeDisabled:false,
+        checkUrl:'/trade/tps/pbccs.do',
         ruleInline: {
           user: [
             { validator:validateUser, trigger: 'blur' }
@@ -130,6 +138,9 @@
       }
     },
     methods: {
+      changeCode(){
+        this.checkUrl = '/trade/tps/pbccs.do?' + Date.now();
+      },
       togglepass(value) {
         // console.log(value);
       },
@@ -207,10 +218,12 @@
         const password = md.digest().toHex();
         
       },
-      handleSpinCustomShow () {   // loading
+      handleSpinCustomShow () { 
+        this.changeCode();
         var that = this;
         var loginname = this.formInline.user.trim();
         var pwd = this.formInline.password.trim();
+        var checkcode = this.formInline.checkcode.trim();
         this.$Spin.show({
           render: (h) => {
             return h('div', [
@@ -234,7 +247,8 @@
           url:'/trade/tps/pblin.do',
           data:{
             loginname,
-            pwd
+            pwd,
+            checkcode
           }
         }).then((data)=>{
           console.log(data);
@@ -250,7 +264,9 @@
               expires: 1800
             })
           }else {
-            that.loginError = '您输入的账号或密码有误';  
+            if (data && data.data && data.data.err_code == '2' && data.data.msg) {
+              that.loginError = data.data.msg;
+            } 
             setTimeout(() => {
               that.loginError = '';
             }, 3000);          
@@ -293,24 +309,24 @@
   .login-right{
     width: 400px;
     box-sizing: border-box;
-    padding: 25px 45px 45px 45px;
+    padding: 10px 45px 45px 45px;
     height: 450px;
     float: right;
     background: #fff;
   }
   .login-form-all>.ivu-form-item{
     width:100%;
-    margin: 0 0 20px 0;
+    margin: 0 0 15px 0;
   }
   .login-input>.ivu-input-group-prepend{
-    height: 50px;
+    height: 40px;
   }
   .login-input-icon{
     font-size: 20px;
     font-weight: 600;
   }
-  .login-input>.ivu-input{
-    height:50px;
+  .login-input .ivu-input{
+    height:40px;
     background: #fafafa;
   }
   .verification-code-button{
@@ -319,12 +335,12 @@
     right: 0;
     border-radius: 0;
     border-style: none;
-    height: 50px;
+    height: 40px;
     width: 110px;
   }
   .login-form-button{
     width: 100%;
-    height: 50px;
+    height: 40px;
   }
   .login-card{
     background: #ffffff69;
@@ -339,12 +355,20 @@
   }
   .login-card h3 {
     font-weight: 400;
-    padding: 10px 0;
+    padding: 0;
   }
   .login-card .ivu-card-body{
     padding-top: 0;
   }
   .demo-spin-icon-load{
     animation: ani-demo-spin 1s linear infinite;
+  }
+  .item-checkcode .ivu-input-group-append {
+    padding: 0;
+  }
+  .item-checkcode .checkcode {
+    display: block;
+    width: 90px;
+    height: 38px;
   }
 </style>

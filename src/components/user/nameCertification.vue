@@ -21,7 +21,7 @@
         </FormItem>
         <FormItem label="地区/国家：">
           <Select v-model="country">
-            <Option value="cn">中国大陆(China)</Option>
+            <Option value="1">中国大陆(China)</Option>
           </Select>
         </FormItem>
         <FormItem label="证件类型：">
@@ -61,13 +61,13 @@ export default {
   },
   data(){
     return {
-      showModal:false,
+      showModal:true,
       realname:'',
-      country:'cn',
+      country:'1',
       identifyType:'1',
       identifyNum:'',
       idsure:false,
-      errorMsg:'身份证号错误'
+      errorMsg:''
     }
   },
   methods:{
@@ -78,8 +78,32 @@ export default {
       console.log('value',value);
     },
     submitIdentification() {
-      this.showModal = false;
-      this.$emit('levelChange',{level:1});
+      let realname = this.realname.trim();
+      let region = this.country;
+      let certificatetype = this.identifyType;
+      let certificateno = this.identifyNum.trim();
+      if (realname && realname.match(/^[\u4E00-\u9FA5]{2,8}$/g) ) {
+        this.errorMsg = '';
+      }else {
+        this.errorMsg = '请输入正确的姓名，姓名只能是汉字';
+        return false;
+      }
+      if (certificateno && certificateno.match(/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/)){
+        this.errorMsg = '';
+      }else {
+        this.errorMsg = '请输入合格的身份证号码';
+        return false;
+      }
+      console.log({realname,region,certificatetype,certificateno});
+      this.$ajax.post('/trade/tps/pbvcs.do',{
+        realname,region,certificatetype,certificateno
+      }).then((res)=>{
+        console.log(res,res.data);
+      }).catch((err)=>{
+        console.log(err);
+      })
+      // this.showModal = false;
+      // this.$emit('levelChange',{level:1});
     }
   }
 }

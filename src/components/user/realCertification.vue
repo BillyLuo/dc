@@ -141,7 +141,7 @@ export default {
   },
   data () {
     return {
-      level:1,
+      level:0,
       photos:{
         photo1:'',
         photo2:'',

@@ -84,6 +84,7 @@ export default {
     // this.initActive();
     // console.log('----header----',this);
     // console.log(cookies.get("name"))
+    this.getUserInfo();
       this.getPath();
       var that = this;
       window.onscroll = scroll.bind(this);
@@ -107,6 +108,16 @@ export default {
     "$route":"getPath"  // 监听事件
   },
   methods:{
+    getUserInfo(){
+      let username = cookies.get('name');
+      if (username){
+        if (username.match(/^.+(?=@)/g).length) {
+          this.userInfo.username = username.match(/^.+(?=@)/g)[0] ;
+        }else {
+          this.userInfo.username = username;
+        }
+      }
+    },
     init() {
       if (!this.isLogined) {
         this.$router.push({
