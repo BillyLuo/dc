@@ -128,6 +128,10 @@
           password: [
             { validator: validatePwd, trigger: 'blur' },
           ],
+          checkcode:[
+            {required:true,message:'请输入图片验证码',trigger: 'blur'},
+            {type:'string',min:4,max:4,message:'请输入4位验证码',trigger:'blur'}
+          ],
           tel: [
             { validator: validateTel, trigger: 'blur' }
           ],
@@ -140,6 +144,7 @@
     methods: {
       changeCode(){
         this.checkUrl = '/trade/tps/pbccs.do?' + Date.now();
+        this.formInline.checkcode = '';
       },
       togglepass(value) {
         // console.log(value);
@@ -316,7 +321,7 @@
   }
   .login-form-all>.ivu-form-item{
     width:100%;
-    margin: 0 0 15px 0;
+    margin: 0 0 20px 0;
   }
   .login-input>.ivu-input-group-prepend{
     height: 40px;
