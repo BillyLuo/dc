@@ -44,9 +44,9 @@
                 {{ telCodeText }}
               </Button>
             </FormItem> -->
-            <FormItem>
+            <div style="padding: 4px 0 15px 0;">
               <Checkbox v-model="rememberpass" @on-change="togglepass">记住密码</Checkbox>
-            </FormItem>
+            </div>
             <FormItem>
               <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
             </FormItem>
@@ -128,6 +128,10 @@
           ],
           password: [
             { validator: validatePwd, trigger: 'blur' },
+          ],
+          checkcode:[
+            {required:true,message:'请输入图片验证码',trigger: 'blur'},
+            {type:'string',min:4,max:4,message:'请输入4位验证码',trigger:'blur'}
           ],
           tel: [
             { validator: validateTel, trigger: 'blur' }
@@ -267,6 +271,7 @@
               expires: 1800
             })
           }else {
+            this.formInline.checkcode = '';
             if (data && data.data && data.data.err_code == '2' && data.data.msg) {
               that.loginError = data.data.msg;
             } 
@@ -306,20 +311,20 @@
   }
   .login-left{
     width: 800px;
-    height: 450px;
+    height: 480px;
     float: left;
   }
   .login-right{
     width: 400px;
     box-sizing: border-box;
-    padding: 10px 45px 45px 45px;
-    height: 450px;
+    padding: 0px 45px 25px 45px;
+    height: 480px;
     float: right;
     background: #fff;
   }
   .login-form-all>.ivu-form-item{
     width:100%;
-    margin: 0 0 15px 0;
+    margin: 0 0 20px 0;
   }
   .login-input>.ivu-input-group-prepend{
     height: 40px;
@@ -348,7 +353,7 @@
   .login-card{
     background: #ffffff69;
     border: none;
-    padding: 10px 0;
+    padding: 8px 0;
     outline: none;
     box-shadow: 0;
   }
