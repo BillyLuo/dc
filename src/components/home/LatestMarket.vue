@@ -116,8 +116,16 @@
         console.log(index,'==============')
       }
     },
+    created(){
+      
+    },
     mounted(){
-
+      // this.$ajax({
+      //   method: "get",
+      //   url: "/trade/tps/pbfcd.do"
+      // }).then((data)=>{
+      //   console.log(data)
+      // })
       for(let i=0 ; i< this.dataArry.length;i++){
         let myChart = echarts.init(document.getElementById('trend-table'+i));
         const  option = {

@@ -48,6 +48,7 @@ export default {
     },
     methods: {
         xuanran(a){
+            console.log("===#####################")
             console.log("=======",a)
             this.currency = a.currency;
             this.bizhong= a.bizhong;
@@ -65,23 +66,16 @@ export default {
             this.columns=[
                 {
                     title: '时间',
-                    key: 'ts',
-                    render: (h,params) =>{
-                        if(params.row.ts){
-                            var date = new Date(params.row.ts)
-                            // console.log(date)
-                            // console.log(date.getHours()+':'+date.getMinutes()+':'+date.getSeconds())
-                            return that.addzero(date.getHours())+':'+that.addzero(date.getMinutes())+':'+that.addzero(date.getSeconds())
-                        }else{
-                            return ""
-                        }
+                    key: 'tradetime',
+                    render: (h,params) => {
+                        return params.row.tradetime.substr(11,20)
                     }
                 },
                 {
                     title: '方向',
                     key: 'direction',
                     render: (h,params) => {
-                        if(params.row.direction == "buy"){
+                        if(params.row.tradetype == "1"){
                             return h('span',{
                                 style: {
                                         color: 'green',
@@ -92,7 +86,7 @@ export default {
                             },'买入')
                             
                         }
-                        if(params.row.direction == "sell"){
+                        if(params.row.tradetype == "2"){
                             return h('span',{
                                 style: {
                                         color: 'red',
@@ -108,22 +102,41 @@ export default {
                 },
                 {
                     title: '价格('+this.bizhong+')',
-                    key: 'price',
+                    key: 'tradeprice',
                 },
                 {
                     title: '数量('+this.currency+')',
-                    key: 'amount'
+                    key: 'tradecount'
                 }
             ];
-            this.$ajax.get('/huobi/market/history/trade?size=100&symbol='+this.params.currency.toLocaleLowerCase()+''+this.params.bizhong.toLocaleLowerCase())
-            .then(function(response){
-                that.datas=[];
-                response.data.data.map((item)=>{
-                    // console.log(item.data)
-                    that.datas.push(item.data[0])
+
+            this.$ajax({
+                    method: 'post',
+                    url: '/trade/tps/pblds.do',
+                    data: {
+                        "currencycode":this.params.currency,
+                        "count":"100"
+                    }
                 })
+                .then(function (response) {
+                    console.log(response.data.latestDeal);
+                    if(response.data.latestDeal){
+                        that.datas=[];
+                        that.datas = response.data.latestDeal;
+                    }
+                   
+                })
+
+
+            // this.$ajax.get('/huobi/market/history/trade?size=100&symbol='+this.params.currency.toLocaleLowerCase()+''+this.params.bizhong.toLocaleLowerCase())
+            // .then(function(response){
+            //     that.datas=[];
+            //     response.data.data.map((item)=>{
+            //         // console.log(item.data)
+            //         that.datas.push(item.data[0])
+            //     })
                 
-            })
+            // })
         },
         cahvas () {
             let biddata,askdata;
