@@ -425,13 +425,13 @@
                 this.record_data = [];
                 console.log("=================")
                 // 币种
-                this.$ajax.get("/trade/tps/pbfct.do")
-                .then((response)=>{
-                    console.log(response)
-                })
-                .then((data)=>{
-                    console.log(data)
-                })
+                // this.$ajax.get("/trade/tps/pbfct.do")
+                // .then((response)=>{
+                //     console.log(response)
+                // })
+                // .then((data)=>{
+                //     console.log(data)
+                // })
 
                 // 交易记录
                 this.$ajax({
@@ -444,24 +444,28 @@
                 })
                 .then(function (response) {
                     console.log(response.data.latestDeal);
-                    let  latestDeal=response.data.latestDeal;
-                    function compare(property){
-                        return function(obj1,obj2){
-                            var value1 = obj1[property];
-                            var value2 = obj2[property];
-                            return value1 - value2;     // 升序
+                    if(response.data.latestDeal){
+                        let  latestDeal=response.data.latestDeal;
+                        function compare(property){
+                            return function(obj1,obj2){
+                                var value1 = obj1[property];
+                                var value2 = obj2[property];
+                                return value1 - value2;     // 升序
+                            }
                         }
-                    }
-                    var sortObj = latestDeal.sort(compare("tradetype"));
+                        var sortObj = latestDeal.sort(compare("tradetype"));
+                        console.log(sortObj)
 
-                    // 最新成交价格
-                    that.price_datas = sortObj;
-                    // 最新成交记录
-                    latestDeal.map(function(item,index){
-                        if(index<5){
-                            that.record_data.push(item);
-                        }
-                    })
+                        // 最新成交价格
+                        that.price_datas = sortObj;
+                        // 最新成交记录
+                        latestDeal.map(function(item,index){
+                            if(index<5){
+                                that.record_data.push(item);
+                            }
+                        })
+                    }
+                   
                 })
 
             
@@ -484,15 +488,17 @@
                     }
                 })
                 .then((response) => {
-                    console.log(response)
-                    that.weituo_data = [{
-                        avebuyprice : response.data.avebuyprice,
-                        avesellprice: response.data.avesellprice,
-                        totalbuynum: response.data.totalbuynum,
-                        totalsellnum: response.data.totalsellnum
-                    }]
+                    if(response.data){
+                        that.weituo_data = [{
+                            avebuyprice : response.data.avebuyprice,
+                            avesellprice: response.data.avesellprice,
+                            totalbuynum: response.data.totalbuynum,
+                            totalsellnum: response.data.totalsellnum
+                        }]
 
-                    that.order_record_data = response.data.tradeDeatil;
+                        that.order_record_data = response.data.tradeDeatil;
+                    }
+                    
                 })
             },
             safe () {

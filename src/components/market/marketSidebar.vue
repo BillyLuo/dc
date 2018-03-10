@@ -30,79 +30,109 @@ export default {
             columns1:[
                 {
                     title: '币种',
-                    key: 'bizhong',
+                    key: 'currencyname',
                     sortable: true
                 },
                 {
                     title: '最新价',
-                    key: 'keyprice',
+                    key: 'curprice',
                     sortable: true
                 },
                 {
                     title: '涨幅',
-                    key: 'zhangfu',
+                    key: 'range',
                     sortable: true
                 }
             ],
             bizhong: 'USDT',
             data1:[
             ],
-            data2: [],
-            data3: []
+            // data2: [],
+            // data3: []
         }
     },
     mounted(){
         this.datas();
     },
     methods: {
+        // rowClassName(row,index){
+        //     console.log(row,index)
+        //     if(row.range.split('%') > 0){
+        //         return 'zhang-red';
+        //     }else{
+        //         return 'jiang-green'
+        //     }
+        // },
         getname(name){
             console.log(name)
             this.bizhong = name
         },
         dbclickrow(row,index){
             console.log(row,index)
-            let ss = {
+            let rowinfo = {
                 row:row,
                 bizhong: this.bizhong,
-                currency: row.bi
+                currencyname: row.currencyname
             }
-            this.$emit('itemrow', ss)
+            this.$emit('itemrow', rowinfo)
         },
         datas (){
             let that=this;
-            this.$ajax.get('/huobi/v1/common/symbols')
-            .then(function(respones){
-                console.log('----success-----',respones)
-                let data = respones.data.data;
-                data.map((item) => {
-                    if(item['symbol-partition'] == "main" && item['quote-currency']=='usdt'){
-                        let ss = item['base-currency'];
-                        let base = item['base-currency'];
-                        that.data1.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'USDT',bi: base.toLocaleUpperCase()})
-                    }
-                    if(item['symbol-partition'] == "main" && item['quote-currency']=='btc'){
-                        let ss = item['base-currency'];
-                        let base = item['base-currency'];
-                        that.data2.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'BTC',bi: base.toLocaleUpperCase()})
-                    }
-                    if(item['symbol-partition'] == "main" && item['quote-currency']=='eth'){
-                        let ss = item['base-currency'];
-                        let base = item['base-currency'];
-                        that.data3.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'ETH',bi: base.toLocaleUpperCase()})
+            this.$ajax({
+                method: "get",
+                url: "/trade/tps/pbfcd.do",    
+            }).then((data)=>{
+                console.log(data);
+                // that.data1 = data.data.currencyDetail;
+            
+                data.data.currencyDetail.map((item) => {
+                    console.log(item.range.split("%")[0]> 0)
+                    if(item.range.split("%")[0] > 0){
+                        item['cellClassName'] ={
+                            range: "zhang-red"
+                        }
+                    }else{
+                        item['cellClassName'] ={
+                            range: "jiang-green"
+                        }
                     }
                 })
-                console.log(that.data1.sort(compare('bizhong')))
-                function compare(property){
-                    return function(a,b){
-                        var value1 = a[property];
-                        var value2 = b[property];
-                        return value1 - value2;
-                    }
-                }
-
-            }).catch((err) => {
-                console.log('---err---',err);
+                console.log(data.data.currencyDetail)
+                that.data1 = data.data.currencyDetail;
             })
+            // this.$ajax.get('/huobi/v1/common/symbols')
+            // .then(function(respones){
+            //     console.log('----success-----',respones)
+            //     let data = respones.data.data;
+            //     data.map((item) => {
+            //         if(item['symbol-partition'] == "main" && item['quote-currency']=='usdt'){
+            //             let ss = item['base-currency'];
+            //             let base = item['base-currency'];
+            //             that.data1.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'USDT',bi: base.toLocaleUpperCase()})
+            //         }
+            //         // if(item['symbol-partition'] == "main" && item['quote-currency']=='btc'){
+            //         //     let ss = item['base-currency'];
+            //         //     let base = item['base-currency'];
+            //         //     that.data2.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'BTC',bi: base.toLocaleUpperCase()})
+            //         // }
+            //         // if(item['symbol-partition'] == "main" && item['quote-currency']=='eth'){
+            //         //     let ss = item['base-currency'];
+            //         //     let base = item['base-currency'];
+            //         //     that.data3.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'ETH',bi: base.toLocaleUpperCase()})
+            //         // }
+            //     })
+            //     console.log(that.data1.sort(compare('bizhong')))
+            //     function compare(property){
+            //         return function(a,b){
+            //             var value1 = a[property];
+            //             var value2 = b[property];
+            //             return value1 - value2;
+            //         }
+            //     }
+
+            // }).catch((err) => {
+            //     console.log('---err---',err);
+            // })
         }
     }
 }
@@ -187,6 +217,12 @@ export default {
         border-radius: 10px;
         -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
         background-color: rgba(145, 145, 145, 0.178);
+    }
+    .ivu-table .zhang-red{
+        color:red;
+    }
+    .ivu-table .jiang-green{
+        color:green;
     }
 }
 

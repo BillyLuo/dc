@@ -116,6 +116,14 @@
         console.log(index,'==============')
       }
     },
+    created(){
+      // this.$ajax({
+      //   method: "get",
+      //   url: "/trade/tps/pbfcd.do"
+      // }).then((data)=>{
+      //   console.log(data)
+      // })
+    },
     mounted(){
 
       for(let i=0 ; i< this.dataArry.length;i++){

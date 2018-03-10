@@ -114,7 +114,8 @@
           password: 'Aa123123',
           checkcode:'',
           tel:'15373872695',
-          verificationCode:'2234'
+          verificationCode:'2234',
+          resource:"1"
         },
         loginError:'',
         rememberpass:'记住密码',
@@ -224,6 +225,7 @@
         var loginname = this.formInline.user.trim();
         var pwd = this.formInline.password.trim();
         var checkcode = this.formInline.checkcode.trim();
+        var resource = this.formInline.resource.trim();
         this.$Spin.show({
           render: (h) => {
             return h('div', [
@@ -248,7 +250,8 @@
           data:{
             loginname,
             pwd,
-            checkcode
+            checkcode,
+            resource
           }
         }).then((data)=>{
           console.log(data);

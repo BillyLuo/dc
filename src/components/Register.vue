@@ -348,7 +348,7 @@ export default {
 				url: "/trade/tps/pbscs.do",
 				data:{
 					"verifystr":this.tel,
-					"type":"mobile"
+					// "type":"mobile"
 				}
 			}).then(function(data){
 				console.log(data)
@@ -387,7 +387,7 @@ export default {
 				url: "/trade/tps/pbscs.do",
 				data:{
 					"verifystr":this.email,
-					"type":"email"
+					// "type":"email"
 				}
 			}).then(function(data){
 				console.log(data)

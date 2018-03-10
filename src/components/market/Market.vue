@@ -41,11 +41,12 @@ import Deal from './deal';
 import depth from './depth';
 console.log(TradingView);
 function initCharts (symbol) {
+    console.log(symbol)
         new TradingView.widget({
             "container_id":"chart",
             "width": '100%',
             "height": 600,
-            "symbol": symbol?''+symbol:"BINANCE:BTCUSDT",
+            "symbol": symbol?''+symbol:"BTCUSDT",
             "interval": "15",
             "timezone": "Asia/Hong_Kong",
             "theme": "Dark",
@@ -57,7 +58,7 @@ function initCharts (symbol) {
             "hide_side_toolbar": false,
             "allow_symbol_change": false,
             "hideideasbutton": true,
-            "show_popup_button": true,
+            "show_popup_button": false,
             "popup_width": "1000",
             "popup_height": "650"
         });
@@ -134,12 +135,12 @@ export default {
         changeState(row){
             console.log(row)
             this.bizhong= row.bizhong;
-            this.currency = row.currency;
+            this.currency = row.currencyname;
             this.params={
                 bizhong: this.bizhong,
                 currency: this.currency
             }
-            initCharts(row.row.key);
+            initCharts(this.currency + this.bizhong);
         },
         selectTime (value) {
             console.log(value)
