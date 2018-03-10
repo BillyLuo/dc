@@ -61,7 +61,7 @@ export default {
   },
   data(){
     return {
-      showModal:true,
+      showModal:false,
       realname:'',
       country:'1',
       identifyType:'1',
@@ -78,6 +78,9 @@ export default {
       console.log('value',value);
     },
     submitIdentification() {
+      var that = this;
+      let idsure = this.idsure;
+      let type = 'idno';
       let realname = this.realname.trim();
       let region = this.country;
       let certificatetype = this.identifyType;
@@ -94,16 +97,34 @@ export default {
         this.errorMsg = '请输入合格的身份证号码';
         return false;
       }
+      if(!idsure) {
+        this.errorMsg = '请您确定是您本人的身份证的勾选框';
+        return;
+      }else {
+        this.errorMsg = '';
+      }
       console.log({realname,region,certificatetype,certificateno});
       this.$ajax.post('/trade/tps/pbvcs.do',{
-        realname,region,certificatetype,certificateno
+        realname,region,certificatetype,certificateno,type
       }).then((res)=>{
-        console.log(res,res.data);
+        if (res.status == 200 && res.data && res.data.err_code == '1') {
+          that.showModal = false;
+          that.$Message.success('认证成功')
+          that.$emit('levelChange',{level:1});
+        }else {
+          that.$Notice.warning({
+            title:'提示',
+            desc:'认证失败，请稍后重试'
+          })
+        }
       }).catch((err)=>{
         console.log(err);
+        that.$Notice.warning({
+          title:'提示',
+          desc:'认证失败，请稍后重试'
+        })
       })
-      // this.showModal = false;
-      // this.$emit('levelChange',{level:1});
+      
     }
   }
 }

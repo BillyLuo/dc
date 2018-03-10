@@ -11,19 +11,20 @@
           <div class="financial-management">
             <div>
               <span>起始时间：</span>
-              <DatePicker @on-change="chooseStartDate" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
+              <DatePicker v-model="startDate" @on-change="chooseStartDate" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
               <span style="margin: 0 20px;"> ~ </span>
-              <DatePicker @on-change="chooseEndDate" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
-              <Button size="small">今天</Button>
-              <Button size="small" type="primary">7天</Button>
-              <Button size="small">15天</Button>
-              <Button size="small">30天</Button>
+              <DatePicker v-model="endDate" @on-change="chooseEndDate" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
+              <Button size="small" @click="chooseDate(0)" :type="setDayActive == 0 ? 'primary' : 'ghost'">今天</Button>
+              <Button size="small" @click="chooseDate(7)" :type="setDayActive == 7 ? 'primary' : 'ghost'">7天</Button>
+              <Button size="small" @click="chooseDate(15)" :type="setDayActive == 15 ? 'primary' : 'ghost'">15天</Button>
+              <Button size="small" @click="chooseDate(30)" :type="setDayActive == 30 ? 'primary' : 'ghost'">30天</Button>
             </div>
             <div>
               <span>操作类型：</span>
               <Select @on-change="changeType" :filterable="true" v-model="operation_type" style="width:200px;margin: 30px 0;">
-                  <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
+                <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+              <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail">查询</Button>
             </div>
             <Table :class="'no-border-table'" stripe :columns="account_detail_column" :data="account_detail_data" />
           </div>
@@ -50,6 +51,7 @@
   import myCoin from './myCoin';
   import userInfo from '../user/userBaseInfo';
   import { Tabs,TabPane,DatePicker,Table } from 'iview';
+  import moment from 'moment';
   export default {
     components: {
       Table,
@@ -60,12 +62,12 @@
       'user-info': userInfo
     },
     mounted() {
-      
+      this.getAssetsDetail();
     },
     data() {
       return {
         currentTab:'accountAssets',
-        operation_type: 'BTC',
+        operation_type: '1',
         label1: (h) => {
           return h('div', [
             h('span', '账户资产')
@@ -88,11 +90,15 @@
         },
         typeList: [{
             label: 'BTC提现',
-            value: 'BTC'
+            value: '1'
           },
           {
             label: 'ETH提现',
-            value: 'ETH'
+            value: '2'
+          },
+          {
+            label: 'BHC提现',
+            value: '3'
           }
         ],
         account_list_data: [
@@ -156,29 +162,78 @@
             label: 'MANA 提现管理',
             value: 'mana'
           }
-        ]
+        ],
+        startDate:'',
+        endDate:new Date(),
+        setDayActive:7
       }
     },
     methods: {
       changeFundAccount(value) {
         this.fund_account_active = value;
       },
+      validateDate() {
+        
+      },
       changeType(value) {
         console.log(value);
       },
       chooseStartDate(value) {
-        console.log('startDate----------', value, arguments);
+        this.startDate = value;
       },
       chooseEndDate(value) {
-        console.log('endDate----------', value);
+        console.log(value);
+        this.endDate = value;
+      },
+      chooseDate(value) {
+        this.setDayActive = value;
+        var endDate = this.endDate;
+        if (!endDate) {
+          endDate = new Date();
+          this.endDate = endDate;
+        }
+        if (value == 0 ) {
+          this.startDate = endDate.setHours(0);
+        }else if (value) {
+          var day = moment(endDate).subtract(value, 'days');
+          this.startDate = day;
+        }
       },
       tabClick(name) {
-        console.log('name---',name,this.currentTab);
+        // console.log('name---',name,this.currentTab);
         if (name == 'accountAssets') {
           this.$router.push({
             path:'/assets'
           })
         }
+      },
+      getAssetsDetail(){
+        let startDate = this.startDate;
+        let endDate = this.endDate;
+        let operation = this.operation_type;
+        if (startDate) {
+          startDate = moment(this.startDate).format('YYYY-MM-DD');
+        }else {
+          startDate = '';
+        } 
+        if (endDate) {
+          endDate = moment(this.endDate).format('YYYY-MM-DD');
+        }else {
+          this.endDate = new Date();
+          endDate = moment().format('YYYY-MM-DD');
+        }
+        console.log({
+          operation,
+          startDate,
+          endDate
+        });
+        this.$ajax.post('/trade/tps/pblad.do',{
+          operation
+        }).then((res)=>{
+          console.log(res);
+        }).catch((err)=>{
+          console.warn('获取资产详情失败');
+        })
       }
     },
     filters: {

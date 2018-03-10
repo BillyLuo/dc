@@ -188,6 +188,9 @@ export default {
         -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
         background-color: rgba(145, 145, 145, 0.178);
     }
+    .ivu-table-cell span {
+        cursor: pointer;
+    }
 }
 
 </style>

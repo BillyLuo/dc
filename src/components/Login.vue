@@ -256,7 +256,7 @@
           }
         }).then((data)=>{
           console.log(data);
-         
+          // that.$Spin.hide();
           if (data.status == 200 && data.data.err_code == '1') {
             that.$router.push({
               name:'Home',

@@ -1,7 +1,18 @@
 var state = {
-  userinfo:{
-    name:'will',
-    tel:'15178874695'
+  userLoginInfo:{
+    username:'',
+    uid:'',
+    email:'',
+    mobile:'',
+    estimatedfund:''
+  },
+  userValidationInfo:{
+    emailset:'',
+    identityset:'',
+    mobileset:'',
+    googlecodeset:'',
+    loginpasswordsetL:'',
+    tradepasswordset:''
   }
 }
 export default state;

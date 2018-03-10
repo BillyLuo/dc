@@ -49,6 +49,10 @@ export default {
       },
     }
   },
+  mounted(){
+    this.getLoginInfo();
+    this.getUserBaseInfo();
+  },
   methods:{
     formatTel() {
       if (this.userinfo && this.userinfo.tel) {
@@ -59,7 +63,20 @@ export default {
       this.$router.push({
         path:'/user'
       })
-    }
+    },
+    getLoginInfo(){
+      this.$ajax.post('/trade/tps/pbpis.do')
+      .then((res)=>{
+        console.log('----user-----info----',res);
+      })
+    },
+    getUserBaseInfo(){
+      this.$ajax.post('/trade/tps/pblbi.do').then((res)=>{
+        console.log('----userbaseinfo-----',res);
+      }).catch((err)=>{
+        console.log('获取用户基本信息出错',err);
+      })
+    },
   }
 }
 </script>
