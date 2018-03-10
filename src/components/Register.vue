@@ -6,182 +6,182 @@
 	</div>
 	<div class="register-right">
 		<Tabs value="name1" :class="'register-right-tabs'" @on-click="registerTabs">
-		<TabPane label="手机注册" name="name1" :class="'register-right-tabs-tabpaneOne'">
-			<div class="register-input">
-			<Input v-model="tel" size="large" placeholder="请输入手机号" :class="telErrorInput" @on-focus="telFocus"/>
-			<p class="register-error-text">
-				{{errorTel}}
-			</p>
-			</div>
-			<div class="register-input">
-			<Input v-model="vsCode" size="large" placeholder="验证码" :class="vsCodeErrorInput" @on-focus="vsCodeFocus" />
-			<p class="register-error-text">
-				{{ errorVsCode }}
-			</p>
-			<div class="register-vsCode">
-				<img src="/trade/tps/pbccs.do" alt="" width="100%" height="100%">
-			</div>
-			</div>
-			<div class="register-input">
-			<Input v-model="telCode" size="large" placeholder="短信验证码" :class="telCodeErrorInput" @on-focus="telCodeFocus"/>
-			<p class="register-error-text">
-				{{ errorTelCode }}
-			</p>
-			<div class="register-vsCode">
-				<Button type="primary" @click="telCodeTimeOut" :disabled="telCodeDisabled">
-				{{ telCodeText }}
-				</Button>
-			</div>
-			</div>
-			<div class="register-input">
-			<Input
-				type="password"
-				v-model="password"
-				size="large"
-				placeholder="输入密码"
-				:class="passwordCodeErrorInput"
-				@on-focus="passwordFocus"
-				@on-change="passwordChange"
-				@on-blur="passwordBlur"
-			/>
-			<div class="prompt" v-if="prompt">
-				<p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
-				<p class="p-gray">
-				<span v-html="PromptOne"></span>
-				&nbsp;只能是字母和数字
+			<TabPane label="手机注册" name="name1" :class="'register-right-tabs-tabpaneOne'">
+				<div class="register-input">
+				<Input v-model="tel" size="large" placeholder="请输入手机号" :class="telErrorInput" @on-focus="telFocus"/>
+				<p class="register-error-text">
+					{{errorTel}}
 				</p>
-				<p class="p-gray">
-				<span v-html="PromptTwo"></span>
-				&nbsp;8-20个字符
-				</p>
-				<p class="p-gray">
-				<span v-html="PromptThree"></span>
-				&nbsp;包含大写和小写字母
-				</p>
-				<p class="p-gray">
-				<span v-html="PromptFour"></span>
-				&nbsp;不能以数字开头
-				</p>
-				<div class="prompt-div">
-				<p class="prompt-div-p">密码强度:</p>
-				<div class="change-longer" >
-					<div class="change-longer-children" :style="PromptAll">
-					</div>
 				</div>
-				<p class="prompt-div-p2">避免使用您用于其他网站的密码,或易于被其他人猜到的密码。</p>
+				<div class="register-input">
+				<Input v-model="vsCode" size="large" placeholder="验证码" :class="vsCodeErrorInput" @on-focus="vsCodeFocus" />
+				<p class="register-error-text">
+					{{ errorVsCode }}
+				</p>
+				<div class="register-vsCode">
+					<img :src="src" alt="" width="100%" height="100%">
 				</div>
-			</div>
-			<p class="register-error-text">
-				{{ errorPassword }}
-			</p>
-			</div>
-			<div class="register-input">
-			<Input type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus"/>
-			<p class="register-error-text">
-				{{ errorPasswordAgain }}
-			</p>
-			</div>
-			<div class="register-input">
-			<Input v-model="InvitationCode" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
-			<p class="register-error-text">
-				{{ errorInvitationCode }}
-			</p>
-			</div>
-			<div class="register-input">
-			<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《蜂巢币用户协议》</a></Checkbox>
-			</div>
-			<div class="register-input">
-			<Button type="primary" @click="submitTel">注册</Button>
-			</div>
-		</TabPane>
-		<TabPane label="邮箱注册" name="name2" :class="'register-right-tabs-tabpaneTwo'">
-			<div class="register-input">
-			<Input v-model="email" size="large" placeholder="请输入邮箱" :class="emailErrorInput"  @on-focus="telFocus" />
-			<p class="register-error-text">
-				{{errorEmail}}
-			</p>
-			</div>
-			<div class="register-input">
-			<Input v-model="vsCode" size="large" placeholder="验证码" :class="vsCodeErrorInput" @on-focus="vsCodeFocus" />
-			<p class="register-error-text">
-				{{ errorVsCode }}
-			</p>
-			<div class="register-vsCode">
-				<img src="/trade/tps/pbccs.do?1" alt="" width="100%" height="100%">
-			</div>
-			</div>
-			<div class="register-input">
-			<Input v-model="telCode" size="large" placeholder="邮箱验证码" :class="telCodeErrorInput" @on-focus="telCodeFocus" />
-			<p class="register-error-text">
-				{{ errorTelCode }}
-			</p>
-			<div class="register-vsCode">
-				<Button type="primary" @click="telCodeTimeOut1" :disabled="telCodeDisabled">
-				{{ telCodeText }}
-				</Button>
-			</div>
-			</div>
-			<div class="register-input">
-			<Input
-				type="password"
-				v-model="password"
-				size="large"
-				placeholder="输入密码"
-				:class="passwordCodeErrorInput"
-				@on-focus="passwordFocus"
-				@on-change="passwordChange"
-				@on-blur="passwordBlur"
-			/>
-			<div class="prompt" v-if="prompt">
-				<p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
-				<p class="p-gray">
+				</div>
+				<div class="register-input">
+				<Input v-model="telCode" size="large" placeholder="短信验证码" :class="telCodeErrorInput" @on-focus="telCodeFocus"/>
+				<p class="register-error-text">
+					{{ errorTelCode }}
+				</p>
+				<div class="register-vsCode">
+					<Button type="primary" @click="telCodeTimeOut" :disabled="telCodeDisabled">
+					{{ telCodeText }}
+					</Button>
+				</div>
+				</div>
+				<div class="register-input">
+				<Input
+					type="password"
+					v-model="password"
+					size="large"
+					placeholder="输入密码"
+					:class="passwordCodeErrorInput"
+					@on-focus="passwordFocus"
+					@on-change="passwordChange"
+					@on-blur="passwordBlur"
+				/>
+				<div class="prompt" v-if="prompt">
+					<p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
+					<p class="p-gray">
 					<span v-html="PromptOne"></span>
 					&nbsp;只能是字母和数字
-				</p>
-				<p class="p-gray">
+					</p>
+					<p class="p-gray">
 					<span v-html="PromptTwo"></span>
 					&nbsp;8-20个字符
-				</p>
-				<p class="p-gray">
+					</p>
+					<p class="p-gray">
 					<span v-html="PromptThree"></span>
 					&nbsp;包含大写和小写字母
-				</p>
-				<p class="p-gray">
+					</p>
+					<p class="p-gray">
 					<span v-html="PromptFour"></span>
 					&nbsp;不能以数字开头
 					</p>
-				<div class="prompt-div">
+					<div class="prompt-div">
 					<p class="prompt-div-p">密码强度:</p>
-					<div class="change-longer">
+					<div class="change-longer" >
 						<div class="change-longer-children" :style="PromptAll">
 						</div>
 					</div>
 					<p class="prompt-div-p2">避免使用您用于其他网站的密码,或易于被其他人猜到的密码。</p>
+					</div>
 				</div>
-			</div>
-			<p class="register-error-text">
-				{{ errorPassword }}
-			</p>
-			</div>
-			<div class="register-input">
-			<Input type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus" />
-			<p class="register-error-text">
-				{{ errorPasswordAgain }}
-			</p>
-			</div>
-			<div class="register-input">
-			<Input v-model="InvitationCode" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
-			<p class="register-error-text">
-				{{ errorInvitationCode }}
-			</p>
-			</div>
-			<div class="register-input">
-			<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《蜂巢币用户协议》</a></Checkbox>
-			</div>
-			<div class="register-input">
-			<Button type="primary" @click="submitEmail">注册</Button>
-			</div>
-		</TabPane>
+				<p class="register-error-text">
+					{{ errorPassword }}
+				</p>
+				</div>
+				<div class="register-input">
+				<Input type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus"/>
+				<p class="register-error-text">
+					{{ errorPasswordAgain }}
+				</p>
+				</div>
+				<div class="register-input">
+				<Input v-model="InvitationCode" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
+				<p class="register-error-text">
+					{{ errorInvitationCode }}
+				</p>
+				</div>
+				<div class="register-input">
+				<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《蜂巢币用户协议》</a></Checkbox>
+				</div>
+				<div class="register-input">
+				<Button type="primary" @click="submitTel">注册</Button>
+				</div>
+			</TabPane>
+			<TabPane label="邮箱注册" name="name2" :class="'register-right-tabs-tabpaneTwo'">
+				<div class="register-input">
+				<Input v-model="email" size="large" placeholder="请输入邮箱" :class="emailErrorInput"  @on-focus="telFocus" />
+				<p class="register-error-text">
+					{{errorEmail}}
+				</p>
+				</div>
+				<div class="register-input">
+				<Input v-model="vsCode" size="large" placeholder="验证码" :class="vsCodeErrorInput" @on-focus="vsCodeFocus" />
+				<p class="register-error-text">
+					{{ errorVsCode }}
+				</p>
+				<div class="register-vsCode">
+					<img :src="src" alt="" width="100%" height="100%">
+				</div>
+				</div>
+				<div class="register-input">
+				<Input v-model="telCode" size="large" placeholder="邮箱验证码" :class="telCodeErrorInput" @on-focus="telCodeFocus" />
+				<p class="register-error-text">
+					{{ errorTelCode }}
+				</p>
+				<div class="register-vsCode">
+					<Button type="primary" @click="telCodeTimeOut1" :disabled="telCodeDisabled">
+					{{ telCodeText }}
+					</Button>
+				</div>
+				</div>
+				<div class="register-input">
+				<Input
+					type="password"
+					v-model="password"
+					size="large"
+					placeholder="输入密码"
+					:class="passwordCodeErrorInput"
+					@on-focus="passwordFocus"
+					@on-change="passwordChange"
+					@on-blur="passwordBlur"
+				/>
+				<div class="prompt" v-if="prompt">
+					<p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
+					<p class="p-gray">
+						<span v-html="PromptOne"></span>
+						&nbsp;只能是字母和数字
+					</p>
+					<p class="p-gray">
+						<span v-html="PromptTwo"></span>
+						&nbsp;8-20个字符
+					</p>
+					<p class="p-gray">
+						<span v-html="PromptThree"></span>
+						&nbsp;包含大写和小写字母
+					</p>
+					<p class="p-gray">
+						<span v-html="PromptFour"></span>
+						&nbsp;不能以数字开头
+						</p>
+					<div class="prompt-div">
+						<p class="prompt-div-p">密码强度:</p>
+						<div class="change-longer">
+							<div class="change-longer-children" :style="PromptAll">
+							</div>
+						</div>
+						<p class="prompt-div-p2">避免使用您用于其他网站的密码,或易于被其他人猜到的密码。</p>
+					</div>
+				</div>
+				<p class="register-error-text">
+					{{ errorPassword }}
+				</p>
+				</div>
+				<div class="register-input">
+				<Input type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus" />
+				<p class="register-error-text">
+					{{ errorPasswordAgain }}
+				</p>
+				</div>
+				<div class="register-input">
+				<Input v-model="InvitationCode" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
+				<p class="register-error-text">
+					{{ errorInvitationCode }}
+				</p>
+				</div>
+				<div class="register-input">
+				<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《蜂巢币用户协议》</a></Checkbox>
+				</div>
+				<div class="register-input">
+				<Button type="primary" @click="submitEmail">注册</Button>
+				</div>
+			</TabPane>
 		</Tabs>
 	</div>
 	</div>
@@ -196,6 +196,7 @@ export default {
 	},
 	data () {
 	return {
+		src: '/trade/tps/pbccs.do',
 		tel: '',
 		email:'',
 		vsCode:'',
@@ -319,6 +320,7 @@ export default {
 		this.PromptTwoWidth = 0;
 		this.PromptThreeWidth = 0;
 		this.PromptFourWidth = 0;
+		this.src='/trade/tps/pbccs.do?'+Date.now();
 	},
 	clearTime(){    // 清除定时器
 		if(this.getCode){
@@ -451,13 +453,20 @@ export default {
 				})
 				return false;
 			}
-			
+			console.log({
+					"loginname":this.tel,
+					"checkcode":this.errorVsCode,
+					"msgcheckcode":this.telCode,
+					"password":this.password,
+					"confirmpassword":this.passwordAgain,
+					"invitedcode":this.InvitationCode
+				})
 			this.$ajax({
 				method: 'post',
 				url: '/trade/tps/pbrus.do',
 				data: {
 					"loginname":this.tel,
-					"checkcode":this.errorVsCode,
+					"checkcode":this.vsCode,
 					"msgcheckcode":this.telCode,
 					"password":this.password,
 					"confirmpassword":this.passwordAgain,
@@ -467,8 +476,9 @@ export default {
 				console.log(data)
 				if(data.data.err_code == "1"){
 					that.$Modal.info({
-						content:'注册成功。'
+						content:'注册成功,请登录。'
 					})
+					that.$router.push("login")
 				}else{
 					that.$Modal.info({
 						content:'注册失败,'+data.data.msg
@@ -534,7 +544,7 @@ export default {
 				url: '/trade/tps/pbrus.do',
 				data: {
 					"loginname":this.email,
-					"checkcode":this.errorVsCode,
+					"checkcode":this.vsCode,
 					"msgcheckcode":this.telCode,
 					"password":this.password,
 					"confirmpassword":this.passwordAgain,
@@ -544,8 +554,9 @@ export default {
 				console.log(data)
 				if(data.data.err_code == "1"){
 					that.$Modal.info({
-						content:'注册成功。'
+						content:'注册成功，请登录。'
 					})
+					that.$router.push("login")
 				}else{
 					that.$Modal.info({
 						content:'注册失败,'+data.data.msg
