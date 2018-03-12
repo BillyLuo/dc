@@ -3,6 +3,7 @@ function change (state,payload) {
   console.log('test');
 }
 function getUserInfo(state,palyload) {
+  state.userinfo = {};
   axios
     .post("/trade/tps/pbpis.do")
     .then(res => {
@@ -19,7 +20,7 @@ function getUserInfo(state,palyload) {
     .post("/trade/tps/pblbi.do")
     .then(res => {
       console.log("----userbaseinfo-----", res.data);
-      if (res.data && res.data.email != undefined) {
+      if (res.data && res.data.emailset != undefined) {
         state.userinfo = Object.assign(state.userinfo,res.data)
       } else {
         console.log('获取用户认证信息出错');

@@ -113,6 +113,7 @@ export default {
           that.$Message.success('认证成功')
           that.$emit('levelChange',{level:1});
           bus.$emit('certify',true);
+          location.reload();
         }else {
           that.$Notice.warning({
             title:'提示',

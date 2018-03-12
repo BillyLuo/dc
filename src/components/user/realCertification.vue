@@ -161,7 +161,7 @@ export default {
       this.$ajax.post("/trade/tps/pblbi.do")
       .then(res => {
         this.$Spin.hide();
-        if (res.data && res.data.email != undefined) {
+        if (res.data && res.data.emailset != undefined) {
           if (res.data.identityset == '1') {
             this.level = 1;
           }

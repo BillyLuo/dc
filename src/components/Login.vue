@@ -267,6 +267,7 @@
                 isLogined:true
               }
             })
+            that.$store.commit('getUserInfo');
             cookies.set("name",loginname,{
               expires: 1800
             })

@@ -20,9 +20,9 @@
             <div>
               <div class="login-out-title">个人中心</div>
               <div class="divide"></div>
-              <div class="all-asset">账户总资产：<span>{{$store.state.userinfo.estimatedfund}} CNYT</span></div>
+              <div class="all-asset">账户总资产：<span>{{userinfo.amount}} CNYT</span></div>
               <div class="divide"></div>
-              <div class="uid">UID: <span>{{$store.state.userinfo.uid}}</span></div>
+              <div class="uid">UID: <span>{{userinfo.uid}}</span></div>
               <div class="divide"></div>
               <button class="login-out-btn" @click="loginOut">登出</button>
             </div>
@@ -40,6 +40,7 @@
 <script>
 import bus from '../bus/bus.js';
 import cookies from 'cookies-js';
+import { mapState } from 'vuex';
 function scroll (e) {
   var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
   var scroll = false;
@@ -81,10 +82,20 @@ export default {
       }
     }
   },
+  computed:{
+    ...mapState({
+      userinfo(state) {
+        console.log("user---info",state);
+        return {
+          amount:state.userinfo.estimatedfund,
+          uid:state.userinfo.uid
+        }
+      }
+    })
+  },
   mounted (){
     // this.initActive();
-    // console.log('----header----',this);
-    // console.log(cookies.get("name"))
+    console.log(this.$store.state);
     this.getLoginName();
     this.getUserinfo();
     this.getPath();
@@ -94,6 +105,7 @@ export default {
       if (value) {
         // console.log(value)
         that.isLogined = true;
+        that.userInfo.username = cookies.get('name');
       }
     })
     bus.$on('certify',(value) => {
@@ -120,7 +132,7 @@ export default {
       this.$ajax.post("/trade/tps/pblbi.do")
       .then(res => {
         console.log("----header-userinfo-----", res.data);
-        if (res.data && res.data.email != undefined) {
+        if (res.data && res.data.emailset != undefined) {
           if (res.data.identityset == '1') {
             this.isCertified = true;
           }
@@ -135,7 +147,7 @@ export default {
     getLoginName(){
       let username = cookies.get('name');
       if (username){
-        if (username.match(/^.+(?=@)/g).length) {
+        if (username.match(/^.+(?=@)/g) && username.match(/^.+(?=@)/g).length) {
           this.userInfo.username = username.match(/^.+(?=@)/g)[0] ;
         }else {
           this.userInfo.username = username;
@@ -383,8 +395,8 @@ export default {
     display: none;
     background: #fff;
     position: absolute;
-    width: 240px;
-    left: -40%;
+    width: 290px;
+    left: -60%;
     top: 60px;
     border: 1px solid #F6F7FC;
     box-shadow: 0 4px 4px rgba(0,0,0,.1);

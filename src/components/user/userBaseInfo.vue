@@ -73,7 +73,13 @@ export default {
         if (state.userinfo.tradepasswordset == 1) {
           amount += 1;
         }
-        console.log(amount);
+        console.log('sjfldjf',{
+          username: state.userinfo.username,
+          uid: state.userinfo.uid,
+          mobile: state.userinfo.mobile,
+          estimatedfund: state.userinfo.estimatedfund,
+          validationAmount: amount
+        });
         return {
           username: state.userinfo.username,
           uid: state.userinfo.uid,
@@ -123,6 +129,7 @@ export default {
 
 .user-info-right {
   padding: 10px 0;
+  width: 220px;
   & > div {
     height: 30px;
     line-height: 30px;

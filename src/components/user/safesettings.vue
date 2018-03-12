@@ -159,10 +159,10 @@
           </FormItem>
           <FormItem label="验证码：" prop="code">
             <Input placeholder="请输入验证码" v-model="modifyLoginValidate.code">
-              <a style="color: #333;" slot="append">{{loginCodeMsg}}</a>
+              <a style="color: #333;" slot="append"  @click="sendLoginMessage">{{loginCodeMsg}}</a>
             </Input>
               <Button slot="append" class="send-code">
-                发送验证码
+                <span>发送验证码</span>
               </Button>
             </Input>
           </FormItem>
@@ -213,6 +213,8 @@ export default {
       input_email:'',
       emailLoading:true,
       loginCodeMsg:'发送验证码',
+      loginCodeState:1,  //1,未发送  2.发送中
+      loginTimer:null,
       modifyTelValidate:{
         tel:'15178875695',
         code:'',
@@ -480,6 +482,33 @@ export default {
         content:'功能暂未开放',
         'closable':true
       })
+    },
+    sendLoginMessage(){
+      var tel = this.$store.state.userinfo.mobile;   
+      console.log('sendmessage',tel,this.loginCodeState); //修改登录密码 loginModal  发送验证码
+      var num = 4;
+      var that = this;
+      if (this.loginCodeState == 2) {
+        return false;
+      }else {
+        this.loginTimer = setInterval(function () {
+          num -- ;
+          that.loginCodeMsg = num + '秒后重发';
+          that.loginCodeState = 2;
+          if (num <= 0) {
+            clearInterval(that.loginTimer);
+            that.loginCodeState = 1;
+            that.loginCodeMsg = '发送验证码';
+          }
+        },1000);
+        this.$ajax.post('/trade/tps/pbscs.do',{
+          verifystr:tel
+        }).then((res) => {
+          console.log('短信验证',res);
+        }).catch((err) => {
+          console.log(err);
+        })
+      }
     }
   }
 }
