@@ -1,18 +1,18 @@
 var state = {
-  userLoginInfo:{
+  userinfo:{
     username:'',
     uid:'',
     email:'',
     mobile:'',
-    estimatedfund:''
-  },
-  userValidationInfo:{
+    estimatedfund:'',
     emailset:'',
     identityset:'',
     mobileset:'',
     googlecodeset:'',
     loginpasswordsetL:'',
-    tradepasswordset:''
+    tradepasswordset:'',
+    email:'',
+    mobile:''
   }
 }
 export default state;

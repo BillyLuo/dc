@@ -36,6 +36,9 @@ export default {
       activeMenu:userMenu[0].value
     }
   },
+  mounted(){
+    
+  },
   methods:{
     changeValue(name){
       if (name == 'api') {

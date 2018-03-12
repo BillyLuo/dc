@@ -37,9 +37,9 @@ module.exports = {
        
         
         //   测试
-        // '/bizs': {
-        //     target: 'http://172.16.21.31:8000/txs',
-        //     pathRewrite: {'^/bizs' : ''}
+        // '/trade': {
+        //     target: 'http://10.113.1.60:8000/txs',
+        //     pathRewrite: {'^/trade' : ''}
         // },
         //208
         '/trade': {

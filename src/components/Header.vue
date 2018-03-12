@@ -20,9 +20,9 @@
             <div>
               <div class="login-out-title">个人中心</div>
               <div class="divide"></div>
-              <div class="all-asset">账户总资产：<span>0 CNYT</span></div>
+              <div class="all-asset">账户总资产：<span>{{$store.state.userinfo.estimatedfund}} CNYT</span></div>
               <div class="divide"></div>
-              <div class="uid">UID: <span>234325</span></div>
+              <div class="uid">UID: <span>{{$store.state.userinfo.uid}}</span></div>
               <div class="divide"></div>
               <button class="login-out-btn" @click="loginOut">登出</button>
             </div>
@@ -75,7 +75,7 @@ export default {
       isLogined:false,
       menu,
       userInfo:{
-        username:15178874695,
+        username:'',
         userLevel:1
       }
     }
@@ -97,6 +97,7 @@ export default {
 
     if(cookies.get("name")){
       that.isLogined = true;
+      that.userInfo.username = cookies.get('name');
     }else{
       that.isLogined = false;
       this.$router.push("login")

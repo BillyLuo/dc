@@ -39,7 +39,6 @@ Vue.component('Table',Table);
 
 
 axios.interceptors.response.use(function (response) {  
-  console.log(response.data)
   if (response.status== 200 && response.statusText == "OK"){  
     cookies.set("name",cookies.get("name"),{
         expires: 1800

@@ -38,7 +38,8 @@
             </div>
              <div class="item-content float-left">
               <h3>手机绑定</h3>
-              <a href="javascript:;" v-if="userinfo.phone.bound" class="active">1517****4695</a>
+              <a href="javascript:;" v-if="userinfo.phone.bound" class="active">{{userinfo.phone.value.slice(0, 4) +
+          "****" + userinfo.phone.value.slice(-4)}}</a>
               <a href="javascript:;" v-else @click="openTelModal">绑定</a>
              </div>
              <a href="javascript:;" class="item-status" @click="openTelModal">修改</a>
@@ -197,32 +198,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { Form, FormItem } from 'iview';
 export default {
   data () {
     return {
-      userinfo:{
-        email:{
-          bound:false,
-          value:''
-        },
-        nameAuth:{
-          bound:true,
-          value:''
-        },
-        phone:{
-          bound:true,
-          value:'15178874695'
-        },
-        loginPass:{
-          bound:true,
-          value:''
-        },
-        tradePass:{
-          bound:false,
-          value:''
-        }
-      },
       emailModal: false,
       emailErrMsg:'',
       telModal:false,
@@ -303,6 +283,42 @@ export default {
         ]
       }
     }
+  },
+  computed:{
+    ...mapState({
+      userinfo(state) {
+        console.log('state-----!!!!!!',state);
+        var info = state.userinfo;
+        var email = {bound:false,value:''},
+        nameAuth = {bound:false,value:''},
+        phone = {bound:false,value:''},
+        loginPass = {bound:false,value:''},
+        tradePass = {bound:false,value:''};
+        if (state.userinfo.emailset ==1) {
+          email.bound = true;
+          email.value = info.email;
+        }
+        if (state.userinfo.identityset ==1) {
+          
+        }
+        if (state.userinfo.mobileset==1) {
+          phone.bound = true;
+          phone.value = info.mobile;
+        }
+        if (state.userinfo.googlecodeset ==1 ) {
+          
+        }
+        if (state.userinfo.loginpasswordset == 1) {
+          loginPass.bound = true;
+        }
+        if (state.userinfo.tradepasswordset == 1) {
+          tradePass.bound = true;
+        }
+        return {
+          email,nameAuth,phone,loginPass,tradePass
+        }
+      }
+    })
   },
   components:{
     Form,
