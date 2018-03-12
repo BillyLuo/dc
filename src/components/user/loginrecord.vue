@@ -3,12 +3,12 @@
         <Tabs value="name1">
             <TabPane label="最近登陆历史" name="name1">
                 <div class="ext-table">
-                    <Table :data="data1" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有推广记录</span>" :columns="columns1" stripe></Table>
+                    <Table :data="data1" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有登录历史</span>" :columns="columns1" stripe></Table>
                 </div>
             </TabPane>
             <TabPane label="安全设置历史" name="name2">
                 <div class="ext-table">
-                    <Table :data="data2" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有收益明细</span>" :columns="columns2" stripe></Table>
+                    <Table :data="data2" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有安全设置历史</span>" :columns="columns2" stripe></Table>
                 </div>
             </TabPane>
         </Tabs>
