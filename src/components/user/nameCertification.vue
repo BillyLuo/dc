@@ -55,6 +55,7 @@
 
 <script>
 import {Form , FormItem } from 'iview';
+import bus from '../../bus/bus';
 export default {
   components:{
     Form,FormItem
@@ -111,6 +112,7 @@ export default {
           that.showModal = false;
           that.$Message.success('认证成功')
           that.$emit('levelChange',{level:1});
+          bus.$emit('certify',true);
         }else {
           that.$Notice.warning({
             title:'提示',

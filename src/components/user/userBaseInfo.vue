@@ -55,13 +55,6 @@ export default {
     ...mapState({
       userinfo: state => {
         var amount = 0;
-        console.log(state.userinfo.emailset,
-          state.userinfo.identityset,
-          state.userinfo.mobileset,
-          state.userinfo.googlecodeset,
-          state.userinfo.loginpasswordset,
-          state.userinfo.tradepasswordset
-        );
         if (state.userinfo.emailset ==1) {
           amount += 1;
         }
@@ -96,12 +89,10 @@ export default {
   },
   methods: {
     protect() {
-      this.userinfo.username = 'hello';
       this.$store.commit('change');
-      console.log('protect');
-      // this.$router.push({
-      //   path: "/user"
-      // });
+      this.$router.push({
+        path: "/user"
+      });
     },
     
   }

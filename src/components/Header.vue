@@ -73,6 +73,7 @@ export default {
       scroll:false,
       activeName:'home',
       isLogined:false,
+      isCertified:false,
       menu,
       userInfo:{
         username:'',
@@ -84,17 +85,23 @@ export default {
     // this.initActive();
     // console.log('----header----',this);
     // console.log(cookies.get("name"))
-    this.getUserInfo();
-      this.getPath();
-      var that = this;
-      window.onscroll = scroll.bind(this);
-      bus.$on('login',(value) => {
-        if (value) {
-          // console.log(value)
-          that.isLogined = true;
-        }
-      })
-
+    this.getLoginName();
+    this.getUserinfo();
+    this.getPath();
+    var that = this;
+    window.onscroll = scroll.bind(this);
+    bus.$on('login',(value) => {
+      if (value) {
+        // console.log(value)
+        that.isLogined = true;
+      }
+    })
+    bus.$on('certify',(value) => {
+      console.log('certify',value);
+      if (value) {
+        that.isCertified = true;
+      }
+    })
     if(cookies.get("name")){
       that.isLogined = true;
       that.userInfo.username = cookies.get('name');
@@ -109,7 +116,23 @@ export default {
     "$route":"getPath"  // 监听事件
   },
   methods:{
-    getUserInfo(){
+    getUserinfo(){
+      this.$ajax.post("/trade/tps/pblbi.do")
+      .then(res => {
+        console.log("----header-userinfo-----", res.data);
+        if (res.data && res.data.email != undefined) {
+          if (res.data.identityset == '1') {
+            this.isCertified = true;
+          }
+        } else {
+          console.log('没有获取到相应的用户信息');
+        }
+      })
+      .catch(err => {
+        console.log("获取用户认证信息出错", err);
+      });
+    },
+    getLoginName(){
       let username = cookies.get('name');
       if (username){
         if (username.match(/^.+(?=@)/g).length) {
@@ -180,6 +203,15 @@ export default {
           this.isLogined = false;
           return false
       }else {
+        if (!this.isCertified && name != 'home') {
+          this.$router.push({
+            name:'authentication',
+            query:{
+              name:'authentication'
+            }
+          })
+          return;
+        }
         this.$router.push({
           path:'/'+name
         });

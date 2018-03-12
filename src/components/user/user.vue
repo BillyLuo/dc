@@ -37,7 +37,13 @@ export default {
     }
   },
   mounted(){
-    
+    var route = this.$route;
+    var activeName = route.query.name;
+    if (activeName && activeName == 'authentication') {
+      this.$nextTick(()=> {
+        this.$refs['safesettings'].currentActiveName  = 'authentication';
+      })
+    }
   },
   methods:{
     changeValue(name){

@@ -152,7 +152,28 @@ export default {
       confirmInfo:false  //是否确定协议
     }
   },
+  mounted(){
+    this.getUserinfo();
+  },
   methods:{
+    getUserinfo(){
+      this.$Spin.show();
+      this.$ajax.post("/trade/tps/pblbi.do")
+      .then(res => {
+        this.$Spin.hide();
+        if (res.data && res.data.email != undefined) {
+          if (res.data.identityset == '1') {
+            this.level = 1;
+          }
+        } else {
+          console.log('没有获取到相应的用户信息');
+        }
+      })
+      .catch(err => {
+        this.$Spin.hide();
+        console.log("获取用户认证信息出错", err);
+      });
+    },
     levelChange(value) {
       console.log('-----level---change',value);
       if (value.level.toFixed) {
