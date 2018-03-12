@@ -20,9 +20,9 @@
             <div>
               <div class="login-out-title">个人中心</div>
               <div class="divide"></div>
-              <div class="all-asset">账户总资产：<span>{{userinfo.amount}} CNYT</span></div>
+              <div class="all-asset">账户总资产：<span>{{userInfo.amount}}  CNYT</span></div>
               <div class="divide"></div>
-              <div class="uid">UID: <span>{{userinfo.uid}}</span></div>
+              <div class="uid">UID: <span>{{userInfo.uid}}</span></div>
               <div class="divide"></div>
               <button class="login-out-btn" @click="loginOut">登出</button>
             </div>
@@ -78,26 +78,31 @@ export default {
       menu,
       userInfo:{
         username:'',
-        userLevel:1
+        userLevel:1,
+        uid:''
       }
     }
   },
   computed:{
     ...mapState({
       userinfo(state) {
-        console.log("user---info",state);
+        console.warn("#########################",state.userinfo);
+        var amount = state.userinfo.estimatedfund;
+        var uid = state.userinfo.uid;
         return {
-          amount:state.userinfo.estimatedfund,
-          uid:state.userinfo.uid
+          amount,
+          uid
         }
       }
     })
   },
+  updated(){
+    // this.getUserinfo();
+  },
   mounted (){
     // this.initActive();
-    console.log(this.$store.state);
     this.getLoginName();
-    this.getUserinfo();
+    // this.getUserinfo();
     this.getPath();
     var that = this;
     window.onscroll = scroll.bind(this);
@@ -119,7 +124,7 @@ export default {
       that.userInfo.username = cookies.get('name');
     }else{
       that.isLogined = false;
-      this.$router.push("login")
+      this.$router.push("/login")
     }
     
     // this.init();
@@ -129,6 +134,7 @@ export default {
   },
   methods:{
     getUserinfo(){
+      var that = this;
       this.$ajax.post("/trade/tps/pblbi.do")
       .then(res => {
         console.log("----header-userinfo-----", res.data);
@@ -136,12 +142,25 @@ export default {
           if (res.data.identityset == '1') {
             this.isCertified = true;
           }
+          that.userInfo.amount = res.data.estimatedfund ? res.data.estimatedfund : '0';
         } else {
           console.log('没有获取到相应的用户信息');
         }
       })
       .catch(err => {
         console.log("获取用户认证信息出错", err);
+      });
+      this.$ajax
+      .post("/trade/tps/pbpis.do")
+      .then(res => {
+        console.log("----user-----info----", res,res.data);
+        if (res.data && res.data.username != undefined) {
+          that.userInfo.uid = res.data.uid;
+        } else {
+        }
+      })
+      .catch(err => {
+        console.log("获取用户信息出错", err);
       });
     },
     getLoginName(){
@@ -215,7 +234,7 @@ export default {
           this.isLogined = false;
           return false
       }else {
-        if (!this.isCertified && name != 'home') {
+        if (!this.isCertified && name != 'home' &&name !='login' && name != 'register') {
           this.$router.push({
             name:'authentication',
             query:{

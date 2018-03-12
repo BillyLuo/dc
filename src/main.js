@@ -49,7 +49,7 @@ axios.interceptors.response.use(function (response) {
   // console.log(err,err.response.status)
   if(err.response.status == "406"){
     cookies.set("name", "",{expires: 0});
-    router.push("login");
+    router.push("/login");
     return Promise.reject(err)
   }
   return Promise.reject(err)

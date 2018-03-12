@@ -32,8 +32,6 @@ export default {
   },
   created(){
     // console.log('app created');
-  },
-  mounted(){
     this.$store.commit('getUserInfo');
   }
 }

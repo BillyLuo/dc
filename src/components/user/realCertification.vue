@@ -153,7 +153,7 @@ export default {
     }
   },
   mounted(){
-    this.getUserinfo();
+    // this.getUserinfo();
   },
   methods:{
     getUserinfo(){

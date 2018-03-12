@@ -40,9 +40,10 @@
               <h3>手机绑定</h3>
               <a href="javascript:;" v-if="userinfo.phone.bound" class="active">{{userinfo.phone.value.slice(0, 4) +
           "****" + userinfo.phone.value.slice(-4)}}</a>
-              <a href="javascript:;" v-else @click="openTelModal">绑定</a>
+              <a href="javascript:;" v-else>绑定</a>
              </div>
-             <a href="javascript:;" class="item-status" @click="openTelModal">修改</a>
+             <a href="javascript:;" v-if="userinfo.phone.bound" class="item-status" @click="openTelSetModal">修改</a>
+             <a href="javascript:;" class="item-status" v-else @click="openTelSetModal">绑定</a>
           </div>
         </div>
       </Col>
@@ -103,6 +104,27 @@
         <div class="errmsg">{{emailErrMsg}}</div>
         <Button :class="'btn-block'" slot="footer" type="primary" @click="email_ok">确定</Button>
     </Modal>
+    <Modal width="400"
+      title="绑定手机"
+      v-model="telSetModal"
+    >
+      <Form :label-width="100">
+        <FormItem label="手机号码：" prop="tel">
+          <Input placeholder="请输入手机号码" />
+        </FormItem>
+        <FormItem label="验证码：" prop="tel">
+          <Input placeholder="验证码" :class="'img-code-input'">
+            <img :src="telImgUrl" slot="append" :class="'imgUrl'" alt="">
+          </Input>
+        </FormItem>
+        <FormItem label="短信验证码：" prop="tel">
+          <Input placeholder="短信验证码" />
+        </FormItem>
+        <div slot="footer">
+          <Button type="primary" :class="'btn-block'">确定</Button>
+        </div>
+      </Form>
+    </Modal>
     <Modal
         width="400"
         title="修改手机"
@@ -133,8 +155,8 @@
               </Input>
               <div style="padding-top: 8px;text-align: right;line-height: 20px;"><a href="javascript:;" @click="refreshTelImgUrl">刷新验证码</a></div>
           </FormItem>
+          <Button :class="'btn-block'" slot="footer" type="primary" @click="tel_ok">确定</Button>
         </Form>
-        <Button :class="'btn-block'" slot="footer" type="primary" @click="tel_ok">确定</Button>
     </Modal>
     <Modal
         width="400"
@@ -206,6 +228,7 @@ export default {
       emailModal: false,
       emailErrMsg:'',
       telModal:false,
+      telSetModal:false,
       telLoading:true,
       telImgUrl:'/trade/tps/pbccs.do?'+Date.now(),
       loginPassModal: false,
@@ -336,6 +359,9 @@ export default {
       }else {
 
       }
+    },
+    openTelSetModal() {
+      this.telSetModal = true;
     },
     email_ok () {
       console.log('ok email',arguments);
