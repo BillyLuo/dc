@@ -111,21 +111,21 @@ export default {
             ];
 
             this.$ajax({
-                    method: 'post',
-                    url: '/trade/tps/pblds.do',
-                    data: {
-                        "currencycode":this.params.currency,
-                        "count":"100"
-                    }
-                })
-                .then(function (response) {
-                    console.log(response.data.latestDeal);
-                    if(response.data.latestDeal){
-                        that.datas=[];
-                        that.datas = response.data.latestDeal;
-                    }
-                   
-                })
+                method: 'post',
+                url: '/trade/tps/pblds.do',
+                data: {
+                    "currencycode":this.params.currency,
+                    "count":"100"
+                }
+            })
+            .then(function (response) {
+                console.log(response.data.latestDeal);
+                if(response.data.latestDeal){
+                    that.datas=[];
+                    that.datas = response.data.latestDeal;
+                }
+                
+            })
 
 
             // this.$ajax.get('/huobi/market/history/trade?size=100&symbol='+this.params.currency.toLocaleLowerCase()+''+this.params.bizhong.toLocaleLowerCase())
@@ -139,77 +139,77 @@ export default {
             // })
         },
         cahvas () {
-            let biddata,askdata;
-            this.$ajax.get('/huobi/market/depth?symbol=btcusdt&type=step3')
-            .then((response)=>{
-                console.log(response.data)
-                biddata = response.data.tick.bids;
-                askdata = response.data.tick.asks;
-                let myChart = echarts.init(document.getElementById('canvas'))
-                // myChart.showLoading();
-                // myChart.clear();
-            let option1 = {
-                    backgroundColor:'#181B2A',
-                    tooltip: {
-                        trigger: 'axis',
-                        formatter: function(val){
-                            return val[0].seriesId + "</br>价格"+val[0].data[0]+"</br>数量"+val[0].data[1]
-                        }
-                    },
-                    grid:{
-                        left:'5%',
-                        right:0,
-                        bottom:30,
-                        top:20
-                    },
-                    xAxis: {
-                        // show: false,
-                        name:'',
-                        type: 'category',
-                        boundaryGap: false,
-                        // data: ssw,
-                        // boundaryGap: true
-                    },
-                    yAxis:{ 
-                        // show: false,
-                        splitLine:{show: false},//去除网格线
-                        type:'value',
-                    },
+            // let biddata,askdata;
+            // this.$ajax.get('/huobi/market/depth?symbol=btcusdt&type=step3')
+            // .then((response)=>{
+            //     console.log(response.data)
+            //     biddata = response.data.tick.bids;
+            //     askdata = response.data.tick.asks;
+            //     let myChart = echarts.init(document.getElementById('canvas'))
+            //     // myChart.showLoading();
+            //     // myChart.clear();
+            // let option1 = {
+            //         backgroundColor:'#181B2A',
+            //         tooltip: {
+            //             trigger: 'axis',
+            //             formatter: function(val){
+            //                 return val[0].seriesId + "</br>价格"+val[0].data[0]+"</br>数量"+val[0].data[1]
+            //             }
+            //         },
+            //         grid:{
+            //             left:'5%',
+            //             right:0,
+            //             bottom:30,
+            //             top:20
+            //         },
+            //         xAxis: {
+            //             // show: false,
+            //             name:'',
+            //             type: 'category',
+            //             boundaryGap: false,
+            //             // data: ssw,
+            //             // boundaryGap: true
+            //         },
+            //         yAxis:{ 
+            //             // show: false,
+            //             splitLine:{show: false},//去除网格线
+            //             type:'value',
+            //         },
                     
-                    series: [
-                        {
-                            id:"买入",
-                            type: 'line',
-                            symbol: "",
-                            symbolSize: 0,
-                            name: '数量',
-                            data: biddata,
-                            lineStyle: {
-                                color: 'red'
-                            },
-                            areaStyle: {
-                                color:'red'
-                            }
-                        }, 
-                        {
-                            id: '卖出',
-                            type: 'line',
-                            name: '数量',
-                            symbol: '',
-                            symbolSize: 0,
-                            data: askdata,
-                            lineStyle: {
-                                color: 'green'
-                            },
-                            areaStyle: {
-                                color: 'green'
-                            }
-                        }
-                    ]
-                };
-                myChart.hideLoading();
-                myChart.setOption(option1)
-            })
+            //         series: [
+            //             {
+            //                 id:"买入",
+            //                 type: 'line',
+            //                 symbol: "",
+            //                 symbolSize: 0,
+            //                 name: '数量',
+            //                 data: biddata,
+            //                 lineStyle: {
+            //                     color: 'red'
+            //                 },
+            //                 areaStyle: {
+            //                     color:'red'
+            //                 }
+            //             }, 
+            //             {
+            //                 id: '卖出',
+            //                 type: 'line',
+            //                 name: '数量',
+            //                 symbol: '',
+            //                 symbolSize: 0,
+            //                 data: askdata,
+            //                 lineStyle: {
+            //                     color: 'green'
+            //                 },
+            //                 areaStyle: {
+            //                     color: 'green'
+            //                 }
+            //             }
+            //         ]
+            //     };
+            //     myChart.hideLoading();
+            //     myChart.setOption(option1)
+            // })
             
         }
     }

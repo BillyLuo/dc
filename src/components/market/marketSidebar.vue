@@ -41,7 +41,15 @@ export default {
                 {
                     title: '涨幅',
                     key: 'range',
-                    sortable: true
+                    sortable: true,
+                    render: (h, params) => {
+                        return h('div',
+                            [
+                                h('span',{class:params.row.range > 0 ?'price-text-red':'price-text'}, params.row.range+'%'),
+                                h('span', {class:params.row.range > 0 ?'price-img-up':"price-img-down"})
+                            ]
+                        );
+                    }
                 }
             ],
             bizhong: 'USDT',
@@ -83,56 +91,8 @@ export default {
                 url: "/trade/tps/pbfcd.do",    
             }).then((data)=>{
                 console.log(data);
-                // that.data1 = data.data.currencyDetail;
-            
-                data.data.currencyDetail.map((item) => {
-                    console.log(item.range.split("%")[0]> 0)
-                    if(item.range.split("%")[0] > 0){
-                        item['cellClassName'] ={
-                            range: "zhang-red"
-                        }
-                    }else{
-                        item['cellClassName'] ={
-                            range: "jiang-green"
-                        }
-                    }
-                })
-                console.log(data.data.currencyDetail)
                 that.data1 = data.data.currencyDetail;
             })
-            // this.$ajax.get('/huobi/v1/common/symbols')
-            // .then(function(respones){
-            //     console.log('----success-----',respones)
-            //     let data = respones.data.data;
-            //     data.map((item) => {
-            //         if(item['symbol-partition'] == "main" && item['quote-currency']=='usdt'){
-            //             let ss = item['base-currency'];
-            //             let base = item['base-currency'];
-            //             that.data1.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'USDT',bi: base.toLocaleUpperCase()})
-            //         }
-            //         // if(item['symbol-partition'] == "main" && item['quote-currency']=='btc'){
-            //         //     let ss = item['base-currency'];
-            //         //     let base = item['base-currency'];
-            //         //     that.data2.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'BTC',bi: base.toLocaleUpperCase()})
-            //         // }
-            //         // if(item['symbol-partition'] == "main" && item['quote-currency']=='eth'){
-            //         //     let ss = item['base-currency'];
-            //         //     let base = item['base-currency'];
-            //         //     that.data3.push({bizhong: ss.toLocaleUpperCase(),key: ss.toLocaleUpperCase()+'ETH',bi: base.toLocaleUpperCase()})
-            //         // }
-            //     })
-            //     console.log(that.data1.sort(compare('bizhong')))
-            //     function compare(property){
-            //         return function(a,b){
-            //             var value1 = a[property];
-            //             var value2 = b[property];
-            //             return value1 - value2;
-            //         }
-            //     }
-
-            // }).catch((err) => {
-            //     console.log('---err---',err);
-            // })
         }
     }
 }
@@ -227,6 +187,65 @@ export default {
     .ivu-table .jiang-green{
         color:green;
     }
+    .price-text{
+        font-size:14px;
+        display:inline-block;
+        height:30px;
+        line-height:30px;
+        color :green;
+        position: relative;
+        width:50px;
+    }
+    .price-text-red{
+        font-size:14px;
+        display:inline-block;
+        height:30px;
+        line-height:30px;
+        color:#f00;
+        width:50px;
+        // overflow: hidden;
+        position: relative;
+    }
+    .price-text::after{
+        content: "";
+        display: inline-block;
+        width:10px;
+        height:15px;
+        position: absolute;
+        top:8px;
+        right:-10px;
+        background: url("/static/img/icon-arrow.png");
+        background-position: 0px 15px;
+
+    }
+    .price-text-red::after{
+        content: "";
+        display: inline-block;
+        width:10px;
+        height:15px;
+        position: absolute;
+        top:8px;
+        right:-10px;
+        background: url("/static/img/icon-arrow.png");
+        background-position: 0px 0px;
+
+    }
+    // .price-img-up{
+    //     display: inline-block;
+    //     width: 15px;
+    //     height: 15px;
+    //     margin-left: 10px;
+    //     background: url("/static/img/icon-arrow.png");
+    //     background-position: 0px 0px;
+    // }
+    // .price-img-down{
+    //     display: inline-block;
+    //     width: 15px;
+    //     height: 15px;
+    //     margin-left: 10px;
+    //     background: url("/static/img/icon-arrow.png");
+    //     background-position:0  15px;
+    // }
 }
 
 </style>

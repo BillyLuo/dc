@@ -15,7 +15,7 @@
                 </MenuItem>
             </Menu>
         </div>
-        <div class="context-title" v-if="types =='buy' && s < 5">
+        <div class="context-title" v-if="types =='buy' && numbers < 5">
             <Row>
                 <Col span="14">
                     <div class="title-text">
@@ -113,10 +113,11 @@
         <div class="trade-contract" v-else-if="types === 'weituo'">
             <div class="trade-time">
                 <span>起始时间：</span>
-                <DatePicker :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
-                <span style="margin: 0 20px;"> ~ </span>
-                <DatePicker :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
-                <Button>刷新统计</Button>
+                <DatePicker :value="begintime" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择起始时间" @on-change="timeschange" style="width: 200px"></DatePicker>
+                <!-- <DatePicker :value="begintime" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px" @on-change="timeschange"></DatePicker>
+                <span style="margin: 0 10px;"> ~ </span>
+                <DatePicker :value="endtime" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;" @on-change="timeschange"></DatePicker> -->
+                <Button @click="weituojilu">刷新统计</Button>
             </div>
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
@@ -126,10 +127,11 @@
         <div class="trade-contract" v-else-if="types === 'jiaoyijilu'">
             <div class="trade-time">
                 <span>起始时间：</span>
-                <DatePicker :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
-                <span style="margin: 0 20px;"> ~ </span>
-                <DatePicker :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
-                <Button>刷新统计</Button>
+                <DatePicker :value="begintime1" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择起始时间" @on-change="timeschange1" style="width: 200px"></DatePicker>
+                <!-- <DatePicker v-model="begintime1" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
+                <span style="margin: 0 10px;"> ~ </span>
+                <DatePicker v-modal="endtime1" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker> -->
+                <Button @click="weituojilu1">刷新统计</Button>
             </div>
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
@@ -167,8 +169,10 @@
                 stepJson:["01.安全设置","02.充值","03.下单交易"],
                 // menu,
                 menu1,
-                s: 3,
                 value: 1000,
+                numbers:0,
+                begintime: '',
+                begintime1: '',
                 types:"buy",
                 btcname:"BTC",
                 buymoney:0,
@@ -299,15 +303,50 @@
         },
         created () {
             this.weituolist();
+            console.log(this.$store.state)
+            let userinfo = this.$store.state.userinfo;
+            if(userinfo.emailset ){
+                this.numbers++
+            }
+            if(userinfo.mobileset){
+                this.numbers++
+            }
+            if(userinfo.tradepasswordset){
+                this.numbers++
+            }
+            if(userinfo.identityset){
+                this.numbers++
+            }
+            if(userinfo.loginpasswordset){
+                this.numbers++
+            }
+            
+
+            console.log(this.numbers)
+            
         },
         mounted () {
-            // this.$ajax.get('/huobi/v1/common/currencys')
-            // .then(function(response){
-            //     console.log(response.data.data)
-            // })
+            
             this.query();
         },
         methods: {
+            timeschange(val){
+                this.begintime = val;
+            },
+            timeschange1(val){
+                this.begintime1 = val;
+            },
+            weituojilu () {
+                if(this.begintime.length){
+                    this.query_entrust('','',this.begintime[0],this.begintime[1]);
+                }
+               
+            },
+            weituojilu1 () {
+                if(this.begintime1.length){
+                    this.query_entrust('','',this.begintime1[0],this.begintime1[1]);
+                }
+            },
             buy_price(){
                 var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
                 var b = p.test(this.buyprice);//true
@@ -391,48 +430,62 @@
                         title:"总买入数("+this.btcname+")",
                         key: "totalbuynum",
                         render (h,row){
-                            return Number(row.row.totalbuynum).toFixed(4);
+                            if(row.row.totalbuynum){
+                                return Number(row.row.totalbuynum).toFixed(4);
+                            }else{
+                                let numb=0;
+                                return numb.toFixed(4)
+                            }
+                            
                         }
                     },
                     {
                         title:"平均买入价(CNYT)",
                         key: "avebuyprice",
                         render (h,row){
-                            return Number(row.row.avebuyprice).toFixed(4);
+                            if(row.row.avebuyprice){
+                                return Number(row.row.avebuyprice).toFixed(4);
+                            }else{
+                                let numb=0;
+                                return numb.toFixed(4)
+                            }
+                            
                         }
                     },
                     {
                         title:"总卖出数("+this.btcname+")",
                         key: "totalsellnum",
                         render (h,row){
-                            return Number(row.row.totalsellnum).toFixed(4);
+                            if(row.row.totalsellnum){
+                                return Number(row.row.totalsellnum).toFixed(4);
+                            }else{
+                                let numb=0;
+                                return numb.toFixed(4)
+                            }
+                            
                         }
                     },
                     {
                         title:"平均卖出价(CNYT)",
                         key: "avesellprice",
                         render (h,row){
-                            return Number(row.row.avesellprice).toFixed(4);
+                            if(row.row.avesellprice){
+                                return Number(row.row.avesellprice).toFixed(4);
+                            }else{
+                                let numb=0;
+                                return numb.toFixed(4)
+                            }
+                            
                         }
                     }
                 ]
             },
             // 查询交易记录
             query () {
-                this.query_entrust();
+                // this.query_entrust();
                 let that = this;
                 this.price_datas = [];
                 this.record_data = [];
-                console.log("=================")
-                // 币种
-                // this.$ajax.get("/trade/tps/pbfct.do")
-                // .then((response)=>{
-                //     console.log(response)
-                // })
-                // .then((data)=>{
-                //     console.log(data)
-                // })
-
                 // 交易记录
                 this.$ajax({
                     method: 'post',
@@ -443,6 +496,7 @@
                     }
                 })
                 .then(function (response) {
+                    console.log(response)
                     console.log(response.data.latestDeal);
                     if(response.data.latestDeal){
                         let  latestDeal=response.data.latestDeal;
@@ -467,27 +521,26 @@
                     }
                    
                 })
-
-            
-
             },
             ss(value){
                 console.log(value)
             },
             //查询委托
-            query_entrust () {
+            query_entrust (accountid,currencycode,starttime,endtime) {
                 let that = this;
+
                 this.$ajax({
                     method: 'post',
                     url: '/trade/tps/pbets.do',
                     data: {
-                        accountid:"",//账户ID
-                        currencycode:"",//币种
-                        starttime:"",//开始时间
-                        endtime:"",//结束时间
+                        accountid:accountid,//账户ID
+                        currencycode:currencycode,//币种
+                        starttime:starttime,//开始时间
+                        endtime:endtime,//结束时间
                     }
                 })
                 .then((response) => {
+                    console.log("weituo======",response)
                     if(response.data){
                         that.weituo_data = [{
                             avebuyprice : response.data.avebuyprice,
@@ -518,33 +571,35 @@
                     this.query_entrust()
                 }
                 this.types = name; 
+                this.begintime = "";
+                this.begintime1 = '';
                 
             },
-            info (name) {
-                this.btcname=name;
-                let key = name;
-                this.weituolist();
-                switch (key) {
-                    case "BTC":
-                            this.btc("00")
-                        break;
-                    case "ETH":
-                            this.eth("11")
-                        break;
+            // info (name) {
+            //     this.btcname=name;
+            //     let key = name;
+            //     this.weituolist();
+            //     switch (key) {
+            //         case "BTC":
+            //                 this.btc("00")
+            //             break;
+            //         case "ETH":
+            //                 this.eth("11")
+            //             break;
                 
-                    default:
-                        break;
-                };
+            //         default:
+            //             break;
+            //     };
                 
-            },
-            btc (ss) {
-                console.log(ss)
-                this.query();
-            },
-            eth (ss) {
-                console.log(ss)
-                this.query();
-            },
+            // },
+            // btc (ss) {
+            //     console.log(ss)
+            //     this.query();
+            // },
+            // eth (ss) {
+            //     console.log(ss)
+            //     this.query();
+            // },
             dblclick (row,index) {
                 // console.log("==========dbclick===========")
                 // console.log(row,index)

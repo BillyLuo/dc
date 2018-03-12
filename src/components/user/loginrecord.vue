@@ -25,41 +25,7 @@ import {Tabs,TabPane} from "iview"
         },
         data () {
             return {
-                data1:[
-                    {
-                        time:'sdfa',
-                        ip:'123.1.21.1'
-                    },
-                     {
-                        time:'sdfa',
-                        ip:'123.1.21.1'
-                    },
-                     {
-                        time:'sdfa',
-                        ip:'123.1.21.1'
-                    },
-                     {
-                        time:'sdfa',
-                        ip:'123.1.21.1'
-                    },
-                     {
-                        time:'sdfa',
-                        ip:'123.1.21.1'
-                    },
-                     {
-                        time:'sdfa',
-                        ip:'123.1.21.1'
-                    },
-                     {
-                        time:'sdfa',
-                        ip:'123.1.21.1'
-                    },
-                     {
-                        time:'sdfa',
-                        ip:'123.1.21.1'
-                    },
-
-                ],
+                data1:[],
                 data2:[],
                 data3:[
                     {
@@ -96,11 +62,11 @@ import {Tabs,TabPane} from "iview"
                 columns1: [
                     {
                         title: "登陆时间",
-                        key: "time",
+                        key: "logintime",
                     },
                     {
                         title: '登录IP',
-                        key: 'ip'
+                        key: 'loginip'
                     }
                 
                 ],
@@ -108,34 +74,59 @@ import {Tabs,TabPane} from "iview"
                    
                     {
                         title: '登陆时间',
-                        key: 'type'
+                        key: 'logintime'
                     },
                     {
                         title: '最近安全设置',
-                        key: 'count'
+                        key: 'latestsetting'
                     },
                     {
                         title: '登录IP',
-                        key: 'ip'
+                        key: 'loginip'
                     }
                 
                 ],
-                columns3: [
-                    {
-                        title: "排名",
-                        key: "paiming",
-                    },
-                    {
-                        title: '用户名',
-                        key: 'name'
-                    },
-                    {
-                        title: '收益金额',
-                        key: 'money'
-                    }
+                // columns3: [
+                //     {
+                //         title: "排名",
+                //         key: "paiming",
+                //     },
+                //     {
+                //         title: '用户名',
+                //         key: 'name'
+                //     },
+                //     {
+                //         title: '收益金额',
+                //         key: 'money'
+                //     }
                 
-                ]
+                // ]
             }
+        },
+        mounted(){
+            let that =this;
+            this.$ajax({
+                method:"get",
+                url:"/tradex/tps/pblrl.do"
+            }).then((data)=>{
+                console.log(data)
+                if(data.data){
+                    that.data1 = data.data.LoginRecord;
+                }
+            })
+
+            this.$ajax({
+                method:"get",
+                url:"/tradex/tps/pbssr.do"
+            }).then((data)=>{
+                console.log(data)
+                if(data.data){
+                    that.data2 = data.data.securitySetRecord;
+                }
+            })
+        },
+        methods:{
+
         }
     }
 </script>

@@ -7,7 +7,7 @@
           <div class="line"></div>
         </div>
         <div class="wrapper-table">
-          <Table  :columns="columns" :data="data"></Table>
+          <Table  :columns="columns" :data="dataArry"></Table>
         </div>
       </div>
     </div>
@@ -27,11 +27,11 @@
         })
       }
       return {
-        dataArry:dataArry,
+        dataArry:[],
         columns: [
           {
             title: '币种',
-            key: 'name',
+            key: 'currencyname',
             align: 'center',
             className:'demo-table-info-column',
             render: (h, params) => {
@@ -48,32 +48,35 @@
                       style:'float:left;margin-left:25px'
                     }
                   }),
-                  h('span',{class:'img-right-text'}, params.row.name)
+                  h('span',{class:'img-right-text'}, params.row.currencyname)
                 ]
               );
             }
           },
           {
             title: '最新价格',
-            key: 'price',
+            key: 'curprice',
             align: 'center',
             render: (h, params) => {
               return h('div',
                 [
-                  h('span',{class:'price-text'}, params.row.price),
-                  h('span', {class:'price-img-up'})
+                  h('span',{class:params.row.range > 0 ?'price-text-red':'price-text'}, Number(params.row.curprice).toFixed(4)),
+                  h('span', {class:params.row.range > 0 ?'price-img-up':"price-img-down"})
                 ]);
             }
           },
           {
             title: '24H涨跌',
-            key: 'change',
+            key: 'range',
             align: 'center',
             className:'change-table-info-column',
+            render: (h,params) =>{
+              return params.row.range + '%'
+            }
           },
           {
             title: '价格趋势（3日）',
-            key: 'trend',
+            key: 'dayclose',
             align: 'center',
             render: (h, params) => {
               return h('div',{attrs:{
@@ -108,44 +111,57 @@
             }
           }
         ],
-        data: dataArry
+        // data: dataArry
       }
     },
     methods: {
       goTransaction(index){   //去交易
-        console.log(index,'==============')
+        // console.log(index,'==============')
+        this.$router.push("trading")
       }
     },
     created(){
-      
+      let that=this;
+      this.dataArry = [];
+       this.$ajax({
+        method: "get",
+        url: "/trade/tps/pbfcd.do"
+      }).then((data)=>{
+        console.log("shouye ====== ")
+        console.log(data.data.currencyDetail)
+        if(data.data.currencyDetail){
+          that.dataArry = data.data.currencyDetail;
+          
+        }
+      })
     },
     mounted(){
-      // this.$ajax({
-      //   method: "get",
-      //   url: "/trade/tps/pbfcd.do"
-      // }).then((data)=>{
-      //   console.log(data)
-      // })
-      for(let i=0 ; i< this.dataArry.length;i++){
-        let myChart = echarts.init(document.getElementById('trend-table'+i));
-        const  option = {
-          xAxis: {
-            show : false,
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-          },
-          yAxis: {
-            show : false,
-            type: 'value',
-          },
-          series: [{
-            min:this.dataArry[i].trend[0],
-            data: this.dataArry[i].trend,
-            type: 'line'
-          }]
-        };
-        myChart.setOption(option);
-      }
+      
+      let that=this;
+     
+      setTimeout(function(){
+        for(let i=0 ; i< that.dataArry.length;i++){
+            let myChart = echarts.init(document.getElementById('trend-table'+i));
+            const  option = {
+              xAxis: {
+                show : false,
+                type: 'category',
+                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+              },
+              yAxis: {
+                show : false,
+                type: 'value',
+              },
+              series: [{
+                data: that.dataArry[i].dayclose,
+                type: 'line',
+                symbol: '',
+                symbolSize: 0
+              }]
+            };
+            myChart.setOption(option);
+          }
+      },1000)
     }
   }
 </script>
@@ -206,6 +222,10 @@
               display:inline-block;
               height:30px;
               line-height:30px;
+              color :green;
+            }
+            .price-text-red{
+              color:#f00;
             }
             .price-img-up{
               display: inline-block;
@@ -214,6 +234,14 @@
               margin-left: 10px;
               background: url("/static/img/icon-arrow.png");
               background-position: 0px 0px;
+            }
+            .price-img-down{
+              display: inline-block;
+              width: 15px;
+              height: 15px;
+              margin-left: 10px;
+              background: url("/static/img/icon-arrow.png");
+              background-position:0  15px;
             }
           }
           .ivu-table-row:hover{
