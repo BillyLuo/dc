@@ -240,6 +240,19 @@ export default {
     loginOut () {
       this.isLogined = false;
       cookies.set("name", "",{expires: 0}) 
+      console.log(this.$store.state.userinfo)
+      let that = this;
+      this.$ajax({
+        method:"post",
+        url: "/trade/tps/pblou.do",
+        data:{
+          username: that.$store.state.userinfo.username
+        }
+      }).then((data) =>{
+        console.log(data)
+      })
+
+
       this.$router.push({
         path:'/login',
         params:{

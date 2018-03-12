@@ -27,38 +27,6 @@ import {Tabs,TabPane} from "iview"
             return {
                 data1:[],
                 data2:[],
-                data3:[
-                    {
-                        paiming:1,
-                        name: '1234124312',
-                        money: '134'
-                    },
-                     {
-                        paiming:2,
-                        name: '1234124312',
-                        money: '134'
-                    },
-                     {
-                        paiming:3,
-                        name: '1234124312',
-                        money: '134'
-                    },
-                     {
-                        paiming:4,
-                        name: '1234124312',
-                        money: '134'
-                    },
-                     {
-                        paiming:5,
-                        name: '1234124312',
-                        money: '134'
-                    },
-                     {
-                        paiming:6,
-                        name: '1234124312',
-                        money: '134'
-                    }
-                ],
                 columns1: [
                     {
                         title: "登陆时间",
@@ -85,22 +53,7 @@ import {Tabs,TabPane} from "iview"
                         key: 'loginip'
                     }
                 
-                ],
-                // columns3: [
-                //     {
-                //         title: "排名",
-                //         key: "paiming",
-                //     },
-                //     {
-                //         title: '用户名',
-                //         key: 'name'
-                //     },
-                //     {
-                //         title: '收益金额',
-                //         key: 'money'
-                //     }
-                
-                // ]
+                ]
             }
         },
         mounted(){

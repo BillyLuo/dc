@@ -328,6 +328,12 @@
         mounted () {
             
             this.query();
+            this.$ajax({
+                method: "get",
+                url: '/trade/tps/pbqnl.do'
+            }).then((data)=>{
+                console.log(data)
+            })
         },
         methods: {
             timeschange(val){
@@ -492,7 +498,8 @@
                     url: '/trade/tps/pblds.do',
                     data: {
                         "currencycode":"eth",
-                        "count":"5"
+                        "count":"5",
+                        latetype: 1
                     }
                 })
                 .then(function (response) {

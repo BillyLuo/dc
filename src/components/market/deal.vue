@@ -179,7 +179,8 @@ export default {
                 url: '/trade/tps/pblds.do',
                 data: {
                     "currencycode":obj.currency,
-                    "count":"5"
+                    "count":"5",
+                    latetype: 1
                 }
             })
             .then(function (response) {
