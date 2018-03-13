@@ -97,7 +97,9 @@ export default {
     })
   },
   updated(){
-    // this.getUserinfo();
+    if (this.isLogined) {
+      this.getUserinfo();
+    }
   },
   mounted (){
     // this.initActive();

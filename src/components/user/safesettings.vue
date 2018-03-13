@@ -42,7 +42,7 @@
           "****" + userinfo.phone.value.slice(-4)}}</a>
               <a href="javascript:;" v-else>绑定</a>
              </div>
-             <a href="javascript:;" v-if="userinfo.phone.bound" class="item-status" @click="openTelSetModal">修改</a>
+             <a href="javascript:;" v-if="userinfo.phone.bound" class="item-status" @click="openTelModal">修改</a>
              <a href="javascript:;" class="item-status" v-else @click="openTelSetModal">绑定</a>
           </div>
         </div>
@@ -108,22 +108,29 @@
       title="绑定手机"
       v-model="telSetModal"
     >
-      <Form :label-width="100">
+      <Form :label-width="100"
+      :rules="telSetRules"
+      ref="telSet"
+      :model="telSetValidate"
+      >
         <FormItem label="手机号码：" prop="tel">
-          <Input placeholder="请输入手机号码" />
+          <Input v-model="telSetValidate.tel" placeholder="请输入手机号码" />
         </FormItem>
-        <FormItem label="验证码：" prop="tel">
-          <Input placeholder="验证码" :class="'img-code-input'">
-            <img :src="telImgUrl" slot="append" :class="'imgUrl'" alt="">
+        <FormItem label="验证码：" prop="imgCode">
+          <Input v-model="telSetValidate.imgCode" placeholder="验证码" :class="'img-code-input'">
+            <img :src="telImgUrl" slot="append" :class="'imgUrl'" alt="" />
+          </Input>
+          <div style="padding-top: 8px;text-align: right;line-height: 20px;"><a href="javascript:;" @click="refreshTelImgUrl">刷新验证码</a></div>
+        </FormItem>
+        <FormItem label="短信验证码：" prop="code">
+          <Input v-model="telSetValidate.code" placeholder="短信验证码">
+            <a style="color: #333;" href="javascript:;" slot="append">发送验证码</a>
           </Input>
         </FormItem>
-        <FormItem label="短信验证码：" prop="tel">
-          <Input placeholder="短信验证码" />
-        </FormItem>
-        <div slot="footer">
-          <Button type="primary" :class="'btn-block'">确定</Button>
-        </div>
       </Form>
+      <div slot="footer">
+        <Button @click="confirmTelSet" type="primary" :class="'btn-block'">确定</Button>
+      </div>
     </Modal>
     <Modal
         width="400"
@@ -155,8 +162,10 @@
               </Input>
               <div style="padding-top: 8px;text-align: right;line-height: 20px;"><a href="javascript:;" @click="refreshTelImgUrl">刷新验证码</a></div>
           </FormItem>
-          <Button :class="'btn-block'" slot="footer" type="primary" @click="tel_ok">确定</Button>
         </Form>
+        <div slot="footer">
+          <Button :class="'btn-block'" slot="footer" type="primary" @click="tel_ok">确定</Button>
+        </div>
     </Modal>
     <Modal
         width="400"
@@ -245,6 +254,11 @@ export default {
         new_code:'',
         imgCode:''
       },
+      telSetValidate:{
+        tel:'',
+        imgCode:'',
+        code:''
+      },
       modifyTradeValidate:{
         code:'123456',
         newpwd:'Aa123123',
@@ -252,8 +266,8 @@ export default {
       },
       modifyTelRules:{
         tel:[
-          {required:true},
-          {type:'string'}
+          {required:true,message:'请输入手机号码'},
+          {type:'string',min:11,max:11,message:'请输入合格的手机号码',trigger:'blur'}
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
@@ -267,6 +281,20 @@ export default {
         ],
         imgCode:[
           {required:true,message:'请输入验证码',trigger:'blur'}
+        ]
+      },
+      telSetRules:{
+        tel:[
+          {required:true,message:'请输入手机号码',trigger:'blur'},
+          {type:'string',min:11,max:11,message:'请输入正确的手机号码',trigger:'blur'}
+        ],
+        imgCode:[
+          {required:true,message:'请输入验证码',trigger:'blur'},
+          {type:'string',min:4,max:4,message:'请输入6位验证码',trigger:'blur'}
+        ],
+        code:[
+          {required:true,message:'请输入短信验证码',trigger:'blur'},
+          {type:'string',min:6,max:6,message:'请输入4位短信验证码',trigger:'blur'}
         ]
       },
       modifyLoginValidate:{
@@ -417,6 +445,26 @@ export default {
         console.log('valid or not',valid);
       })
       this.refreshTelImgUrl();
+    },
+    confirmTelSet(){
+      let that = this;
+      var { tel, imgCode , code } = this.telSetValidate;
+      this.$refs.telSet.validate((valid) => {
+        console.log('valid or not',valid);
+        if (valid) {
+          that.$ajax.post('/trade/tps/pbvcs.do',{
+            type:'mobile',
+            mobile:tel,
+            region:1,
+            mobilecode:code,
+            code:imgCode
+          }).then((res) => {
+            console.log(res);
+          }).catch((err) => {
+            console.log('tel--set--err',err);
+          })
+        }
+      })
     },
     email_cancel (){
       console.log('cancel email',arguments);
