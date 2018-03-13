@@ -1,0 +1,118 @@
+@function get-vw($target) {
+  $vw-context: (1366*.01) * 1px;
+  @return ($target/$vw-context) * 1vw;
+}
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.fadeInDown {
+-webkit-animation-name: fadeInDown;
+animation-name: fadeInDown;
+}
+@-webkit-keyframes fadeInDown {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+    }
+@keyframes fadeInDown {
+from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+
+to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+}
+}
+@-webkit-keyframes fadeOutUp {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+  }
+  
+  @keyframes fadeOutUp {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+  }
+  
+  .fadeOutUp {
+    -webkit-animation-name: fadeOutUp;
+    animation-name: fadeOutUp;
+  }
+
+
+.message-wrapper-error {
+  min-width: get-vw(270px);
+  height: get-vw(54px);
+  line-height: get-vw(54px);
+  border:1px solid #fc1d40;
+  background: #fcdde2;
+  color:#fc1d40;
+  font-size: get-vw(12px);
+  box-shadow: 0px 1px 20px #cbcbcb;
+  position: fixed;
+  top: get-vw(140px);
+  left:45%;
+  z-index: 1000;
+  i{
+      font-size: get-vw(24px);
+      color:#fc1d40;
+      vertical-align: middle;
+      margin-right: get-vw(10px);
+      margin-left: get-vw(10px);
+  }
+  span {
+      display: inline-block;
+  }
+}
+.message-wrapper-success {
+  min-width: get-vw(270px);
+  height: get-vw(54px);
+  line-height: get-vw(54px);
+  border:1px solid #94dbaa;
+  background: #d5f0de;
+  color:#3e9b57;
+  font-size: get-vw(12px);
+  box-shadow: 0px 1px 20px #cbcbcb;
+  position: fixed;
+  top: get-vw(140px);
+  left:45%;
+  z-index: 100;
+  i{
+      font-size: get-vw(24px);
+      color:#3e9b57;
+      vertical-align: middle;
+      margin-right: get-vw(10px);
+      margin-left: get-vw(10px);
+  }
+  span {
+      display: inline-block;
+  }
+}

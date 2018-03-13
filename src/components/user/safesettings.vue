@@ -258,6 +258,7 @@
 <script>
 import { mapState } from "vuex";
 import { Form, FormItem } from 'iview';
+import { Message } from '../../utils/message';
 var telReg = /^1[34578]\d{9}$/;
 export default {
   data () {
@@ -408,6 +409,9 @@ export default {
       userinfo(state) {
         var info = state.userinfo;
         console.log('state-----!!!!!!',info);
+        if (!info.uid) {
+          Message.warn('网络似乎开小差了，请稍后重试。');
+        }
         var email = {bound:false,value:''},
         nameAuth = {bound:false,value:''},
         phone = {bound:false,value:''},
