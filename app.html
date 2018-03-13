@@ -21,6 +21,7 @@
         <div id="chart">
             </div>
 <script>
+
     "use strict";
 (function () {
     if (window.TradingView && window.TradingView.host && !window.TradingView.reoloadTvjs) {
@@ -1425,7 +1426,7 @@ var height;
 if(window.screen.availHeight > window.screen.availWidth){
     height = 400;
 }else{
-    height = window.screen.availHeight - 40;
+    height = window.innerHeight;
 }
 window.addEventListener("orientationchange", function() {
     alert(window.orientation);

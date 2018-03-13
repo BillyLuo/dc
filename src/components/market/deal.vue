@@ -126,7 +126,7 @@ export default {
                     title: ' ',
                     key: 'id',
                     render: (h, params) => {
-                        if(params.row.tradetype == "1"){
+                        if(params.row.operate == "1"){
                             return h('span',{
                                 style: {
                                         color: 'green',
@@ -138,7 +138,7 @@ export default {
 
                            
                         }
-                        if(params.row.tradetype == "2"){
+                        if(params.row.operate == "2"){
                             return h('span',{
                                 style: {
                                         color: 'red',
@@ -154,15 +154,15 @@ export default {
                 },
                 {
                     title: '价格',
-                    key: 'tradeprice'
+                    key: 'price'
                 },
                 {
                     title: '数量',
-                    key: 'tradecount'
+                    key: 'count'
                 },
                 {
                     title: '累计',
-                    key: 'sum'
+                    key: 'totalcount'
                 }
             ],
             data1:[
@@ -173,6 +173,7 @@ export default {
     mounted () {
         console.log("@@@@@@@@@@@@@@@@@@")
         console.log(this.params.currency)
+        this.paramsinfo();
     },
     watch:{
         params: "paramsinfo"
@@ -293,12 +294,12 @@ export default {
         },
         dblclick (row,index) {
             if(index<5){
-                this.buycount = row.tradecount;
-                this.buyprice = row.tradeprice;
+                this.buycount = row.count;
+                this.buyprice = row.price;
                 this.buymoney = (this.buycount*this.buyprice).toFixed(6);
             }else{
-                this.sellcount = row.tradecount;
-                this.sellprice = row.tradeprice;
+                this.sellcount = row.count;
+                this.sellprice = row.price;
                 this.sellmoney = (this.sellcount*this.sellprice).toFixed(6);
             }
         },
@@ -307,32 +308,28 @@ export default {
             let that =this;
             this.data1 = [];
             this.$ajax({
-                method: 'post',
-                url: '/trade/tps/pblds.do',
-                data: {
-                    "currencycode":obj.currency,
-                    "count":"5",
-                    latetype: 1
-                }
-            })
-            .then(function (response) {
-                if(response.data.latestDeal){
-                    let  latestDeal=response.data.latestDeal;
-                    function compare(property){
-                        return function(obj1,obj2){
-                            var value1 = obj1[property];
-                            var value2 = obj2[property];
-                            return value1 - value2;     // 升序
-                        }
+                    method:"post",
+                    url:"/trade/tps/pbles.do",
+                    data: {
+                        count : 5,//查询条数
+                        coin : obj ? obj.currency :'ETH',//币种
+                        tradecoin: 'USDT'//交易币种
                     }
-                    var sortObj = latestDeal.sort(compare("tradetype"));
-                    console.log(sortObj)
-
-                    // 最新成交价格
-                    that.data1 = sortObj;
-                }
-                
-            })
+                }).then((data)=>{
+                    console.log(data.data.latestEntrust)
+                     let  latestDeal=data.data.latestEntrust;
+                        function compare(property){
+                            return function(obj1,obj2){
+                                var value1 = obj1[property];
+                                var value2 = obj2[property];
+                                return value1 - value2;     // 升序
+                            }
+                        }
+                        var sortObj = latestDeal.sort(compare("tradetype"));
+                        // 最新成交价格
+                        that.data1 = sortObj;
+                    
+                })
         }
     }
 }

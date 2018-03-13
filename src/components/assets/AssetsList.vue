@@ -93,7 +93,7 @@ export default {
       this.$ajax.post('/trade/tps/pblaf.do/',{
 
       }).then((data) => {
-        // console.log('success',data.data.accountFund);
+        console.log('success',data);
         let list = (data.data && data.data.accountFund) ? data.data.accountFund : [];
         let formatList = list.map((value, index) => {
           let result = {};

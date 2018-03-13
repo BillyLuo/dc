@@ -36,6 +36,7 @@
     mounted(){
       let mySwiper = new Swiper('.header-swiper-container', {
         speed:2000,
+        loop: true,
         autoplay : {
           delay:3000
         },
