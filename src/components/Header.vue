@@ -97,14 +97,14 @@ export default {
     })
   },
   updated(){
-    if (this.isLogined) {
-      this.getUserinfo();
-    }
+    // if (this.isLogined) {
+    //   this.getUserInfo();
+    // }
   },
   mounted (){
     // this.initActive();
     this.getLoginName();
-    // this.getUserinfo();
+    // this.getUserInfo();
     this.getPath();
     var that = this;
     window.onscroll = scroll.bind(this);
@@ -123,6 +123,7 @@ export default {
     })
     if(cookies.get("name")){
       that.isLogined = true;
+      this.getUserInfo();
       that.userInfo.username = cookies.get('name');
     }else{
       that.isLogined = false;
@@ -135,11 +136,11 @@ export default {
     "$route":"getPath"  // 监听事件
   },
   methods:{
-    getUserinfo(){
+    getUserInfo(){
       var that = this;
       this.$ajax.post("/trade/tps/pblbi.do")
       .then(res => {
-        console.log("----header-userinfo-----", res.data);
+        // console.log("----header-userinfo-----", res.data);
         if (res.data && res.data.emailset != undefined) {
           if (res.data.identityset == '1') {
             this.isCertified = true;
@@ -155,7 +156,7 @@ export default {
       this.$ajax
       .post("/trade/tps/pbpis.do")
       .then(res => {
-        console.log("----user-----info----", res,res.data);
+        // console.log("----user-----info----", res,res.data);
         if (res.data && res.data.username != undefined) {
           that.userInfo.uid = res.data.uid;
         } else {
@@ -273,7 +274,7 @@ export default {
     loginOut () {
       this.isLogined = false;
       cookies.set("name", "",{expires: 0}) 
-      console.log(this.$store.state.userinfo)
+      // console.log(this.$store.state.userinfo)
       let that = this;
       this.$ajax({
         method:"post",
@@ -282,7 +283,7 @@ export default {
           username: that.$store.state.userinfo.username
         }
       }).then((data) =>{
-        console.log(data)
+        // console.log(data)
       })
 
 

@@ -133,6 +133,7 @@
 
 <script>
 import nameCertification from './nameCertification';
+import cookies from 'cookies-js';
 import { Upload } from 'iview';
 export default {
   components:{
@@ -153,7 +154,12 @@ export default {
     }
   },
   mounted(){
-    // this.getUserinfo();
+    if (cookies.get('name')) {
+      this.getUserinfo();
+    }
+  },
+  updated() {
+
   },
   methods:{
     getUserinfo(){

@@ -261,16 +261,11 @@
           console.log(data);
           // that.$Spin.hide();
           if (data.status == 200 && data.data.err_code == '1') {
-            that.$router.push({
-              name:'Home',
-              params:{
-                isLogined:true
-              }
-            })
-            that.$store.commit('getUserInfo');
+            that.$store.dispatch('getUserInfo');
             cookies.set("name",loginname,{
               expires: 1800
             })
+            location.href = '/';
           }else {
             this.formInline.checkcode = '';
             if (data && data.data && data.data.err_code == '2' && data.data.msg) {

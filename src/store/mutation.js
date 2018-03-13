@@ -2,35 +2,27 @@ import axios from 'axios';
 function change (state,payload) {
   console.log('test');
 }
-function getUserInfo(state,palyload) {
-  state.userinfo = {};
-  axios
-    .post("/trade/tps/pbpis.do")
-    .then(res => {
-      console.log("----user-----info----", res,res.data);
-      if (res.data && res.data.username != undefined) {
-        state.userinfo = Object.assign(state.userinfo,res.data)
-      } else {
-      }
-    })
-    .catch(err => {
-      console.log("获取用户信息出错", err);
-    });
-    axios
-    .post("/trade/tps/pblbi.do")
-    .then(res => {
-      console.log("----userbaseinfo-----", res.data);
-      if (res.data && res.data.emailset != undefined) {
-        state.userinfo = Object.assign(state.userinfo,res.data)
-      } else {
-        console.log('获取用户认证信息出错');
-      }
-    })
-    .catch(err => {
-      console.log("获取用户认证信息出错", err);
-    });
+function getUserLoginInfo(state,payload) {
+  state.userinfo.username = '';
+  state.userinfo.uid = '';
+  state.userinfo.email = '';
+  state.userinfo.mobile = '';
+  state.userinfo.estimatedfund='';
+  state.userinfo = Object.assign(state.userinfo,payload)
+}
+function getUserBaseInfo (state,payload) {
+  state.userinfo.emailset='';
+  state.userinfo.identityset='';
+  state.userinfo.mobileset='';
+  state.userinfo.googlecodeset='';
+  state.userinfo.loginpasswordsetL='';
+  state.userinfo.tradepasswordset='';
+  state.userinfo.email='';
+  state.userinfo.mobile='';
+  state.userinfo = Object.assign(state.userinfo,payload)
 }
 export default {
   change,
-  getUserInfo,
+  getUserLoginInfo,
+  getUserBaseInfo
 }

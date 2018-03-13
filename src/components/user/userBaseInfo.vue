@@ -80,8 +80,12 @@ export default {
           estimatedfund: state.userinfo.estimatedfund,
           validationAmount: amount
         });
+        var username = state.userinfo.username;
+        if (!username || username == 'null') {
+          username = state.userinfo.email ? state.userinfo.email : '';
+        }
         return {
-          username: state.userinfo.username,
+          username,
           uid: state.userinfo.uid,
           mobile: state.userinfo.mobile,
           estimatedfund: state.userinfo.estimatedfund,

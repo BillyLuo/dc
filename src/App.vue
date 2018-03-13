@@ -22,6 +22,7 @@ import Footer from './components/footer';
 import TitleScroll from './components/TitleScroll';
 import Announcement from './components/Announcement'
 import store from 'store';
+import cookies from 'cookies-js';
 export default {
   name: 'App',
   components:{
@@ -32,7 +33,9 @@ export default {
   },
   created(){
     // console.log('app created');
-    this.$store.commit('getUserInfo');
+    if (cookies.get('name')) {
+      this.$store.dispatch('getUserInfo');
+    }
   }
 }
 </script>
