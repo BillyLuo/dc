@@ -317,17 +317,17 @@ export default {
                     }
                 }).then((data)=>{
                     console.log(data.data.latestEntrust)
-                     let  latestDeal=data.data.latestEntrust;
-                        function compare(property){
-                            return function(obj1,obj2){
-                                var value1 = obj1[property];
-                                var value2 = obj2[property];
-                                return value1 - value2;     // 升序
-                            }
+                    let  latestDeal=data.data.latestEntrust;
+                    function compare(property){
+                        return function(obj1,obj2){
+                            var value1 = obj1[property];
+                            var value2 = obj2[property];
+                            return value1 - value2;     // 升序
                         }
-                        var sortObj = latestDeal.sort(compare("tradetype"));
-                        // 最新成交价格
-                        that.data1 = sortObj;
+                    }
+                    var sortObj = latestDeal.sort(compare("tradetype"));
+                    // 最新成交价格
+                    that.data1 = sortObj;
                     
                 })
         }
