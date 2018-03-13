@@ -127,16 +127,6 @@ export default {
                 
             })
 
-
-            // this.$ajax.get('/huobi/market/history/trade?size=100&symbol='+this.params.currency.toLocaleLowerCase()+''+this.params.bizhong.toLocaleLowerCase())
-            // .then(function(response){
-            //     that.datas=[];
-            //     response.data.data.map((item)=>{
-            //         // console.log(item.data)
-            //         that.datas.push(item.data[0])
-            //     })
-                
-            // })
         },
         cahvas () {
             // let biddata,askdata;

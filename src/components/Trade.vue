@@ -100,7 +100,7 @@
                 <Col span='8'>
                     <div class="trade-record buy-sell">
                         <p class="table-title">最新成交价格</p>
-                        <Table :row-class-name='rowClassName' @on-row-dblclick="dblclick" size='small' :data="price_datas" :columns="price_columns" stripe></Table>
+                        <Table :row-class-name='rowClassName' @on-row-click="dblclick" size='small' :data="price_datas" :columns="price_columns" stripe></Table>
                         <p class="table-title" style="margin-top:20px;">最新成交记录</p>
                         <Table class='chengjiaojilu' style="margin-bottom:20px;" :row-class-name='rowClassName' size='small' :data="record_data" :columns="record_columns" stripe></Table>
                     </div>
@@ -189,18 +189,25 @@
                 price_datas:[],
                 price_columns: [
                     {
-                        title: '交易ID',
-                        key: 'tradeid'
+                        title: '买卖',
+                        key: 'operate',
+                        render: (h,params) => {
+                            if(params.row.operate == "1"){
+                                return "卖出"
+                            }else{
+                                return "买入"
+                            }
+                        }
                     },
                     {
                         title: '交易数量',
-                        key: 'tradecount',
+                        key: 'count',
                     },
                     {
                         title: '交易价格',
-                        key: 'tradeprice',
+                        key: 'price',
                         render: (h, params) => {
-                            return params.row.tradeprice
+                            return params.row.price
                         }
                     }
                 ],
@@ -247,7 +254,7 @@
                     },
                     {
                         title: '数量',
-                        key: 'tradecount'
+                        key: 'entrustcount'
                     },
                     {
                         title: '价格',
@@ -255,23 +262,23 @@
                     },
                     {
                         title: '金额',
-                        key: 'amount'
+                        key: 'entrustamount'
                     },
                     {
                         title: '成交量',
-                        key: 'volume'
+                        key: 'tradecount'
                     },
                     {
                         title: '成交金额',
-                        key: 'transactionamount'
+                        key: 'tradeamount'
                     },
                     {
                         title: '手续费',
-                        key: 'brokerage'
+                        key: 'charge'
                     },
                     {
                         title: '平均成交价',
-                        key: 'avetransactionprice'
+                        key: 'averageprice'
                     },
                     {
                         title: '状态/操作',
@@ -511,20 +518,7 @@
                     console.log(response)
                     console.log(response.data.latestDeal);
                     if(response.data.latestDeal){
-                        let  latestDeal=response.data.latestDeal;
-                        // function compare(property){
-                        //     return function(obj1,obj2){
-                        //         var value1 = obj1[property];
-                        //         var value2 = obj2[property];
-                        //         return value1 - value2;     // 升序
-                        //     }
-                        // }
-                        // var sortObj = latestDeal.sort(compare("tradetype"));
-                        // console.log(sortObj)
-
-                        // 最新成交价格
-                        // that.price_datas = sortObj;
-                        // 最新成交记录
+                       
                         latestDeal.map(function(item,index){
                             if(index<5){
                                 that.record_data.push(item);
@@ -532,6 +526,32 @@
                         })
                     }
                    
+                })
+
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbles.do",
+                    data: {
+                        count : 5,//查询条数
+                        coin : 'ETH',//币种
+                        tradecoin: 'USDT'//交易币种
+                    }
+                }).then((data)=>{
+                    console.log(data.data.latestEntrust)
+                     let  latestDeal=data.data.latestEntrust;
+                        function compare(property){
+                            return function(obj1,obj2){
+                                var value1 = obj1[property];
+                                var value2 = obj2[property];
+                                return value1 - value2;     // 升序
+                            }
+                        }
+                        var sortObj = latestDeal.sort(compare("tradetype"));
+                        console.log(sortObj)
+
+                        // 最新成交价格
+                        that.price_datas = sortObj;
+                    
                 })
             },
             ss(value){
@@ -543,12 +563,18 @@
 
                 this.$ajax({
                     method: 'post',
-                    url: '/trade/tps/pbets.do',
+                    url: '/trade/tps/pbdms.do',
                     data: {
-                        accountid:accountid,//账户ID
-                        currencycode:currencycode,//币种
-                        starttime:starttime,//开始时间
-                        endtime:endtime,//结束时间
+                        // accountid:accountid,//账户ID
+                        // currencycode:currencycode,
+                        // starttime:starttime,//开始时间
+                        // endtime:endtime,//结束时间
+                        "currencytype":currencycode ? 'currencycode' : 'ETH',//币种
+                        "starttime":"",
+                        "endtime":"",
+                        "pageno":"1",
+                        "pagesize":"14",
+                        "reqresource":"1",
                     }
                 })
                 .then((response) => {
@@ -616,12 +642,12 @@
                 // console.log("==========dbclick===========")
                 // console.log(row,index)
                 if(index<5){
-                    this.buycount = row.tradecount;
-                    this.buyprice = row.tradeprice;
+                    this.buycount = row.count;
+                    this.buyprice = row.price;
                     this.buymoney = (this.buycount*this.buyprice).toFixed(6);
                 }else{
-                    this.sellcount = row.tradecount;
-                    this.sellprice = row.tradeprice;
+                    this.sellcount = row.count;
+                    this.sellprice = row.price;
                     this.sellmoney = (this.sellcount*this.sellprice).toFixed(6);
                 }
             },
