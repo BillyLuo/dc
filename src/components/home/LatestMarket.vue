@@ -125,7 +125,10 @@
       this.dataArry = [];
        this.$ajax({
         method: "get",
-        url: "/trade/tps/pbfcd.do"
+        url: "/trade/tps/pbfcd.do",
+        data:{
+          reqresource:1
+        }
       }).then((data)=>{
         console.log("shouye ====== ")
         console.log(data.data.currencyDetail)

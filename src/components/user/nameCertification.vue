@@ -106,7 +106,7 @@ export default {
       }
       console.log({realname,region,certificatetype,certificateno});
       this.$ajax.post('/trade/tps/pbvcs.do',{
-        realname,region,certificatetype,certificateno,type
+        realname,region,certificatetype,certificateno,type,reqresource:1
       }).then((res)=>{
         if (res.status == 200 && res.data && res.data.err_code == '1') {
           that.showModal = false;

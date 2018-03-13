@@ -313,7 +313,8 @@ export default {
                     data: {
                         count : 5,//查询条数
                         coin : obj ? obj.currency :'ETH',//币种
-                        tradecoin: 'USDT'//交易币种
+                        tradecoin: 'USDT',//交易币种
+                        reqresource:1
                     }
                 }).then((data)=>{
                     console.log(data.data.latestEntrust)

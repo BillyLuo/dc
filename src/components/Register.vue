@@ -363,6 +363,7 @@ export default {
 					url: "/trade/tps/pbscs.do",
 					data:{
 						"verifystr":this.tel,
+						reqresource:1
 						// "type":"mobile"
 					}
 				}).then(function(data){
@@ -413,6 +414,7 @@ export default {
 					url: "/trade/tps/pbscs.do",
 					data:{
 						"verifystr":this.email,
+						reqresource:1
 						// "type":"email"
 					}
 				}).then(function(data){
@@ -502,7 +504,8 @@ export default {
 						"msgcheckcode":this.telCode,
 						"password":this.password,
 						"confirmpassword":this.passwordAgain,
-						"invitedcode":this.InvitationCode
+						"invitedcode":this.InvitationCode,
+						reqresource:1
 					}
 				}).then(function(data){
 					console.log(data)
@@ -580,7 +583,8 @@ export default {
 						"msgcheckcode":this.telCode,
 						"password":this.password,
 						"confirmpassword":this.passwordAgain,
-						"invitedcode":this.InvitationCode
+						"invitedcode":this.InvitationCode,
+						reqresource:1
 					}
 				}).then(function(data){
 					console.log(data)

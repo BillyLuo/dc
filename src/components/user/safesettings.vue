@@ -599,7 +599,8 @@ export default {
         this.$Spin.show();
         this.$ajax.post('/trade/tps/pbvcs.do',{
           type:'email',
-          email
+          email,
+          reqresource:1
         }).then((res)=>{
           this.$Spin.hide();
           if (res.status == 200 && res.data && res.data.err_code == '1') {
@@ -908,7 +909,8 @@ export default {
           }
         },1000);
         this.$ajax.post('/trade/tps/pbscs.do',{
-          verifystr:tel
+          verifystr:tel,
+          reqresource:1
         }).then((res) => {
           console.log('短信验证',res);
           if (res.status == 200 && res.data && res.data.err_code == '1') {
@@ -932,7 +934,8 @@ export default {
         return;
       }
       this.$ajax.post('/trade/tps/pbscs.do',{
-        verifystr:tel
+        verifystr:tel,
+        reqresource:1
       }).then((res) => {
         console.log('短信验证',res);
         if (res.status == 200 && res.data && res.data.err_code == '1') {

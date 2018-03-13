@@ -115,7 +115,8 @@ export default {
                 url: '/trade/tps/pblds.do',
                 data: {
                     currencytype:"ETH",
-                    pagesize: 10
+                    pagesize: 10,
+                    reqresource:1
                 }
             })
             .then(function (response) {
