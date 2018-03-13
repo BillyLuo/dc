@@ -1,8 +1,8 @@
 <template>
     <div class="hq-list-sidebar">
-        <div class="to-login">
+        <!-- <div class="to-login">
             <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
-        </div>
+        </div> -->
         <Tabs size="small" @on-click="getname">
             <TabPane label="USDT" name='USDT'>
                 <Table height="600" @on-row-click="dbclickrow" :columns="columns1" :data="data1"></Table>
