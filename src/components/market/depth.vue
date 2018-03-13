@@ -114,9 +114,8 @@ export default {
                 method: 'post',
                 url: '/trade/tps/pblds.do',
                 data: {
-                    "currencycode":this.params.currency,
-                    "count":"100",
-                    latetype: 2
+                    currencytype:"ETH",
+                    pagesize: 10
                 }
             })
             .then(function (response) {

@@ -24,9 +24,6 @@
                 </Col>
                 <Col span="10">
                     <step :step="stepJson" :currentStep="'1'"></step>
-                    <!-- <div class="jiantou btn-style-1 btn-special-1">01.安全设置</div>
-                    <div class="jiantou btn-style-2 btn-special-1">02.充值</div>
-                    <div class="jiantou btn-style-3 btn-special-1">03.下单交易</div> -->
                 </Col>
             </Row>
         </div>
@@ -136,6 +133,11 @@
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
                 <Table :data="order_record_data" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <div v-if="jiaoyipage > 0" style="margin: 10px;overflow:hidden">
+                    <div style="float: right;">
+                        <Page :total="jiaoyipage" :current="jiaoyicurrent" @on-change="changePage"></Page>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="clear"></div>
@@ -143,7 +145,7 @@
 </template>
 
 <script>
-    import { Menu,MenuItem,DatePicker,Table,Slider } from 'iview';
+    import { Menu,MenuItem,DatePicker,Table,Slider,Page } from 'iview';
     import step from './step';
     // let menu = [
     //     {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
@@ -161,12 +163,14 @@
     export default {
         components:{
             DatePicker,Table,
-            Menu,MenuItem,Slider,step
+            Menu,MenuItem,Slider,step,Page
         },
         props: ['lang'],
         data() {
             return {
                 stepJson:["01.安全设置","02.充值","03.下单交易"],
+                jiaoyipage:0,
+                jiaoyicurrent:1,
                 // menu,
                 menu1,
                 value: 1000,
@@ -326,16 +330,18 @@
             
         },
         mounted () {
-            
             this.query();
-            this.$ajax({
-                method: "get",
-                url: '/trade/tps/pbqnl.do'
-            }).then((data)=>{
-                console.log(data)
-            })
+            // this.$ajax({
+            //     method: "get",
+            //     url: '/trade/tps/pbqnl.do'
+            // }).then((data)=>{
+            //     console.log(data)
+            // })
         },
         methods: {
+            changePage(){
+
+            },
             timeschange(val){
                 this.begintime = val;
             },
@@ -497,9 +503,8 @@
                     method: 'post',
                     url: '/trade/tps/pblds.do',
                     data: {
-                        "currencycode":"eth",
-                        "count":"5",
-                        latetype: 1
+                        currencytype:"ETH",
+                        pagesize: 10
                     }
                 })
                 .then(function (response) {
@@ -507,18 +512,18 @@
                     console.log(response.data.latestDeal);
                     if(response.data.latestDeal){
                         let  latestDeal=response.data.latestDeal;
-                        function compare(property){
-                            return function(obj1,obj2){
-                                var value1 = obj1[property];
-                                var value2 = obj2[property];
-                                return value1 - value2;     // 升序
-                            }
-                        }
-                        var sortObj = latestDeal.sort(compare("tradetype"));
-                        console.log(sortObj)
+                        // function compare(property){
+                        //     return function(obj1,obj2){
+                        //         var value1 = obj1[property];
+                        //         var value2 = obj2[property];
+                        //         return value1 - value2;     // 升序
+                        //     }
+                        // }
+                        // var sortObj = latestDeal.sort(compare("tradetype"));
+                        // console.log(sortObj)
 
                         // 最新成交价格
-                        that.price_datas = sortObj;
+                        // that.price_datas = sortObj;
                         // 最新成交记录
                         latestDeal.map(function(item,index){
                             if(index<5){

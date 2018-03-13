@@ -19,7 +19,7 @@
 					{{ errorVsCode }}
 				</p>
 				<div class="register-vsCode">
-					<img :src="src" alt="" width="100%" height="100%">
+					<img :src="src" alt="" width="100%" height="100%"  @click="imgsrc">
 				</div>
 				</div>
 				<div class="register-input">
@@ -107,7 +107,7 @@
 					{{ errorVsCode }}
 				</p>
 				<div class="register-vsCode">
-					<img :src="src" alt="" width="100%" height="100%">
+					<img :src="src" alt="" width="100%" height="100%" @click="imgsrc">
 				</div>
 				</div>
 				<div class="register-input">
@@ -195,403 +195,435 @@ export default {
 	TabPane
 	},
 	data () {
-	return {
-		src: '/trade/tps/pbccs.do',
-		tel: '',
-		email:'',
-		vsCode:'',
-		telCode:'',
-		telCodeText:'发送验证码',
-		password:'',
-		passwordAgain:"",
-		InvitationCode:'',
-		single:true,      // 是否同意服务条款
-		errorTel:'',
-		errorEmail:'',
-		errorVsCode:'',
-		errorTelCode:'',
-		errorPassword:'',
-		errorPasswordAgain:'',
-		errorInvitationCode:'',
-		telErrorInput:"",
-		emailErrorInput:'',
-		vsCodeErrorInput:'',
-		telCodeErrorInput:'',
-		passwordCodeErrorInput:'',
-		passwordAgainCodeErrorInput:'',
-		InvitationCodeErrorInput:'',
-		getCode:'',   // 倒计时
-		telCodeDisabled:false,
+		return {
+			src: '/trade/tps/pbccs.do',
+			tel: '',
+			email:'',
+			vsCode:'',
+			telCode:'',
+			telCodeText:'发送验证码',
+			password:'',
+			passwordAgain:"",
+			InvitationCode:'',
+			single:true,      // 是否同意服务条款
+			errorTel:'',
+			errorEmail:'',
+			errorVsCode:'',
+			errorTelCode:'',
+			errorPassword:'',
+			errorPasswordAgain:'',
+			errorInvitationCode:'',
+			telErrorInput:"",
+			emailErrorInput:'',
+			vsCodeErrorInput:'',
+			telCodeErrorInput:'',
+			passwordCodeErrorInput:'',
+			passwordAgainCodeErrorInput:'',
+			InvitationCodeErrorInput:'',
+			getCode:'',   // 倒计时
+			telCodeDisabled:false,
 
-		prompt:false,
-		PromptOne:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
-		PromptTwo:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
-		PromptThree:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
-		PromptFour:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
+			prompt:false,
+			PromptOne:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
+			PromptTwo:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
+			PromptThree:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
+			PromptFour:'<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
 
-		PromptAll: {},
-		PromptOneWidth: 0,
-		PromptTwoWidth: 0,
-		PromptThreeWidth: 0,
-		PromptFourWidth: 0,
-	}
+			PromptAll: {},
+			PromptOneWidth: 0,
+			PromptTwoWidth: 0,
+			PromptThreeWidth: 0,
+			PromptFourWidth: 0,
+		}
+	},
+	created(){
+		this.$Notice.config({
+			top:130
+		})
 	},
 	methods: {
-	passwordChange(){    // 密码强度
-		if(/[a-zA-Z]+/g.test(this.password) && /[0-9]+/g.test(this.password)){   // 只能是字母和数字
-		this.PromptOne = '<i class="fa fa-check" aria-hidden="true" style="color: green"></i>';
-		this.PromptOneWidth = 20
-		}else{
-		this.PromptOne = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-		this.PromptOneWidth = 0
-		}
-		if(/^\w{8,20}$/.test(this.password)){       // 8-20个字符
-		this.PromptTwo = '<i class="fa fa-check" aria-hidden="true" style="color: green"></i>';
-		if(this.password.length <= 10){
-			this.PromptTwoWidth = 10
-		}else if(this.password.length >10 && this.password.length <=15){
-			this.PromptTwoWidth = 20
-		}else if(this.password.length >15 && this.password.length <=18){
-			this.PromptTwoWidth = 30
-		}else if(this.password.length >18 && this.password.length<=20){
-			this.PromptTwoWidth = 40
-		}
-		}else{
-		this.PromptTwo = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-		this.PromptTwoWidth = 0
-		}
-		if(/[A-Z]+/g.test(this.password) && /[a-z]+/g.test(this.password)){ // 包含大写和小写字母
-		this.PromptThree = '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
-		this.PromptThreeWidth = 20
-		}else{
-		this.PromptThree = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-		this.PromptThreeWidth = 0
-		}
-		if(this.password && /^(?![0-9]+$)/.test(this.password[0])){        // 不能以数字开头
-		this.PromptFour = '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
-		this.PromptFourWidth = 20
-		}else{
-		this.PromptFour = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-		this.PromptFourWidth = 0
-		}
-		this.passwordChangeWidth();
-	},
-	passwordChangeWidth(){   // 密码强度条长度
-		this.PromptAll = {'width':this.PromptOneWidth + this.PromptTwoWidth + this.PromptThreeWidth + this.PromptFourWidth + '%'};
-	},
-	registerTabs(){    // 切换TAbs 状态还原
-		this.clearTime();
-		this.tel = '';
-		this.email = '';
-		this.vsCode = '';
-		this.telCode ='';
-		this.telCodeText = '发送验证码';
-		this.password = '';
-		this.passwordAgain = '';
-		this.InvitationCode = '';
-		this.single = false;      // 是否同意服务条款
+		imgsrc(){
+			this.src= this.src+'?'+Date.now();
+		},
+		passwordChange(){    // 密码强度
+			if(/[a-zA-Z]+/g.test(this.password) && /[0-9]+/g.test(this.password)){   // 只能是字母和数字
+			this.PromptOne = '<i class="fa fa-check" aria-hidden="true" style="color: green"></i>';
+			this.PromptOneWidth = 20
+			}else{
+			this.PromptOne = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+			this.PromptOneWidth = 0
+			}
+			if(/^\w{8,20}$/.test(this.password)){       // 8-20个字符
+			this.PromptTwo = '<i class="fa fa-check" aria-hidden="true" style="color: green"></i>';
+			if(this.password.length <= 10){
+				this.PromptTwoWidth = 10
+			}else if(this.password.length >10 && this.password.length <=15){
+				this.PromptTwoWidth = 20
+			}else if(this.password.length >15 && this.password.length <=18){
+				this.PromptTwoWidth = 30
+			}else if(this.password.length >18 && this.password.length<=20){
+				this.PromptTwoWidth = 40
+			}
+			}else{
+			this.PromptTwo = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+			this.PromptTwoWidth = 0
+			}
+			if(/[A-Z]+/g.test(this.password) && /[a-z]+/g.test(this.password)){ // 包含大写和小写字母
+			this.PromptThree = '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+			this.PromptThreeWidth = 20
+			}else{
+			this.PromptThree = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+			this.PromptThreeWidth = 0
+			}
+			if(this.password && /^(?![0-9]+$)/.test(this.password[0])){        // 不能以数字开头
+			this.PromptFour = '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+			this.PromptFourWidth = 20
+			}else{
+			this.PromptFour = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+			this.PromptFourWidth = 0
+			}
+			this.passwordChangeWidth();
+		},
+		passwordChangeWidth(){   // 密码强度条长度
+			this.PromptAll = {'width':this.PromptOneWidth + this.PromptTwoWidth + this.PromptThreeWidth + this.PromptFourWidth + '%'};
+		},
+		registerTabs(){    // 切换TAbs 状态还原
+			this.clearTime();
+			this.tel = '';
+			this.email = '';
+			this.vsCode = '';
+			this.telCode ='';
+			this.telCodeText = '发送验证码';
+			this.password = '';
+			this.passwordAgain = '';
+			this.InvitationCode = '';
+			this.single = false;      // 是否同意服务条款
 
-		this.errorTel = '';
-		this.errorEmail = '';
-		this.errorVsCode = '';
-		this.errorTelCode = '';
-		this.errorPassword = '';
-		this.errorPasswordAgain = '';
-		this.errorInvitationCode = '';
+			this.errorTel = '';
+			this.errorEmail = '';
+			this.errorVsCode = '';
+			this.errorTelCode = '';
+			this.errorPassword = '';
+			this.errorPasswordAgain = '';
+			this.errorInvitationCode = '';
 
-		this.telErrorInput = "";
-		this.emailErrorInput = '';
-		this.vsCodeErrorInput = '';
-		this.telCodeErrorInput = '';
-		this.passwordCodeErrorInput = '';
-		this.passwordAgainCodeErrorInput = '';
-		this.InvitationCodeErrorInput = '';
-		this.getCode = '';   // 倒计时
-		this.telCodeDisabled = false;   // 倒计时按钮状态
+			this.telErrorInput = "";
+			this.emailErrorInput = '';
+			this.vsCodeErrorInput = '';
+			this.telCodeErrorInput = '';
+			this.passwordCodeErrorInput = '';
+			this.passwordAgainCodeErrorInput = '';
+			this.InvitationCodeErrorInput = '';
+			this.getCode = '';   // 倒计时
+			this.telCodeDisabled = false;   // 倒计时按钮状态
 
-		this.prompt = false;   //  密码提示框状态
-		this.PromptOne = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-		this.PromptTwo = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-		this.PromptThree = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
-		this.PromptFour = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+			this.prompt = false;   //  密码提示框状态
+			this.PromptOne = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+			this.PromptTwo = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+			this.PromptThree = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
+			this.PromptFour = '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>';
 
-		this.PromptAll = {};
-		this.PromptOneWidth = 0;
-		this.PromptTwoWidth = 0;
-		this.PromptThreeWidth = 0;
-		this.PromptFourWidth = 0;
-		this.src='/trade/tps/pbccs.do?'+Date.now();
-	},
-	clearTime(){    // 清除定时器
-		if(this.getCode){
-		clearTimeout(this.getCode);
-		}
-	},
-	telCodeTimeOut(){   //验证码倒计时 手机
-		if(!this.tel){
-			this.errorTel = "请输入手机号";
-			this.telErrorInput = "errorInput";
-			return false;
-		}else{
-			let $this = this;
-			this.telCodeText = 60;
-			this.telCodeDisabled = true;
-			this.getCode = setInterval(function(){
-				$this.telCodeText -=1;
-				if($this.telCodeText <=1){
-					clearTimeout($this.getCode);
-					$this.telCodeText = "重新获取";
-					$this.telCodeDisabled = false;
-				}
-			},1000);
-
-			this.$ajax({
-				method: "post",
-				url: "/trade/tps/pbscs.do",
-				data:{
-					"verifystr":this.tel,
-					// "type":"mobile"
-				}
-			}).then(function(data){
-				console.log(data)
-				if(data.data.err_code == "1"){
-					$this.$Modal.info({
-						content:'验证码发送成功，请注意查收。'
-					})
-				}else{
-					$this.$Modal.info({
-						content:'验证码发送失败，请重新发送。'
-					})
-				}
-			})
-		}
-	},
-	telCodeTimeOut1(){   //验证码倒计时 邮箱
-
-		if(!this.email){
-			this.errorEmail = "请输入邮箱";
-			this.emailErrorInput = "errorInput"
-			return false;
-		}else{
-			let $this = this;
-			this.telCodeText = 60;
-			this.telCodeDisabled = true;
-			this.getCode = setInterval(function(){
-				$this.telCodeText -=1;
-				if($this.telCodeText <=1){
-					clearTimeout($this.getCode);
-					$this.telCodeText = "重新获取";
-					$this.telCodeDisabled = false;
-				}
-			},1000);
-			this.$ajax({
-				method: "post",
-				url: "/trade/tps/pbscs.do",
-				data:{
-					"verifystr":this.email,
-					// "type":"email"
-				}
-			}).then(function(data){
-				console.log(data)
-				if(data.data.err_code == "1"){
-					$this.$Modal.info({
-						content:'验证码发送成功，请注意查收。'
-					})
-				}else{
-					$this.$Modal.info({
-						content:'验证码发送失败，请重新发送。'
-					})
-				}
-			})
-		}
-	},
-	submitTel(){    //手机注册
-		let that  = this;
-		if(!this.tel && !this.vsCode && !this.telCode && !this.password && !this.passwordAgain){
+			this.PromptAll = {};
+			this.PromptOneWidth = 0;
+			this.PromptTwoWidth = 0;
+			this.PromptThreeWidth = 0;
+			this.PromptFourWidth = 0;
+			this.src='/trade/tps/pbccs.do?'+Date.now();
+		},
+		clearTime(){    // 清除定时器
+			if(this.getCode){
+			clearTimeout(this.getCode);
+			}
+		},
+		telCodeTimeOut(){   //验证码倒计时 手机
 			if(!this.tel){
 				this.errorTel = "请输入手机号";
-				this.telErrorInput = "errorInput"
-			}
-			if(!this.vsCode){
-				this.errorVsCode = "请输入验证码";
-				this.vsCodeErrorInput = "errorInput"
-			}
-			if(!this.telCode){
-				this.errorTelCode = "请输入短信验证码";
-				this.telCodeErrorInput = "errorInput"
-			}
-			if(!this.password){
-				this.errorPassword = "请输入密码";
-				this.passwordCodeErrorInput = "errorInput"
-			}
-			if(!this.passwordAgain){
-				this.errorPasswordAgain = "请确认密码";
-				this.passwordAgainCodeErrorInput = "errorInput"
-			}
-		}else if(this.tel && this.vsCode && this.telCode && this.password && this.passwordAgain){
-			if(this.tel && !(/^1[34578]\d{9}$/.test(this.tel))){
-				this.errorTel = "手机号格式不正确";
-				this.telErrorInput = "errorInput"
+				this.telErrorInput = "errorInput";
 				return false;
-			}
-			// 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
-			if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20)){
-				this.errorPassword = "密码格式不正确请重新输入。";
-				this.passwordCodeErrorInput = "errorInput"
-				return false;
-			}
-			if(this.password != this.passwordAgain){
-				this.$Modal.info({
-					content:'两次密码输入不一致，请重新输入。'
-				})
-				return false;
-			}
+			}else{
+				if(this.tel && !(/^1[34578]\d{9}$/.test(this.tel))){
+					this.errorTel = "手机号格式不正确";
+					this.telErrorInput = "errorInput"
+					return false;
+				}
+				let $this = this;
+				this.telCodeText = 60;
+				this.telCodeDisabled = true;
+				this.getCode = setInterval(function(){
+					$this.telCodeText -=1;
+					if($this.telCodeText <=1){
+						clearTimeout($this.getCode);
+						$this.telCodeText = "重新获取";
+						$this.telCodeDisabled = false;
+					}
+				},1000);
 
-			if(!this.single){
-				this.$Modal.info({
-					content:'请同意《蜂巢币用户协议》。'
+				this.$ajax({
+					method: "post",
+					url: "/trade/tps/pbscs.do",
+					data:{
+						"verifystr":this.tel,
+						// "type":"mobile"
+					}
+				}).then(function(data){
+					console.log(data)
+					if(data.data.err_code == "1"){
+						$this.$Notice.success({
+							title: '验证码发送成功，请注意查收。',
+							desc: '',
+							top: 100
+						});
+						// $this.$Modal.info({
+						// 	content:'验证码发送成功，请注意查收。'
+						// })
+					}else{
+						$this.$Notice.error({
+							title:'验证码发送失败，请重新发送。',
+							top:100
+						})
+					}
 				})
-				return false;
 			}
-			console.log({
-					"loginname":this.tel,
-					"checkcode":this.errorVsCode,
-					"msgcheckcode":this.telCode,
-					"password":this.password,
-					"confirmpassword":this.passwordAgain,
-					"invitedcode":this.InvitationCode
-				})
-			this.$ajax({
-				method: 'post',
-				url: '/trade/tps/pbrus.do',
-				data: {
-					"loginname":this.tel,
-					"checkcode":this.vsCode,
-					"msgcheckcode":this.telCode,
-					"password":this.password,
-					"confirmpassword":this.passwordAgain,
-					"invitedcode":this.InvitationCode
-				}
-			}).then(function(data){
-				console.log(data)
-				if(data.data.err_code == "1"){
-					that.$Modal.info({
-						content:'注册成功,请登录。'
-					})
-					that.$router.push("login")
-				}else{
-					that.$Modal.info({
-						content:'注册失败,'+data.data.msg
-					})
-				}
-			})
-		
-		}
-	},
-	submitEmail(){   // 邮箱注册
-		console.log("邮箱")
-		console.log(this.email,this.vsCode,this.telCode,this.password,this.passwordAgain)
-		let that = this;
-		if(!this.email && !this.vsCode && !this.telCode && !this.password && !this.passwordAgain){
+		},
+		telCodeTimeOut1(){   //验证码倒计时 邮箱
+			
 			if(!this.email){
 				this.errorEmail = "请输入邮箱";
 				this.emailErrorInput = "errorInput"
-			}
-			if(!this.vsCode){
-				this.errorVsCode = "请输入验证码";
-				this.vsCodeErrorInput = "errorInput"
-			}
-			if(!this.telCode){
-				this.errorTelCode = "请输入邮箱验证码";
-				this.telCodeErrorInput = "errorInput"
-			}
-			if(!this.password){
-				this.errorPassword = "请输入密码";
-				this.passwordCodeErrorInput = "errorInput"
-			}
-			if(!this.passwordAgain){
-				this.errorPasswordAgain = "请确认密码";
-				this.passwordAgainCodeErrorInput = "errorInput"
-			}
-		}else if(this.email && this.vsCode && this.telCode && this.password && this.passwordAgain){
-			console.log(this.email)
-			// /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email))
-			if(this.email && !(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(this.email))){
-				this.errorEmail = "邮箱格式不正确";
-				this.emailErrorInput = "errorInput"
 				return false;
-			}
-			// 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
-			if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20 )){
-				this.errorPassword = "密码格式不正确请重新输入。";
-				this.passwordCodeErrorInput = "errorInput"
-				return false;
-			}
-			if(this.password != this.passwordAgain){
-				this.$Modal.info({
-					content:'两次密码输入不一致，请重新输入。'
-				})
-				return false;
-			}
-			if(!this.single){
-				this.$Modal.info({
-					content:'请同意《蜂巢币用户协议》。'
-				})
-				return false;
-			}
-			this.$ajax({
-				method: 'post',
-				url: '/trade/tps/pbrus.do',
-				data: {
-					"loginname":this.email,
-					"checkcode":this.vsCode,
-					"msgcheckcode":this.telCode,
-					"password":this.password,
-					"confirmpassword":this.passwordAgain,
-					"invitedcode":this.InvitationCode
+			}else{
+				if(this.email && !(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(this.email))){
+					this.errorEmail = "邮箱格式不正确";
+					this.emailErrorInput = "errorInput"
+					return false;
 				}
-			}).then(function(data){
-				console.log(data)
-				if(data.data.err_code == "1"){
-					that.$Modal.info({
-						content:'注册成功，请登录。'
-					})
-					that.$router.push("login")
-				}else{
-					that.$Modal.info({
-						content:'注册失败,'+data.data.msg
-					})
+				let $this = this;
+				this.telCodeText = 60;
+				this.telCodeDisabled = true;
+				this.getCode = setInterval(function(){
+					$this.telCodeText -=1;
+					if($this.telCodeText <=1){
+						clearTimeout($this.getCode);
+						$this.telCodeText = "重新获取";
+						$this.telCodeDisabled = false;
+					}
+				},1000);
+				this.$ajax({
+					method: "post",
+					url: "/trade/tps/pbscs.do",
+					data:{
+						"verifystr":this.email,
+						// "type":"email"
+					}
+				}).then(function(data){
+					console.log(data)
+					if(data.data.err_code == "1"){
+						
+						$this.$Notice.success({
+							title: '验证码发送成功，请注意查收。',
+							desc: '',
+							top:100
+						});
+					
+						// $this.$Modal.info({
+						// 	content:'验证码发送成功，请注意查收。'
+						// })
+					}else{
+						$this.$Notice.error({
+							title:'验证码发送失败，请重新发送。',
+							top:100
+						})
+					}
+				})
+			}
+		},
+		submitTel(){    //手机注册
+			let that  = this;
+			if(!this.tel && !this.vsCode && !this.telCode && !this.password && !this.passwordAgain){
+				if(!this.tel){
+					this.errorTel = "请输入手机号";
+					this.telErrorInput = "errorInput"
 				}
-			})
-		}
-	},
-	telFocus(){      // 获得焦点  消除错误提示
-		this.errorTel = '';
-		this.errorEmail = '';
-		this.telErrorInput = "";
-		this.emailErrorInput = '';
-	},
-	vsCodeFocus(){
-		this.errorVsCode = '';
-		this.vsCodeErrorInput = '';
-	},
-	telCodeFocus(){
-		this.errorTelCode = '';
-		this.telCodeErrorInput = '';
-	},
-	passwordFocus(){
-		this.errorPassword = '';
-		this.passwordCodeErrorInput = '';
+				if(!this.vsCode){
+					this.errorVsCode = "请输入验证码";
+					this.vsCodeErrorInput = "errorInput"
+				}
+				if(!this.telCode){
+					this.errorTelCode = "请输入短信验证码";
+					this.telCodeErrorInput = "errorInput"
+				}
+				if(!this.password){
+					this.errorPassword = "请输入密码";
+					this.passwordCodeErrorInput = "errorInput"
+				}
+				if(!this.passwordAgain){
+					this.errorPasswordAgain = "请确认密码";
+					this.passwordAgainCodeErrorInput = "errorInput"
+				}
+			}else if(this.tel && this.vsCode && this.telCode && this.password && this.passwordAgain){
+				if(this.tel && !(/^1[34578]\d{9}$/.test(this.tel))){
+					this.errorTel = "手机号格式不正确";
+					this.telErrorInput = "errorInput"
+					return false;
+				}
+				// 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
+				if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20)){
+					this.errorPassword = "密码格式不正确请重新输入。";
+					this.passwordCodeErrorInput = "errorInput"
+					return false;
+				}
+				if(this.password != this.passwordAgain){
+					this.$Modal.info({
+						content:'两次密码输入不一致，请重新输入。'
+					})
+					return false;
+				}
 
-		this.prompt = true;
-	},
-	passwordBlur(){     // 密码提示框消失
-		this.prompt = false;
-	},
-	passwordAgainFocus(){
-		this.errorPasswordAgain = '';
-		this.passwordAgainCodeErrorInput = ""
-	}
+				if(!this.single){
+					this.$Modal.info({
+						content:'请同意《蜂巢币用户协议》。'
+					})
+					return false;
+				}
+				console.log({
+						"loginname":this.tel,
+						"checkcode":this.errorVsCode,
+						"msgcheckcode":this.telCode,
+						"password":this.password,
+						"confirmpassword":this.passwordAgain,
+						"invitedcode":this.InvitationCode
+					})
+				this.$ajax({
+					method: 'post',
+					url: '/trade/tps/pbrus.do',
+					data: {
+						"loginname":this.tel,
+						"checkcode":this.vsCode,
+						"msgcheckcode":this.telCode,
+						"password":this.password,
+						"confirmpassword":this.passwordAgain,
+						"invitedcode":this.InvitationCode
+					}
+				}).then(function(data){
+					console.log(data)
+					if(data.data.err_code == "1"){
+						that.$Modal.info({
+							content:'注册成功,请登录。'
+						})
+						that.$router.push("login")
+					}else{
+						that.$Modal.info({
+							content:'注册失败,'+data.data.msg
+						})
+					}
+				})
+			
+			}
+		},
+		submitEmail(){   // 邮箱注册
+			console.log("邮箱")
+			console.log(this.email,this.vsCode,this.telCode,this.password,this.passwordAgain)
+			let that = this;
+			if(!this.email && !this.vsCode && !this.telCode && !this.password && !this.passwordAgain){
+				if(!this.email){
+					this.errorEmail = "请输入邮箱";
+					this.emailErrorInput = "errorInput"
+				}
+				if(!this.vsCode){
+					this.errorVsCode = "请输入验证码";
+					this.vsCodeErrorInput = "errorInput"
+				}
+				if(!this.telCode){
+					this.errorTelCode = "请输入邮箱验证码";
+					this.telCodeErrorInput = "errorInput"
+				}
+				if(!this.password){
+					this.errorPassword = "请输入密码";
+					this.passwordCodeErrorInput = "errorInput"
+				}
+				if(!this.passwordAgain){
+					this.errorPasswordAgain = "请确认密码";
+					this.passwordAgainCodeErrorInput = "errorInput"
+				}
+			}else if(this.email && this.vsCode && this.telCode && this.password && this.passwordAgain){
+				console.log(this.email)
+				// /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email))
+				if(this.email && !(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(this.email))){
+					this.errorEmail = "邮箱格式不正确";
+					this.emailErrorInput = "errorInput"
+					return false;
+				}
+				// 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
+				if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20 )){
+					this.errorPassword = "密码格式不正确请重新输入。";
+					this.passwordCodeErrorInput = "errorInput"
+					return false;
+				}
+				if(this.password != this.passwordAgain){
+					this.$Modal.info({
+						content:'两次密码输入不一致，请重新输入。'
+					})
+					return false;
+				}
+				if(!this.single){
+					this.$Modal.info({
+						content:'请同意《蜂巢币用户协议》。'
+					})
+					return false;
+				}
+				this.$ajax({
+					method: 'post',
+					url: '/trade/tps/pbrus.do',
+					data: {
+						"loginname":this.email,
+						"checkcode":this.vsCode,
+						"msgcheckcode":this.telCode,
+						"password":this.password,
+						"confirmpassword":this.passwordAgain,
+						"invitedcode":this.InvitationCode
+					}
+				}).then(function(data){
+					console.log(data)
+					if(data.data.err_code == "1"){
+						that.$Modal.info({
+							content:'注册成功，请登录。'
+						})
+						that.$router.push("login")
+					}else{
+						that.$Modal.info({
+							content:'注册失败,'+data.data.msg
+						})
+					}
+				})
+			}
+		},
+		telFocus(){      // 获得焦点  消除错误提示
+			this.errorTel = '';
+			this.errorEmail = '';
+			this.telErrorInput = "";
+			this.emailErrorInput = '';
+		},
+		vsCodeFocus(){
+			this.errorVsCode = '';
+			this.vsCodeErrorInput = '';
+		},
+		telCodeFocus(){
+			this.errorTelCode = '';
+			this.telCodeErrorInput = '';
+		},
+		passwordFocus(){
+			this.errorPassword = '';
+			this.passwordCodeErrorInput = '';
+
+			this.prompt = true;
+		},
+		passwordBlur(){     // 密码提示框消失
+			this.prompt = false;
+		},
+		passwordAgainFocus(){
+			this.errorPasswordAgain = '';
+			this.passwordAgainCodeErrorInput = ""
+		}
 	}
 }
 </script>
