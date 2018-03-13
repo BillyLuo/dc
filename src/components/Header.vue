@@ -138,7 +138,9 @@ export default {
   methods:{
     getUserInfo(){
       var that = this;
-      this.$ajax.post("/trade/tps/pblbi.do")
+      this.$ajax.post("/trade/tps/pblbi.do",{
+        reqresource:1
+      })
       .then(res => {
         // console.log("----header-userinfo-----", res.data);
         if (res.data && res.data.emailset != undefined) {
@@ -154,7 +156,9 @@ export default {
         console.log("获取用户认证信息出错", err);
       });
       this.$ajax
-      .post("/trade/tps/pbpis.do")
+      .post("/trade/tps/pbpis.do",{
+        reqresource:1
+      })
       .then(res => {
         // console.log("----user-----info----", res,res.data);
         if (res.data && res.data.username != undefined) {
@@ -237,15 +241,15 @@ export default {
           this.isLogined = false;
           return false
       }else {
-        if (!this.isCertified && name != 'home' &&name !='login' && name != 'register') {
-          this.$router.push({
-            name:'authentication',
-            query:{
-              name:'authentication'
-            }
-          })
-          return;
-        }
+        // if (!this.isCertified && name != 'home' &&name !='login' && name != 'register') {
+        //   this.$router.push({
+        //     name:'authentication',
+        //     query:{
+        //       name:'authentication'
+        //     }
+        //   })
+        //   return;
+        // }
         this.$router.push({
           path:'/'+name
         });
@@ -280,7 +284,8 @@ export default {
         method:"post",
         url: "/trade/tps/pblou.do",
         data:{
-          username: that.$store.state.userinfo.username
+          username: that.$store.state.userinfo.username,
+          reqresource:1
         }
       }).then((data) =>{
         // console.log(data)

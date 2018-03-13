@@ -60,7 +60,10 @@ import {Tabs,TabPane} from "iview"
             let that =this;
             this.$ajax({
                 method:"get",
-                url:"/tradex/tps/pblrl.do"
+                url:"/tradex/tps/pblrl.do",
+                data:{
+                    reqresource:1
+                }
             }).then((data)=>{
                 console.log(data)
                 if(data.data){
@@ -70,7 +73,10 @@ import {Tabs,TabPane} from "iview"
 
             this.$ajax({
                 method:"get",
-                url:"/tradex/tps/pbssr.do"
+                url:"/tradex/tps/pbssr.do",
+                data:{
+                    reqresource:1
+                }
             }).then((data)=>{
                 console.log(data)
                 if(data.data){

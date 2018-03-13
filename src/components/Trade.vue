@@ -344,6 +344,7 @@
             // }).then((data)=>{
             //     console.log(data)
             // })
+            this.$Message.info('This is a info tip');
         },
         methods: {
             changePage(){
@@ -511,7 +512,8 @@
                     url: '/trade/tps/pblds.do',
                     data: {
                         currencytype:"ETH",
-                        pagesize: 10
+                        pagesize: 10,
+                        reqresource:1
                     }
                 })
                 .then(function (response) {
@@ -534,7 +536,8 @@
                     data: {
                         count : 5,//查询条数
                         coin : 'ETH',//币种
-                        tradecoin: 'USDT'//交易币种
+                        tradecoin: 'USDT',//交易币种
+                        reqresource:1
                     }
                 }).then((data)=>{
                     console.log(data.data.latestEntrust)

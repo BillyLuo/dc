@@ -115,7 +115,7 @@
           checkcode:'',
           tel:'15373872695',
           verificationCode:'2234',
-          resource:"1"
+          reqresource:"1"
         },
         loginError:'',
         rememberpass:'记住密码',
@@ -193,7 +193,8 @@
           method: 'post',
           url: '/trade/biz/pbsms.do?fh=LIOCOD0000000J00&resp=bd',
           data: {
-            tel:this.formInline.tel
+            tel:this.formInline.tel,
+            reqresource:1
           }
         }).then(function (response) {
           if(response.data.err_code == 1){
@@ -229,7 +230,7 @@
         var loginname = this.formInline.user.trim();
         var pwd = this.formInline.password.trim();
         var checkcode = this.formInline.checkcode.trim();
-        var resource = this.formInline.resource.trim();
+        var reqresource = this.formInline.reqresource.trim();
         this.$Spin.show({
           render: (h) => {
             return h('div', [
@@ -255,7 +256,7 @@
             loginname,
             pwd,
             checkcode,
-            resource
+            reqresource
           }
         }).then((data)=>{
           console.log(data);

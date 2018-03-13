@@ -228,7 +228,8 @@
           endDate
         });
         this.$ajax.post('/trade/tps/pblad.do',{
-          operation
+          operation,
+          reqresource:1
         }).then((res)=>{
           console.log(res);
         }).catch((err)=>{

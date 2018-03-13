@@ -164,7 +164,9 @@ export default {
   methods:{
     getUserinfo(){
       this.$Spin.show();
-      this.$ajax.post("/trade/tps/pblbi.do")
+      this.$ajax.post("/trade/tps/pblbi.do",{
+        reqresource:1
+      })
       .then(res => {
         this.$Spin.hide();
         if (res.data && res.data.emailset != undefined) {

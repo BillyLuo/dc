@@ -91,7 +91,7 @@ export default {
     },
     getAccountList() {
       this.$ajax.post('/trade/tps/pblaf.do/',{
-
+        reqresource:1
       }).then((data) => {
         console.log('success',data);
         let list = (data.data && data.data.accountFund) ? data.data.accountFund : [];

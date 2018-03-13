@@ -89,6 +89,7 @@ export default {
             this.$ajax({
                 method: "get",
                 url: "/trade/tps/pbfcd.do",    
+                reqresource:1
             }).then((data)=>{
                 console.log(data);
                 that.data1 = data.data.currencyDetail;
