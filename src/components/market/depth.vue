@@ -103,10 +103,16 @@ export default {
                 {
                     title: '价格('+this.bizhong+')',
                     key: 'tradeprice',
+                    render: (h,params)=>{
+                        return Number(params.row.tradeprice).toFixed(6)
+                    }
                 },
                 {
                     title: '数量('+this.currency+')',
-                    key: 'tradecount'
+                    key: 'tradecount',
+                    render: (h,params)=>{
+                        return Number(params.row.tradecount).toFixed(6)
+                    }
                 }
             ];
 

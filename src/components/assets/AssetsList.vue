@@ -90,7 +90,7 @@ export default {
       }
     },
     getAccountList() {
-      this.$ajax.post('/trade/tps/pblaf.do/',{
+      this.$ajax.post('/trade/tps/pblaf.do',{
         reqresource:1
       }).then((data) => {
         console.log('success',data);

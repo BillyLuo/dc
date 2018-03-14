@@ -57,35 +57,41 @@ import {Tabs,TabPane} from "iview"
             }
         },
         mounted(){
-            let that =this;
-            this.$ajax({
-                method:"get",
-                url:"/tradex/tps/pblrl.do",
-                data:{
-                    reqresource:1
-                }
-            }).then((data)=>{
-                console.log(data)
-                if(data.data){
-                    that.data1 = data.data.LoginRecord;
-                }
-            })
-
-            this.$ajax({
-                method:"get",
-                url:"/tradex/tps/pbssr.do",
-                data:{
-                    reqresource:1
-                }
-            }).then((data)=>{
-                console.log(data)
-                if(data.data){
-                    that.data2 = data.data.securitySetRecord;
-                }
-            })
+            
+            this.loginjslu()
+            // this.$ajax({
+            //     method:"get",
+            //     url:"/tradex/tps/pbssr.do",
+            //     data:{
+            //         reqresource:1
+            //     }
+            // }).then((data)=>{
+            //     console.log(data)
+            //     if(data.data){
+            //         that.data2 = data.data.securitySetRecord;
+            //     }
+            // })
         },
         methods:{
-
+            loginjslu (){
+                let that =this;
+                this.$ajax({
+                    method:"POST",
+                    url:"/trade/tps/pblrs.do",
+                    data:{
+                        reqresource:1
+                    }
+                }).then((data)=>{
+                    console.log(data.data.loginRecord)
+                    console.log(that.data1)
+                    if(data.data.loginRecord){
+                        console.log(0)
+                        that.data1 = data.data.loginRecord;
+                    }
+                    
+                    
+                })
+            }
         }
     }
 </script>
