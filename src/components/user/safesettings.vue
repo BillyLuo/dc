@@ -664,7 +664,8 @@ export default {
           mobile:new_tel,
           mobilecodeold:code,
           mobilecode:new_code,
-          code:imgCode
+          code:imgCode,
+          reqresource:1
         }).then((res) => {
           that.$Spin.hide();
           console.log('修改手机',res);
@@ -707,7 +708,8 @@ export default {
             mobile:tel,
             region:1,
             mobilecode:code,
-            code:imgCode
+            code:imgCode,
+            reqresource:1
           }).then((res) => {
             console.log(res);
             that.$Spin.hide();
@@ -756,7 +758,7 @@ export default {
           }
           that.$Spin.show();
           that.$ajax.post('/trade/tps/pbvcs.do',{
-            type:'loginpwd',oldpwd,newpwd,confirmpwd,code
+            type:'loginpwd',oldpwd,newpwd,confirmpwd,code,reqresource:1
           }).then((res)=>{
             that.$Spin.hide();
             if (res.status == 200 && res.data && res.data.err_code == '1') {
@@ -805,7 +807,8 @@ export default {
             type:'tradepwd',
             newpwd,
             confirmpwd,
-            code
+            code,
+            reqresource:1
           }).then((res)=>{
             console.log(res);
             that.$Spin.hide();
@@ -854,7 +857,8 @@ export default {
             newpwd,
             oldpwd,
             confirmpwd,
-            code
+            code,
+            reqresource:1
           }).then((res)=>{
             that.$Spin.hide();
             console.log(res);
