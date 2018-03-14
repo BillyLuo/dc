@@ -19,6 +19,7 @@
 <script>
 import userInfo from './userBaseInfo';
 import { Menu, MenuItem } from 'iview';
+import { Message } from '../../utils/message';
 let userMenu = [
   {label:'基本信息',value:'safesettings'},
   // {label:'金牌经纪人',value:'broker'},
@@ -43,6 +44,10 @@ export default {
       this.$nextTick(()=> {
         this.$refs['safesettings'].currentActiveName  = 'authentication';
       })
+    }
+    console.log(this.$store.state.userinfo,'userinfo--------');
+    if (!this.$store.state.userinfo.uid || !this.$store.state.userinfo.tradepasswordset) {
+      Message.warn('网络似乎开小差了，请稍后重试。');
     }
   },
   methods:{
