@@ -344,7 +344,6 @@
             // }).then((data)=>{
             //     console.log(data)
             // })
-            this.$Message.info('This is a info tip');
         },
         methods: {
             changePage(){
@@ -521,7 +520,7 @@
                     console.log(response.data.latestDeal);
                     if(response.data.latestDeal){
                        
-                        latestDeal.map(function(item,index){
+                        response.data.latestDeal.map(function(item,index){
                             if(index<5){
                                 that.record_data.push(item);
                             }
@@ -563,7 +562,36 @@
             //查询委托
             query_entrust (accountid,currencycode,starttime,endtime) {
                 let that = this;
+                this.$ajax({
+                    method: 'post',
+                    url: '/trade/tps/pbets.do',
+                    data: {
+                        // accountid:accountid,//账户ID
+                        // currencycode:currencycode,
+                        // starttime:starttime,//开始时间
+                        // endtime:endtime,//结束时间
+                        "currencytype":currencycode ? 'currencycode' : 'ETH',//币种
+                        "starttime":"",
+                        "endtime":"",
+                        "pageno":"1",
+                        "pagesize":"14",
+                        "reqresource":"2",
+                    }
+                })
+                .then((response) => {
+                    console.log("weituo======",response)
+                    if(response.data){
+                        that.weituo_data = [{
+                            avebuyprice : response.data.avebuyprice,
+                            avesellprice: response.data.avesellprice,
+                            totalbuynum: response.data.totalbuynum,
+                            totalsellnum: response.data.totalsellnum
+                        }]
 
+                        that.order_record_data = response.data.tradeDeatil;
+                    }
+                    
+                })
                 this.$ajax({
                     method: 'post',
                     url: '/trade/tps/pbdms.do',
@@ -577,7 +605,7 @@
                         "endtime":"",
                         "pageno":"1",
                         "pagesize":"14",
-                        "reqresource":"1",
+                        "reqresource":"2",
                     }
                 })
                 .then((response) => {
