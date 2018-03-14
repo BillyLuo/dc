@@ -37,6 +37,7 @@
 
 <script>
 import { mapState } from "vuex";
+import bus from '../../bus/bus';
 export default {
   data() {
     return {};
@@ -99,9 +100,9 @@ export default {
   },
   methods: {
     protect() {
-      this.$store.commit('change');
+      bus.$emit('changeSettingMenu','safesettings');
       this.$router.push({
-        path: "/user"
+        path: "/user/safesettings"
       });
     },
     
@@ -133,7 +134,7 @@ export default {
 
 .user-info-right {
   padding: 10px 0;
-  width: 220px;
+  width: 260px;
   & > div {
     height: 30px;
     line-height: 30px;

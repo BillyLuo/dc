@@ -1,5 +1,5 @@
 <template>
-  <div class="user-center" @click="changeActiveName">
+  <div class="user-center">
     <user-info></user-info>
     <div class="user-main clear">
       <div class="user-menu" active-name="user-menu">
@@ -20,6 +20,7 @@
 import userInfo from './userBaseInfo';
 import { Menu, MenuItem } from 'iview';
 import { Message } from '../../utils/message';
+import bus from '../../bus/bus'
 let userMenu = [
   {label:'基本信息',value:'safesettings'},
   // {label:'金牌经纪人',value:'broker'},
@@ -40,17 +41,29 @@ export default {
   mounted(){
     var route = this.$route;
     var activeName = route.query.name;
-    if (activeName && activeName == 'authentication') {
-      this.$nextTick(()=> {
-        this.$refs['safesettings'].currentActiveName  = 'authentication';
-      })
-    }
+    var that = this;
+    bus.$on('changeSettingMenu',function (name) {
+      that.initActive(name);
+    })
+    this.initActive(activeName);
     console.log(this.$store.state.userinfo,'userinfo--------');
     if (!this.$store.state.userinfo.uid || !this.$store.state.userinfo.tradepasswordset) {
       Message.warn('网络似乎开小差了，请稍后重试。');
     }
   },
   methods:{
+    //init菜单的选中
+    initActive(name) {
+      if (!name) {
+        return false;
+      }
+      if (name && name.charAt) {
+        if (this.$refs['safesettings']) {
+          this.$refs['safesettings'].currentActiveName  = name;
+        }
+      }
+    },
+    //点击左侧菜单
     changeValue(name){
       if (name == 'api') {
         this.$Modal.info({
@@ -60,13 +73,10 @@ export default {
         return false;
       }
       this.$router.push({
-        path:'/user/'+name
-      })
-    },
-    changeActiveName () {
-      var that = this;
-      this.$nextTick(()=> {
-        // that.$refs['safesettings'].currentActiveName  = 'api';
+        path:'/user/'+name,
+        query:{
+          name
+        }
       })
     }
   }

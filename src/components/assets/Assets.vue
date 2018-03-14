@@ -18,6 +18,7 @@
               <Button size="small" @click="chooseDate(7)" :type="setDayActive == 7 ? 'primary' : 'ghost'">7天</Button>
               <Button size="small" @click="chooseDate(15)" :type="setDayActive == 15 ? 'primary' : 'ghost'">15天</Button>
               <Button size="small" @click="chooseDate(30)" :type="setDayActive == 30 ? 'primary' : 'ghost'">30天</Button>
+              <div style="padding:4px 0;font-size:12px;color: #f00;">{{dateErr}}</div>
             </div>
             <div>
               <span>操作类型：</span>
@@ -165,7 +166,8 @@
         ],
         startDate:'',
         endDate:new Date(),
-        setDayActive:7
+        setDayActive:7,
+        dateErr:''
       }
     },
     methods: {
@@ -227,6 +229,13 @@
           startDate,
           endDate
         });
+        this.dateErr = '';
+        if (startDate && endDate) {
+          if (!moment(startDate).isBefore(endDate)) {
+            this.dateErr = '查询开始时间应小于结束时间';
+            return false;
+          }
+        }
         this.$ajax.post('/trade/tps/pblad.do',{
           operation,
           reqresource:1
