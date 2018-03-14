@@ -36,7 +36,10 @@ export default {
                 {
                     title: '最新价',
                     key: 'curprice',
-                    sortable: true
+                    sortable: true,
+                    render: (h,params)=>{
+                        return Number(params.row.curprice).toFixed(6)
+                    }
                 },
                 {
                     title: '涨幅',

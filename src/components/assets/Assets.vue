@@ -106,27 +106,40 @@
         ],
         account_detail_column: [{
             title: '交易时间',
-            key: 'trade_time',
+            key: 'tradetime',
             sortable: true
           },
           {
             title: '类型',
-            key: 'trade_type',
-            sortable: true
+            key: 'tradetype',
+            sortable: true,
+            render: (h,param) =>{
+              if(param.row.tradetype = "1"){
+                return "买入"
+              }else if(param.row.tradetype = "2"){
+                return "卖出"
+              }
+            }
           },
           {
             title: '金额',
-            key: 'trade_money',
-            sortable: true
+            key: 'amount',
+            sortable: true,
+            render: (h,param) =>{
+              return Number(param.row.amount).toFixed(6)
+            }
           },
           {
             title: '手续费',
-            key: 'serice_charge',
-            sortable: true
+            key: 'servicecharge',
+            sortable: true,
+            render: (h,param) =>{
+              return Number(param.row.servicecharge).toFixed(6)
+            }
           },
           {
             title: '状态',
-            key: 'trade_status',
+            key: 'status',
             sortable: true
           },
         ],
@@ -208,6 +221,7 @@
         }
       },
       getAssetsDetail(){
+        let that =this;
         let startDate = this.startDate;
         let endDate = this.endDate;
         let operation = this.operation_type;
@@ -219,8 +233,9 @@
         if (endDate) {
           endDate = moment(this.endDate).format('YYYY-MM-DD');
         }else {
-          this.endDate = new Date();
-          endDate = moment().format('YYYY-MM-DD');
+          // this.endDate = new Date();
+          // endDate = moment().format('YYYY-MM-DD');
+          this.endDate = ""
         }
         console.log({
           operation,
@@ -229,9 +244,15 @@
         });
         this.$ajax.post('/trade/tps/pblad.do',{
           operation,
+          startDate,
+          endDate,
           reqresource:1
         }).then((res)=>{
-          console.log(res);
+          console.log(res.data.accountDetail);
+          if(res.data.accountDetail){
+            that.account_detail_data = res.data.accountDetail
+          }
+
         }).catch((err)=>{
           console.warn('获取资产详情失败');
         })

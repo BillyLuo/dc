@@ -15,7 +15,7 @@
                 </MenuItem>
             </Menu>
         </div>
-        <div class="context-title" v-if="types =='buy' && numbers < 5">
+        <div class="context-title" v-if="types =='buy' && userinfo.validationAmount < 5">
             <Row>
                 <Col span="14">
                     <div class="title-text">
@@ -132,7 +132,7 @@
             </div>
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
-                <Table :data="order_record_data" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <Table :data="order_record_data1" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                 <div v-if="jiaoyipage > 0" style="margin: 10px;overflow:hidden">
                     <div style="float: right;">
                         <Page :total="jiaoyipage" :current="jiaoyicurrent" @on-change="changePage"></Page>
@@ -147,6 +147,7 @@
 <script>
     import { Menu,MenuItem,DatePicker,Table,Slider,Page } from 'iview';
     import step from './step';
+    import { mapState } from "vuex";
     // let menu = [
     //     {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
     //     {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
@@ -178,7 +179,7 @@
                 begintime: '',
                 begintime1: '',
                 types:"buy",
-                btcname:"BTC",
+                btcname:"ETH",
                 buymoney:0,
                 sellmoney:0,
                 buyprice:'',
@@ -202,12 +203,15 @@
                     {
                         title: '交易数量',
                         key: 'count',
+                        render: (h,params)=>{
+                            return Number(params.row.count).toFixed(6)
+                        }
                     },
                     {
                         title: '交易价格',
                         key: 'price',
                         render: (h, params) => {
-                            return params.row.price
+                            return Number(params.row.price).toFixed(6)
                         }
                     }
                 ],
@@ -223,12 +227,18 @@
                     },
                     {
                         title: '价格(¥)',
-                        key: 'tradeprice'
+                        key: 'tradeprice',
+                        render: (h, params) => {
+                            return Number(params.row.tradeprice).toFixed(6)
+                        }
                         
                     },
                     {
                         title: '数量',
-                        key: 'tradecount'
+                        key: 'tradecount',
+                        render: (h, params) => {
+                            return Number(params.row.tradecount).toFixed(6)
+                        }
                     }
                 ],
                 record_data: [],
@@ -236,6 +246,7 @@
                 weituo_data:[],
                 weituo_columns: [],
                 order_record_data: [],
+                order_record_data1:[],
                 order_record_cloumns: [
                     {
                         title: "委托时间",
@@ -254,40 +265,63 @@
                     },
                     {
                         title: '数量',
-                        key: 'entrustcount'
+                        key: 'entrustcount',
+                        render: (h,params)=>{
+                            return Number(params.row.entrustcount).toFixed(6)
+                        }
                     },
                     {
                         title: '价格',
-                        key: 'tradeprice'
+                        key: 'tradeprice',
+                        render: (h,params)=>{
+                            return Number(params.row.tradeprice).toFixed(6)
+                        }
                     },
                     {
                         title: '金额',
-                        key: 'entrustamount'
+                        key: 'entrustamount',
+                        render: (h,params)=>{
+                            return Number(params.row.entrustamount).toFixed(6)
+                        }
                     },
                     {
                         title: '成交量',
-                        key: 'tradecount'
+                        key: 'tradecount',
+                        render: (h,params)=>{
+                            return Number(params.row.tradecount).toFixed(6)
+                        }
                     },
                     {
                         title: '成交金额',
-                        key: 'tradeamount'
+                        key: 'tradeamount',
+                        render: (h,params)=>{
+                            if (params.row.tradeamount && params.row.tradeamount!="null") return   Number(params.row.tradeamount).toFixed(6)
+                                else return ""
+                        }
                     },
                     {
                         title: '手续费',
-                        key: 'charge'
+                        key: 'charge',
+                        render: (h,params)=>{
+                            return Number(params.row.charge).toFixed(6)
+                        }
                     },
                     {
                         title: '平均成交价',
-                        key: 'averageprice'
+                        key: 'averageprice',
+                        render: (h,params)=>{
+                            return Number(params.row.averageprice).toFixed(6)
+                        }
                     },
                     {
                         title: '状态/操作',
                         key: 'status',
                         render: (h,params) =>{
+                            // 状态(1:已提交2:成交,3:撤销,4:部分成交,5:部分成交撤销)
                             if(params.row.status == "1"){
-                                return "成交"
+                                return "已提交"
                             }else if(params.row.status == "2"){
-                                return "部分"
+                                return "成交"
                             }else if(params.row.status == "3"){
                                 return  h('div', [
                                             h('Button', {
@@ -305,6 +339,25 @@
                                                 }
                                             }, '撤销')
                                         ]);
+                            }else if(params.row.status == "4"){
+                                return "部分成交"
+                            }else if(params.row.status == "5"){
+                                return  h('div', [
+                                            h('Button', {
+                                                props: {
+                                                    type: 'primary',
+                                                    size: 'small'
+                                                },
+                                                style: {
+                                                    marginRight: '5px'
+                                                },
+                                                on: {
+                                                    click: () => {
+                                                        this.show(params.index)
+                                                    }
+                                                }
+                                            }, '部分撤销')
+                                        ]);
                             }
                         }
                     }
@@ -312,40 +365,68 @@
 
             }
         },
-        created () {
+        computed: {
+            ...mapState({
+                userinfo: state => {
+                    var amount = 0;
+                    if (state.userinfo.emailset ==1) {
+                    amount += 1;
+                    }
+                    if (state.userinfo.identityset ==1) {
+                    amount += 1;
+                    }
+                    if (state.userinfo.mobileset==1) {
+                    amount += 1;
+                    }
+                    if (state.userinfo.googlecodeset ==1 ) {
+                    amount += 1;
+                    }
+                    if (state.userinfo.loginpasswordset == 1) {
+                    amount += 1;
+                    }
+                    if (state.userinfo.tradepasswordset == 1) {
+                    amount += 1;
+                    }
+                    return {
+                        validationAmount: amount
+                    };
+                }
+            }),
+        },
+  
+        mounted () {
+            this.query();
+            
             this.weituolist();
             console.log(this.$store.state)
-            let userinfo = this.$store.state.userinfo;
-            if(userinfo.emailset ){
+            // let userinfo = this.$store.state.userinfo;
+
+            if(this.$store.state.userinfo.emailset ){
                 this.numbers++
             }
-            if(userinfo.mobileset){
+            if(this.$store.state.userinfo.mobileset){
                 this.numbers++
             }
-            if(userinfo.tradepasswordset){
+            if(this.$store.state.userinfo.tradepasswordset){
                 this.numbers++
             }
-            if(userinfo.identityset){
+            if(this.$store.state.userinfo.identityset){
                 this.numbers++
             }
-            if(userinfo.loginpasswordset){
+            if(this.$store.state.userinfo.loginpasswordset){
                 this.numbers++
             }
             
 
-            console.log(this.numbers)
+            console.log("--------------",this.numbers)
             
         },
-        mounted () {
-            this.query();
-            // this.$ajax({
-            //     method: "get",
-            //     url: '/trade/tps/pbqnl.do'
-            // }).then((data)=>{
-            //     console.log(data)
-            // })
-        },
         methods: {
+            show(){
+                this.$Modal.info({
+                    content: "功能暂未开放"
+                })
+            },
             changePage(){
 
             },
@@ -356,14 +437,20 @@
                 this.begintime1 = val;
             },
             weituojilu () {
+                console.log(this.begintime)
                 if(this.begintime.length){
-                    this.query_entrust('','',this.begintime[0],this.begintime[1]);
+                    this.query_entrust(this.btcname,this.begintime[0],this.begintime[1]);
+                }else{
+                    this.query_entrust()
                 }
                
             },
             weituojilu1 () {
+
                 if(this.begintime1.length){
-                    this.query_entrust('','',this.begintime1[0],this.begintime1[1]);
+                    this.query_entrust1(this.btcname,this.begintime1[0],this.begintime1[1]);
+                }else{
+                    this.query_entrust1()
                 }
             },
             buy_price(){
@@ -450,10 +537,10 @@
                         key: "totalbuynum",
                         render (h,row){
                             if(row.row.totalbuynum){
-                                return Number(row.row.totalbuynum).toFixed(4);
+                                return Number(row.row.totalbuynum).toFixed(6);
                             }else{
                                 let numb=0;
-                                return numb.toFixed(4)
+                                return numb.toFixed(6)
                             }
                             
                         }
@@ -463,10 +550,10 @@
                         key: "avebuyprice",
                         render (h,row){
                             if(row.row.avebuyprice){
-                                return Number(row.row.avebuyprice).toFixed(4);
+                                return Number(row.row.avebuyprice).toFixed(6);
                             }else{
                                 let numb=0;
-                                return numb.toFixed(4)
+                                return numb.toFixed(6)
                             }
                             
                         }
@@ -476,10 +563,10 @@
                         key: "totalsellnum",
                         render (h,row){
                             if(row.row.totalsellnum){
-                                return Number(row.row.totalsellnum).toFixed(4);
+                                return Number(row.row.totalsellnum).toFixed(6);
                             }else{
                                 let numb=0;
-                                return numb.toFixed(4)
+                                return numb.toFixed(6)
                             }
                             
                         }
@@ -489,10 +576,10 @@
                         key: "avesellprice",
                         render (h,row){
                             if(row.row.avesellprice){
-                                return Number(row.row.avesellprice).toFixed(4);
+                                return Number(row.row.avesellprice).toFixed(6);
                             }else{
                                 let numb=0;
-                                return numb.toFixed(4)
+                                return numb.toFixed(6)
                             }
                             
                         }
@@ -501,7 +588,6 @@
             },
             // 查询交易记录
             query () {
-                // this.query_entrust();
                 let that = this;
                 this.price_datas = [];
                 this.record_data = [];
@@ -560,22 +646,19 @@
                 console.log(value)
             },
             //查询委托
-            query_entrust (accountid,currencycode,starttime,endtime) {
+            query_entrust (currencycode,starttime,endtime) {
+                console.log(currencycode,starttime,endtime)
                 let that = this;
                 this.$ajax({
                     method: 'post',
                     url: '/trade/tps/pbets.do',
                     data: {
-                        // accountid:accountid,//账户ID
-                        // currencycode:currencycode,
-                        // starttime:starttime,//开始时间
-                        // endtime:endtime,//结束时间
-                        "currencytype":currencycode ? 'currencycode' : 'ETH',//币种
-                        "starttime":"",
-                        "endtime":"",
+                        "currencytype":currencycode ? currencycode : 'ETH',//币种
+                        "starttime":starttime ? starttime : "",
+                        "endtime":endtime ? endtime:"",
                         "pageno":"1",
                         "pagesize":"14",
-                        "reqresource":"2",
+                        "reqresource":"1",
                     }
                 })
                 .then((response) => {
@@ -587,25 +670,24 @@
                             totalbuynum: response.data.totalbuynum,
                             totalsellnum: response.data.totalsellnum
                         }]
-
-                        that.order_record_data = response.data.tradeDeatil;
+                        that.order_record_data = response.data.dealManage;
                     }
-                    
                 })
+            },
+            query_entrust1 (currencycode,starttime,endtime) {
+
+                let that = this;
+                // 交易
                 this.$ajax({
                     method: 'post',
                     url: '/trade/tps/pbdms.do',
                     data: {
-                        // accountid:accountid,//账户ID
-                        // currencycode:currencycode,
-                        // starttime:starttime,//开始时间
-                        // endtime:endtime,//结束时间
-                        "currencytype":currencycode ? 'currencycode' : 'ETH',//币种
-                        "starttime":"",
-                        "endtime":"",
+                       "currencytype":currencycode ? currencycode : 'ETH',//币种
+                        "starttime":starttime ? starttime : "",
+                        "endtime":endtime ? endtime : "",
                         "pageno":"1",
                         "pagesize":"14",
-                        "reqresource":"2",
+                        "reqresource":"1",
                     }
                 })
                 .then((response) => {
@@ -618,7 +700,7 @@
                             totalsellnum: response.data.totalsellnum
                         }]
 
-                        that.order_record_data = response.data.tradeDeatil;
+                        that.order_record_data1 = response.data.dealManage;
                     }
                     
                 })
@@ -636,8 +718,11 @@
             },
             infos (name) {
                 console.log(name)
-                if(name != "buy"){
+                if(name == "weituo"){
                     this.query_entrust()
+                }
+                if(name == "jiaoyijilu"){
+                    this.query_entrust1()
                 }
                 this.types = name; 
                 this.begintime = "";
