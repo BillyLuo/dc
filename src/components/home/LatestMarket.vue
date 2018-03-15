@@ -71,7 +71,7 @@
             align: 'center',
             className:'change-table-info-column',
             render: (h,params) =>{
-              return params.row.range + '%'
+              return h("span",params.row.range + '%')
             }
           },
           {

@@ -194,9 +194,9 @@
                         key: 'operate',
                         render: (h,params) => {
                             if(params.row.operate == "1"){
-                                return "卖出"
+                                return h("span","卖出")
                             }else{
-                                return "买入"
+                                return h("span","买入")
                             }
                         }
                     },
