@@ -116,9 +116,9 @@
             sortable: true,
             render: (h,param) =>{
               if(param.row.tradetype = "1"){
-                return "买入"
+                return h("span","买入")
               }else if(param.row.tradetype = "2"){
-                return "卖出"
+                return h("span","卖出")
               }
             }
           },
@@ -127,7 +127,7 @@
             key: 'amount',
             sortable: true,
             render: (h,param) =>{
-              return Number(param.row.amount).toFixed(6)
+              return h("span",Number(param.row.amount).toFixed(6))
             }
           },
           {
@@ -135,7 +135,7 @@
             key: 'servicecharge',
             sortable: true,
             render: (h,param) =>{
-              return Number(param.row.servicecharge).toFixed(6)
+              return h("span",Number(param.row.servicecharge).toFixed(6))
             }
           },
           {

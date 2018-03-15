@@ -204,14 +204,14 @@
                         title: '交易数量',
                         key: 'count',
                         render: (h,params)=>{
-                            return Number(params.row.count).toFixed(6)
+                            return  h("span",Number(params.row.count).toFixed(6))
                         }
                     },
                     {
                         title: '交易价格',
                         key: 'price',
                         render: (h, params) => {
-                            return Number(params.row.price).toFixed(6)
+                            return  h("span",Number(params.row.price).toFixed(6))
                         }
                     }
                 ],
@@ -222,14 +222,14 @@
                         title: "时间",
                         key: 'tradetime',
                         render: (h,params) => {
-                            return params.row.tradetime.substr(11,20)
+                            return  h("span",params.row.tradetime.substr(11,20))
                         }
                     },
                     {
                         title: '价格(¥)',
                         key: 'tradeprice',
                         render: (h, params) => {
-                            return Number(params.row.tradeprice).toFixed(6)
+                            return  h("span",Number(params.row.tradeprice).toFixed(6))
                         }
                         
                     },
@@ -237,7 +237,7 @@
                         title: '数量',
                         key: 'tradecount',
                         render: (h, params) => {
-                            return Number(params.row.tradecount).toFixed(6)
+                            return  h("span",Number(params.row.tradecount).toFixed(6))
                         }
                     }
                 ],
@@ -267,35 +267,35 @@
                         title: '数量',
                         key: 'entrustcount',
                         render: (h,params)=>{
-                            return Number(params.row.entrustcount).toFixed(6)
+                            return h("span",Number(params.row.entrustcount).toFixed(6))
                         }
                     },
                     {
                         title: '价格',
                         key: 'tradeprice',
                         render: (h,params)=>{
-                            return Number(params.row.tradeprice).toFixed(6)
+                            return h("span",Number(params.row.tradeprice).toFixed(6))
                         }
                     },
                     {
                         title: '金额',
                         key: 'entrustamount',
                         render: (h,params)=>{
-                            return Number(params.row.entrustamount).toFixed(6)
+                            return h("span",Number(params.row.entrustamount).toFixed(6))
                         }
                     },
                     {
                         title: '成交量',
                         key: 'tradecount',
                         render: (h,params)=>{
-                            return Number(params.row.tradecount).toFixed(6)
+                            return h("span",Number(params.row.tradecount).toFixed(6))
                         }
                     },
                     {
                         title: '成交金额',
                         key: 'tradeamount',
                         render: (h,params)=>{
-                            if (params.row.tradeamount && params.row.tradeamount!="null") return   Number(params.row.tradeamount).toFixed(6)
+                            if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",Number(params.row.tradeamount).toFixed(6))
                                 else return ""
                         }
                     },
@@ -303,14 +303,14 @@
                         title: '手续费',
                         key: 'charge',
                         render: (h,params)=>{
-                            return Number(params.row.charge).toFixed(6)
+                            return h("span",Number(params.row.charge).toFixed(6))
                         }
                     },
                     {
                         title: '平均成交价',
                         key: 'averageprice',
                         render: (h,params)=>{
-                            return Number(params.row.averageprice).toFixed(6)
+                            return h("span",Number(params.row.averageprice).toFixed(6))
                         }
                     },
                     {
@@ -319,9 +319,9 @@
                         render: (h,params) =>{
                             // 状态(1:已提交2:成交,3:撤销,4:部分成交,5:部分成交撤销)
                             if(params.row.status == "1"){
-                                return "已提交"
+                                return h("span","已提交")
                             }else if(params.row.status == "2"){
-                                return "成交"
+                                return h("span","成交")
                             }else if(params.row.status == "3"){
                                 return  h('div', [
                                             h('Button', {
@@ -340,7 +340,7 @@
                                             }, '撤销')
                                         ]);
                             }else if(params.row.status == "4"){
-                                return "部分成交"
+                                return h("span","部分成交")
                             }else if(params.row.status == "5"){
                                 return  h('div', [
                                             h('Button', {
@@ -537,10 +537,10 @@
                         key: "totalbuynum",
                         render (h,row){
                             if(row.row.totalbuynum){
-                                return Number(row.row.totalbuynum).toFixed(6);
+                                return h("span",Number(row.row.totalbuynum).toFixed(6));
                             }else{
                                 let numb=0;
-                                return numb.toFixed(6)
+                                return  h("span",numb.toFixed(6))
                             }
                             
                         }
@@ -550,10 +550,10 @@
                         key: "avebuyprice",
                         render (h,row){
                             if(row.row.avebuyprice){
-                                return Number(row.row.avebuyprice).toFixed(6);
+                                return  h("span",Number(row.row.avebuyprice).toFixed(6));
                             }else{
                                 let numb=0;
-                                return numb.toFixed(6)
+                                return  h("span",numb.toFixed(6))
                             }
                             
                         }
@@ -563,10 +563,10 @@
                         key: "totalsellnum",
                         render (h,row){
                             if(row.row.totalsellnum){
-                                return Number(row.row.totalsellnum).toFixed(6);
+                                return  h("span",Number(row.row.totalsellnum).toFixed(6));
                             }else{
                                 let numb=0;
-                                return numb.toFixed(6)
+                                return  h("span",numb.toFixed(6))
                             }
                             
                         }
@@ -576,10 +576,10 @@
                         key: "avesellprice",
                         render (h,row){
                             if(row.row.avesellprice){
-                                return Number(row.row.avesellprice).toFixed(6);
+                                return  h("span",Number(row.row.avesellprice).toFixed(6));
                             }else{
                                 let numb=0;
-                                return numb.toFixed(6)
+                                return  h("span",numb.toFixed(6))
                             }
                             
                         }
