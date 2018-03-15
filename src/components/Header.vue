@@ -1,7 +1,8 @@
 <template>
   <div :class="{'home-header':true,active:scroll}">
     <div class="header-inner clear wrapper">
-      <div class="header-logo" @click="route('home')">
+      <!-- <div class="header-logo" @click="route('home')"> -->
+      <div class="header-logo">  
         <img src="/static/img/logo.png"/>
         <span>福币中心</span>
       </div>
@@ -10,7 +11,7 @@
             {{value.text}}
         </MenuItem>
       </Menu>
-      <div class="header-right float-left header-user">
+      <div class="header-right float-right header-user">
         <div v-if="isLogined" class="logined">
           <div class="user-name float-left">{{userInfo.username}}</div>
           <div class="user-level float-left">
@@ -126,8 +127,13 @@ export default {
       this.getUserInfo();
       that.userInfo.username = cookies.get('name');
     }else{
+      var path = this.$route.path;
       that.isLogined = false;
-      this.$router.push("/login")
+      if (path == '/' || path == '/home') {
+
+      }else {
+        this.$router.push("/login")
+      }
     }
     
     // this.init();
@@ -220,7 +226,6 @@ export default {
       }
     },
     route(name){
-      // cookies.set('name','will');
       if(!cookies.get("name")  && (name == "trading" || name == "assets" || name == "user" || name == "market")){
           this.$refs.main_menu.currentActiveName = 'user';
           this.$Modal.info({
@@ -257,7 +262,6 @@ export default {
 
 
       var isLogined = this.isLogined;
-      // console.log(isLogined)
       if (!this.isLogined && name != 'register' && name && name!='home') {
         this.$refs.main_menu.currentActiveName = 'home';
         if (name != 'home' && name != 'login' && name != 'register') {
@@ -309,6 +313,7 @@ export default {
     height: 100px;
     position: fixed;
     top: 0px;
+    min-width: 1200px;
     width: 100%;
     left: auto;
     right: auto;
@@ -365,7 +370,7 @@ export default {
     }
   }
   .header-right {
-    margin-left: 50px;
+    margin-right: 200px;
     position: relative;
     z-index: 1300;
   }

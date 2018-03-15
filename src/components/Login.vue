@@ -266,6 +266,7 @@
             cookies.set("name",loginname,{
               expires: 1800
             })
+            
             location = '/';
             // location.href = '/tradex';
           }else {

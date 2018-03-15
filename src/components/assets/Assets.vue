@@ -257,7 +257,7 @@
           endDate,
           reqresource:1
         }).then((res)=>{
-          console.log(res.data.accountDetail);
+          console.log('-----detail',res.data.accountDetail);
           if(res.data.accountDetail){
             that.account_detail_data = res.data.accountDetail
           }

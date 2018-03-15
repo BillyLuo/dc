@@ -48,7 +48,7 @@ export default {
     this.initActive(activeName);
     console.log(this.$store.state.userinfo,'userinfo--------');
     if (!this.$store.state.userinfo.uid || !this.$store.state.userinfo.tradepasswordset) {
-      Message.warn('网络似乎开小差了，请稍后重试。');
+      Message.warn('网络请求似乎出现了问题，请稍后重试。');
     }
   },
   methods:{

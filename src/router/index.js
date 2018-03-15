@@ -24,16 +24,17 @@ const Api = () => import("@/components/user/api");
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
+  mode:'hash',
   // base:'tradex',
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'Index',
       component: Home
     },
     {
       path:'/home',
+      name:'Home',
       component:Home
     },
     {
@@ -64,10 +65,9 @@ export default new Router({
     },
     {
       path:'/user',
-      // name:'User',
       component: User,
       children:[
-        {path:'',component:safeSettings},
+        {path:'',name:'User',component:safeSettings},
         {path:'/user/safesettings',name:'safeSettings',component:safeSettings},
         {path:'/user/broker',name:'broker',component:Broker},
         {path:'/user/api',name:'api',component:Api},

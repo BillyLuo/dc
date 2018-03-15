@@ -29,7 +29,7 @@ export default {
       {
         title: '冻结资产',
         key: 'freeze',
-        sortable: true
+        sortable: true,
       },
       {
         title: '总量',

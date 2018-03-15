@@ -924,7 +924,7 @@ export default {
           if (res.status == 200 && res.data && res.data.err_code == '1') {
             that.$Message.success('短信已发送');
           }else {
-            that.$Message.success('短信发送失败，请稍后重试。');
+            that.$Message.warning('短信发送失败，请稍后重试。');
           }
         }).catch((err) => {
           console.log(err);
