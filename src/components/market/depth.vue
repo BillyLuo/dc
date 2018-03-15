@@ -68,7 +68,7 @@ export default {
                     title: '时间',
                     key: 'tradetime',
                     render: (h,params) => {
-                        return params.row.tradetime.substr(11,20)
+                        return  h("span",params.row.tradetime.substr(11,20))
                     }
                 },
                 {
@@ -104,14 +104,14 @@ export default {
                     title: '价格('+this.bizhong+')',
                     key: 'tradeprice',
                     render: (h,params)=>{
-                        return Number(params.row.tradeprice).toFixed(6)
+                        return  h("span",Number(params.row.tradeprice).toFixed(6))
                     }
                 },
                 {
                     title: '数量('+this.currency+')',
                     key: 'tradecount',
                     render: (h,params)=>{
-                        return Number(params.row.tradecount).toFixed(6)
+                        return  h("span",Number(params.row.tradecount).toFixed(6))
                     }
                 }
             ];

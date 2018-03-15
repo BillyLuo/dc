@@ -38,7 +38,7 @@ export default {
                     key: 'curprice',
                     sortable: true,
                     render: (h,params)=>{
-                        return Number(params.row.curprice).toFixed(6)
+                        return  h("span",Number(params.row.curprice).toFixed(6))
                     }
                 },
                 {
