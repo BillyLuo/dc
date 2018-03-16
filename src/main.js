@@ -64,8 +64,13 @@ Vue.prototype.$Modal = Modal;
 Vue.prototype.$Message = Message;
 Vue.prototype.$Spin = Spin;
 Vue.prototype.$Notice = Notice;
-import VueI18n from 'vue-i18n'
 
+
+// import { locale } from 'iview';
+// import lang from 'iview/dist/locale/en-US';
+// locale(lang);
+
+import VueI18n from 'vue-i18n'
 Vue.use(VueI18n);
 console.log('---store----',store);
 /*---------基本使用-----------*/

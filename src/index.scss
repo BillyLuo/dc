@@ -5,6 +5,9 @@ body {
   color: #333;
   background: #fff;
 }
+ul,ul li {
+  list-style: none;
+}
 .wrapper {
   width: 1200px;
   margin: 0 auto;
