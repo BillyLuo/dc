@@ -257,9 +257,9 @@
                         key: 'tradetype',
                         render: (h,params) =>{
                             if(params.row.tradetype == "1"){
-                                return "买入"
+                                return h("span","买入")
                             }else  if(params.row.tradetype == "2"){
-                                return "卖出"
+                                return h("span","卖出")
                             }
                         }
                     },
@@ -296,7 +296,7 @@
                         key: 'tradeamount',
                         render: (h,params)=>{
                             if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",Number(params.row.tradeamount).toFixed(6))
-                                else return ""
+                                else return h("span","")
                         }
                     },
                     {

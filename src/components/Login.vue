@@ -44,9 +44,9 @@
                 {{ telCodeText }}
               </Button>
             </FormItem> -->
-            <div style="padding: 4px 0 15px 0;">
+            <!-- <div style="padding: 4px 0 15px 0;">
               <Checkbox v-model="rememberpass" @on-change="togglepass">记住密码</Checkbox>
-            </div>
+            </div> -->
             <FormItem>
               <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
             </FormItem>
