@@ -82,7 +82,7 @@
                                 <span slot="prepend">卖出价 ¥</span>
                             </Input>
                             <Input v-model="sellcount" :number="true" @on-change="sell_count" :maxlength="14">
-                                <span slot="prepend">买入量 {{btcname}}</span>
+                                <span slot="prepend">卖出量 {{btcname}}</span>
                             </Input>
                             <p>
                                 ≈ ￥ <span>{{sellmoney}}</span>
@@ -709,9 +709,9 @@
                 this.$router.push("user");
             },
             rowClassName (row, index) {
-                if (index <5) {
+                if (row.operate == '1') {
                     return 'table-row-color-5';
-                } else if (index >=5 ) {
+                } else if (row.operate == '2') {
                     return 'table-row-color-10';
                 }
                 return '';
