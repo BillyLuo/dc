@@ -302,7 +302,7 @@ export default {
            
         },
         dblclick (row,index) {
-            if(index<5){
+            if(row.operate == "1"){
                 this.buycount = row.count;
                 this.buyprice = row.price;
                 this.buymoney = (this.buycount*this.buyprice).toFixed(6);
