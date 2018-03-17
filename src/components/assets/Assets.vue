@@ -30,7 +30,7 @@
             <Table :class="'no-border-table'" stripe :columns="account_detail_column" :data="account_detail_data" />
           </div>
         </TabPane>
-        <!-- <TabPane :label="label3" name="fundAccount">
+        <TabPane :label="label3" name="fundAccount">
           <div class="fund_account">
             <a href="javascript:;" :class="{active:fund_account_active == item.value}" v-for="(item) in fund_account_lists" :key="item.value" @click="changeFundAccount(item.value)">
               <span>{{item.label}}</span>
@@ -39,7 +39,7 @@
         </TabPane>
         <TabPane :label="label4" name="fundsManagement">
           <h3><span>我的资产管理</span></h3>
-        </TabPane> -->
+        </TabPane>
         <TabPane label="我的COINS" name="myCoin">
           <myCoin></myCoin>
         </TabPane>
