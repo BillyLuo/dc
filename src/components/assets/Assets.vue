@@ -83,7 +83,7 @@
         </TabPane>
         <!-- <TabPane :label="label4" name="fundsManagement">
           <h3><span>我的资产管理</span></h3>
-        </TabPane>
+        </TabPane>-->
         <TabPane label="我的COINS" name="myCoin">
           <myCoin></myCoin>
         </TabPane>
@@ -107,9 +107,6 @@
       TabPane,
       Form, FormItem,
       'user-info': userInfo
-    },
-    mounted() {
-      this.getAssetsDetail();
     },
     data() {
       return {
@@ -294,9 +291,6 @@
         ]
       }
     },
-    mounted(){
-      
-    },
     methods: {
       canclemodal(name){
         this.$refs[name].resetFields();
@@ -457,6 +451,9 @@
 
         if(name == "fundAccount"){
           this.selectaddress()
+        }
+        if(name=='accountDetail'){
+          this.getAssetsDetail();
         }
       },
       getAssetsDetail(){
