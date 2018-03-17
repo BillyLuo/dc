@@ -1,8 +1,8 @@
 <template>
   <div :class="{'home-header':true,active:scroll}">
     <div class="header-inner clear wrapper">
-      <!-- <div class="header-logo" @click="route('home')"> -->
-      <div class="header-logo">  
+      <div class="header-logo" @click="route('home')">
+      <!-- <div class="header-logo">   -->
         <img src="/static/img/logo.png"/>
         <span>福币中心</span>
       </div>

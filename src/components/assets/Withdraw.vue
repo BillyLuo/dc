@@ -7,7 +7,9 @@
         <Input :class="'withdraw-item'" v-model="withdrawModel.balance" disabled/>
       </FormItem>
       <FormItem label="提现地址" prop="address">
-        <Input :class="'withdraw-item'" v-model="withdrawModel.address" />
+        <Select :class="'withdraw-item'" v-model="withdrawModel.address">
+          <Option v-for="item in withdrawAddress" :value="item" :key="item">{{item}}</Option>
+        </Select>
         <Button type="primary" @click="showAddModal">增加</Button>
       </FormItem>
       <FormItem label="提现数量" prop="account">
@@ -20,8 +22,9 @@
         <Input :class="'withdraw-item'" type="password" v-model="withdrawModel.trade_password" />
       </FormItem>
       <FormItem label="短信验证码" prop="text_code">
-        <Input :class="'withdraw-item'" v-model="withdrawModel.text_code" style="width:300px;" />
-        <Button type="primary" style="width:100px;" @click="send">{{sendText}}</Button>
+        <Input :class="'withdraw-item'" v-model="withdrawModel.text_code">
+          <span slot="append" style="width:100px; cursor: pointer; padding:6px;" @click="send">{{sendText}}</span>
+        </Input>
       </FormItem>
     </Form>
     <div class="submit-btn">
@@ -44,9 +47,9 @@
       title="添加地址"
       @on-ok="addok"
     >
-      <Form ref="addaddress" :model="addModal" :label-width="100" style="width: 400px;">
-        <FormItem prop="addaddress" label="提现地址：">
-          <Input v-model="addModal.addaddress" />
+      <Form ref="addaddress" :model="addModal" :rules="addAddressRules" :label-width="100" style="width: 400px;">
+        <FormItem prop="address" label="提现地址：">
+          <Input v-model="addModal.address" />
         </FormItem>
         <FormItem prop="remark" label="备注：">
           <Input v-model="addModal.remark" />
@@ -55,11 +58,12 @@
           <Input v-model="addModal.trade_password" type="password"/>
         </FormItem>
         <FormItem prop="add_text_code" label="短信验证码：">
-          <Input v-model="addModal.add_text_code" style="width:200px;"/>
-          <Button type="primary">{{addText}}</Button>
+          <Input v-model="addModal.add_text_code">
+            <span slot="append" style="cursor:pointer;padding: 6px 10px;" @click="addTextMsg">{{addText}}</span>
+          </Input>
         </FormItem>
       </Form>
-      <Button class="btn-block" type="primary" slot="footer">确认提交</Button>
+      <Button class="btn-block" type="primary" slot="footer" @click="confirmAddAddress">确认提交</Button>
     </Modal>
   </div>
 </template>
@@ -118,7 +122,22 @@ var withdrawRules = {
   ],
   text_code:[
     {required:true,trigger: 'blur',message:'请填写验证码'},
-    {type:'string',min:4,max:4,message:'请填写四位验证码',trigger:'blur'}
+    {type:'string',min:6,max:6,message:'请填写6位验证码',trigger:'blur'}
+  ]
+}
+var addAddressRules = {
+  address:[
+    {required:true,message:'请输入提现地址',trigger:'blur'}
+  ],
+  remark:{
+    
+  },
+  trade_password:[
+    {required:true,message:'请输入交易密码',trigger:'blur'}
+  ],
+  add_text_code:[
+    {required:true,message:'请输入验证码',trigger:'blur'},
+    {type:'string',len:6,message:'请输入6位验证码',trigger:'blur'}
   ]
 }
 export default {
@@ -127,6 +146,9 @@ export default {
     FormItem: FormItem
   },
   mounted (){
+    if (this.withdrawAddress.length) {
+      this.withdrawModel.address = this.withdrawAddress[0];
+    }
   },
   data () {
     return {
@@ -141,25 +163,34 @@ export default {
         text_code:''
       },
       addModal:{
-        addaddress:'',
+        address:'',
         remark:'',
         trade_password:'',
         add_text_code:''
       },
+      withdrawAddress:[
+        'ox3fjdjfoi98jfodjmmmkfjsdlfdsfds',
+        '0xd9ufjsfldjldsfdsfjdmfdfjamfdlfml23s',
+        'fjldsjflfdsfdsffdjfldsjfdljfdkjfldsjfdls'
+      ],
       record_column:record_column,
       record_data:[],
       sendText:'发送验证码',
       addText:'发送验证码',
+      sendTextTimer:null,
+      addTextTimer:null,
       sendStatus:0, //0，未发送，1，发送中  2，已发送
       withdrawRules:withdrawRules,
+      addAddressRules,
       addaddress:false  //添加地址modal
     }
   },
   methods:{
     send () {
       console.log(this.sendStatus);
+      var verifystr = '15178874695';
       if(this.sendStatus == 0 || this.sendStatus == 2) {
-        var num = 4;
+        var num = 60;
         var that = this;
         var timer = setInterval(function () {
           num --;
@@ -169,16 +200,30 @@ export default {
             that.sendText = '发送验证码';
             that.sendStatus = 2;
           }else {
-            that.sendText = num;
+            that.sendText = num + 's后重试';
           }
         },1000)
       }else if (this.sendStatus == 1) {
         // console.log(this.sendStatus,'短信已经发送');
         return;
       }
+      this.$ajax.post('/trade/tps/pbscs.do',{
+        verifystr,
+        reqresource:1
+      }).then((res) => {
+        console.log('短信验证',res);
+        if (res.status == 200 && res.data && res.data.err_code == '1') {
+          that.$Message.success('短信已发送');
+        }else {
+          that.$Message.warning('短信发送失败，请稍后重试。');
+        }
+      }).catch((err) => {
+        console.log(err);
+        that.$Message.success('短信发送失败，请稍后重试。');
+      })
     },
     submitWithdraw(name){
-      console.log('立即提现',this.$refs[name]);
+      console.log('立即提现',this.withdrawModel);
       this.$refs[name].validate((valid) => {
         console.log('valid or not',valid);
         if (valid) {
@@ -197,6 +242,62 @@ export default {
     },
     showAddModal () {
       this.addaddress = true;
+    },
+    addTextMsg() {
+      var that = this;
+      var num = 60;
+      var verifystr = '15178874695';
+      if (this.addTextTimer) {
+        return false;
+      }
+      this.$ajax.post('/trade/tps/pbscs.do',{
+        verifystr,
+        reqresource:1
+      }).then((res) => {
+        console.log('短信验证',res);
+        if (res.status == 200 && res.data && res.data.err_code == '1') {
+          that.$Message.success('短信已发送');
+        }else {
+          that.$Message.warning('短信发送失败，请稍后重试。');
+        }
+      }).catch((err) => {
+        console.log(err);
+        that.$Message.success('短信发送失败，请稍后重试。');
+      })
+      this.addTextTimer = setInterval(function () {
+        if (num > 1) {
+          num --;
+          that.addText = num + 's后重试';
+        }else {
+          that.addText = '发送验证码';
+          clearInterval(that.addTextTimer);
+          that.addTextTimer = null;
+        }
+      },1000);
+    },
+    confirmAddAddress(){
+      var that = this;
+      this.$refs.addaddress.validate((valid) => {
+        console.log('valid or not',valid);
+        if (valid) {
+          that.addaddress = false;
+          that.submitAddAddress();
+        }
+      })
+    },
+    submitAddAddress() {
+      let data = this.addModal;
+      console.log(data);
+      if (!data.address) {
+        return;
+      }
+      let withdrawAddress = this.withdrawAddress;
+      withdrawAddress.push(data.address);
+      console.log(withdrawAddress,'withdrawAddress');
+      this.withdrawAddress = withdrawAddress;
+      if (true) {
+        this.$refs.addaddress.resetFields();
+      }
     }
   }
 }
