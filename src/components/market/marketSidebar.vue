@@ -85,7 +85,11 @@ export default {
                 bizhong: this.bizhong,
                 currencyname: row.currencyname
             }
-            this.$emit('itemrow', rowinfo)
+            let currency = row.currencyname;
+            this.$emit('itemrow', rowinfo);
+            if (currency) {
+                this.$emit('changeCurrency',currency);
+            }
         },
         datas (){
             let that=this;

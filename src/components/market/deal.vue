@@ -6,6 +6,7 @@
                     <Tabs size="small">
                         <TabPane label="限价交易" class="jiaoyi">
                             <Col span='12' style="padding:0 20px;">
+                                <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">冲币</span></div>
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
@@ -21,7 +22,7 @@
                                             <span>{{ params.currency }}</span>
                                         </FormItem>
                                         <p class="count-money">交易额 <i>{{buymoney}}</i> <span>USDT</span></p>
-                                        <Button class="mairu">买入{{ params.currency }}</Button>
+                                        <Button class="mairu" @click="trade(1)">买入{{ params.currency }}</Button>
                                     </Form>
                                 </div>
                             </Col>
@@ -29,6 +30,7 @@
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
+                                <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">冲币</span></div>
                                 <div style="padding:20px 20px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
@@ -41,7 +43,7 @@
                                             <span>{{ params.currency }}</span>
                                         </FormItem>
                                         <p class="count-money">交易额 <i>{{ sellmoney }}</i> <span>USDT</span></p>
-                                        <Button class="mairu">卖出{{ params.currency }}</Button>
+                                        <Button class="mairu" @click="trade(2)">卖出{{ params.currency }}</Button>
                                     </Form>
                                 </div>
                             </Col>
@@ -51,6 +53,7 @@
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
+                                <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">冲币</span></div>
                                 <div style="padding:20px 20px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
@@ -69,6 +72,7 @@
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
+                                <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">冲币</span></div>
                                 <div style="padding:20px 20px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem  label="卖出价" class="deal-input">
@@ -93,7 +97,7 @@
                     <div class="list-title">
                         最新价 <span>{{0.12321432}} {{ params.currency }}</span>
                     </div>
-                    <div class="list-table">
+                    <div class="list-table recent-price">
                         <Table  @on-row-click="dblclick" :columns="columns1" :data="data1"></Table>
                     </div>
                 </div>
@@ -121,6 +125,12 @@ export default {
             sellcount1:"",
             buymoney:'0.0000',
             sellmoney:'0.0000',
+            //usdt  数量
+            usdtCurrency:'USDT',
+            usdtBalance:'0',
+            // 选择交易的币种的数量
+            changeCurreny:'BTC',
+            changeCurrenyBalance:'0',
             columns1:[
                 {
                     title: ' ',
@@ -180,14 +190,28 @@ export default {
         }
     },
     mounted () {
-        console.log("@@@@@@@@@@@@@@@@@@")
-        console.log(this.params.currency)
+        var that = this;
+        this.getBalance();
+        this.getBalance('BTC');
         this.paramsinfo();
+        // 获取某种币的数量
     },
     watch:{
         params: "paramsinfo"
     },
     methods: {
+        //冲币
+        recharge (currency) {
+            if (!currency) {
+                return;
+            }
+            this.$router.push({
+                path:'/assets/recharge',
+                query:{
+                    currency
+                }
+            })
+        },
         inputNumber(val){
             console.log(val)
             if(val==1){
@@ -313,7 +337,12 @@ export default {
             }
         },
         paramsinfo (obj) {
-            console.log(obj)
+            console.log(obj,'currency')
+            if (obj && obj.currency) {
+                this.changeCurreny = obj.currency;
+                this.getBalance('USDT');
+                this.getBalance(obj.currency);
+            }
             let that =this;
             this.data1 = [];
             this.$ajax({
@@ -340,6 +369,86 @@ export default {
                     that.data1 = sortObj;
                     
                 })
+        },
+        getBalance(type) {
+            var that = this;
+            if (!type) {
+                type = 'USDT';
+            }
+            this.$ajax.post('/trade/tps/pblaf.do',{
+                reqresource:1,
+                currencytype:type
+            }).then((res) => {
+                console.log('------res-getbalance----',res,res.data);
+                if (res.status == 200 && res.data && res.data.err_code == '1') {
+                    if (res.data && res.data.accountFund &&  res.data.accountFund.length) {
+                        if (type == 'USDT') {
+                            that.usdtBalance = res.data.accountFund[0].usablefund;
+                        }else {
+                            that.changeCurrenyBalance = res.data.accountFund[0].usablefund;
+                        }
+                    }else {
+                       if (type == 'USDT') {
+                            that.usdtBalance = '0';
+                        }else {
+                            that.changeCurrenyBalance = '0';
+                        } 
+                    }
+                }
+            })
+        },
+        //交易  type：1 买入    type：2   卖出
+        trade(type) {
+            var operate = type;
+            var entrusttype = 1;      //1.限价交易   2.市价交易
+            var entrustcoin = '';     //委托币种
+            var tradecoin = '';       //交易币种
+            var entrustnum = '';      //委托数量
+            var entrustprice = '';    //委托价格
+            var reqresource = 1;      //请求来源，1：PC，2：APP
+            if (type == 1) {
+                tradecoin = 'USDT';
+                entrustcoin = this.changeCurreny;
+                entrustnum = this.buycount;
+                entrustprice = this.buyprice;
+                this.$ajax.post('/trade/tps/pbces.do',{
+                    entrusttype,
+                    entrustcoin,
+                    tradecoin,
+                    entrustnum,
+                    entrustprice,
+                    reqresource,
+                    operate
+                }).then((res) => {
+                    console.log('发送请求成功',res);
+                    if (res.status == 200 && res.data.err_code == '1') {
+                        console.log('创建委托成功');
+                    }
+                }).catch((err) => {
+                    console.log(err,'创建委托失败');
+                })
+            }else if (type == 2) {
+                tradecoin = this.changeCurreny;
+                entrustcoin = this.usdtCurrency;
+                entrustnum = this.sellcount;
+                entrustprice = this.sellprice;
+                this.$ajax.post('/trade/tps/pbces.do',{
+                    entrusttype,
+                    entrustcoin,
+                    tradecoin,
+                    entrustnum,
+                    entrustprice,
+                    reqresource,
+                    operate
+                }).then((res) => {
+                    console.log('---res,发送请求成功',res);
+                }).catch((err) => {
+                    console.log('err',err);
+                })
+            }
+        },
+        doTrade(obj) {
+            console.log('交易',obj);
         }
     }
 }
@@ -477,6 +586,21 @@ export default {
                     }
                 }
             }
+        }
+    }
+    .recent-price .ivu-table-cell {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .currency-balance {
+        padding: 4px 0;
+        font-size: 14px;
+        font-weight: 500;
+        span {
+            float: right;
+            color: #7A98F7;
+            cursor: pointer;
+            padding-right: 20px;
         }
     }
 </style>

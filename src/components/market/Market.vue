@@ -39,6 +39,7 @@ import TradingView from './trading';
 import Sidebar from './marketSidebar';
 import Deal from './deal';
 import depth from './depth';
+import bus from '../../bus/bus';
 console.log(TradingView);
 function initCharts (symbol) {
     console.log(symbol)
@@ -133,7 +134,7 @@ export default {
     methods: {
         
         changeState(row){
-            console.log(row)
+            console.log('select----row',row)
             this.bizhong= row.bizhong;
             this.currency = row.currencyname;
             this.params={
