@@ -198,7 +198,7 @@ export default {
         line-height:30px;
         color :green;
         position: relative;
-        width:50px;
+        width:70px;
     }
     .price-text-red{
         font-size:14px;
@@ -206,7 +206,7 @@ export default {
         height:30px;
         line-height:30px;
         color:#f00;
-        width:50px;
+        width:70px;
         // overflow: hidden;
         position: relative;
     }

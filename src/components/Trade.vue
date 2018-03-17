@@ -140,6 +140,14 @@
                 </div>
             </div>
         </div>
+        <div class="trade-contract" v-else-if="types === 'chedan'">
+            <div class="trade-time">
+                <Button @click="revoke">一键撤销</Button>
+            </div>
+            <div class="trade-table">
+                <Table :data="order_record_data2" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+            </div>
+        </div>
         <div class="clear"></div>
     </div>
 </template>
@@ -158,7 +166,8 @@
     // ]
     let menu1 = [
         {"name":"buy",text:"买入/卖出"},
-        {"name":"weituo",text:"委托管理"},
+        {"name":"chedan",text:"委托撤单"},
+        {"name":"weituo",text:"委托历史"},
         {"name":"jiaoyijilu",text:"交易记录"},
     ]
     export default {
@@ -248,120 +257,10 @@
                 order_record_data: [],
                 order_record_data1:[],
                 order_record_cloumns: [
-                    {
-                        title: "委托时间",
-                        key: "entrusttime",
-                    },
-                    {
-                        title: '类型',
-                        key: 'tradetype',
-                        render: (h,params) =>{
-                            if(params.row.tradetype == "1"){
-                                return h("span","买入")
-                            }else  if(params.row.tradetype == "2"){
-                                return h("span","卖出")
-                            }
-                        }
-                    },
-                    {
-                        title: '数量',
-                        key: 'entrustcount',
-                        render: (h,params)=>{
-                            return h("span",Number(params.row.entrustcount).toFixed(6))
-                        }
-                    },
-                    {
-                        title: '价格',
-                        key: 'tradeprice',
-                        render: (h,params)=>{
-                            return h("span",Number(params.row.tradeprice).toFixed(6))
-                        }
-                    },
-                    {
-                        title: '金额',
-                        key: 'entrustamount',
-                        render: (h,params)=>{
-                            return h("span",Number(params.row.entrustamount).toFixed(6))
-                        }
-                    },
-                    {
-                        title: '成交量',
-                        key: 'tradecount',
-                        render: (h,params)=>{
-                            return h("span",Number(params.row.tradecount).toFixed(6))
-                        }
-                    },
-                    {
-                        title: '成交金额',
-                        key: 'tradeamount',
-                        render: (h,params)=>{
-                            if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",Number(params.row.tradeamount).toFixed(6))
-                                else return h("span","")
-                        }
-                    },
-                    {
-                        title: '手续费',
-                        key: 'charge',
-                        render: (h,params)=>{
-                            return h("span",Number(params.row.charge).toFixed(6))
-                        }
-                    },
-                    {
-                        title: '平均成交价',
-                        key: 'averageprice',
-                        render: (h,params)=>{
-                            return h("span",Number(params.row.averageprice).toFixed(6))
-                        }
-                    },
-                    {
-                        title: '状态/操作',
-                        key: 'status',
-                        render: (h,params) =>{
-                            // 状态(1:已提交2:成交,3:撤销,4:部分成交,5:部分成交撤销)
-                            if(params.row.status == "1"){
-                                return h("span","已提交")
-                            }else if(params.row.status == "2"){
-                                return h("span","成交")
-                            }else if(params.row.status == "3"){
-                                return  h('div', [
-                                            h('Button', {
-                                                props: {
-                                                    type: 'primary',
-                                                    size: 'small'
-                                                },
-                                                style: {
-                                                    marginRight: '5px'
-                                                },
-                                                on: {
-                                                    click: () => {
-                                                        this.show(params.index)
-                                                    }
-                                                }
-                                            }, '撤销')
-                                        ]);
-                            }else if(params.row.status == "4"){
-                                return h("span","部分成交")
-                            }else if(params.row.status == "5"){
-                                return  h('div', [
-                                            h('Button', {
-                                                props: {
-                                                    type: 'primary',
-                                                    size: 'small'
-                                                },
-                                                style: {
-                                                    marginRight: '5px'
-                                                },
-                                                on: {
-                                                    click: () => {
-                                                        this.show(params.index)
-                                                    }
-                                                }
-                                            }, '部分撤销')
-                                        ]);
-                            }
-                        }
-                    }
-                ]
+                   
+                ],
+                order_record_cloumns_title: "",
+                order_record_data2:[]
 
             }
         },
@@ -393,7 +292,7 @@
                 }
             }),
         },
-  
+        
         mounted () {
             this.query();
             
@@ -417,11 +316,15 @@
                 this.numbers++
             }
             
-
             console.log("--------------",this.numbers)
             
         },
         methods: {
+            revoke(){
+                this.$Modal.info({
+                    content: "功能暂未开放"
+                })
+            },
             show(){
                 this.$Modal.info({
                     content: "功能暂未开放"
@@ -586,6 +489,106 @@
                     }
                 ]
             },
+            wt_title(){
+                this.order_record_cloumns =[
+                    {
+                            title: "委托时间",
+                            key: "entrusttime",
+                        },
+                        {
+                            title: '类型',
+                            key: 'tradetype',
+                            render: (h,params) =>{
+                                if(params.row.tradetype == "1"){
+                                    return h("span","买入")
+                                }else  if(params.row.tradetype == "2"){
+                                    return h("span","卖出")
+                                }
+                            }
+                        },
+                        {
+                            title: '数量',
+                            key: 'entrustcount',
+                            render: (h,params)=>{
+                                return h("span",Number(params.row.entrustcount).toFixed(6))
+                            }
+                        },
+                        {
+                            title: '价格',
+                            key: 'tradeprice',
+                            render: (h,params)=>{
+                                return h("span",Number(params.row.tradeprice).toFixed(6))
+                            }
+                        },
+                        {
+                            title: '金额',
+                            key: 'entrustamount',
+                            render: (h,params)=>{
+                                return h("span",Number(params.row.entrustamount).toFixed(6))
+                            }
+                        },
+                        {
+                            title: '成交量',
+                            key: 'tradecount',
+                            render: (h,params)=>{
+                                return h("span",Number(params.row.tradecount).toFixed(6))
+                            }
+                        },
+                        {
+                            title: '成交金额',
+                            key: 'tradeamount',
+                            render: (h,params)=>{
+                                if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",Number(params.row.tradeamount).toFixed(6))
+                                    else return h("span","")
+                            }
+                        },
+                        {
+                            title: '手续费',
+                            key: 'charge',
+                            render: (h,params)=>{
+                                return h("span",Number(params.row.charge).toFixed(6))
+                            }
+                        },
+                        {
+                            title: '平均成交价',
+                            key: 'averageprice',
+                            render: (h,params)=>{
+                                return h("span",Number(params.row.averageprice).toFixed(6))
+                            }
+                        },
+                        {
+                            title: this.order_record_cloumns_title,
+                            key: 'status',
+                            render: (h,params) =>{
+                                // 0:已提交1:成交,2:撤销,3:部分成交,4:部分成交撤销
+                                if(params.row.status == "1"){
+                                    return h("span","成交")
+                                }else if(params.row.status == "3" || params.row.status == "0"){
+                                    return  h('div', [
+                                                h('Button', {
+                                                    props: {
+                                                        type: 'primary',
+                                                        size: 'small'
+                                                    },
+                                                    style: {
+                                                        marginRight: '5px'
+                                                    },
+                                                    on: {
+                                                        click: () => {
+                                                            this.show(params.index)
+                                                        }
+                                                    }
+                                                }, '撤销')
+                                            ]);
+                                }else if(params.row.status == "2"){
+                                    return h("span","撤销")
+                                }else if(params.row.status == "4"){
+                                    return  h('span', "部分成交撤销");
+                                }
+                            }
+                        }
+                ]
+            },
             // 查询交易记录
             query () {
                 let that = this;
@@ -659,6 +662,7 @@
                         "pageno":"1",
                         "pagesize":"14",
                         "reqresource":"1",
+                        "status":"1,2,4"
                     }
                 })
                 .then((response) => {
@@ -705,6 +709,34 @@
                     
                 })
             },
+            query_entrust2(currencycode,starttime,endtime){
+                let that = this;
+                this.$ajax({
+                    method: 'post',
+                    url: '/trade/tps/pbets.do',
+                    data: {
+                        "currencytype":currencycode ? currencycode : 'ETH',//币种
+                        "starttime":starttime ? starttime : "",
+                        "endtime":endtime ? endtime:"",
+                        "pageno":"1",
+                        "pagesize":"14",
+                        "reqresource":"1",
+                        status:"0,3"
+                    }
+                })
+                .then((response) => {
+                    console.log("chedan======",response)
+                    if(response.data){
+                        that.weituo_data = [{
+                            avebuyprice : response.data.avebuyprice,
+                            avesellprice: response.data.avesellprice,
+                            totalbuynum: response.data.totalbuynum,
+                            totalsellnum: response.data.totalsellnum
+                        }]
+                        that.order_record_data2 = response.data.dealManage;
+                    }
+                })
+            },
             safe () {
                 this.$router.push("user");
             },
@@ -720,44 +752,52 @@
                 console.log(name)
                 if(name == "weituo"){
                     this.query_entrust()
+                    this.order_record_cloumns_title = "状态";
+                    
                 }
                 if(name == "jiaoyijilu"){
                     this.query_entrust1()
+                    this.order_record_cloumns_title = "状态"
                 }
+                if(name == "chedan"){
+                    this.query_entrust2();
+                    this.order_record_cloumns_title = "操作"
+                }
+                this.wt_title();
                 this.types = name; 
                 this.begintime = "";
                 this.begintime1 = '';
                 
             },
             // info (name) {
-            //     this.btcname=name;
-            //     let key = name;
-            //     this.weituolist();
-            //     switch (key) {
-            //         case "BTC":
-            //                 this.btc("00")
-            //             break;
-            //         case "ETH":
-            //                 this.eth("11")
-            //             break;
-                
-            //         default:
-            //             break;
-            //     };
-                
-            // },
-            // btc (ss) {
-            //     console.log(ss)
-            //     this.query();
-            // },
-            // eth (ss) {
-            //     console.log(ss)
-            //     this.query();
+                //     this.btcname=name;
+                //     let key = name;
+                //     this.weituolist();
+                //     switch (key) {
+                //         case "BTC":
+                //                 this.btc("00")
+                //             break;
+                //         case "ETH":
+                //                 this.eth("11")
+                //             break;
+                    
+                //         default:
+                //             break;
+                //     };
+                    
+                // },
+                // btc (ss) {
+                //     console.log(ss)
+                //     this.query();
+                // },
+                // eth (ss) {
+                //     console.log(ss)
+                //     this.query();
             // },
             dblclick (row,index) {
                 // console.log("==========dbclick===========")
                 // console.log(row,index)
-                if(index<5){
+                if(row.operate == "2"){
                     this.buycount = row.count;
                     this.buyprice = row.price;
                     this.buymoney = (this.buycount*this.buyprice).toFixed(6);

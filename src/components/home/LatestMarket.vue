@@ -195,6 +195,9 @@
       }
       .wrapper-table{
         width: 100%;
+        .ivu-table-body{
+          overflow: hidden;
+        }
         .ivu-table{
           font-family: HelveticaExtNormal,"Microsoft Yahei",arial,Helvetica;
           td.demo-table-info-column{
