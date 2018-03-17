@@ -11,9 +11,7 @@
 
 <script>
 export default {
-  mounted () {
-    this.getAccountList()
-  },
+  
   data () {
     return {
       account_list_data:[],
@@ -79,6 +77,9 @@ export default {
       }
     ],
     }
+  },
+  mounted () {
+    this.getAccountList()
   },
   methods:{
     handle(action) {

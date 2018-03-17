@@ -33,11 +33,11 @@
                 <Col span='8'>
                     <div class="trade-buy buy-sell">
                         <div class='buy-title'>
-                            <span class="text-buy">买入</span>CNY/<span>{{btcname}}</span>
+                            <span class="text-buy">买入</span>{{jichubizhong}}/<span>{{ jijiabizhogn }}</span>
                         </div>
                         <div class="money">
-                            <p class="buy-money">可用：<span>0.00000000</span> CNY</p>
-                            <p class="buy-money">冻结：<span>0.00000000</span> CNY</p>
+                            <p class="buy-money">可用：<span>{{buy_keyong}}</span> {{jijiabizhogn}}</p>
+                            <p class="buy-money">冻结：<span>{{buy_dongjie}}</span> {{jijiabizhogn}}</p>
                         </div>
                         <div class="trade-button">
                             <span>委托类型</span>
@@ -48,15 +48,15 @@
                                 <span slot="prepend">买入价 ¥</span>
                             </Input>
                             <Input :number="true" v-model="buycount" @on-change="buy_count" :maxlength="14">
-                                <span slot="prepend">买入量 {{btcname}}</span>
+                                <span slot="prepend">买入量 {{jichubizhong}}</span>
                             </Input>
                             <p>
                                 ≈ ￥ <span>{{buymoney}}</span>
                             </p>
                             <!-- <Slider v-model="value" :max="1000" @on-change="ss"></Slider> -->
                             <Slider></Slider>
-                            <Button class="buy-button buy-button1">
-                                买入 {{btcname}}
+                            <Button class="buy-button buy-button1" @click="buy">
+                                买入 {{jichubizhong}}
                             </Button>
                             <Button class="buy-button" style="margin-bottom:30px;" @click='chongzhi'>
                                 立即充值
@@ -67,11 +67,11 @@
                 <Col span='8'>
                     <div class="trade-sell buy-sell">
                         <div class='sell-title'>
-                            <span  class="text-buy">卖出</span>CNY/<span>{{btcname}}</span>
+                            <span  class="text-buy">卖出</span>{{jichubizhong}}/<span>{{ jijiabizhogn }}</span>
                         </div>
                         <div class="money">
-                            <p class="buy-money">可用：<span>0.00000000</span> CNY</p>
-                            <p class="buy-money">冻结：<span>0.00000000</span> CNY</p>
+                            <p class="buy-money">可用：<span>{{ sell_keyong }}</span> {{ jichubizhong }}</p>
+                            <p class="buy-money">冻结：<span>{{ sell_dongjie }}</span> {{ jichubizhong }}</p>
                         </div>
                         <div class="trade-button">
                             <span>委托类型</span>
@@ -82,14 +82,14 @@
                                 <span slot="prepend">卖出价 ¥</span>
                             </Input>
                             <Input v-model="sellcount" :number="true" @on-change="sell_count" :maxlength="14">
-                                <span slot="prepend">卖出量 {{btcname}}</span>
+                                <span slot="prepend">卖出量 {{jichubizhong}}</span>
                             </Input>
                             <p>
                                 ≈ ￥ <span>{{sellmoney}}</span>
                             </p>
-                            <Slider ></Slider>
-                            <Button class="buy-button buy-button1">
-                                卖出 {{btcname}}
+                            <Slider></Slider>
+                            <Button class="buy-button buy-button1" @click="sell">
+                                卖出 {{jichubizhong}}
                             </Button>
                             <Button class="buy-button" style="margin-bottom:30px;" @click='tixian'>
                                 立即提现
@@ -188,7 +188,8 @@
                 begintime: '',
                 begintime1: '',
                 types:"buy",
-                btcname:"ETH",
+                jichubizhong:"ETH",
+                jijiabizhogn:"USDT",
                 buymoney:0,
                 sellmoney:0,
                 buyprice:'',
@@ -260,7 +261,12 @@
                    
                 ],
                 order_record_cloumns_title: "",
-                order_record_data2:[]
+                order_record_data2:[],
+                // 可用资产冻结资产
+                buy_keyong:"",
+                buy_dongjie:"",
+                sell_keyong:"",
+                sell_dongjie:""
 
             }
         },
@@ -317,18 +323,151 @@
             }
             
             console.log("--------------",this.numbers)
+            this.mairuzijin();
+            this.maichuzijin();
             
         },
         methods: {
+            buy(){//买入
+                let that = this;
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbces.do",
+                    data:{
+                        "entrusttype":"1",
+                        "operate":"1",
+                        "entrustcoin":that.jichubizhong,
+                        "tradecoin":that.jijiabizhogn,
+                        "entrustnum":that.buycount,
+                        "entrustprice":that.buyprice,
+                        "reqresource":"1",
+                    }
+                }).then((res)=>{
+                    console.log(res)
+                    if(res.data && res.data.err_code == "1"){
+                        this.$Modal.success({
+                            content: "创建委托成功"
+                        })
+                        that.buycount = "";
+                        that.buyprice = "";
+                        that.buymoney = "";
+                        this.mairuzijin();
+                        this.maichuzijin();
+                    }else{
+                        this.$Modal.console.error({
+                            content: "创建委托失败"
+                        })
+                    
+                    }
+                })
+            },
+            sell(){//卖出
+                let that = this;
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbces.do",
+                    data:{
+                        "entrusttype":"1",
+                        "operate":"1",
+                        "entrustcoin":that.jijiabizhogn,
+                        "tradecoin":that.jichubizhong,
+                        "entrustnum":that.sellcount,
+                        "entrustprice":that.sellprice,
+                        "reqresource":"1",
+                    }
+                }).then((res)=>{
+                    if(res.data && res.data.err_code == "1"){
+                        this.$Modal.success({
+                            content: "创建委托成功"
+                        })
+                        that.sellcount = "";
+                        that.sellprice = "";
+                        that.sellmoney = "";
+                        this.mairuzijin();
+                        this.maichuzijin();
+                    }else{
+                        this.$Modal.console.error({
+                            content: "创建委托失败"
+                        })
+                    }
+                })
+            },
+            mairuzijin(){//买入可用资金
+                let that=this;
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pblaf.do",
+                    data:{
+                        reqresource:1,
+                        currencytype: that.jijiabizhogn
+                    }
+                }).then((res)=>{
+                    if(res.data.accountFund && res.data&&res.data.err_code=="1"){
+                        that.buy_keyong=res.data.accountFund[0].usablefund
+                        that.buy_dongjie=res.data.accountFund[0].frozenfund
+                    }
+                })
+            },
+            maichuzijin(){//卖出可用资金
+                let that=this;
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pblaf.do",
+                    data:{
+                        reqresource:1,
+                        currencytype: that.jichubizhong
+                    }
+                }).then((res)=>{
+                    if(res.data.accountFund && res.data&&res.data.err_code=="1"){
+                        that.sell_keyong=res.data.accountFund[0].usablefund
+                        that.sell_dongjie=res.data.accountFund[0].frozenfund
+                    }
+                })
+            },
             revoke(){
                 this.$Modal.info({
                     content: "功能暂未开放"
                 })
             },
-            show(){
-                this.$Modal.info({
-                    content: "功能暂未开放"
-                })
+            show(row){//撤单
+                console.log(row);
+                let that= this;
+                this.$Modal.confirm({
+                    title: '',
+                    content: '<p>是否确认撤销？</p>',
+                    onOk: () => {
+                    console.log("onOK")
+                        that.$ajax({
+                            method: "post",
+                            url:"/trade/tps/pbceo.do",
+                            data:{
+                                "id":row.tradeid,
+                                "reqresource":"1"
+                            }
+                        }).then((res)=>{
+                            if (res.status == 200 && res.data && res.data.err_code == '1') {
+                                setTimeout(() => {
+                                     this.$Modal.success({
+                                        content: "撤单成功"
+                                    })
+                                },300)
+                                this.query_entrust2();
+                               
+                            }else {
+                                setTimeout(() => {
+                                     this.$Modal.error({
+                                        content: "撤单失败"
+                                    })
+                                },300)
+                            }
+                        })
+                        
+                        
+                    }
+                });
+                // this.$Modal.info({
+                //     content: "功能暂未开放"
+                // })
             },
             changePage(){
 
@@ -342,7 +481,7 @@
             weituojilu () {
                 console.log(this.begintime)
                 if(this.begintime.length){
-                    this.query_entrust(this.btcname,this.begintime[0],this.begintime[1]);
+                    this.query_entrust(this.jichubizhong,this.begintime[0],this.begintime[1]);
                 }else{
                     this.query_entrust()
                 }
@@ -351,7 +490,7 @@
             weituojilu1 () {
 
                 if(this.begintime1.length){
-                    this.query_entrust1(this.btcname,this.begintime1[0],this.begintime1[1]);
+                    this.query_entrust1(this.jichubizhong,this.begintime1[0],this.begintime1[1]);
                 }else{
                     this.query_entrust1()
                 }
@@ -436,7 +575,7 @@
             weituolist () {
                 this.weituo_columns = [
                     {
-                        title:"总买入数("+this.btcname+")",
+                        title:"总买入数("+this.jichubizhong+")",
                         key: "totalbuynum",
                         render (h,row){
                             if(row.row.totalbuynum){
@@ -462,7 +601,7 @@
                         }
                     },
                     {
-                        title:"总卖出数("+this.btcname+")",
+                        title:"总卖出数("+this.jichubizhong+")",
                         key: "totalsellnum",
                         render (h,row){
                             if(row.row.totalsellnum){
@@ -575,7 +714,7 @@
                                                     },
                                                     on: {
                                                         click: () => {
-                                                            this.show(params.index)
+                                                            this.show(params.row)
                                                         }
                                                     }
                                                 }, '撤销')
@@ -741,9 +880,9 @@
                 this.$router.push("user");
             },
             rowClassName (row, index) {
-                if (row.operate == '1') {
+                if (row.tradetype == '1') {
                     return 'table-row-color-5';
-                } else if (row.operate == '2') {
+                } else if (row.tradetype == '2') {
                     return 'table-row-color-10';
                 }
                 return '';
@@ -770,7 +909,7 @@
                 
             },
             // info (name) {
-                //     this.btcname=name;
+                //     this.jichubizhong=name;
                 //     let key = name;
                 //     this.weituolist();
                 //     switch (key) {
