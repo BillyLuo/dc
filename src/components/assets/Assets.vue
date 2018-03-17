@@ -30,14 +30,58 @@
             <Table :class="'no-border-table'" stripe :columns="account_detail_column" :data="account_detail_data" />
           </div>
         </TabPane>
-        <!-- <TabPane :label="label3" name="fundAccount">
+        <TabPane :label="label3" name="fundAccount">
           <div class="fund_account">
             <a href="javascript:;" :class="{active:fund_account_active == item.value}" v-for="(item) in fund_account_lists" :key="item.value" @click="changeFundAccount(item.value)">
               <span>{{item.label}}</span>
             </a>
           </div>
+          <div class="address_add">
+            <div class="address_list">
+              <div class="showaddress" v-for="(item) in addresslist" :key="item.name">
+                <div class="icon-text">
+                  <span class="icon-trash" @click="deleteaddress(item.walletAdressId );"><Icon type="trash-a"></Icon></span>
+                  <span class="address-text">{{ item.adress }}</span>
+                </div>
+                
+              </div>
+            </div>
+            <div class="address" @click="address">
+              <img src="/static/img/blank-img-01.png" alt="">
+              <p>添加地址</p>
+            </div>
+          </div>
+          <Modal
+              v-model="addmodal"
+              width="400"
+              title="添加地址"
+              @on-cancel="canclemodal('formValidate')">
+              <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+                <FormItem label="提现地址" prop="adress">
+                    <Input v-model="formValidate.adress" placeholder=""></Input>
+                </FormItem>
+                <FormItem label="备注" prop="remark">
+                    <Input v-model="formValidate.remark" placeholder=""></Input>
+                </FormItem>
+                <FormItem label="交易密码" prop="transckcode">
+                    <Input v-model="formValidate.transckcode"  placeholder=""></Input>
+                </FormItem>
+                <FormItem label="验证码：" prop="msgcheckcode">
+                  <Input v-model="formValidate.msgcheckcode" placeholder="验证码" type="text">
+                    <a href="javascript:;" style="color: #333;" slot="append" @click="sendSetTrade">{{setTradeText}}</a>
+                  </Input>
+                </FormItem>
+                
+                <div class="error_msg">
+                  {{ err_msg }}
+                </div>
+            </Form>
+              <div slot="footer">
+                <Button :class="'btn-block'" slot="footer" @click="handleSubmit('formValidate')" type="primary" >确定</Button>
+              </div>
+          </Modal>
         </TabPane>
-        <TabPane :label="label4" name="fundsManagement">
+        <!-- <TabPane :label="label4" name="fundsManagement">
           <h3><span>我的资产管理</span></h3>
         </TabPane> -->
         <TabPane label="我的COINS" name="myCoin">
@@ -51,8 +95,9 @@
 <script>
   import myCoin from './myCoin';
   import userInfo from '../user/userBaseInfo';
-  import { Tabs,TabPane,DatePicker,Table } from 'iview';
+  import { Tabs,TabPane,DatePicker,Table,Form, FormItem } from 'iview';
   import moment from 'moment';
+  var telReg = /^1[34578]\d{9}$/;
   export default {
     components: {
       Table,
@@ -60,6 +105,7 @@
       Tabs,
       myCoin,
       TabPane,
+      Form, FormItem,
       'user-info': userInfo
     },
     mounted() {
@@ -69,6 +115,27 @@
       return {
         currentTab:'accountAssets',
         operation_type: '1',
+        addmodal:false,
+        err_msg:"",
+        formValidate: {
+            adress: '',
+            remark: '',
+            transckcode: '',
+            msgcheckcode:""
+        },
+        sendmessage :true,
+        ruleValidate: {
+          adress: [
+              { required: true, message: '请输入地址', trigger: 'blur' }
+          ],
+          transckcode: [
+              { required: true, message: '请输入交易密码', trigger: 'blur' }
+          ],
+          msgcheckcode: [
+              { required: true, message: '请输入短信验证码', trigger: 'blur' }
+          ]
+        },
+        setTradeText:'发送验证码',
         label1: (h) => {
           return h('div', [
             h('span', '账户资产')
@@ -147,14 +214,15 @@
         account_detail_data: [
   
         ],
-        fund_account_active: 'bk',
-        fund_account_lists: [{
-            label: '银行卡管理',
-            value: 'bk'
-          },
+        fund_account_active: 'ETH',
+        fund_account_lists: [
+          // {
+          //   label: '银行卡管理',
+          //   value: 'bk'
+          // },
           {
-            label: 'BTC 提现管理',
-            value: 'btc'
+            label: 'ETH 提现管理',
+            value: 'ETH'
           },
           {
             label: 'Hsr 提现管理',
@@ -175,20 +243,184 @@
           {
             label: 'MANA 提现管理',
             value: 'mana'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '22'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '33'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '44'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '55'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '66'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '77'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: 'm88ana'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '99'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '00'
+          },
+          {
+            label: 'MANA 提现管理',
+            value: '9900'
           }
         ],
         startDate:'',
         endDate:new Date(),
         setDayActive:7,
-        dateErr:''
+        dateErr:'',
+        addresslist:[
+         
+        ]
       }
     },
+    mounted(){
+      
+    },
     methods: {
-      changeFundAccount(value) {
-        this.fund_account_active = value;
+      canclemodal(name){
+        this.$refs[name].resetFields();
       },
-      validateDate() {
+      deleteaddress(value){//删除地址
+        let that=this;
+        console.log("deleteaddress======",value)
+        this.$Modal.confirm({
+            title: '确认删除',
+            content: '<p>是否删除该地址？</p>',
+            loading: true,
+            onOk: () => {
+              console.log("onOK")
+                that.$ajax({
+                  method: "post",
+                  url:"/trade/tps/pbwam.do",
+                  data:{
+                    reqresource:1,
+                    walletAdressId:value
+                  }
+                }).then((res)=>{
+                    if (res.status == 200 && res.data && res.data.err_code == '1') {
+                      this.$Modal.remove();
+                      that.$Message.success("删除成功");
+                      that.selectaddress();
+                    }else {
+                      that.$Message.error("删除失败");
+                    }
+                })
+                
+                
+            }
+        });
+      },
+      handleSubmit (name) {//添加地址
+          console.log("name======",name)
+          let that = this;
+          console.log(that.formValidate)
+          that.formValidate['coin'] = that.fund_account_active;
+          that.formValidate['reqresource'] =1;
+          console.log(that.formValidate)
+          this.$refs[name].validate((valid) => {
+              if (valid) {
+                  that.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbwam.do",
+                    data:that.formValidate
+                  }).then((data)=>{
+                    if(data.data && data.data.err_code=="1"){
+                      that.addmodal = false;
+                      that.$Message.success("添加成功");
+                      that.selectaddress()
+                    }else{
+                      that.err_msg = data.data.msg
+                    }
+                     
+                  })
+              } else {
+                return false;
+                  // this.$Message.error('Fail!');
+              }
+          })
+      },
+      sendSetTrade(){//短信验证码
+        let that = this;
+        let num = 60;
+        if(this.sendmessage){
+          this.sendmessage = false;
+          that.sendTradeTimer = setInterval(function () {
+            if (num > 1) {
+              num -- ;
+              that.setTradeText = num + 's后重新获取';
+            }else {
+              that.setTradeText = '发送验证码';
+              clearInterval(that.sendTradeTimer);
+              that.sendmessage = true;
+            }
+          },1000);
+        }else{
+          console.log("多次点击 ==========")
+        }
+
+        this.$ajax.post('/trade/tps/pbscs.do',{
+          reqresource:1
+        }).then((res) => {
+          console.log('短信验证',res);
+          if (res.status == 200 && res.data && res.data.err_code == '1') {
+            that.$Message.success('短信已发送');
+          }else {
+            that.$Message.warning('短信发送失败，请稍后重试。');
+            that.err_msg =  res.data.msg;
+          }
+        }).catch((err) => {
+          console.log(err);
+          that.$Message.success('短信发送失败，请稍后重试。');
+        })
         
+        
+      },
+      address(){//点击添加地址
+        console.log("============",this.fund_account_active)
+        this.addmodal = true;
+        this.err_msg = "";
+      },
+      changeFundAccount(value) {//选择币种
+        this.fund_account_active = value;
+        console.log("a---click",value)
+        console.log(this.fund_account_active)
+
+      },
+      selectaddress() {//查询地址
+        let that=this;
+        this.$ajax({
+            method:"post",
+            url:"/trade/tps/pbqwa.do",
+            data:{
+              reqresource:1
+            }
+          }).then((data)=>{
+            console.log(data)
+            if(data.data && data.data.err_code == "1"){
+              that.addresslist = data.data.walletAdress
+            }
+          })
       },
       changeType(value) {
         console.log(value);
@@ -214,12 +446,17 @@
           this.startDate = day;
         }
       },
-      tabClick(name) {
+      tabClick(name) {//点击侧菜单
         // console.log('name---',name,this.currentTab);
+        let that =this;
         if (name == 'accountAssets') {
           this.$router.push({
             path:'/assets'
           })
+        }
+
+        if(name == "fundAccount"){
+          this.selectaddress()
         }
       },
       getAssetsDetail(){
@@ -396,8 +633,67 @@
     }
     a:hover,
     a.active {
-      border-bottom: 2px solid $primary-color;
+      position: relative;
       opacity: 1;
     }
+    a:hover::after,
+    a.active::after {
+        content:"";
+        display:"inline-block";
+        width:100%;
+        height:2px;
+        position: absolute;
+        bottom:0;
+        left:0;
+        background: #2d8cf0;
+    }
   }
+  .address_add{
+    .address{
+      text-align: center;
+      width:400px;
+      padding:30px;
+      border:1px solid #eee;
+      border-radius: 10px;
+      margin-top:30px;
+      margin-left:10px;
+    }
+    .address_list{
+      margin-top:30px;
+    }
+    .showaddress{
+      width:25%;
+      height:60px;
+      display: inline-block;
+      padding:0px 10px;
+      color:#333;
+      vertical-align: middle;
+      .icon-text{
+        padding:10px 30px 10px 10px;
+        height:100%;
+        border:1px solid #eee;
+        border-radius:5px;
+        position: relative;
+        
+      }
+      .icon-trash{
+        position: absolute;
+        color: #80848f;
+        font-size:20px;
+        right:10px;
+        top:6px;
+      }
+      .address-text{
+        display: inline-block;
+        width:100%;
+        word-wrap:break-word;
+      }
+      
+    }
+  }
+  .error_msg{
+      text-align: center;
+      color:#f00;
+      font-size:14px;
+    }
 </style>
