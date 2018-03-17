@@ -203,7 +203,7 @@
                         title: '买卖',
                         key: 'operate',
                         render: (h,params) => {
-                            if(params.row.operate == "1"){
+                            if(params.row.operate == "2"){
                                 return h("span","卖出")
                             }else{
                                 return h("span","买入")
@@ -368,7 +368,7 @@
                     url:"/trade/tps/pbces.do",
                     data:{
                         "entrusttype":"1",
-                        "operate":"1",
+                        "operate":"2",
                         "entrustcoin":that.jijiabizhogn,
                         "tradecoin":that.jichubizhong,
                         "entrustnum":that.sellcount,
@@ -880,9 +880,9 @@
                 this.$router.push("user");
             },
             rowClassName (row, index) {
-                if (row.tradetype == '1') {
+                if (row.operate == "1"||row.tradetype == '1') {
                     return 'table-row-color-5';
-                } else if (row.tradetype == '2') {
+                } else if (row.operate == "2"||row.tradetype == '2') {
                     return 'table-row-color-10';
                 }
                 return '';
