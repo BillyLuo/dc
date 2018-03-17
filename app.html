@@ -9,11 +9,15 @@
     <meta name="format-detection" content="telephone=no" >   <!-- //禁止自动识别数字为手机号码 -->
     <meta name="apple-mobile-web-app-capable" content="yes"> <!-- // 去掉苹果工具栏和菜单栏 -->
     <meta name="apple-touch-fullscreen" content="yes">  <!-- //全屏 -->
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <title>Document</title>
     <style>
         *{
             padding:0;
             margin: 0;
+        }
+        body{
+            overflow: hidden;
         }
     </style>
 </head>
@@ -1420,39 +1424,54 @@
     }
 })();
 
-console.log(window.orientation)
-console.log(window.screen.availWidth)
-var height;
+let height;
 if(window.screen.availHeight > window.screen.availWidth){
     height = 400;
 }else{
     height = window.innerHeight;
 }
-window.addEventListener("orientationchange", function() {
-    alert(window.orientation);
-}, false);
 
-new TradingView.widget({
-    "container_id":"chart",
-    "width": '100%',
-    "height": height,
-    "symbol": "BINANCE:BTCUSDT",
-    "interval": "D",
-    "timezone": "Asia/Hong_Kong",
-    "theme": "Dark",
-    "style": "1",
-    "locale": "zh_CN",
-    "toolbar_bg": "#f1f3f6",
-    "enable_publishing": false,
-    "withdateranges": true,
-    "hide_side_toolbar": true,
-    "allow_symbol_change": false,
-    "hide_top_toolbar": true,
-    "hideideasbutton": true,
-    "show_popup_button": false,
-    "popup_width": "1000",
-    "popup_height": "650"
-});
+console.log("aaaaa",window.location.href)
+
+function getQueryString(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
+// 这样调用：
+let name = getQueryString("name");
+let heights = getQueryString("x");
+console.log(getQueryString("x"));
+// window.location.href;
+// alert(name+"===="+heights)
+
+setTimeout(() => {
+    new TradingView.widget({
+        "container_id":"chart",
+        "width": '100%',
+        "height": heights? heights:height,
+        "symbol": name ? name+"USDT":"BINANCE:BTCUSDT",
+        "interval": "D",
+        "timezone": "Asia/Hong_Kong",
+        "theme": "Dark",
+        "style": "1",
+        "locale": "zh_CN",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "withdateranges": true,
+        "hide_side_toolbar": true,
+        "allow_symbol_change": false,
+        "hide_top_toolbar": true,
+        "hideideasbutton": true,
+        "show_popup_button": false,
+        "popup_width": "1000",
+        "popup_height": "650"
+    });
+}, 1000);
+
 
 
 
