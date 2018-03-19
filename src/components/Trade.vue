@@ -1,15 +1,14 @@
 <template>
     <div class="clear trade wrapper">
-        <!-- <div class="tradelists clear">
-             <Menu @on-select="info" mode="horizontal" class="trade-menu" active-name="BTC" >
-                <MenuItem v-for="value in menu" :name="value.name" :key="value.name">
-                     
-                    <span><img :src="value.icon"/>{{ value.text }}</span>
+        <div class="tradelists clear">
+             <Menu ref='currencymenu' @on-select="info" mode="horizontal" class="trade-menu" :active-name="activeName" >
+                <MenuItem v-for="value in menu" :name=" value.currencyname + '/' + value.valuationcurrency " :key="value.currencyname">
+                    <span><img :src="''"/>{{ value.currencyname }}/{{value.valuationcurrency}}</span>
                 </MenuItem>
             </Menu>
-        </div> -->
+        </div>
         <div class="tradelist">
-            <Menu @on-select="infos" class="trade-menu" active-name="buy" >
+            <Menu ref='asdf' @on-select="infos" class="trade-menu" :active-name="active_name2" >
                 <MenuItem v-for="value in menu1" :name="value.name" :key="value.name">
                     <span>{{ value.text }}</span>
                 </MenuItem>
@@ -45,11 +44,11 @@
                         </div>
                         <div class="trade-input">
                             <div style="position:relative; margin-bottom:10px;">
-                                <InputNumber v-model="buyprice" :min='0' class="input-number"></InputNumber>
+                                <InputNumber v-model="buyprice" @on-change="inputNumber('buy')" :min='0' class="input-number"></InputNumber>
                                 <span class='span'>买入价 {{jijiabizhong}}</span>
                             </div>
                             <div style="position:relative; margin-bottom:10px;">
-                                <InputNumber v-model="buycount" :min='0' class="input-number"></InputNumber>
+                                <InputNumber v-model="buycount" @on-change="inputNumber('buy')" :min='0' class="input-number"></InputNumber>
                                 <span class='span'>买入量 {{jichubizhong}}</span>
                             </div>
                             
@@ -88,11 +87,11 @@
                         </div>
                         <div class="trade-input">
                             <div style="position:relative; margin-bottom:10px;">
-                                <InputNumber v-model="sellprice" :min='0' class="input-number"></InputNumber>
+                                <InputNumber v-model="sellprice" @on-change="inputNumber('sell')" :min='0' class="input-number"></InputNumber>
                                 <span class='span'>卖出价 {{jijiabizhong}}</span>
                             </div>
                             <div style="position:relative; margin-bottom:10px;">
-                                <InputNumber v-model="sellcount" :min='0' class="input-number"></InputNumber>
+                                <InputNumber v-model="sellcount" @on-change="inputNumber('sell')" :min='0' class="input-number"></InputNumber>
                                 <span class='span'>卖出量 {{jichubizhong}}</span>
                             </div>
                             <!-- <Input v-model="sellprice" :number="true"  @on-change="sell_price" :maxlength="14">
@@ -198,7 +197,9 @@
                 stepJson:["01.安全设置","02.充值","03.下单交易"],
                 jiaoyipage:0,
                 jiaoyicurrent:1,
-                // menu,
+                active_name2:'buy',
+                activeName:'',
+                menu:[],
                 menu1,
                 value: 1000,
                 numbers:0,
@@ -231,14 +232,24 @@
                         title: '交易数量',
                         key: 'count',
                         render: (h,params)=>{
-                            return  h("span",Number(params.row.count).toFixed(6))
+                            if(params.row.count){
+                                return  h("span",Number(params.row.count).toFixed(6))
+                            }else{
+                                return h("span",Number(0).toFixed(6))
+                            }
+                            
                         }
                     },
                     {
                         title: '交易价格',
                         key: 'price',
                         render: (h, params) => {
-                            return  h("span",Number(params.row.price).toFixed(6))
+                            if(params.row.price){
+                                return h("span",Number(params.row.price).toFixed(6))
+                            }else{
+                                return h("span",Number(0).toFixed(6))
+                            }
+                            
                         }
                     }
                 ],
@@ -315,7 +326,6 @@
                 }
             }),
         },
-        
         mounted () {
             this.$Message.config({
                 top: 100,
@@ -325,7 +335,6 @@
             this.weituolist();
             console.log(this.$store.state)
             // let userinfo = this.$store.state.userinfo;
-
             if(this.$store.state.userinfo.emailset ){
                 this.numbers++
             }
@@ -345,9 +354,49 @@
             console.log("--------------",this.numbers)
             this.mairuzijin();
             this.maichuzijin();
+            console.log()
+            this.selectCurrency();
+            
+        },
+        created(){
             
         },
         methods: {
+            inputNumber(val){
+                if(val == "buy"){
+                    if(this.buyprice > 0 && this.buycount > 0){
+                        this.buymoney = Number(this.buycount*this.buyprice).toFixed(6);
+                    }
+                }
+                if(val == "sell"){
+                    if(this.sellprice > 0 && this.sellcount > 0){
+                        this.sellmoney = Number(this.sellcount*this.sellprice).toFixed(6);
+                    }
+                }
+                
+            },
+            selectCurrency(){
+                let that=this;
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbfct.do",
+                    data:{
+                        reqresource:1
+                    }
+                }).then((res)=>{
+                    console.log(res)
+                    if(res.data.currencys && res.data.err_code == "1" && res.data){
+                    console.log(res.data.currencys)
+                        that.menu = res.data.currencys
+                        setTimeout(()=>{
+                            that.$refs['currencymenu'].currentActiveName = 'ETH/USDT'
+                            // alert(that.$refs['currencymenu'].currentActiveName);
+                        },300)
+                        
+                        
+                    }
+                })
+            },
             buy(){//买入
                 let that = this;
                 if(that.buycount > 0 && that.buyprice > 0){
@@ -704,8 +753,6 @@
                     }
                 })
                 .then(function (response) {
-                    console.log(response)
-                    console.log(response.data.latestDeal);
                     if(response.data.latestDeal){
                        
                         response.data.latestDeal.map(function(item,index){
@@ -737,15 +784,10 @@
                             }
                         }
                         var sortObj = latestDeal.sort(compare("tradetype"));
-                        console.log(sortObj)
-
                         // 最新成交价格
                         that.price_datas = sortObj;
                     
                 })
-            },
-            ss(value){
-                console.log(value)
             },
             //查询委托
             query_entrust (currencycode,starttime,endtime) {
@@ -868,41 +910,30 @@
                 this.begintime1 = '';
                 
             },
-            // info (name) {
-                //     this.jichubizhong=name;
-                //     let key = name;
-                //     this.weituolist();
-                //     switch (key) {
-                //         case "BTC":
-                //                 this.btc("00")
-                //             break;
-                //         case "ETH":
-                //                 this.eth("11")
-                //             break;
-                    
-                //         default:
-                //             break;
-                //     };
-                    
-                // },
-                // btc (ss) {
-                //     console.log(ss)
-                //     this.query();
-                // },
-                // eth (ss) {
-                //     console.log(ss)
-                //     this.query();
-            // },
+            info (name) {
+                console.log(name)
+                this.$refs['asdf'].currentActiveName = 'buy',
+                this.types = "buy"
+                this.activeName = name;
+                var bizhong = name.split("/");
+                this.jichubizhong=bizhong[0];
+                this.jijiabizhong=bizhong[1];
+                this.weituolist();
+                this.mairuzijin();
+                this.maichuzijin();
+                this.query();
+            },
+    
             dblclick (row,index) {
                 // console.log("==========dbclick===========")
                 // console.log(row,index)
                 if(row.operate == "1"){
-                    this.buycount = row.count;
-                    this.buyprice = row.price;
+                    this.buycount = Number(row.count);
+                    this.buyprice = Number(row.price);
                     this.buymoney = (this.buycount*this.buyprice).toFixed(6);
                 }else{
-                    this.sellcount = row.count;
-                    this.sellprice = row.price;
+                    this.sellcount = Number(row.count);
+                    this.sellprice = Number(row.price);
                     this.sellmoney = (this.sellcount*this.sellprice).toFixed(6);
                 }
             },
@@ -939,7 +970,7 @@
                 margin-bottom: -5px;
             }
             .ivu-menu-item{
-                width:10%;
+                width:12.5%;
                 text-align: center;
                 // padding:20xp 0px;
             }
@@ -1086,6 +1117,7 @@
         .span{
             position: absolute;
             top:0;
+            left:0;
             z-index: 3;
             line-height: 50px;
             width:120px;
