@@ -5,12 +5,12 @@
                 <Row>
                     <Tabs size="small">
                         <TabPane label="限价交易" class="jiaoyi">
-                            <Col span='12' style="padding:0 20px;">
+                            <Col span='12' style="padding:0 10px;">
                                 <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">冲币</span></div>
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
-                                <div style="padding:20px 20px 0 0;">
+                                <div style="padding:20px 0px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
                                             <Input :number="true" v-model="buyprice" @on-change="inputNumber(1)" :maxlength="14"></Input>
@@ -31,7 +31,7 @@
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">冲币</span></div>
-                                <div style="padding:20px 20px 0 0;">
+                                <div style="padding:20px 10px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
                                             <Input :number="true" v-model="sellprice" @on-change="inputNumber(3)" :maxlength="14"></Input>
@@ -49,12 +49,12 @@
                             </Col>
                         </TabPane>
                         <TabPane label="市价交易" class='jiaoyi'>
-                            <Col span='12' style="padding:0 20px;">
+                            <Col span='12' style="padding:0 10px;">
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
                                 <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">冲币</span></div>
-                                <div style="padding:20px 20px 0 0;">
+                                <div style="padding:20px 0px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
                                             <Input disabled placeholder="以市场上最优价格买入" number></Input>
@@ -73,7 +73,7 @@
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">冲币</span></div>
-                                <div style="padding:20px 20px 0 0;">
+                                <div style="padding:20px 10px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem  label="卖出价" class="deal-input">
                                             <Input disabled placeholder="以市场上最优价格卖出" number></Input>
@@ -399,7 +399,8 @@ export default {
         },
         //交易  type：1 买入    type：2   卖出
         trade(type) {
-            var operate = type;
+            var that = this;
+            var operate = type;       //1 买入   2  卖出
             var entrusttype = 1;      //1.限价交易   2.市价交易
             var entrustcoin = '';     //委托币种
             var tradecoin = '';       //交易币种
@@ -411,6 +412,20 @@ export default {
                 entrustcoin = this.changeCurreny;
                 entrustnum = this.buycount;
                 entrustprice = this.buyprice;
+                if (entrustnum <= 0) {
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'请输入委托数量'
+                    })
+                    return false;
+                }
+                if (entrustprice <= 0) {
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'请输入委托价格'
+                    })
+                    return false;
+                }
                 this.$ajax.post('/trade/tps/pbces.do',{
                     entrusttype,
                     entrustcoin,
@@ -423,6 +438,10 @@ export default {
                     console.log('发送请求成功',res);
                     if (res.status == 200 && res.data.err_code == '1') {
                         console.log('创建委托成功');
+                        that.$Notice.success({
+                            title:'提示',
+                            desc:'委托创建成功'
+                        })
                     }
                 }).catch((err) => {
                     console.log(err,'创建委托失败');
@@ -432,6 +451,20 @@ export default {
                 entrustcoin = this.usdtCurrency;
                 entrustnum = this.sellcount;
                 entrustprice = this.sellprice;
+                if (entrustnum <= 0) {
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'请输入委托数量'
+                    })
+                    return false;
+                }
+                if (entrustprice <= 0) {
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'请输入委托价格'
+                    })
+                    return false;
+                }
                 this.$ajax.post('/trade/tps/pbces.do',{
                     entrusttype,
                     entrustcoin,
@@ -442,6 +475,13 @@ export default {
                     operate
                 }).then((res) => {
                     console.log('---res,发送请求成功',res);
+                    if (res.status == 200 && res.data.err_code == '1') {
+                        console.log('创建委托成功');
+                        that.$Notice.success({
+                            title:'提示',
+                            desc:'委托创建成功'
+                        })
+                    }
                 }).catch((err) => {
                     console.log('err',err);
                 })

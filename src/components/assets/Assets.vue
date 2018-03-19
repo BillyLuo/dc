@@ -453,9 +453,10 @@
           this.endDate = endDate;
         }
         if (value == 0 ) {
-          this.startDate = endDate.setHours(0);
+          this.startDate = new Date(endDate.setHours(0));
+          console.log(this.startDate);
         }else if (value) {
-          var day = moment(endDate).subtract(value, 'days');
+          var day = moment(endDate).subtract(value, 'days').toDate();
           this.startDate = day;
         }
       },
