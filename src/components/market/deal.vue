@@ -243,13 +243,13 @@ export default {
         },
         dblclick (row,index) {
             if(row.operate == "1"){
-                this.buycount = row.count;
-                this.buyprice = row.price;
-                this.buymoney = (this.buycount*this.buyprice).toFixed(6);
+                this.buycount =  Number(row.count);
+                this.buyprice =  Number(row.price);
+                this.buymoney = Number(this.buycount*this.buyprice).toFixed(6);
             }else{
-                this.sellcount = row.count;
-                this.sellprice = row.price;
-                this.sellmoney = (this.sellcount*this.sellprice).toFixed(6);
+                this.sellcount =  Number(row.count);
+                this.sellprice =  Number(row.price);
+                this.sellmoney = Number(this.sellcount*this.sellprice).toFixed(6);
             }
         },
         paramsinfo (obj) {
