@@ -501,7 +501,7 @@
         });
         this.dateErr = '';
         if (startDate && endDate) {
-          if (!moment(startDate).isBefore(endDate)) {
+          if (moment(endDate).isBefore(startDate)) {
             this.dateErr = '查询开始时间应小于结束时间';
             return false;
           }
