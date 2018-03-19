@@ -64,7 +64,7 @@
                     <Input v-model="formValidate.remark" placeholder=""></Input>
                 </FormItem>
                 <FormItem label="交易密码" prop="transckcode">
-                    <Input v-model="formValidate.transckcode"  placeholder=""></Input>
+                    <Input type="password" v-model="formValidate.transckcode"  placeholder=""></Input>
                 </FormItem>
                 <FormItem label="验证码：" prop="msgcheckcode">
                   <Input v-model="formValidate.msgcheckcode" placeholder="验证码" type="text">
@@ -288,7 +288,8 @@
         dateErr:'',
         addresslist:[
          
-        ]
+        ],
+        sendTradeTimer:true,
       }
     },
     mounted(){
@@ -311,6 +312,9 @@
     methods: {
       canclemodal(name){
         this.$refs[name].resetFields();
+        this.setTradeText = "发送验证码";
+        this.sendmessage = true;
+        clearInterval(this.sendTradeTimer);
       },
       deleteaddress(value){//删除地址
         let that=this;
@@ -389,6 +393,7 @@
           },1000);
         }else{
           console.log("多次点击 ==========")
+          return false;
         }
 
         this.$ajax.post('/trade/tps/pbscs.do',{
@@ -685,6 +690,7 @@
       padding:0px 10px;
       color:#333;
       vertical-align: middle;
+      margin-bottom:10px;
       .icon-text{
         padding:10px 30px 10px 10px;
         height:100%;

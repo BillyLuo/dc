@@ -13,13 +13,19 @@
                                 <div style="padding:20px 20px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
-                                            <Input :number="true" v-model="buyprice" @on-change="inputNumber(1)" :maxlength="14"></Input>
-                                            <span>{{ params.bizhong }}</span>
+                                            <div style="position:relative;">
+                                                <InputNumber v-model="buyprice" @on-change="inputNumber('buy')" :min='0' class="input-number"></InputNumber>
+                                                <span class='span'>{{ params.bizhong }}</span>
+                                            </div>
+                                           
                                             <p>≈ <i> 0.0000 </i> CNY</p>
                                         </FormItem> 
                                         <FormItem label="买入量" class="deal-input">
-                                            <Input :number="true" v-model="buycount" @on-change="inputNumber(2)" :maxlength="14"></Input>
-                                            <span>{{ params.currency }}</span>
+                                            
+                                            <div style="position:relative;">
+                                                <InputNumber v-model="buycount" @on-change="inputNumber('buy')" :min='0' class="input-number"></InputNumber>
+                                                <span class='span'>{{ params.currency }}</span>
+                                            </div>
                                         </FormItem>
                                         <p class="count-money">交易额 <i>{{buymoney}}</i> <span>USDT</span></p>
                                         <Button class="mairu" @click="trade(1)">买入{{ params.currency }}</Button>
@@ -34,13 +40,18 @@
                                 <div style="padding:20px 20px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
-                                            <Input :number="true" v-model="sellprice" @on-change="inputNumber(3)" :maxlength="14"></Input>
-                                            <span>{{ params.bizhong }}</span>
-                                            <p>≈ <i> 0.000 </i> CNY</p>
+                                            <div style="position:relative;">
+                                                <InputNumber v-model="sellprice" @on-change="inputNumber('sell')" :min='0' class="input-number"></InputNumber>
+                                                <span class='span'>{{ params.bizhong }}</span>
+                                            </div>
+                                           
+                                            <p>≈ <i> 0.0000 </i> CNY</p>
                                         </FormItem>
                                         <FormItem label="卖出量" class="deal-input">
-                                            <Input :number="true" v-model="sellcount" @on-change="inputNumber(4)" :maxlength="14"></Input>
-                                            <span>{{ params.currency }}</span>
+                                            <div style="position:relative;">
+                                                <InputNumber v-model="sellcount" @on-change="inputNumber('sell')" :min='0' class="input-number"></InputNumber>
+                                                <span class='span'>{{ params.currency }}</span>
+                                            </div>
                                         </FormItem>
                                         <p class="count-money">交易额 <i>{{ sellmoney }}</i> <span>USDT</span></p>
                                         <Button class="mairu" @click="trade(2)">卖出{{ params.currency }}</Button>
@@ -61,8 +72,10 @@
                                             <span>{{ params.bizhong }}</span>
                                         </FormItem>
                                         <FormItem label="买入量" class="deal-input">
-                                            <Input :number="true" v-model="buycount1" @on-change="inputNumber(5)" :maxlength="14"></Input>
-                                            <span>{{ params.currency }}</span>
+                                            <div style="position:relative;">
+                                                <InputNumber v-model="buycount1" :min='0' class="input-number"></InputNumber>
+                                                <span class='span'>{{ params.currency }}</span>
+                                            </div>
                                         </FormItem>
                                         <Button class="mairu">买入{{ params.currency }}</Button>
                                     </Form>
@@ -80,8 +93,11 @@
                                             <span>{{ params.bizhong }}</span>
                                         </FormItem>
                                         <FormItem label="卖出量" class="deal-input">
-                                            <Input  :number="true" v-model="sellcount1" @on-change="inputNumber(6)" :maxlength="14"></Input>
-                                            <span>{{ params.currency }}</span>
+                                            <div style="position:relative;">
+                                                <InputNumber v-model="sellcount1" :min='0' class="input-number"></InputNumber>
+                                                <span class='span'>{{ params.currency }}</span>
+                                            </div>
+                                            
                                         </FormItem>
                                         <Button class="mairu">卖出{{ params.currency }}</Button>
                                     </Form>
@@ -117,12 +133,12 @@ export default {
     props: ['params'],
     data: function() {	
         return {
-            buyprice:"",
-            buycount:'',
-            sellprice:'',
-            sellcount:'',
-            buycount1:'',
-            sellcount1:"",
+            buyprice:0,
+            buycount:0,
+            sellprice:0,
+            sellcount:0,
+            buycount1:0,
+            sellcount1:0,
             buymoney:'0.0000',
             sellmoney:'0.0000',
             //usdt  数量
@@ -213,117 +229,17 @@ export default {
             })
         },
         inputNumber(val){
-            console.log(val)
-            if(val==1){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.buyprice);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.buyprice = that.buyprice.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.buyprice = that.buyprice.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.buyprice = that.buyprice.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.buyprice = that.buyprice.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.buyprice)
-                    },10)
+            if(val == "buy"){
+                if(this.buyprice > 0 && this.buycount > 0){
+                    this.buymoney = Number(this.buycount*this.buyprice).toFixed(6);
                 }
-
-                setTimeout(function(){
-                    that.buymoney = (that.buycount*that.buyprice).toFixed(6);
-                },20)
             }
-            if(val == 2){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.buycount);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.buycount = that.buycount.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.buycount = that.buycount.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.buycount = that.buycount.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.buycount = that.buycount.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.buycount)
-                    },10)
+            if(val == "sell"){
+                if(this.sellprice > 0 && this.sellcount > 0){
+                    this.sellmoney = Number(this.sellcount*this.sellprice).toFixed(6);
                 }
-
-                setTimeout(function(){
-                    that.buymoney = (that.buycount*that.buyprice).toFixed(6);
-                },20)
             }
-            if(val == 3){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.sellprice);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.sellprice = that.sellprice.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.sellprice = that.sellprice.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.sellprice = that.sellprice.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.sellprice = that.sellprice.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.sellprice)
-                    },10)
-                }
-
-                setTimeout(function(){
-                    that.sellmoney = (that.sellprice*that.sellcount).toFixed(6);
-                },20)
-            }
-            if(val == 4){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.sellcount);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.sellcount = that.sellcount.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.sellcount = that.sellcount.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.sellcount = that.sellcount.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.sellcount = that.sellcount.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.sellcount)
-                    },10)
-                }
-
-                setTimeout(function(){
-                    that.sellmoney = (that.sellprice*that.sellcount).toFixed(6);
-                },20)
-            }
-            if(val == 5){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.buycount1);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.buycount1 = that.buycount1.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.buycount1 = that.buycount1.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.buycount1 = that.buycount1.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.buycount1 = that.buycount1.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.buycount1)
-                    },10)
-                }
-
-                
-            }
-            if(val == 6){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.sellcount1);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.sellcount1 = that.sellcount1.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.sellcount1 = that.sellcount1.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.sellcount1 = that.sellcount1.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.sellcount1 = that.sellcount1.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.sellcount1)
-                    },10)
-                }
-
-            }
-           
+            
         },
         dblclick (row,index) {
             if(row.operate == "1"){
@@ -587,6 +503,37 @@ export default {
                 }
             }
         }
+        .ivu-input-number-handler-wrap{
+            display: none;
+        }
+        .ivu-input-number-input-wrap{
+            height:40px;
+        }
+        .input-number{
+            width:100%;
+            height:40px;
+            line-height:40px;
+            border-radius: 0;
+            background: #f5f4f4;
+            position: relative;
+            border:none;
+            .ivu-input-number-input{
+                height:50px;
+                line-height: 50px;
+                background: #f5f4f4;
+                font-size: 14px;
+            }
+        }
+        // .span{
+        //     position: absolute;
+        //     top:0;
+        //     left:0;
+        //     z-index: 3;
+        //     line-height: 50px;
+        //     width:120px;
+        //     text-align: center;
+        //     font-size:12px;
+        // }
     }
     .recent-price .ivu-table-cell {
         padding-left: 0;
