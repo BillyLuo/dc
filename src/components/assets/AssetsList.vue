@@ -82,14 +82,25 @@ export default {
   },
   methods:{
     handle(action) {
-      // console.log(action);
+      console.log(action);
       if (action.type == 'in') {
-        this.$router.push('/assets/recharge')
+        // this.$router.push('/assets/recharge')
+        this.$router.push({
+          path:"/assets/recharge",
+          name:"Recharge",
+          // params:action,
+          query:{
+            name:action.data.row.name
+          }
+        });
       }else if(action.type == 'out') {
         this.$router.push({
           path:"/assets/withdraw",
           name:"Withdraw",
-          params:action
+          // params:action,
+          query:{
+            name:action.data.row.name
+          }
         });
       }
     },

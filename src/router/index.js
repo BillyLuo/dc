@@ -54,7 +54,7 @@ export default new Router({
       children:[
         {path:'',name:'Assets',component:AssetsList},
         {path:'/assets/assetslist',component:AssetsList},
-        {path:'/assets/recharge',component:Recharge},
+        {path:'/assets/recharge',name:'Recharge',component:Recharge},
         {path:'/assets/withdraw',name:'Withdraw',component:Withdraw}
       ]
     },

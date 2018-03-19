@@ -56,7 +56,24 @@ export default {
       ],
       record_data:[]
     }
+  },
+  watch: {
+    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+    '$router': 'getParams'
+  },
+  mounted(){
+    this.getParams();
+  },
+  methods:{
+    getParams () {
+      // 取到路由带过来的参数 
+      let routerParams = this.$route.query
+      console.log("=======routerParams======",routerParams)
+      this.currencyType = routerParams.name;
+      
+    }
   }
+  
 }
 </script>
 
