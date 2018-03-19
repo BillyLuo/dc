@@ -33,23 +33,32 @@
                 <Col span='8'>
                     <div class="trade-buy buy-sell">
                         <div class='buy-title'>
-                            <span class="text-buy">买入</span>{{jichubizhong}}/<span>{{ jijiabizhogn }}</span>
+                            <span class="text-buy">买入</span>{{jichubizhong}}/<span>{{ jijiabizhong }}</span>
                         </div>
                         <div class="money">
-                            <p class="buy-money">可用：<span>{{buy_keyong}}</span> {{jijiabizhogn}}</p>
-                            <p class="buy-money">冻结：<span>{{buy_dongjie}}</span> {{jijiabizhogn}}</p>
+                            <p class="buy-money">可用：<span>{{buy_keyong}}</span> {{jijiabizhong}}</p>
+                            <p class="buy-money">冻结：<span>{{buy_dongjie}}</span> {{jijiabizhong}}</p>
                         </div>
                         <div class="trade-button">
                             <span>委托类型</span>
                             <Button>限单价</Button>
                         </div>
                         <div class="trade-input">
-                            <Input :number="true" v-model="buyprice" @on-change="buy_price" :maxlength="14">
+                            <div style="position:relative; margin-bottom:10px;">
+                                <InputNumber v-model="buyprice" :min='0' class="input-number"></InputNumber>
+                                <span class='span'>买入价 {{jijiabizhong}}</span>
+                            </div>
+                            <div style="position:relative; margin-bottom:10px;">
+                                <InputNumber v-model="buycount" :min='0' class="input-number"></InputNumber>
+                                <span class='span'>买入量 {{jichubizhong}}</span>
+                            </div>
+                            
+                            <!-- <Input :number="true" v-model="buyprice" @on-change="buy_price" :maxlength="14">
                                 <span slot="prepend">买入价 ¥</span>
-                            </Input>
-                            <Input :number="true" v-model="buycount" @on-change="buy_count" :maxlength="14">
+                            </Input> -->
+                            <!-- <Input :number="true" v-model="buycount" @on-change="buy_count" :maxlength="14">
                                 <span slot="prepend">买入量 {{jichubizhong}}</span>
-                            </Input>
+                            </Input> -->
                             <p>
                                 ≈ ￥ <span>{{buymoney}}</span>
                             </p>
@@ -67,7 +76,7 @@
                 <Col span='8'>
                     <div class="trade-sell buy-sell">
                         <div class='sell-title'>
-                            <span  class="text-buy">卖出</span>{{jichubizhong}}/<span>{{ jijiabizhogn }}</span>
+                            <span  class="text-buy">卖出</span>{{jichubizhong}}/<span>{{ jijiabizhong }}</span>
                         </div>
                         <div class="money">
                             <p class="buy-money">可用：<span>{{ sell_keyong }}</span> {{ jichubizhong }}</p>
@@ -78,12 +87,20 @@
                             <Button>限单价</Button>
                         </div>
                         <div class="trade-input">
-                            <Input v-model="sellprice" :number="true"  @on-change="sell_price" :maxlength="14">
+                            <div style="position:relative; margin-bottom:10px;">
+                                <InputNumber v-model="sellprice" :min='0' class="input-number"></InputNumber>
+                                <span class='span'>卖出价 {{jijiabizhong}}</span>
+                            </div>
+                            <div style="position:relative; margin-bottom:10px;">
+                                <InputNumber v-model="sellcount" :min='0' class="input-number"></InputNumber>
+                                <span class='span'>卖出量 {{jichubizhong}}</span>
+                            </div>
+                            <!-- <Input v-model="sellprice" :number="true"  @on-change="sell_price" :maxlength="14">
                                 <span slot="prepend">卖出价 ¥</span>
                             </Input>
                             <Input v-model="sellcount" :number="true" @on-change="sell_count" :maxlength="14">
                                 <span slot="prepend">卖出量 {{jichubizhong}}</span>
-                            </Input>
+                            </Input> -->
                             <p>
                                 ≈ ￥ <span>{{sellmoney}}</span>
                             </p>
@@ -189,13 +206,13 @@
                 begintime1: '',
                 types:"buy",
                 jichubizhong:"ETH",
-                jijiabizhogn:"USDT",
+                jijiabizhong:"USDT",
                 buymoney:0,
                 sellmoney:0,
-                buyprice:'',
-                buycount:'',
-                sellprice:'',
-                sellcount:'',
+                buyprice:0,
+                buycount:0,
+                sellprice:0,
+                sellcount:0,
                 // 最新成交价格
                 price_datas:[],
                 price_columns: [
@@ -300,8 +317,11 @@
         },
         
         mounted () {
+            this.$Message.config({
+                top: 100,
+                duration: 3
+            })
             this.query();
-            
             this.weituolist();
             console.log(this.$store.state)
             // let userinfo = this.$store.state.userinfo;
@@ -330,67 +350,76 @@
         methods: {
             buy(){//买入
                 let that = this;
-                this.$ajax({
-                    method:"post",
-                    url:"/trade/tps/pbces.do",
-                    data:{
-                        "entrusttype":"1",
-                        "operate":"1",
-                        "entrustcoin":that.jichubizhong,
-                        "tradecoin":that.jijiabizhogn,
-                        "entrustnum":that.buycount,
-                        "entrustprice":that.buyprice,
-                        "reqresource":"1",
-                    }
-                }).then((res)=>{
-                    console.log(res)
-                    if(res.data && res.data.err_code == "1"){
-                        this.$Modal.success({
-                            content: "创建委托成功"
-                        })
-                        that.buycount = "";
-                        that.buyprice = "";
-                        that.buymoney = "";
-                        this.mairuzijin();
-                        this.maichuzijin();
-                    }else{
-                        this.$Modal.console.error({
-                            content: "创建委托失败"
-                        })
-                    
-                    }
-                })
+                if(that.buycount > 0 && that.buyprice > 0){
+                    this.$ajax({
+                        method:"post",
+                        url:"/trade/tps/pbces.do",
+                        data:{
+                            "entrusttype":"1",
+                            "operate":"1",
+                            "entrustcoin":that.jichubizhong,
+                            "tradecoin":that.jijiabizhong,
+                            "entrustnum":that.buycount,
+                            "entrustprice":that.buyprice,
+                            "reqresource":"1",
+                        }
+                    }).then((res)=>{
+                        console.log(res)
+                        if(res.data && res.data.err_code == "1"){
+                            this.$Modal.success({
+                                content: "创建委托成功"
+                            })
+                            that.buycount = 0;
+                            that.buyprice = 0;
+                            that.buymoney = 0;
+                            this.mairuzijin();
+                            this.maichuzijin();
+                        }else{
+                            this.$Modal.error({
+                                content: "创建委托失败"
+                            })
+                        
+                        }
+                    })
+                }else{
+                    that.$Message.warning("买入价或买入量不能为0")
+                }
             },
             sell(){//卖出
                 let that = this;
-                this.$ajax({
-                    method:"post",
-                    url:"/trade/tps/pbces.do",
-                    data:{
-                        "entrusttype":"1",
-                        "operate":"2",
-                        "entrustcoin":that.jijiabizhogn,
-                        "tradecoin":that.jichubizhong,
-                        "entrustnum":that.sellcount,
-                        "entrustprice":that.sellprice,
-                        "reqresource":"1",
-                    }
-                }).then((res)=>{
-                    if(res.data && res.data.err_code == "1"){
-                        this.$Modal.success({
-                            content: "创建委托成功"
-                        })
-                        that.sellcount = "";
-                        that.sellprice = "";
-                        that.sellmoney = "";
-                        this.mairuzijin();
-                        this.maichuzijin();
-                    }else{
-                        this.$Modal.console.error({
-                            content: "创建委托失败"
-                        })
-                    }
-                })
+                if(that.sellcount > 0 && that.sellprice > 0){
+                    this.$ajax({
+                        method:"post",
+                        url:"/trade/tps/pbces.do",
+                        data:{
+                            "entrusttype":"1",
+                            "operate":"2",
+                            "entrustcoin":that.jijiabizhong,
+                            "tradecoin":that.jichubizhong,
+                            "entrustnum":that.sellcount,
+                            "entrustprice":that.sellprice,
+                            "reqresource":"1",
+                        }
+                    }).then((res)=>{
+                        if(res.data && res.data.err_code == "1"){
+                            this.$Modal.success({
+                                content: "创建委托成功"
+                            })
+                            that.sellcount =0;
+                            that.sellprice =0;
+                            that.sellmoney =0;
+                            this.mairuzijin();
+                            this.maichuzijin();
+                        }else{
+                            this.$Modal.error({
+                                content: "创建委托失败"
+                            })
+                        }
+                    })
+                }else{
+                    that.$Message.warning("卖出价或卖出量不能为0")
+                }
+                
             },
             mairuzijin(){//买入可用资金
                 let that=this;
@@ -399,12 +428,15 @@
                     url:"/trade/tps/pblaf.do",
                     data:{
                         reqresource:1,
-                        currencytype: that.jijiabizhogn
+                        currencytype: that.jijiabizhong
                     }
                 }).then((res)=>{
                     if(res.data.accountFund && res.data&&res.data.err_code=="1"){
                         that.buy_keyong=res.data.accountFund[0].usablefund
                         that.buy_dongjie=res.data.accountFund[0].frozenfund
+                    }else{
+                        that.buy_keyong="0.000000"
+                        that.buy_dongjie="0.000000"
                     }
                 })
             },
@@ -418,9 +450,13 @@
                         currencytype: that.jichubizhong
                     }
                 }).then((res)=>{
+                    console.log(res)
                     if(res.data.accountFund && res.data&&res.data.err_code=="1"){
                         that.sell_keyong=res.data.accountFund[0].usablefund
                         that.sell_dongjie=res.data.accountFund[0].frozenfund
+                    }else{
+                        that.sell_keyong="0.000000"
+                        that.sell_dongjie="0.000000"
                     }
                 })
             },
@@ -494,82 +530,6 @@
                 }else{
                     this.query_entrust1()
                 }
-            },
-            buy_price(){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.buyprice);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.buyprice = that.buyprice.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.buyprice = that.buyprice.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.buyprice = that.buyprice.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.buyprice = that.buyprice.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.buyprice)
-                    },10)
-                }
-
-                setTimeout(function(){
-                    that.buymoney = (that.buycount*that.buyprice).toFixed(6);
-                },20)
-                
-
-            },
-            buy_count(){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.buycount);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.buycount = that.buycount.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.buycount = that.buycount.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.buycount = that.buycount.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.buycount = that.buycount.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.buycount)
-                    },10)
-                }
-                setTimeout(function(){
-                    that.buymoney = (that.buycount*that.buyprice).toFixed(6);
-                },20)
-            },
-            sell_price(){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.sellprice);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.sellprice = that.sellprice.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.sellprice = that.sellprice.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.sellprice = that.sellprice.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.sellprice = that.sellprice.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.sellprice)
-                    },10)
-                }
-                setTimeout(function(){
-                    that.sellmoney = (that.sellcount*that.sellprice).toFixed(6);
-                },20)
-
-            },
-            sell_count(){
-                var p = /^[0-9]+([.]{1}[0-9]+){0,1}$/; 
-                var b = p.test(this.sellcount);//true
-                let buyp;
-                let that =this;
-                if(!b){
-                    setTimeout(function(){
-                        that.sellcount = that.sellcount.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-                        that.sellcount = that.sellcount.replace(/^\./g,"");  //验证第一个字符是数字而不是.  
-                        that.sellcount = that.sellcount.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.  
-                        that.sellcount = that.sellcount.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-                        console.log(that.sellcount)
-                    },10)
-                }
-                setTimeout(function(){
-                    that.sellmoney = (that.sellcount*that.sellprice).toFixed(6);
-                },20)
             },
             // 委托列表表头
             weituolist () {
@@ -701,7 +661,7 @@
                             render: (h,params) =>{
                                 // 0:已提交1:成交,2:撤销,3:部分成交,4:部分成交撤销
                                 if(params.row.status == "1"){
-                                    return h("span","成交")
+                                    return h("span","已成交")
                                 }else if(params.row.status == "3" || params.row.status == "0"){
                                     return  h('div', [
                                                 h('Button', {
@@ -720,7 +680,7 @@
                                                 }, '撤销')
                                             ]);
                                 }else if(params.row.status == "2"){
-                                    return h("span","撤销")
+                                    return h("span","已撤销")
                                 }else if(params.row.status == "4"){
                                     return  h('span', "部分成交撤销");
                                 }
@@ -738,7 +698,7 @@
                     method: 'post',
                     url: '/trade/tps/pblds.do',
                     data: {
-                        currencytype:"ETH",
+                        currencytype:that.jichubizhong,
                         pagesize: 10,
                         reqresource:1
                     }
@@ -762,8 +722,8 @@
                     url:"/trade/tps/pbles.do",
                     data: {
                         count : 5,//查询条数
-                        coin : 'ETH',//币种
-                        tradecoin: 'USDT',//交易币种
+                        coin : that.jichubizhong,//币种
+                        tradecoin: that.jijiabizhong,//交易币种
                         reqresource:1
                     }
                 }).then((data)=>{
@@ -795,7 +755,7 @@
                     method: 'post',
                     url: '/trade/tps/pbets.do',
                     data: {
-                        "currencytype":currencycode ? currencycode : 'ETH',//币种
+                        "currencytype":currencycode ? currencycode : that.jichubizhong,//币种
                         "starttime":starttime ? starttime : "",
                         "endtime":endtime ? endtime:"",
                         "pageno":"1",
@@ -825,7 +785,7 @@
                     method: 'post',
                     url: '/trade/tps/pbdms.do',
                     data: {
-                       "currencytype":currencycode ? currencycode : 'ETH',//币种
+                       "currencytype":currencycode ? currencycode : that.jichubizhong,//币种
                         "starttime":starttime ? starttime : "",
                         "endtime":endtime ? endtime : "",
                         "pageno":"1",
@@ -854,7 +814,7 @@
                     method: 'post',
                     url: '/trade/tps/pbets.do',
                     data: {
-                        "currencytype":currencycode ? currencycode : 'ETH',//币种
+                        "currencytype":currencycode ? currencycode : that.jichubizhong,//币种
                         "starttime":starttime ? starttime : "",
                         "endtime":endtime ? endtime:"",
                         "pageno":"1",
@@ -936,7 +896,7 @@
             dblclick (row,index) {
                 // console.log("==========dbclick===========")
                 // console.log(row,index)
-                if(row.operate == "2"){
+                if(row.operate == "1"){
                     this.buycount = row.count;
                     this.buyprice = row.price;
                     this.buymoney = (this.buycount*this.buyprice).toFixed(6);
@@ -1102,6 +1062,36 @@
         float: left;
         width:1040px;
         padding-top:25px;
+        .ivu-input-number-handler-wrap{
+            display: none;
+        }
+        .ivu-input-number-input-wrap{
+            height:48px;
+        }
+        .input-number{
+            width:100%;
+            height:50px;
+            line-height:50px;
+            border-radius: 0;
+            background: #f5f4f4;
+            padding-left:121px;
+            position: relative;
+            .ivu-input-number-input{
+                height:50px;
+                line-height: 50px;
+                background: #f5f4f4;
+                font-size: 14px;
+            }
+        }
+        .span{
+            position: absolute;
+            top:0;
+            z-index: 3;
+            line-height: 50px;
+            width:120px;
+            text-align: center;
+            font-size:12px;
+        }
         .trade-time{
             padding: 0px 30px;
             button{
@@ -1207,21 +1197,27 @@
 
         }
         .trade-sell{
+            .ivu-input-number:hover {
+                border-color: #f5322d;
+            }
+            .ivu-input-number-focused {
+                border-color: #f5322d;
+                outline: 0;
+                -webkit-box-shadow:0 0 0 2px rgba(240, 45, 45, 0.28);
+                box-shadow: 0 0 0 2px rgba(240, 45, 45, 0.28);
+            }
+            .ivu-input-number:focus {
+                border-color: #f5322d;
+                outline: 0;
+                -webkit-box-shadow:0 0 0 2px rgba(240, 45, 45, 0.28);
+                box-shadow: 0 0 0 2px rgba(240, 45, 45, 0.28);
+            }
             .ivu-btn{
                 padding:10px 20px;
                 color: #f5322d;
                 background-color: #fff;
                 border-color: #f5322d;
                 margin-left:20px;
-            }
-            .ivu-input:focus{
-                color:#f5322d;
-                border-color: #f5322d;
-                -webkit-box-shadow: none;
-                box-shadow: none;
-            }
-            .ivu-input:hover {
-                border-color: #f5322d;
             }
             .trade-button{
                 button{

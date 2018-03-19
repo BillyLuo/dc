@@ -145,11 +145,6 @@ export default {
     Form: Form,
     FormItem: FormItem
   },
-  mounted (){
-    if (this.withdrawAddress.length) {
-      this.withdrawModel.address = this.withdrawAddress[0];
-    }
-  },
   data () {
     return {
       msg:'提币',
@@ -185,7 +180,24 @@ export default {
       addaddress:false  //添加地址modal
     }
   },
+  watch: {
+    // 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+    '$router': 'getParams'
+  },
+  mounted (){
+    if (this.withdrawAddress.length) {
+      this.withdrawModel.address = this.withdrawAddress[0];
+    }
+    this.getParams();
+  },
   methods:{
+    getParams () {
+      // 取到路由带过来的参数 
+      let routerParams = this.$route.params.data.row
+      console.log("=======routerParams======",routerParams)
+      this.withdrawType = routerParams.name;
+      
+    },
     send () {
       console.log(this.sendStatus);
       var verifystr = '15178874695';

@@ -55,7 +55,7 @@ export default new Router({
         {path:'',name:'Assets',component:AssetsList},
         {path:'/assets/assetslist',component:AssetsList},
         {path:'/assets/recharge',component:Recharge},
-        {path:'/assets/withdraw',component:Withdraw}
+        {path:'/assets/withdraw',name:'Withdraw',component:Withdraw}
       ]
     },
     {

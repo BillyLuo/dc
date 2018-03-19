@@ -11,7 +11,9 @@
 
 <script>
 export default {
-  
+  mounted () {
+    this.getAccountList()
+  },
   data () {
     return {
       account_list_data:[],
@@ -78,16 +80,17 @@ export default {
     ],
     }
   },
-  mounted () {
-    this.getAccountList()
-  },
   methods:{
     handle(action) {
       // console.log(action);
       if (action.type == 'in') {
         this.$router.push('/assets/recharge')
       }else if(action.type == 'out') {
-        this.$router.push('/assets/withdraw');
+        this.$router.push({
+          path:"/assets/withdraw",
+          name:"Withdraw",
+          params:action
+        });
       }
     },
     getAccountList() {

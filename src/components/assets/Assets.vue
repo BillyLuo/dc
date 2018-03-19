@@ -32,8 +32,8 @@
         </TabPane>
         <TabPane :label="label3" name="fundAccount">
           <div class="fund_account">
-            <a href="javascript:;" :class="{active:fund_account_active == item.value}" v-for="(item) in fund_account_lists" :key="item.value" @click="changeFundAccount(item.value)">
-              <span>{{item.label}}</span>
+            <a href="javascript:;" :class="{active:fund_account_active == item.currencyname}" v-for="(item) in fund_account_lists" :key="item.currencyname" @click="changeFundAccount(item.currencyname)">
+              <span>{{item.currencyname}} 提现管理</span>
             </a>
           </div>
           <div class="address_add">
@@ -291,6 +291,23 @@
         ]
       }
     },
+    mounted(){
+      console.log()
+      let that=this;
+      this.$ajax({
+        method:"post",
+        url:"/trade/tps/pbfct.do",
+        data:{
+          reqresource:1
+        }
+      }).then((res)=>{
+        console.log(res)
+        if(res.data.currencys && res.data.err_code == "1" && res.data){
+          console.log(res.data.currencys)
+          that.fund_account_lists = res.data.currencys
+        }
+      })
+    },
     methods: {
       canclemodal(name){
         this.$refs[name].resetFields();
@@ -399,6 +416,7 @@
         this.fund_account_active = value;
         console.log("a---click",value)
         console.log(this.fund_account_active)
+        this.selectaddress()
 
       },
       selectaddress() {//查询地址
@@ -407,7 +425,8 @@
             method:"post",
             url:"/trade/tps/pbqwa.do",
             data:{
-              reqresource:1
+              reqresource:1,
+              coin:that.fund_account_active
             }
           }).then((data)=>{
             console.log(data)
