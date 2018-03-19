@@ -8,7 +8,7 @@
       </FormItem>
       <FormItem label="提现地址" prop="address">
         <Select :class="'withdraw-item'" v-model="withdrawModel.address">
-          <Option v-for="item in withdrawAddress" :value="item" :key="item">{{item}}</Option>
+          <Option v-for="(item) in withdrawAddress" :value="item.adress" :key="item.adress">{{item.adress}}</Option>
         </Select>
         <Button type="primary" @click="showAddModal">增加</Button>
       </FormItem>
@@ -151,7 +151,7 @@ export default {
       withdrawType:'ETH',
       withdrawModel:{
         balance:'0.00',
-        address:'',
+        address:'1',
         account:0,
         commission:'0.003',
         trade_password:'',
@@ -164,10 +164,7 @@ export default {
         add_text_code:''
       },
       withdrawAddress:[
-        'ox3fjdjfoi98jfodjmmmkfjsdlfdsfds',
-        '0xd9ufjsfldjldsfdsfjdmfdfjamfdlfml23s',
-        'fjldsjflfdsfdsffdjfldsjfdljfdkjfldsjfdls'
-      ],
+        ],
       record_column:record_column,
       record_data:[],
       sendText:'发送验证码',
@@ -193,10 +190,53 @@ export default {
   methods:{
     getParams () {
       // 取到路由带过来的参数 
-      let routerParams = this.$route.params.data.row
+      let routerParams = this.$route.query
       console.log("=======routerParams======",routerParams)
       this.withdrawType = routerParams.name;
-      
+      this.getbalance();
+      this.address_list();
+    },
+    getbalance(){//可用资金
+      console.log()
+      let that=this;
+      this.$ajax({
+          method:"post",
+          url:"/trade/tps/pblaf.do",
+          data:{
+              reqresource:1,
+              currencytype: that.withdrawType
+          }
+      }).then((res)=>{
+          console.log(res)
+          if(res.data.accountFund && res.data&&res.data.err_code=="1"){
+              that.withdrawModel.balance = res.data.accountFund[0].usablefund
+              that.withdrawModel.account = Number(res.data.accountFund[0].total)
+          }else{
+              that.withdrawModel.balance = 0
+              that.withdrawModel.account = 0
+          }
+      })
+    },
+    //可用地址
+    address_list(){
+        let that=this;
+        this.withdrawAddress = [];
+        this.$ajax({
+          method:"post",
+          url:"/trade/tps/pbqwa.do",
+          data:{
+            reqresource:1,
+            coin:that.withdrawType
+          }
+        }).then((data)=>{
+          if(data.data && data.data.err_code == "1" && data.data.walletAdress){
+            that.withdrawAddress =data.data.walletAdress
+            // data.data.walletAdress.map((item)=>{
+            //   that.withdrawAddress.push(item.adress)
+            // })
+            
+          }
+        })
     },
     send () {
       console.log(this.sendStatus);
@@ -263,7 +303,7 @@ export default {
         return false;
       }
       this.$ajax.post('/trade/tps/pbscs.do',{
-        verifystr,
+        // verifystr,
         reqresource:1
       }).then((res) => {
         console.log('短信验证',res);
@@ -290,7 +330,6 @@ export default {
     confirmAddAddress(){
       var that = this;
       this.$refs.addaddress.validate((valid) => {
-        console.log('valid or not',valid);
         if (valid) {
           that.addaddress = false;
           that.submitAddAddress();
@@ -303,10 +342,30 @@ export default {
       if (!data.address) {
         return;
       }
-      let withdrawAddress = this.withdrawAddress;
-      withdrawAddress.push(data.address);
-      console.log(withdrawAddress,'withdrawAddress');
-      this.withdrawAddress = withdrawAddress;
+      let that=this;
+ 
+      this.$ajax({
+        method:"post",
+        url:"/trade/tps/pbwam.do",
+        data:{
+          coin: that.withdrawType,
+          adress:that.addModal.address ,
+          remark:that.addModal.remark,
+          transckcode:that.addModal.trade_password,
+          msgcheckcode:that.addModal.add_text_code,
+          reqresource:1
+        }
+      }).then((data)=>{
+        if(data.data && data.data.err_code=="1"){
+          that.addmodal = false;
+          that.$Message.success("添加成功");
+          that.address_list()
+        }else{
+          that.$Message.success(data.data.msg);
+        }
+          
+      })
+
       if (true) {
         this.$refs.addaddress.resetFields();
       }

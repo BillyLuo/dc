@@ -360,6 +360,7 @@
                       that.addmodal = false;
                       that.$Message.success("添加成功");
                       that.selectaddress()
+                      that.$refs.formValidate.resetFields();
                     }else{
                       that.err_msg = data.data.msg
                     }
