@@ -47,8 +47,15 @@ export default {
     })
     this.initActive(activeName);
     console.log(this.$store.state.userinfo,'userinfo--------');
-    if (!this.$store.state.userinfo.uid || !this.$store.state.userinfo.tradepasswordset) {
-      Message.warn('网络请求似乎出现了问题，请稍后重试。');
+    if (!this.$store.state.userinfo.uid) {
+      Message.warn('网络请求似乎出现了问题，请检查您的网络或稍后重试。');
+    }
+  },
+  updated () {
+    var route = this.$route;
+    var activeName = route.query.name;
+    if (activeName) {
+      this.initActive(activeName);
     }
   },
   methods:{

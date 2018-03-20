@@ -33,7 +33,7 @@
           <a href="javaScript:;"><img src="/static/img/BOTVS.png" alt=""></a>
         </div>
         <div class="bottom-text">
-          Copyright © 2013-2017 - COINW.COM All Rights Reserved
+          <!-- Copyright © 2013-2017 - COINW.COM All Rights Reserved -->
         </div>
       </div>
     </div>

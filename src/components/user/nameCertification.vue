@@ -111,9 +111,15 @@ export default {
         if (res.status == 200 && res.data && res.data.err_code == '1') {
           that.showModal = false;
           that.$Message.success('认证成功')
-          that.$emit('levelChange',{level:1});
+          // that.$emit('levelChange',{level:1});
           bus.$emit('certify',true);
-          location.reload();
+          that.$router.push({
+            name:'User',
+            query:{
+              name:'safesettings'
+            }
+          })
+          // location.reload();
         }else {
           that.$Notice.warning({
             title:'提示',

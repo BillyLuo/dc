@@ -236,6 +236,7 @@
                         key: 'price',
                         align:"center",
                         render: (h, params) => {
+                            console.log(params.row);
                             if(params.row.price){
                                 return h("span",Number(params.row.price).toFixed(6))
                             }else{
@@ -946,6 +947,9 @@
                 if(row.operate == "1"){
                     this.buycount = Number(row.count);
                     this.buyprice = Number(row.price);
+                    if (!this.buyprice) {
+                        this.buyprice = 0;
+                    }
                     this.buymoney = (this.buycount*this.buyprice).toFixed(6);
                 }else{
                     this.sellcount = Number(row.count);

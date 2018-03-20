@@ -1,17 +1,17 @@
 <template>
     <div>
         <div v-if="currentStep == 1 || !currentStep" class="clear">
-            <div class="jiantou btn-style-1 btn-special-1">{{ first }}</div>
+            <div class="jiantou btn-style-1 btn-special-1 jiantou-1">{{ first }}</div>
             <div class="jiantou btn-style-2 btn-special-1">{{ second }}</div>
             <div class="jiantou btn-style-3 btn-special-1">{{ third }}</div>
         </div>
         <div v-if="currentStep == 2" class="clear">
-            <div class="jiantou btn-style-2 btn-special-1">{{ first }}</div>
+            <div class="jiantou btn-style-2 btn-special-1 jiantou-1">{{ first }}</div>
             <div class="jiantou btn-style-1 btn-special-1">{{ second }}</div>
             <div class="jiantou btn-style-3 btn-special-1">{{ third }}</div>
         </div>
         <div v-if="currentStep == 3" class="clear">
-            <div class="jiantou btn-style-3 btn-special-1">{{ first }}</div>
+            <div class="jiantou btn-style-3 btn-special-1 jiantou-1">{{ first }}</div>
             <div class="jiantou btn-style-2 btn-special-1">{{ second }}</div>
             <div class="jiantou btn-style-1 btn-special-1">{{ third }}</div>
         </div>
@@ -44,6 +44,9 @@
             position: relative;
             float: left;
             cursor: default;
+            &.jiantou-1 {
+                margin-left: 30px;
+            }
         }
         .btn-style-1{
             background: #80A4ED;

@@ -9,7 +9,7 @@ var state = {
     identityset:'',
     mobileset:'',
     googlecodeset:'',
-    loginpasswordsetL:'',
+    loginpasswordset:'',
     tradepasswordset:'',
     email:'',
     mobile:''

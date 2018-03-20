@@ -27,7 +27,7 @@
               <a href="javascript:;" v-else>未认证</a>
              </div>
              <a href="javascript:;" class="item-status disabled" v-if="userinfo.nameAuth.bound" >您的账号已通过实名认证</a>
-             <a href="javascript:;" class="item-sttus" v-else @click="()=>{this.push('/user/authentication')}">实名认证</a>
+             <a href="javascript:;" class="item-sttus" v-else @click="()=>{this.$router.push({path:'/user/authentication',query:{name:'authentication'}})}">实名认证</a>
           </div>
         </div>
       </Col>
@@ -461,7 +461,10 @@ export default {
       }
       var tel = this.telSetValidate.tel.trim();
       if (!telReg.test(tel)) {
-        this.$Message.warning('请输入正确的手机号');
+        this.$Notice.warning({
+          title:'提示',
+          desc:'请输入正确的手机号'
+        });
         return;
       }else {
         this.sendTextMsg();
@@ -484,6 +487,13 @@ export default {
       let old_tel = this.modifyTelValidate.tel.trim();
       console.log(old_tel,this.modifyTelTimer1);
       if (this.modifyTelTimer1) {
+        return;
+      }
+      if (!old_tel) {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'请绑定手机号码后再进行此操作'
+        })
         return;
       }
       if (!telReg.test(old_tel)) {
@@ -536,6 +546,13 @@ export default {
       if (this.modifyTradeTimer) {
         return false;
       }
+      if (!tel) {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'请绑定手机号码后再进行此操作'
+        })
+        return;
+      }
       if (!telReg.test(tel)) {
         this.$Message.warning('请输入正确的手机号码');
         return false;
@@ -560,6 +577,13 @@ export default {
       let tel = this.$store.state.userinfo.mobile.trim();
       if (this.sendTradeTimer) {
         return false;
+      }
+      if (!tel) {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'请绑定手机号码后再进行此操作'
+        })
+        return;
       }
       if (!telReg.test(tel)) {
         this.$Message.warning('请输入正确的手机号码');
@@ -718,6 +742,16 @@ export default {
               that.$store.dispatch('getUserInfo');
               that.telSetModal = false;
               that.$refs.telSet.resetFields();
+            }else if (res.data && res.data.msg) {
+              that.$Notice.warning({
+                title:'提示',
+                desc:res.data.msg
+              })
+            }else {
+              that.$Notice.warning({
+                title:'提示',
+                desc:'验证码错误，请稍后重试'
+              })
             }
           }).catch((err) => {
             that.$Spin.hide();
@@ -899,7 +933,14 @@ export default {
       })
     },
     sendLoginMessage(){
-      let tel = this.$store.state.userinfo.mobile;  
+      let tel = this.$store.state.userinfo.mobile;
+      if (!tel) {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'请绑定手机号码后再进行此操作'
+        })
+        return false;
+      }
       console.log('sendmessage',tel,this.loginCodeState); //修改登录密码 loginModal  发送验证码
       var num = 60;
       var that = this;
