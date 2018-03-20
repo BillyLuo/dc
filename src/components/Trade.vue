@@ -94,12 +94,6 @@
                                 <InputNumber v-model="sellcount" @on-change="inputNumber('sell')" :min='0' class="input-number"></InputNumber>
                                 <span class='span'>卖出量 {{jichubizhong}}</span>
                             </div>
-                            <!-- <Input v-model="sellprice" :number="true"  @on-change="sell_price" :maxlength="14">
-                                <span slot="prepend">卖出价 ¥</span>
-                            </Input>
-                            <Input v-model="sellcount" :number="true" @on-change="sell_count" :maxlength="14">
-                                <span slot="prepend">卖出量 {{jichubizhong}}</span>
-                            </Input> -->
                             <p>
                                 ≈ ￥ <span>{{sellmoney}}</span>
                             </p>
@@ -127,9 +121,6 @@
             <div class="trade-time">
                 <span>起始时间：</span>
                 <DatePicker :value="begintime" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择起始时间" @on-change="timeschange" style="width: 200px"></DatePicker>
-                <!-- <DatePicker :value="begintime" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px" @on-change="timeschange"></DatePicker>
-                <span style="margin: 0 10px;"> ~ </span>
-                <DatePicker :value="endtime" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;" @on-change="timeschange"></DatePicker> -->
                 <Button @click="weituojilu">刷新统计</Button>
             </div>
             <div class="trade-table">
@@ -141,9 +132,6 @@
             <div class="trade-time">
                 <span>起始时间：</span>
                 <DatePicker :value="begintime1" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择起始时间" @on-change="timeschange1" style="width: 200px"></DatePicker>
-                <!-- <DatePicker v-model="begintime1" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
-                <span style="margin: 0 10px;"> ~ </span>
-                <DatePicker v-modal="endtime1" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker> -->
                 <Button @click="weituojilu1">刷新统计</Button>
             </div>
             <div class="trade-table">
@@ -220,6 +208,8 @@
                     {
                         title: '买卖',
                         key: 'operate',
+                        width:'76px',
+                        align:"center",
                         render: (h,params) => {
                             if(params.row.operate == "2"){
                                 return h("span","卖出")
@@ -231,6 +221,7 @@
                     {
                         title: '交易数量',
                         key: 'count',
+                        align:"center",
                         render: (h,params)=>{
                             if(params.row.count){
                                 return  h("span",Number(params.row.count).toFixed(6))
@@ -243,6 +234,7 @@
                     {
                         title: '交易价格',
                         key: 'price',
+                        align:"center",
                         render: (h, params) => {
                             if(params.row.price){
                                 return h("span",Number(params.row.price).toFixed(6))
@@ -253,12 +245,13 @@
                         }
                     }
                 ],
-               
                 // 最新交易记录
                 record_columns:[
                     {
                         title: "时间",
                         key: 'tradetime',
+                        width:'76px',
+                        align:"center",
                         render: (h,params) => {
                             return  h("span",params.row.tradetime.substr(11,20))
                         }
@@ -266,6 +259,7 @@
                     {
                         title: '价格(¥)',
                         key: 'tradeprice',
+                        align:"center",
                         render: (h, params) => {
                             return  h("span",Number(params.row.tradeprice).toFixed(6))
                         }
@@ -274,6 +268,7 @@
                     {
                         title: '数量',
                         key: 'tradecount',
+                        align:"center",
                         render: (h, params) => {
                             return  h("span",Number(params.row.tradecount).toFixed(6))
                         }
@@ -290,7 +285,7 @@
                 ],
                 order_record_cloumns_title: "",
                 order_record_data2:[],
-                // 可用资产冻结资产
+                // 可用资产冻结资产 
                 buy_keyong:"",
                 buy_dongjie:"",
                 sell_keyong:"",
@@ -356,6 +351,7 @@
             this.maichuzijin();
             console.log()
             this.selectCurrency();
+            this.priceq();
             
         },
         created(){
@@ -922,8 +918,28 @@
                 this.mairuzijin();
                 this.maichuzijin();
                 this.query();
+                this.priceq();
             },
-    
+            priceq(){
+                let that =this;
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbfcd.do",
+                    data:{
+                        "currencytype":that.jichubizhong,
+                        "reqresource":"1"
+                    }
+                }).then((res)=>{
+                    console.log(res)
+                    if(res.data && res.data.err_code == "1" && res.data.currencyDetail){
+                        that.buyprice = Number(res.data.currencyDetail[0].curprice);
+                        that.sellprice = Number(res.data.currencyDetail[0].curprice);
+                    }else{
+                        that.buyprice = Number(0);
+                        that.sellprice = Number(0);
+                    }
+                })
+            },
             dblclick (row,index) {
                 // console.log("==========dbclick===========")
                 // console.log(row,index)
@@ -1358,6 +1374,10 @@
         }
        
         .trade-record{
+            .ivu-table-cell {
+                padding-left: 0;
+                padding-right: 0;
+            }
             .table-row-color-5{
                 color: #2d8cf0;
             }

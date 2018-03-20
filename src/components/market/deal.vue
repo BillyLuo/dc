@@ -151,6 +151,7 @@ export default {
                 {
                     title: ' ',
                     key: 'id',
+                    width:"80px",
                     render: (h, params) => {
                         if(params.row.operate == "1"){
                             return h('span',{
@@ -182,21 +183,36 @@ export default {
                     title: '价格',
                     key: 'price',
                     render: (h,params)=>{
-                        return  h("span",Number(params.row.price).toFixed(6))
+                        if(params.row.price){
+                            return  h("span",Number(params.row.price).toFixed(6))
+                        }else{
+                            return  h("span",Number(0).toFixed(6))
+                        }
+                        
                     }
                 },
                 {
                     title: '数量',
                     key: 'count',
                     render: (h,params)=>{
-                        return  h("span",Number(params.row.count).toFixed(6))
+                        if(params.row.count){
+                            return  h("span",Number(params.row.count).toFixed(6))
+                        }else{
+                            return  h("span",Number(0).toFixed(6))
+                        }
+                        
                     }
                 },
                 {
                     title: '累计',
                     key: 'totalcount',
                     render: (h,params)=>{
-                        return  h("span",Number(params.row.totalcount).toFixed(6))
+                        if(params.row.totalcount){
+                            return  h("span",Number(params.row.totalcount).toFixed(6))
+                        }else{ 
+                            return  h("span",Number(0).toFixed(6))
+                        }
+                        
                     }
                 }
             ],
