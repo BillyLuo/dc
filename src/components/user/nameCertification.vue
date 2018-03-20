@@ -99,7 +99,7 @@ export default {
         return false;
       }
       if(!idsure) {
-        this.errorMsg = '请您确定是您本人的身份证的勾选框';
+        this.errorMsg = '请勾选以确定是您本人的身份证';
         return;
       }else {
         this.errorMsg = '';

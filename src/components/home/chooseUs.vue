@@ -14,7 +14,7 @@
         <div class="right">
           <div class="swiper-container swiper-container-right">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="data in swiperArray">
+              <div class="swiper-slide" v-for="data in swiperArray" :key="data">
                 <div class="s1">
                   <div class="title-img"></div>
                   <div class="text">

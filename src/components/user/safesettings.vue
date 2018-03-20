@@ -312,7 +312,7 @@ export default {
       modifyTelRules:{
         tel:[
           {required:true,message:'请输入手机号码'},
-          {type:'string',len:11,message:'请输入合格的手机号码',pattern:/^1[34578]\d{9}$/,trigger:'blur'}
+          // {type:'string',len:11,message:'请输入合格的手机号码',pattern:/^1[34578]\d{9}$/,trigger:'blur'}
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
