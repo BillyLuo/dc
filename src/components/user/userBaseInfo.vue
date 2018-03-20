@@ -19,7 +19,7 @@
         </Col>
         <Col span="8">
         <div class="total-assets text-center">
-          <span>预估总资产 <span class="primary-color">{{userinfo.estimatedfund}}</span><span class="primary-color"> / CNYT</span></span>
+          <span>预估总资产 <span class="primary-color">{{estimateassets}}</span><span class="primary-color"> / USDT</span></span>
         </div>
         </Col>
         <Col span="8">
@@ -40,7 +40,9 @@ import { mapState } from "vuex";
 import bus from '../../bus/bus';
 export default {
   data() {
-    return {};
+    return {
+      estimateassets:""
+    };
   },
   computed: {
     formatTel() {
@@ -96,7 +98,19 @@ export default {
     })
   },
   mounted() {
-    
+    let that =this;
+    this.$ajax({
+      method:"post",
+      url:"/trade/tps/pbesa.do",
+      data:{
+        reqresource:1
+      }
+    }).then((res)=>{
+      console.log(res)
+      if(res.data && res.data.sumAmount){
+        that.estimateassets = res.data.sumAmount
+      }
+    })
   },
   methods: {
     protect() {
@@ -146,7 +160,7 @@ export default {
 }
 
 .total-assets {
-  width: 60%;
+  width: 90%;
   margin: 0 auto;
   padding: 20px 0;
 }

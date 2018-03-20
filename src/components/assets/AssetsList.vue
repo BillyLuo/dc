@@ -51,7 +51,7 @@ export default {
                 'account-in': true
               },
               domProps: {
-                innerHTML: '冲币'
+                innerHTML: '充币'
               },
               on: {
                 click: this.handle.bind(this, {
