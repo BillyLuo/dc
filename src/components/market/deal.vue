@@ -6,7 +6,7 @@
                     <Tabs size="small">
                         <TabPane label="限价交易" class="jiaoyi">
                             <Col span='12' style="padding:0 10px;">
-                                <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">冲币</span></div>
+                                <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">充币</span></div>
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
@@ -36,7 +36,7 @@
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
-                                <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">冲币</span></div>
+                                <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
                                 <div style="padding:20px 10px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
@@ -64,7 +64,7 @@
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
-                                <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">冲币</span></div>
+                                <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">充币</span></div>
                                 <div style="padding:20px 0px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
@@ -85,7 +85,7 @@
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
-                                <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">冲币</span></div>
+                                <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
                                 <div style="padding:20px 10px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem  label="卖出价" class="deal-input">
@@ -232,13 +232,13 @@ export default {
         params: "paramsinfo"
     },
     methods: {
-        //冲币
+        //充币
         recharge (currency) {
             if (!currency) {
                 return;
             }
             this.$router.push({
-                path:'/assets/recharge',
+                path:'/assets',
                 query:{
                     currency
                 }

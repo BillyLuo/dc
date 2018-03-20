@@ -66,9 +66,10 @@
                             <Button class="buy-button buy-button1" @click="buy">
                                 买入 {{jichubizhong}}
                             </Button>
-                            <Button class="buy-button" style="margin-bottom:30px;" @click='chongzhi'>
+                            <p style="color:#666;">如果账户余额不足，充值请到<a href="javascript:;" @click="chongzhi">数字资产</a></p>
+                            <!-- <Button class="buy-button" style="margin-bottom:30px;" @click='chongzhi'>
                                 立即充值
-                            </Button>
+                            </Button> -->
                         </div>
                     </div>
                 </Col>
@@ -101,9 +102,10 @@
                             <Button class="buy-button buy-button1" @click="sell">
                                 卖出 {{jichubizhong}}
                             </Button>
-                            <Button class="buy-button" style="margin-bottom:30px;" @click='tixian'>
+                            <!-- <p>若需提币请至<a href="javascript:;" @click="chongzhi">数字资产</a>提币</p> -->
+                            <!-- <Button class="buy-button" style="margin-bottom:30px;" @click='tixian'>
                                 立即提现
-                            </Button>
+                            </Button> -->
                         </div>
                     </div>
                 </Col> 
@@ -958,11 +960,11 @@
                 }
             },
             chongzhi () {
-                this.$router.push("assets/recharge")
+                this.$router.push("assets")
             },
-            tixian () {
-                this.$router.push("assets/withdraw")
-            }
+            // tixian () {
+            //     this.$router.push("assets/withdraw")
+            // }
         }
     }
 </script>
@@ -1181,7 +1183,7 @@
             }
         }
         .trade-buy{
-            border-right: 1px solid #ccc;
+            
             .ivu-btn{
                 padding:10px 20px;
                 color: #57a3f3;
@@ -1249,6 +1251,7 @@
 
         }
         .trade-sell{
+            border-left: 1px solid #ccc;
             .ivu-input-number:hover {
                 border-color: #f5322d;
             }

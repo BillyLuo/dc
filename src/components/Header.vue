@@ -246,15 +246,15 @@ export default {
           this.isLogined = false;
           return false
       }else {
-        // if (!this.isCertified && name != 'home' &&name !='login' && name != 'register') {
-        //   this.$router.push({
-        //     name:'authentication',
-        //     query:{
-        //       name:'authentication'
-        //     }
-        //   })
-        //   return;
-        // }
+        if (!this.isCertified && name != 'home' &&name !='login' && name != 'register') {
+          this.$router.push({
+            name:'authentication',
+            query:{
+              name:'authentication'
+            }
+          })
+          return;
+        }
         this.$router.push({
           path:'/'+name
         });
