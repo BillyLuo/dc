@@ -41,11 +41,16 @@ module.exports = {
         //     target: 'http://172.16.18.213:8000/txs',
         //     pathRewrite: {'^/trade' : ''}
         // },
-        //208
+        // 172.16.19.163
         '/trade': {
-          target: 'http://172.16.21.22:8002/txs',
+          target: 'http://172.16.17.112:8000/txs',
           pathRewrite: {'^/trade' : ''}
         },
+        //208
+        // '/trade': {
+        //   target: 'http://172.16.21.22:8002/txs',
+        //   pathRewrite: {'^/trade' : ''}
+        // },
         // '/trade': {
         //   target: 'http://47.93.200.170:8002/txs',
         //   pathRewrite: {'^/trade' : ''}

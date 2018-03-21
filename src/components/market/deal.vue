@@ -374,9 +374,18 @@ export default {
                             title:'提示',
                             desc:'委托创建成功'
                         })
+                    }else {
+                        that.$Notice.warning({
+                            title:'提示',
+                            desc:'委托创建失败，请稍后重试'
+                        })
                     }
                 }).catch((err) => {
                     console.log(err,'创建委托失败');
+                    that.$Notice.warning({
+                        title:'提示',
+                        desc:'委托创建失败，请稍后重试'
+                    })
                 })
             }else if (type == 2) {
                 tradecoin = this.changeCurreny;
@@ -413,9 +422,18 @@ export default {
                             title:'提示',
                             desc:'委托创建成功'
                         })
+                    }else {
+                        that.$Notice.warning({
+                            title:'提示',
+                            desc:'委托创建失败，请稍后重试'
+                        })
                     }
                 }).catch((err) => {
                     console.log('err',err);
+                    that.$Notice.warning({
+                        title:'提示',
+                        desc:'委托创建失败，请稍后重试'
+                    })
                 })
             }
         },
