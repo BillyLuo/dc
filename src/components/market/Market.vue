@@ -47,7 +47,7 @@ function initCharts (symbol) {
             "container_id":"chart",
             "width": '100%',
             "height": 600,
-            "symbol": symbol?''+symbol:"BTCUSDT",
+            "symbol": 'BITFINEX:'+(symbol?''+symbol:"BTCUSD"),
             "interval": "15",
             "timezone": "Asia/Hong_Kong",
             "theme": "Dark",
@@ -141,7 +141,7 @@ export default {
                 bizhong: this.bizhong,
                 currency: this.currency
             }
-            initCharts(this.currency + this.bizhong);
+            initCharts(this.currency + this.bizhong.slice(0,-1));
         },
         selectTime (value) {
             console.log(value)

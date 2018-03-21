@@ -78,11 +78,11 @@ export default {
       step:1,
       sendText:'发送验证码',
       resetForm: {
-        tel:'15178873838',
+        tel:'',
         credentials:'1',
-        credentialsNumber:'3532534235434324234324',
+        credentialsNumber:'',
         imgCode:'',
-        textCode:'1231'
+        textCode:''
       },
       resetRules:resetRules
     }

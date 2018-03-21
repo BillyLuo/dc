@@ -388,8 +388,8 @@ export default {
                     })
                 })
             }else if (type == 2) {
-                tradecoin = this.changeCurreny;
-                entrustcoin = this.usdtCurrency;
+                tradecoin = this.usdtCurrency;
+                entrustcoin = this.changeCurreny;
                 entrustnum = this.sellcount;
                 entrustprice = this.sellprice;
                 if (entrustnum <= 0) {

@@ -110,11 +110,11 @@
       }
       return {
         formInline: {
-          user: 'finchain@360.com',
-          password: 'Aa123123',
+          user: '',
+          password: '',
           checkcode:'',
-          tel:'15373872695',
-          verificationCode:'2234',
+          tel:'',
+          verificationCode:'',
           reqresource:"1"
         },
         loginError:'',
@@ -133,12 +133,12 @@
             {required:true,message:'请输入图片验证码',trigger: 'blur'},
             {type:'string',min:4,max:4,message:'请输入4位验证码',trigger:'blur'}
           ],
-          tel: [
-            { validator: validateTel, trigger: 'blur' }
-          ],
-          verificationCode: [
-            { required: true, message: '请输入验证码.', trigger: 'blur' },
-          ]
+          // tel: [
+          //   { validator: validateTel, trigger: 'blur' }
+          // ],
+          // verificationCode: [
+          //   { required: true, message: '请输入验证码.', trigger: 'blur' },
+          // ]
         },
       }
     },
@@ -161,6 +161,7 @@
       },
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
+          console.log(valid);
           if (valid) {
             this.login()
           }
@@ -208,10 +209,10 @@
         });
       },
       login(){    // 登录
-        if(this.formInline.verificationCode){
+        if(this.formInline.checkcode){
           this.codeCompare();
         }else{
-          $this.$Message.error('请输入验证码');
+          $this.$Message.warning('请输入验证码');
         }
       },
       codeCompare(){   // 验证码对比

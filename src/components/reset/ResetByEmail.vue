@@ -74,9 +74,9 @@ export default {
       step:1,
       sendText:'发送验证码',
       resetForm: {
-        email:'323434@qq.com',
+        email:'',
         credentials:'1',
-        credentialsNumber:'3532534235434324234324',
+        credentialsNumber:'',
         imgCode:''
       },
       resetRules:resetRules
