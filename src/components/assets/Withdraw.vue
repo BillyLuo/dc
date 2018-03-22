@@ -3,7 +3,7 @@
     <h3 class="withdraw-title">{{withdrawType}}提现</h3>
     <div class="divide"></div>
     <Form :class="'withdraw-table'" ref="form" :rules="withdrawRules" inline label-position="left" :model="withdrawModel" :label-width="140">
-      <FormItem label="账户余额" prop="balance">
+      <FormItem label="  账户余额" prop="balance">
         <Input :class="'withdraw-item'" v-model="withdrawModel.balance" disabled/>
       </FormItem>
       <FormItem label="提现地址" prop="address">
@@ -15,7 +15,7 @@
       <FormItem label="提现数量" prop="account">
         <InputNumber :class="'withdraw-item'" v-model="withdrawModel.account"></InputNumber>
       </FormItem>
-      <FormItem :label="withdrawType+'手续费比例'" prop="commission">
+      <FormItem :label="'  '+withdrawType+'手续费比例'" prop="commission">
         <Input :class="'withdraw-item'" v-model="withdrawModel.commission" disabled/>
       </FormItem>
       <FormItem label="交易密码" prop="trade_password">

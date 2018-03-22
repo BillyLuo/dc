@@ -44,11 +44,11 @@
                         </div>
                         <div class="trade-input">
                             <div style="position:relative; margin-bottom:10px;">
-                                <InputNumber v-model="buyprice" @on-change="inputNumber('buy')" :min='0.0001' class="input-number"></InputNumber>
+                                <InputNumber v-model="buyprice" @on-change="inputNumber('buy')" :min='0' class="input-number"></InputNumber>
                                 <span class='span'>买入价 {{jijiabizhong}}</span>
                             </div>
                             <div style="position:relative; margin-bottom:10px;">
-                                <InputNumber v-model="buycount" @on-change="inputNumber('buy')" :min='0.0001' class="input-number"></InputNumber>
+                                <InputNumber v-model="buycount" @on-change="inputNumber('buy')" :min='0' class="input-number"></InputNumber>
                                 <span class='span'>买入量 {{jichubizhong}}</span>
                             </div>
                             

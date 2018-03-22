@@ -89,6 +89,8 @@
           c('请输入账号');
         }else if (!(value.match(/^1[34578]\d{9}$/) || value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))) {
           c('手机或者邮箱格式有误');
+        }else if (value.length > 64){
+          c('用户名输入过长');
         }else {
           c();
         }
@@ -100,8 +102,8 @@
           c('密码应至少包含1个大写字母，1个小写字母和1个数字');
         }else if (value.length < 8) {
           c('密码不能小于8位。')
-        }else if (value.length > 64 ){
-          c('密码不能大于64位');
+        }else if (value.length > 20 ){
+          c('密码不能大于20位');
         }else if (value.match(/[^a-zA-Z0-9_]/g)) {
           c('密码不应包含特殊字符');
         }else {
@@ -144,6 +146,7 @@
     },
     methods: {
       changeCode(){
+        this.formInline.checkcode = '';
         this.checkUrl = '/trade/tps/pbccs.do?' + Date.now();
       },
       togglepass(value) {
@@ -226,12 +229,12 @@
         
       },
       handleSpinCustomShow () { 
-        this.changeCode();
         var that = this;
         var loginname = this.formInline.user.trim();
         var pwd = this.formInline.password.trim();
         var checkcode = this.formInline.checkcode.trim();
         var reqresource = this.formInline.reqresource.trim();
+        this.changeCode();
         this.$Spin.show({
           render: (h) => {
             return h('div', [
