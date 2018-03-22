@@ -124,9 +124,10 @@
       let that=this;
       this.dataArry = [];
        this.$ajax({
-        method: "get",
+        method: "post",
         url: "/trade/tps/pbfcd.do",
         data:{
+          'tradecurrency':"USDT",
           reqresource:1
         }
       }).then((data)=>{

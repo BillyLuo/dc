@@ -94,9 +94,13 @@ export default {
         datas (){
             let that=this;
             this.$ajax({
-                method: "get",
-                url: "/trade/tps/pbfcd.do",    
-                reqresource:1
+                method: "post",
+                url: "/trade/tps/pbfcd.do",
+                data:{
+                    'tradecurrency':"USDT",
+                    reqresource:1
+                }    
+                
             }).then((data)=>{
                 console.log(data);
                 that.data1 = data.data.currencyDetail;
