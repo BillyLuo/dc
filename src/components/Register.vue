@@ -88,7 +88,7 @@
 				</p>
 				</div>
 				<div class="register-input">
-				<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《蜂巢币用户协议》</a></Checkbox>
+				<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《福币用户协议》</a></Checkbox>
 				</div>
 				<div class="register-input">
 				<Button type="primary" @click="submitTel">注册</Button>
@@ -176,7 +176,7 @@
 				</p>
 				</div>
 				<div class="register-input">
-				<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《蜂巢币用户协议》</a></Checkbox>
+				<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《福币用户协议》</a></Checkbox>
 				</div>
 				<div class="register-input">
 				<Button type="primary" @click="submitEmail">注册</Button>
@@ -196,7 +196,7 @@ export default {
 	},
 	data () {
 		return {
-			src: '/trade/tps/pbccs.do',
+			src: '/trade/tps/pbccs.do?t=' + Date.now(),
 			tel: '',
 			email:'',
 			vsCode:'',
@@ -462,28 +462,41 @@ export default {
 					this.errorPasswordAgain = "请确认密码";
 					this.passwordAgainCodeErrorInput = "errorInput"
 				}
-			}else if(this.tel && this.vsCode && this.telCode && this.password && this.passwordAgain){
+			}else{
 				if(this.tel && !(/^1[34578]\d{9}$/.test(this.tel))){
 					this.errorTel = "手机号格式不正确";
 					this.telErrorInput = "errorInput"
 					return false;
 				}
+				if (this.vsCode && this.vsCode.match(/^\w{4}$/g)) {
+					this.errorVsCode = '';
+				}else {
+					this.errorVsCode = '请输入4位图片验证码';
+					return false;
+				}
+				if (this.telCode && this.telCode.match(/^\d{6}$/g)) {
+					this.errorTelCode = '';
+				}else {
+					this.errorTelCode = '请输入6位短信验证码';
+					return;
+				}
 				// 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
-				if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20)){
+				if (!this.password) {
+					this.errorPassword = '请输入密码';
+					return false;
+				}else if((!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20)){
 					this.errorPassword = "密码格式不正确请重新输入。";
 					this.passwordCodeErrorInput = "errorInput"
 					return false;
 				}
 				if(this.password != this.passwordAgain){
-					this.$Modal.info({
-						content:'两次密码输入不一致，请重新输入。'
-					})
+					this.errorPasswordAgain = '两次密码输入不一致，请重新输入。';
 					return false;
 				}
 
 				if(!this.single){
 					this.$Modal.info({
-						content:'请同意《蜂巢币用户协议》。'
+						content:'请同意《福币用户协议》。'
 					})
 					return false;
 				}
@@ -495,6 +508,7 @@ export default {
 						"confirmpassword":this.passwordAgain,
 						"invitedcode":this.InvitationCode
 					})
+				this.imgsrc();
 				this.$ajax({
 					method: 'post',
 					url: '/trade/tps/pbrus.do',
@@ -510,13 +524,20 @@ export default {
 				}).then(function(data){
 					console.log(data)
 					if(data.data.err_code == "1"){
-						that.$Modal.info({
-							content:'注册成功,请登录。'
+						that.$Notice.success({
+							title:'提示',
+							desc:'注册成功,请登录。'
 						})
 						that.$router.push("login")
-					}else{
-						that.$Modal.info({
-							content:'注册失败,'+data.data.msg
+					}else if (data.data.msg){
+						that.$Notice.warning({
+							title:'提示',
+							desc:'注册失败,'+data.data.msg
+						})
+					}else {
+						that.$Notice.warning({
+							title:'提示',
+							desc:'注册失败,请稍后重试'
 						})
 					}
 				})
@@ -548,7 +569,7 @@ export default {
 					this.errorPasswordAgain = "请确认密码";
 					this.passwordAgainCodeErrorInput = "errorInput"
 				}
-			}else if(this.email && this.vsCode && this.telCode && this.password && this.passwordAgain){
+			}else{
 				console.log(this.email)
 				// /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email))
 				if(this.email && !(/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(this.email))){
@@ -556,24 +577,46 @@ export default {
 					this.emailErrorInput = "errorInput"
 					return false;
 				}
+				if (this.email.length > 64) {
+					this.errorEmail = '您输入邮箱过长，不应多于64位';
+					return false;
+				}
+				if (this.vsCode && this.vsCode.match(/^\w{4}$/g)) {
+					this.errorVsCode = '';
+				}else {
+					this.errorVsCode = '请输入4位图片验证码';
+					return false;
+				}
+				if (this.telCode && this.telCode.match(/^\w{6}$/g)) {
+					this.errorTelCode = '';
+				}else {
+					this.errorTelCode = '请输入6位邮箱验证码';
+					return;
+				}
 				// 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
-				if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20 )){
+				if (!this.password) {
+					this.errorPassword = "请输入密码。";
+					return;
+				}else if(this.password && (!/[A-Z]+/g.test(this.password) || (!/[a-z]+/g.test(this.password)) || (!/^[a-zA-Z]+/g.test(this.password)) || (!/\d+/g.test(this.password)) || this.password.length<8 || this.password.length>20 )){
 					this.errorPassword = "密码格式不正确请重新输入。";
 					this.passwordCodeErrorInput = "errorInput"
 					return false;
 				}
 				if(this.password != this.passwordAgain){
-					this.$Modal.info({
-						content:'两次密码输入不一致，请重新输入。'
+					this.$Notice.warning({
+						title:'提示',
+						desc:'两次密码输入不一致，请重新输入。'
 					})
 					return false;
 				}
 				if(!this.single){
-					this.$Modal.info({
-						content:'请同意《蜂巢币用户协议》。'
+					this.$Notice.warning({
+						title:'提示',
+						desc:'请同意《福币用户协议》。'
 					})
 					return false;
 				}
+				this.imgsrc();
 				this.$ajax({
 					method: 'post',
 					url: '/trade/tps/pbrus.do',
@@ -589,13 +632,20 @@ export default {
 				}).then(function(data){
 					console.log(data)
 					if(data.data.err_code == "1"){
-						that.$Modal.info({
-							content:'注册成功，请登录。'
+						that.$Notice.success({
+							title:'提示',
+							desc:'注册成功,请登录。'
 						})
 						that.$router.push("login")
-					}else{
-						that.$Modal.info({
-							content:'注册失败,'+data.data.msg
+					}else if (data.data && data.data.msg){
+						that.$Notice.warning({
+							title:'提示',
+							desc:'注册失败,'+data.data.msg
+						})
+					}else {
+						that.$Notice.warning({
+							title:'提示',
+							desc:'注册失败,请稍后重试'
 						})
 					}
 				})

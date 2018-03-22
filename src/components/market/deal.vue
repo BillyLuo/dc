@@ -14,7 +14,7 @@
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
                                             <div style="position:relative;">
-                                                <InputNumber v-model="buyprice" @on-change="inputNumber('buy')" :min='0' class="input-number"></InputNumber>
+                                                <input v-model="buyprice" @input="inputBuyPrice($event)" class="input-number" />
                                                 <span class='span'>{{ params.bizhong }}</span>
                                             </div>
                                            
@@ -124,7 +124,20 @@
 
 <script>
 import {Tabs,TabPane,Table,Form,FormItem} from 'iview';
-
+var numReg = function (m,n) {
+    if (!m) {
+        m = 15;
+    }else if(!m.match(/^[1-9]\d*$/)) {
+        m = 15;
+    }
+    if (!n) {
+        n = 8;
+    }else if (!n.match(/^[1-9]\d*$/)) {
+        n = 8;
+    }
+    return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
+}
+var reg = numReg();
 export default {
     name: 'Deal',
     components:{
@@ -139,8 +152,6 @@ export default {
             sellcount:0,
             buycount1:0,
             sellcount1:0,
-            buymoney:'0.0000',
-            sellmoney:'0.0000',
             //usdt  数量
             usdtCurrency:'USDT',
             usdtBalance:'0',
@@ -228,10 +239,36 @@ export default {
         this.paramsinfo();
         // 获取某种币的数量
     },
+    computed:{
+        buymoney(){
+            return Number(this.buycount*this.buyprice).toFixed(6);
+        },
+        sellmoney(){
+            return Number(this.sellcount*this.sellprice).toFixed(6);
+        }
+    },
     watch:{
         params: "paramsinfo"
     },
     methods: {
+        inputBuyPrice(e){
+            var value = e.target.value;
+            if (!value) {
+                this.buyprice = '';
+            }else {
+                if (reg.test(value)) {
+                    this.buyprice = value;
+                }else {
+                    value = value.slice(0,-1);
+                    var matched = value.match(reg);
+                    if (matched && matched.length) {
+                        this.buyprice = matched[0];
+                    }else {
+                        this.buyprice = '';
+                    }
+                }
+            }
+        },
         //充币
         recharge (currency) {
             if (!currency) {
@@ -245,27 +282,15 @@ export default {
             })
         },
         inputNumber(val){
-            if(val == "buy"){
-                if(this.buyprice > 0 && this.buycount > 0){
-                    this.buymoney = Number(this.buycount*this.buyprice).toFixed(6);
-                }
-            }
-            if(val == "sell"){
-                if(this.sellprice > 0 && this.sellcount > 0){
-                    this.sellmoney = Number(this.sellcount*this.sellprice).toFixed(6);
-                }
-            }
-            
+            console.log(val);
         },
         dblclick (row,index) {
             if(row.operate == "1"){
                 this.buycount =  Number(row.count);
                 this.buyprice =  Number(row.price);
-                this.buymoney = Number(this.buycount*this.buyprice).toFixed(6);
             }else{
                 this.sellcount =  Number(row.count);
                 this.sellprice =  Number(row.price);
-                this.sellmoney = Number(this.sellcount*this.sellprice).toFixed(6);
             }
         },
         paramsinfo (obj) {
@@ -589,6 +614,8 @@ export default {
             line-height:40px;
             border-radius: 0;
             background: #f5f4f4;
+            color:#fff;
+            outline: none;
             position: relative;
             border:none;
             .ivu-input-number-input{
