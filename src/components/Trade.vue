@@ -331,28 +331,8 @@
             })
             this.query();
             this.weituolist();
-            console.log(this.$store.state)
-            // let userinfo = this.$store.state.userinfo;
-            if(this.$store.state.userinfo.emailset ){
-                this.numbers++
-            }
-            if(this.$store.state.userinfo.mobileset){
-                this.numbers++
-            }
-            if(this.$store.state.userinfo.tradepasswordset){
-                this.numbers++
-            }
-            if(this.$store.state.userinfo.identityset){
-                this.numbers++
-            }
-            if(this.$store.state.userinfo.loginpasswordset){
-                this.numbers++
-            }
-            
-            console.log("--------------",this.numbers)
             this.mairuzijin();
             this.maichuzijin();
-            console.log()
             this.selectCurrency();
             this.priceq();
             
@@ -397,7 +377,57 @@
                 })
             },
             buy(){//买入
+            console.log(this.userinfo.validationAmount)
                 let that = this;
+                if(this.userinfo.validationAmount< 5){
+                    this.$Modal.error({
+                        render(h){
+                            return h('p',[
+                                    "请先到",
+                                    h('a',
+                                        {
+                                            domProps: {
+                                                innerHTML: '个人中心'
+                                            },
+                                            on:{
+                                                click:()=>{
+                                                   
+                                                    that.safe("1")
+                                                }
+                                            }
+                                        }
+                                    ),
+                                    '完成安全设置'
+                                ])
+                        }
+                    })
+                    return false;
+                }
+                if(Number(this.buymoney) > Number(this.buy_keyong)){
+                    this.$Modal.error({
+                        render(h){
+                            return h('p',[
+                                    "账户可用资金不足，请到",
+                                    h('a',
+                                        {
+                                            domProps: {
+                                                innerHTML: '数字资产'
+                                            },
+                                            on:{
+                                                click:()=>{
+                                                    console.log("-----",this)
+                                                    console.log(that)
+                                                    that.chongzhi("1")
+                                                }
+                                            }
+                                        }
+                                    ),
+                                    '充值'
+                                ])
+                        }
+                    })
+                    return false;
+                }
                 if(that.buycount > 0 && that.buyprice > 0){
                     this.$ajax({
                         method:"post",
@@ -435,6 +465,57 @@
             },
             sell(){//卖出
                 let that = this;
+                if(this.userinfo.validationAmount< 5){
+                    this.$Modal.error({
+                        render(h){
+                            return h('p',[
+                                    "请先到",
+                                    h('a',
+                                        {
+                                            domProps: {
+                                                innerHTML: '个人中心'
+                                            },
+                                            on:{
+                                                click:()=>{
+                                                   
+                                                    that.safe("1")
+                                                }
+                                            }
+                                        }
+                                    ),
+                                    '完成安全设置'
+                                ])
+                        }
+                    })
+                    return false;
+                }
+                console.log(this.sellmoney+"======="+this.sell_keyong)
+                console.log(Number(this.sellmoney) > Number(this.sell_keyong))
+                if(Number(this.sellmoney) > Number(this.sell_keyong)){
+                    this.$Modal.error({
+                        render(h){
+                            return h('p',[
+                                    "账户可用资金不足，请到",
+                                    h('a',
+                                        {
+                                            domProps: {
+                                                innerHTML: '数字资产'
+                                            },
+                                            on:{
+                                                click:()=>{
+                                                    console.log("-----",this)
+                                                    console.log(that)
+                                                    that.chongzhi("1")
+                                                }
+                                            }
+                                        }
+                                    ),
+                                    '充值'
+                                ])
+                        }
+                    })
+                    return false;
+                }
                 if(that.sellcount > 0 && that.sellprice > 0){
                     this.$ajax({
                         method:"post",
@@ -877,7 +958,10 @@
                     }
                 })
             },
-            safe () {
+            safe (val) {
+                if(val == "1"){
+                    this.$Modal.remove()
+                }
                 this.$router.push("user");
             },
             rowClassName (row, index) {
@@ -959,7 +1043,10 @@
                     this.sellmoney = (this.sellcount*this.sellprice).toFixed(6);
                 }
             },
-            chongzhi () {
+            chongzhi (val) {
+                if(val == "1"){
+                    this.$Modal.remove()
+                }
                 this.$router.push("assets")
             },
             // tixian () {
