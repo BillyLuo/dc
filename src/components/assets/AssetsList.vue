@@ -113,9 +113,9 @@ export default {
         let formatList = list.map((value, index) => {
           let result = {};
           result.name = value.currencyname;
-          result.useable = '$ ' + value.usablefund;
-          result.freeze = '$ ' + value.frozenfund;
-          result.total = '$ ' + value.total;
+          result.useable =  value.usablefund;
+          result.freeze =  value.frozenfund;
+          result.total =  value.total;
           return result;
         })
         this.account_list_data = formatList;
