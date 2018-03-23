@@ -14,7 +14,7 @@
                                     <Form  label-position="top">
                                         <FormItem label="买入价" class="deal-input">
                                             <div style="position:relative;">
-                                                <input v-model="buyprice" @input="inputBuyPrice($event)" class="input-number" />
+                                                <input v-model="buyprice" @input="inputBuyPrice($event,'buyprice')" class="input-number" />
                                                 <span class='span'>{{ params.bizhong }}</span>
                                             </div>
                                            
@@ -23,7 +23,7 @@
                                         <FormItem label="买入量" class="deal-input">
                                             
                                             <div style="position:relative;">
-                                                <InputNumber v-model="buycount" @on-change="inputNumber('buy')" :min='0' class="input-number"></InputNumber>
+                                                <input v-model="buycount" @input="inputBuyPrice($event,'buycount')" class="input-number" />
                                                 <span class='span'>{{ params.currency }}</span>
                                             </div>
                                         </FormItem>
@@ -41,7 +41,7 @@
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
                                             <div style="position:relative;">
-                                                <InputNumber v-model="sellprice" @on-change="inputNumber('sell')" :min='0' class="input-number"></InputNumber>
+                                               <input v-model="sellprice" @input="inputBuyPrice($event,'sellprice')" class="input-number" />
                                                 <span class='span'>{{ params.bizhong }}</span>
                                             </div>
                                            
@@ -49,7 +49,7 @@
                                         </FormItem>
                                         <FormItem label="卖出量" class="deal-input">
                                             <div style="position:relative;">
-                                                <InputNumber v-model="sellcount" @on-change="inputNumber('sell')" :min='0' class="input-number"></InputNumber>
+                                                <input v-model="sellcount" @input="inputBuyPrice($event,'sellcount')" class="input-number" />
                                                 <span class='span'>{{ params.currency }}</span>
                                             </div>
                                         </FormItem>
@@ -73,7 +73,7 @@
                                         </FormItem>
                                         <FormItem label="买入量" class="deal-input">
                                             <div style="position:relative;">
-                                                <InputNumber v-model="buycount1" :min='0' class="input-number"></InputNumber>
+                                                <input v-model="buycount1" @input="inputBuyPrice($event,'buycount1')" class="input-number" />
                                                 <span class='span'>{{ params.currency }}</span>
                                             </div>
                                         </FormItem>
@@ -94,7 +94,7 @@
                                         </FormItem>
                                         <FormItem label="卖出量" class="deal-input">
                                             <div style="position:relative;">
-                                                <InputNumber v-model="sellcount1" :min='0' class="input-number"></InputNumber>
+                                                <input v-model="sellcount1" @input="inputBuyPrice($event,'sellcount1')" class="input-number" />
                                                 <span class='span'>{{ params.currency }}</span>
                                             </div>
                                             
@@ -146,12 +146,12 @@ export default {
     props: ['params'],
     data: function() {	
         return {
-            buyprice:0,
-            buycount:0,
-            sellprice:0,
-            sellcount:0,
-            buycount1:0,
-            sellcount1:0,
+            buyprice:'',
+            buycount:'',
+            sellprice:'',
+            sellcount:'',
+            buycount1:'',
+            sellcount1:'',
             //usdt  数量
             usdtCurrency:'USDT',
             usdtBalance:'0',
@@ -237,7 +237,7 @@ export default {
         this.getBalance();
         this.getBalance('BTC');
         this.paramsinfo();
-        // 获取某种币的数量
+        this.priceq();
     },
     computed:{
         buymoney(){
@@ -248,26 +248,71 @@ export default {
         }
     },
     watch:{
-        params: "paramsinfo"
+        params: "paramsinfo",
+        changeCurreny(){
+            var currency = this.changeCurreny;
+            this.priceq(currency);
+        }
     },
     methods: {
-        inputBuyPrice(e){
+        inputBuyPrice(e,priceType){
             var value = e.target.value;
             if (!value) {
-                this.buyprice = '';
+                this[priceType] = '';
             }else {
                 if (reg.test(value)) {
-                    this.buyprice = value;
+                    this[priceType] = value;
                 }else {
                     value = value.slice(0,-1);
                     var matched = value.match(reg);
                     if (matched && matched.length) {
-                        this.buyprice = matched[0];
+                        this[priceType] = matched[0];
                     }else {
-                        this.buyprice = '';
+                        this[priceType]  = '';
                     }
                 }
             }
+        },
+        priceq(currency){
+            let that =this;
+            if (!currency) {
+                currency = 'BTC';
+            }
+            let tradecurrency = this.usdtCurrency;
+            this.$ajax({
+                method:"post",
+                url:"/trade/tps/pbfcd.do",
+                data:{
+                    "currencytype":currency,
+                    'tradecurrency':tradecurrency,
+                    "reqresource":"1"
+                }
+            }).then((res)=>{
+                console.log(res)
+                if(res.data && res.data.err_code == "1" && res.data.currencyDetail){
+                    that.buyprice =res.data.currencyDetail[0].curprice;
+                    that.sellprice = res.data.currencyDetail[0].curprice;
+                }else if(res.data && res.data.err_code != '1' && res.data.msg){
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'查询出错了，'+res.data.msg
+                    })
+                    that.buyprice = '';
+                    that.sellprice = '';
+                }else {
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'查询出错了，请稍后重试'
+                    })
+                    that.buyprice = '';
+                    that.sellprice = '';
+                }
+            }).catch((res)=>{
+                this.$Notice.warning({
+                    title:'提示',
+                    desc:'查询出错了，请稍后重试'
+                })
+            })
         },
         //充币
         recharge (currency) {
@@ -275,9 +320,9 @@ export default {
                 return;
             }
             this.$router.push({
-                path:'/assets',
+                path:'/assets/recharge',
                 query:{
-                    currency
+                    name:currency
                 }
             })
         },
@@ -299,6 +344,7 @@ export default {
                 this.changeCurreny = obj.currency;
                 this.getBalance('USDT');
                 this.getBalance(obj.currency);
+                this.changeCurreny = obj.currency;
             }
             let that =this;
             this.data1 = [];
@@ -399,6 +445,12 @@ export default {
                             title:'提示',
                             desc:'委托创建成功'
                         })
+                        that.getBalance();
+                    }else if (res.data && res.data.msg) {
+                        that.$Notice.warning({
+                            title:'提示',
+                            desc:'委托创建失败,'+res.data.msg
+                        })
                     }else {
                         that.$Notice.warning({
                             title:'提示',
@@ -446,6 +498,13 @@ export default {
                         that.$Notice.success({
                             title:'提示',
                             desc:'委托创建成功'
+                        })
+                        var coin = that.changeCurreny;
+                        that.getBalance(coin);
+                    }else if (res.data && res.data.msg) {
+                        that.$Notice.warning({
+                            title:'提示',
+                            desc:'委托创建失败,'+res.data.msg
                         })
                     }else {
                         that.$Notice.warning({
@@ -614,7 +673,7 @@ export default {
             line-height:40px;
             border-radius: 0;
             background: #f5f4f4;
-            color:#fff;
+            color:#666;
             outline: none;
             position: relative;
             border:none;
