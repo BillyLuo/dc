@@ -43,19 +43,20 @@
                             <Button>限单价</Button>
                         </div>
                         <div class="trade-input">
+                            
                             <div style="position:relative; margin-bottom:10px;">
-                                <InputNumber v-model="buyprice"  :min='0.0001' class="input-number"></InputNumber>
+                                <input v-model="buyprice" @input="inputBuyPrice($event,'buyprice')" class="input-number" />
                                 <span class='span'>买入价 {{jijiabizhong}}</span>
                             </div>
                             <div style="position:relative; margin-bottom:10px;">
-                                <InputNumber v-model="buycount"  :min='0.0001' class="input-number"></InputNumber>
+                                <input v-model="buycount"  @input="inputBuyPrice($event,'buycount')"  class="input-number"/>
                                 <span class='span'>买入量 {{jichubizhong}}</span>
                             </div>
                             
-                            <!-- <Input :number="true" v-model="buyprice" @on-change="buy_price" :maxlength="14">
-                                <span slot="prepend">买入价 ¥</span>
-                            </Input> -->
-                            <!-- <Input :number="true" v-model="buycount" @on-change="buy_count" :maxlength="14">
+                            <!-- <Input :number="true" v-model="buyprice" @input="inputBuyPrice($event,'buyprice')" >
+                                <span slot="prepend">买入价 {{jijiabizhong}}</span>
+                            </Input>
+                            <Input :number="true" v-model="buycount"  :maxlength="14">
                                 <span slot="prepend">买入量 {{jichubizhong}}</span>
                             </Input> -->
                             <p>
@@ -88,13 +89,23 @@
                         </div>
                         <div class="trade-input">
                             <div style="position:relative; margin-bottom:10px;">
+                                <input v-model="sellprice" @input="inputBuyPrice($event,'sellprice')" class="input-number" />
+                                <span class='span'>卖出价 {{jijiabizhong}}</span>
+                            </div>
+                            <div style="position:relative; margin-bottom:10px;">
+                                <input v-model="sellcount"  @input="inputBuyPrice($event,'sellcount')"  class="input-number"/>
+                                <span class='span'>卖出量 {{jichubizhong}}</span>
+                            </div>
+
+
+                            <!-- <div style="position:relative; margin-bottom:10px;">
                                 <InputNumber v-model="sellprice"  :min='0.001' class="input-number"></InputNumber>
                                 <span class='span'>卖出价 {{jijiabizhong}}</span>
                             </div>
                             <div style="position:relative; margin-bottom:10px;">
                                 <InputNumber v-model="sellcount"   :min='0.001' class="input-number"></InputNumber>
                                 <span class='span'>卖出量 {{jichubizhong}}</span>
-                            </div>
+                            </div> -->
                             <p>
                                 ≈ ￥ <span>{{sellmoney}}</span>
                             </p>
@@ -102,10 +113,7 @@
                             <Button class="buy-button buy-button1" @click="sell">
                                 卖出 {{jichubizhong}}
                             </Button>
-                            <!-- <p>若需提币请至<a href="javascript:;" @click="chongzhi">数字资产</a>提币</p> -->
-                            <!-- <Button class="buy-button" style="margin-bottom:30px;" @click='tixian'>
-                                立即提现
-                            </Button> -->
+
                         </div>
                     </div>
                 </Col> 
@@ -162,6 +170,24 @@
     import { Menu,MenuItem,DatePicker,Table,Slider,Page } from 'iview';
     import step from './step';
     import { mapState } from "vuex";
+    var numReg = function (m,n) {
+        // m=m.toString();
+        // n=n.toString();
+        if (!m) {
+            m = 15;
+        }else if(!m.match(/^[1-9]\d*$/)) {
+            m = 15;
+        }
+        if (!n) {
+            n = 10;
+        }else if (!n.match(/^[1-9]\d*$/)) {
+            n = 10;
+        }
+        return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
+    }
+    var reg = numReg('10','10');
+    var regs = numReg('10','3');
+
     // let menu = [
     //     {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
     //     {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
@@ -309,7 +335,9 @@
             this.maichuzijin();
             this.selectCurrency();
             this.priceq();
-            
+            this.$Notice.config({
+                top: 100
+            });
         },
         created(){
             
@@ -349,37 +377,60 @@
             },
             sellmoney(){
                 if(this.sellprice > 0 && this.sellcount > 0){
-                    return Number(this.sellcount*this.sellprice*1.002).toFixed(6);
+                    return Number((this.sellcount*this.sellprice)-(this.sellcount*this.sellprice*0.002)).toFixed(6);
                 }
             },
-            // sliderbuy(){
-            //     console.log(this.buycount+'&&'+ this.buyprice +'&&'+ this.buy_keyong)
-            //     if(this.buycount && this.buyprice && this.buy_keyong){
-            //         return Number(this.buycount*this.buyprice*1.002)/Number(this.buy_keyong)
-            //     }else{
-            //         return 0
-            //     }
-                
-            // }
         },
         methods: {
-            // inputNumber(val){
-            //     if(val == "buy"){
-                    
-            //     }
-            //     if(val == "sell"){
-            //         if(this.sellprice > 0 && this.sellcount > 0){
-            //             this.sellmoney = Number(this.sellcount*this.sellprice).toFixed(6);
-            //         }
-            //     }
+            inputBuyPrice(e,priceType){
+                var value = e.target.value;
+                if(priceType=="buycount" || priceType == "sellcount"){
+                    if (!value) {
+                        this[priceType] = '';
+                    }else {
+                        console.log(regs.test(value))
+                        if (regs.test(value)) {
+                            this[priceType] = value;
+                        }else {
+                            value = value.slice(0,-1);
+                            console.log(value)
+                            var matched = value.match(regs);
+                            console.log(matched)
+                            if (matched && matched.length) {
+                                this[priceType] = matched[0];
+                            }else {
+                                this[priceType]  = '';
+                            }
+                        }
+                    }
+                }else{
+                    if (!value) {
+                        this[priceType] = '';
+                    }else {
+                        console.log(reg.test(value))
+                        if (reg.test(value)) {
+                            this[priceType] = value;
+                        }else {
+                            value = value.slice(0,-1);
+                            console.log(value)
+                            var matched = value.match(reg);
+                            console.log(matched)
+                            if (matched && matched.length) {
+                                this[priceType] = matched[0];
+                            }else {
+                                this[priceType]  = '';
+                            }
+                        }
+                    }
+                }
                 
-            // },
+            },
             slidersellchange(val){
                 console.log(val)
                 console.log("可用资金",this.sell_keyong,"----单价：",this.sellprice,"-----百分比：",val,"-------手续费：1.002")
 
 
-                this.sellcount = (this.sell_keyong*(val/100))/(this.sellprice*1.002)
+                this.sellcount = (this.sell_keyong*(val/100))
             },
             sliderchange(val){//滑块
                 console.log(val)
@@ -440,8 +491,15 @@
                     })
                     return false;
                 }
+                if(Number(this.buycount*this.buyprice) < 150){
+                    this.$Modal.warning({
+                        title:"温馨提示",
+                        content:"买入数量不能小于150 USDT且不包括手续费"
+                    })
+                    return false;
+                }
                 if(Number(this.buymoney) > Number(this.buy_keyong)){
-                    this.$Modal.error({
+                    this.$Modal.warning({
                         render(h){
                             return h('p',[
                                     "账户可用资金不足，请到",
@@ -497,7 +555,10 @@
                         }
                     })
                 }else{
-                    that.$Message.warning("买入价或买入量不能为0")
+                    this.$Notice.warning({
+                        title:"温馨提示",
+                        desc: "买入价或买入量不能为空"
+                    })
                 }
             },
             sell(){//卖出 
@@ -581,7 +642,11 @@
                         }
                     })
                 }else{
-                    that.$Message.warning("卖出价或卖出量不能为0")
+                    this.$Notice.warning({
+                        title:"温馨提示",
+                        desc: "卖出价或卖出量不能为空"
+                    })
+                    
                 }
                 
             },
@@ -596,8 +661,8 @@
                     }
                 }).then((res)=>{
                     if(res.data.accountFund && res.data&&res.data.err_code=="1"){
-                        that.buy_keyong=res.data.accountFund[0].usablefund
-                        that.buy_dongjie=res.data.accountFund[0].frozenfund
+                        that.buy_keyong=Number(res.data.accountFund[0].usablefund).toFixed(8)
+                        that.buy_dongjie=Number(res.data.accountFund[0].frozenfund).toFixed(8)
                     }else{
                         that.buy_keyong="0.000000"
                         that.buy_dongjie="0.000000"
@@ -616,8 +681,8 @@
                 }).then((res)=>{
                     console.log(res)
                     if(res.data.accountFund && res.data&&res.data.err_code=="1"){
-                        that.sell_keyong=res.data.accountFund[0].usablefund
-                        that.sell_dongjie=res.data.accountFund[0].frozenfund
+                        that.sell_keyong=Number(res.data.accountFund[0].usablefund).toFixed(8)
+                        that.sell_dongjie=Number(res.data.accountFund[0].frozenfund).toFixed(8)
                     }else{
                         that.sell_keyong="0.000000"
                         that.sell_dongjie="0.000000"
@@ -746,7 +811,7 @@
                         }
                     },
                     {
-                        title:"平均买入价(CNYT)",
+                        title:"平均买入价("+this.jijiabizhong+")",
                         key: "avebuyprice",
                         render (h,row){
                             if(row.row.avebuyprice){
@@ -772,7 +837,7 @@
                         }
                     },
                     {
-                        title:"平均卖出价(CNYT)",
+                        title:"平均卖出价("+this.jijiabizhong+")",
                         key: "avesellprice",
                         render (h,row){
                             if(row.row.avesellprice){
@@ -843,7 +908,7 @@
                             title: '手续费',
                             key: 'charge',
                             render: (h,params)=>{
-                                return h("span",Number(params.row.charge).toFixed(6))
+                                return h("span",Number(params.row.charge)+'%')
                             }
                         },
                         {
@@ -853,6 +918,12 @@
                                 return h("span",Number(params.row.averageprice).toFixed(6))
                             }
                         },
+                        
+                        
+                ]
+
+                if(this.order_record_cloumns_title != "jiaoyijilu"){
+                    this.order_record_cloumns.push(
                         {
                             title: this.order_record_cloumns_title,
                             key: 'status',
@@ -884,7 +955,8 @@
                                 }
                             }
                         }
-                ]
+                    )
+                }
             },
             // 查询交易记录
             query () {
@@ -1051,8 +1123,8 @@
                     
                 }
                 if(name == "jiaoyijilu"){
-                    this.query_entrust1()
-                    this.order_record_cloumns_title = "状态"
+                    this.query_entrust1();
+                    this.order_record_cloumns_title = "jiaoyijilu"
                 }
                 if(name == "chedan"){
                     this.query_entrust2();
@@ -1069,6 +1141,10 @@
                 this.$refs['asdf'].currentActiveName = 'buy',
                 this.types = "buy"
                 this.activeName = name;
+                this.buyprice=0;
+                this.buycount=0;
+                this.sellprice=0;
+                this.sellcount=0;
                 var bizhong = name.split("/");
                 this.jichubizhong=bizhong[0];
                 this.jijiabizhong=bizhong[1];
@@ -1077,6 +1153,7 @@
                 this.maichuzijin();
                 this.query();
                 this.priceq();
+                
             },
             priceq(){
                 let that =this;
@@ -1106,11 +1183,11 @@
                     if (!this.buyprice) {
                         this.buyprice = 0;
                     }
-                    this.buymoney = (this.buycount*this.buyprice*1.002).toFixed(6);
+                    // this.buymoney = (this.buycount*this.buyprice*1.002).toFixed(6);
                 }else{
                     this.sellcount = Number(row.count);
                     this.sellprice = Number(row.price);
-                    this.sellmoney = (this.sellcount*this.sellprice*1.002).toFixed(6);
+                    // this.sellmoney = (this.sellcount*this.sellprice*1.002).toFixed(6);
                 }
             },
             chongzhi (val) {
@@ -1199,12 +1276,12 @@
         float: left;
         width:1040px;
         padding-top:25px;
-        .ivu-input-number-handler-wrap{
-            display: none;
-        }
-        .ivu-input-number-input-wrap{
-            height:48px;
-        }
+        // .ivu-input-number-handler-wrap{
+        //     display: none;
+        // }
+        // .ivu-input-number-input-wrap{
+        //     height:48px;
+        // }
         .input-number{
             width:100%;
             height:50px;
@@ -1213,12 +1290,14 @@
             background: #f5f4f4;
             padding-left:121px;
             position: relative;
-            .ivu-input-number-input{
-                height:50px;
-                line-height: 50px;
-                background: #f5f4f4;
-                font-size: 14px;
-            }
+            border:1px solid #dddee1; 
+            color: #495060;
+            // .ivu-input-number-input{
+            //     height:50px;
+            //     line-height: 50px;
+            //     background: #f5f4f4;
+            //     font-size: 14px;
+            // }
         }
         .span{
             position: absolute;
@@ -1229,6 +1308,7 @@
             width:120px;
             text-align: center;
             font-size:12px;
+            color: #495060;
         }
         .trade-time{
             padding: 0px 30px;
@@ -1275,14 +1355,31 @@
                 border-color: #57a3f3;
                 margin-left:20px;
             }
-            .ivu-input:focus{
-                color:#57a3f3;
+            // .ivu-input:focus{
+            //     color:#57a3f3;
+            //     border-color: #57a3f3;
+            //     -webkit-box-shadow: none;
+            //     box-shadow: none;
+            // }
+            // .ivu-input:hover {
+            //     border-color: #57a3f3;
+            // }
+            .input-number:focus{
+                color:#2d8cf0;
                 border-color: #57a3f3;
                 -webkit-box-shadow: none;
                 box-shadow: none;
+                outline: 0;
             }
-            .ivu-input:hover {
-                border-color: #57a3f3;
+            .input-number:hover{
+                color:#2d8cf0;
+                border-color:#2d8cf0;
+            }
+            .input-number:focus + span{
+                color:#57a3f3;
+            }
+            .input-number:hover + span{
+                color:#57a3f3;
             }
             .trade-button{
                 button{
@@ -1336,27 +1433,53 @@
         }
         .trade-sell{
             border-left: 1px solid #ccc;
-            .ivu-input-number:hover {
-                border-color: #f5322d;
-            }
-            .ivu-input-number-focused {
-                border-color: #f5322d;
-                outline: 0;
-                -webkit-box-shadow:0 0 0 2px rgba(240, 45, 45, 0.28);
-                box-shadow: 0 0 0 2px rgba(240, 45, 45, 0.28);
-            }
-            .ivu-input-number:focus {
-                border-color: #f5322d;
-                outline: 0;
-                -webkit-box-shadow:0 0 0 2px rgba(240, 45, 45, 0.28);
-                box-shadow: 0 0 0 2px rgba(240, 45, 45, 0.28);
-            }
+            // .ivu-input-number:hover {
+            //     border-color: #f5322d;
+            // }
+            // .ivu-input-number-focused {
+            //     border-color: #f5322d;
+            //     outline: 0;
+            //     -webkit-box-shadow:0 0 0 2px rgba(240, 45, 45, 0.28);
+            //     box-shadow: 0 0 0 2px rgba(240, 45, 45, 0.28);
+            // }
+            // .ivu-input-number:focus {
+            //     border-color: #f5322d;
+            //     outline: 0;
+            //     -webkit-box-shadow:0 0 0 2px rgba(240, 45, 45, 0.28);
+            //     box-shadow: 0 0 0 2px rgba(240, 45, 45, 0.28);
+            // }
             .ivu-btn{
                 padding:10px 20px;
                 color: #f5322d;
                 background-color: #fff;
                 border-color: #f5322d;
                 margin-left:20px;
+            }
+            // .ivu-input:focus{
+            //     color:#f5322d;
+            //     border-color: #f5322d;
+            //     -webkit-box-shadow: none;
+            //     box-shadow: none;
+            // }
+            // .ivu-input:hover {
+            //     border-color: #f5322d;
+            // }
+            .input-number:focus{
+                color:#f5322d;
+                border-color: #f5322d;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+                outline: 0;
+            }
+            .input-number:focus + span{
+                color:#f5322d;
+            }
+            .input-number:hover + span{
+                color:#f5322d;
+            }
+            .input-number:hover{
+                color:#f5322d;
+                border-color:#f5322d;
             }
             .trade-button{
                 button{
