@@ -136,6 +136,11 @@
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
                 <Table :data="order_record_data" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <div style="margin: 10px;overflow:hidden">
+                    <div style="float: right;line-height:  40px;height: 40px;">
+                        <Page :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage" @on-page-size-change='pagesizesa'></Page>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="trade-contract" v-else-if="types === 'jiaoyijilu'">
@@ -147,9 +152,9 @@
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
                 <Table :data="order_record_data1" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
-                <div v-if="jiaoyipage > 0" style="margin: 10px;overflow:hidden">
-                    <div style="float: right;">
-                        <Page :total="jiaoyipage" :current="jiaoyicurrent" @on-change="changePage"></Page>
+                <div style="margin: 10px;overflow:hidden">
+                    <div style="float: right;line-height:  40px;height: 40px;">
+                        <Page :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage1" @on-page-size-change='pagesizes1'></Page>
                     </div>
                 </div>
             </div>
@@ -160,6 +165,11 @@
             </div>
             <div class="trade-table">
                 <Table :data="order_record_data2" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <div style="margin: 10px;overflow:hidden">
+                    <div style="float: right;line-height:  40px;height: 40px;">
+                        <Page :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage2" @on-page-size-change='pagesizes2'></Page>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="clear"></div>
@@ -210,11 +220,12 @@
         props: ['lang'],
         data() {
             return {
+                pagesize:10,
+                pageno:1,
+                total:0,
                 sliderbuy:0,
                 slidersell:0,
                 stepJson:["01.安全设置","02.充值","03.下单交易"],
-                jiaoyipage:0,
-                jiaoyicurrent:1,
                 active_name2:'buy',
                 activeName:'',
                 menu:[],
@@ -372,12 +383,12 @@
             buymoney(){
                 if(this.buyprice > 0 && this.buycount > 0){
                     //this.sliderbuy = ((Number(this.buycount*this.buyprice*1.002)/Number(this.buy_keyong))/100).toFixed(2)
-                    return  Number(this.buycount*this.buyprice*1.002).toFixed(6);
+                    return  Number(this.buycount*this.buyprice*1.002).toFixed(10);
                 }
             },
             sellmoney(){
                 if(this.sellprice > 0 && this.sellcount > 0){
-                    return Number((this.sellcount*this.sellprice)-(this.sellcount*this.sellprice*0.002)).toFixed(6);
+                    return Number((this.sellcount*this.sellprice)-(this.sellcount*this.sellprice*0.002)).toFixed(10);
                 }
             },
         },
@@ -703,6 +714,8 @@
                             method: "post",
                             url:"/trade/tps/pbceos.do",
                             data:{
+                                currencytype:that.jichubizhong,
+                                tradecurrency:that.jijiabizhong,
                                 reqresource:1
                             }
                         }).then((res)=>{
@@ -768,8 +781,33 @@
                     }
                 });
             },
-            changePage(){
-
+            changePage(pageno){
+                this.pageno = pageno;
+                this.query_entrust();
+            },
+            pagesizesa(pagesize){
+                this.pageno = 1;
+                this.pagesize=pagesize;
+                console.log(pagesize+"--------")
+                this.query_entrust();
+            },
+            changePage1(pageno){
+                this.pageno = pageno;
+                this.query_entrust1();
+            },
+            pagesizes1(pagesize){
+                this.pageno = 1;
+                this.pagesize=pagesize;
+                this.query_entrust1();
+            },
+            changePage2(pageno){
+                this.pageno = pageno;
+                this.query_entrust2();
+            },
+            pagesizes2(pagesize){
+                this.pageno = 1;
+                this.pagesize=pagesize;
+                this.query_entrust2();
             },
             timeschange(val){
                 this.begintime = val;
@@ -778,21 +816,16 @@
                 this.begintime1 = val;
             },
             weituojilu () {
-                console.log(this.begintime)
-                if(this.begintime.length){
-                    this.query_entrust(this.jichubizhong,this.begintime[0],this.begintime[1]);
-                }else{
-                    this.query_entrust()
-                }
-               
+                this.total=0;
+                this.pagesizes=10;
+                this.pageno=1;
+                this.query_entrust();
             },
             weituojilu1 () {
-
-                if(this.begintime1.length){
-                    this.query_entrust1(this.jichubizhong,this.begintime1[0],this.begintime1[1]);
-                }else{
-                    this.query_entrust1()
-                }
+                this.total=0;
+                this.pagesizes=10;
+                this.pageno=1;
+                this.query_entrust1();
             },
             // 委托列表表头
             weituolist () {
@@ -908,7 +941,11 @@
                             title: '手续费',
                             key: 'charge',
                             render: (h,params)=>{
-                                return h("span",Number(params.row.charge)+'%')
+                                if(this.order_record_cloumns_title != "jiaoyijilu"){
+                                    return h("span",Number(params.row.charge)+'%')
+                                }else{
+                                    return h("span",Number(params.row.charge))
+                                }
                             }
                         },
                         {
@@ -1013,25 +1050,24 @@
                 })
             },
             //查询委托
-            query_entrust (currencycode,starttime,endtime) {
-                console.log(currencycode,starttime,endtime)
+            query_entrust () {
                 let that = this;
                 this.$ajax({
                     method: 'post',
                     url: '/trade/tps/pbets.do',
                     data: {
-                        "currencytype":currencycode ? currencycode : that.jichubizhong,//币种
-                        "starttime":starttime ? starttime : "",
-                        "endtime":endtime ? endtime:"",
-                        "pageno":"1",
-                        "pagesize":"14",
+                        "currencytype":that.jichubizhong,//币种
+                        "starttime":that.begintime[0] ? that.begintime[0] : "",
+                        "endtime":that.begintime[1] ? that.begintime[1] : "",
+                        "pageno":that.pageno,
+                        "pagesize":that.pagesize,
                         "reqresource":"1",
                         "status":"1,2,4"
                     }
                 })
                 .then((response) => {
                     console.log("weituo======",response)
-                    if(response.data){
+                    if(response.data && response.data.dealManage){
                         that.weituo_data = [{
                             avebuyprice : response.data.avebuyprice,
                             avesellprice: response.data.avesellprice,
@@ -1039,6 +1075,9 @@
                             totalsellnum: response.data.totalsellnum
                         }]
                         that.order_record_data = response.data.dealManage;
+                    }
+                    if(response.data && response.data.page && response.data.page.sum){
+                        that.total = Number(response.data.page.sum);
                     }
                 })
             },
@@ -1050,17 +1089,17 @@
                     method: 'post',
                     url: '/trade/tps/pbdms.do',
                     data: {
-                       "currencytype":currencycode ? currencycode : that.jichubizhong,//币种
-                        "starttime":starttime ? starttime : "",
-                        "endtime":endtime ? endtime : "",
-                        "pageno":"1",
-                        "pagesize":"14",
+                       "currencytype":that.jichubizhong,//币种
+                        "starttime":that.begintime1[0] ? that.begintime1[0] : "",
+                        "endtime":that.begintime1[1] ? that.begintime1[1] : "",
+                        "pageno":that.pageno,
+                        "pagesize":that.pagesize,
                         "reqresource":"1",
                     }
                 })
                 .then((response) => {
                     console.log("weituo======",response)
-                    if(response.data){
+                    if(response.data  && response.data.dealManage){
                         that.weituo_data = [{
                             avebuyprice : response.data.avebuyprice,
                             avesellprice: response.data.avesellprice,
@@ -1070,10 +1109,13 @@
 
                         that.order_record_data1 = response.data.dealManage;
                     }
-                    
+                    if(response.data && response.data.page && response.data.page.sum){
+                        that.total = Number(response.data.page.sum);
+                    }
                 })
             },
             query_entrust2(currencycode,starttime,endtime){
+                this.order_record_data2 = [];
                 let that = this;
                 this.$ajax({
                     method: 'post',
@@ -1082,15 +1124,15 @@
                         "currencytype":currencycode ? currencycode : that.jichubizhong,//币种
                         "starttime":starttime ? starttime : "",
                         "endtime":endtime ? endtime:"",
-                        "pageno":"1",
-                        "pagesize":"14",
+                        "pageno":that.pageno,
+                        "pagesize":that.pagesize,
                         "reqresource":"1",
-                        status:"0,3"
+                        "status":"0,3"
                     }
                 })
                 .then((response) => {
                     console.log("chedan======",response)
-                    if(response.data){
+                    if(response.data  && response.data.dealManage ){
                         that.weituo_data = [{
                             avebuyprice : response.data.avebuyprice,
                             avesellprice: response.data.avesellprice,
@@ -1098,6 +1140,9 @@
                             totalsellnum: response.data.totalsellnum
                         }]
                         that.order_record_data2 = response.data.dealManage;
+                    }
+                    if(response.data && response.data.page && response.data.page.sum){
+                        that.total = Number(response.data.page.sum);
                     }
                 })
             },
@@ -1117,6 +1162,9 @@
             },
             infos (name) {
                 console.log(name)
+                this.pagesize=10;
+                this.pageno=1;
+                this.total=0;
                 if(name == "weituo"){
                     this.query_entrust()
                     this.order_record_cloumns_title = "状态";
