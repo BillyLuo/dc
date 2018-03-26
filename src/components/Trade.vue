@@ -135,10 +135,10 @@
             </div>
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
-                <Table :data="order_record_data" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <Table :loading="loading" :data="order_record_data" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                 <div style="margin: 10px;overflow:hidden">
                     <div style="float: right;line-height:  40px;height: 40px;">
-                        <Page :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage" @on-page-size-change='pagesizesa'></Page>
+                        <Page :page-size-opts='[10,20,30,40,50]' :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage" @on-page-size-change='pagesizesa'></Page>
                     </div>
                 </div>
             </div>
@@ -151,10 +151,10 @@
             </div>
             <div class="trade-table">
                 <Table :data="weituo_data" :columns="weituo_columns" stripe></Table>
-                <Table :data="order_record_data1" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <Table :loading="loading" :data="order_record_data1" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                 <div style="margin: 10px;overflow:hidden">
                     <div style="float: right;line-height:  40px;height: 40px;">
-                        <Page :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage1" @on-page-size-change='pagesizes1'></Page>
+                        <Page :page-size-opts='[10,20,30,40,50]' :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage1" @on-page-size-change='pagesizes1'></Page>
                     </div>
                 </div>
             </div>
@@ -164,10 +164,10 @@
                 <Button @click="revoke">一键撤销</Button>
             </div>
             <div class="trade-table">
-                <Table :data="order_record_data2" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                <Table :loading="loading" :data="order_record_data2" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                 <div style="margin: 10px;overflow:hidden">
                     <div style="float: right;line-height:  40px;height: 40px;">
-                        <Page :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage2" @on-page-size-change='pagesizes2'></Page>
+                        <Page :page-size-opts='[10,20,30,40,50]' :total="total" show-sizer show-elevator show-total placement='top' :page-size='pagesize' :current="pageno" @on-change="changePage2" @on-page-size-change='pagesizes2'></Page>
                     </div>
                 </div>
             </div>
@@ -199,12 +199,12 @@
     var regs = numReg('10','3');
 
     // let menu = [
-    //     {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
-    //     {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
-    //     {"name":"ETC",text:"ETC",icon:"/static/img/coin/icon-etc.png"},
-    //     {"name":"LTC",text:"LTC",icon:"/static/img/coin/icon-ltc.png"},
-    //     {"name":"DOGE",text:"DOGE",icon:"/static/img/coin/icon-doge.png"},
-    //     // {"name":"YBC",text:"YBC",icon:"/static/img/coin/icon-.png"}
+        //     {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
+        //     {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
+        //     {"name":"ETC",text:"ETC",icon:"/static/img/coin/icon-etc.png"},
+        //     {"name":"LTC",text:"LTC",icon:"/static/img/coin/icon-ltc.png"},
+        //     {"name":"DOGE",text:"DOGE",icon:"/static/img/coin/icon-doge.png"},
+        //     // {"name":"YBC",text:"YBC",icon:"/static/img/coin/icon-.png"}
     // ]
     let menu1 = [
         {"name":"buy",text:"买入/卖出"},
@@ -221,6 +221,7 @@
         data() {
             return {
                 pagesize:10,
+                loading:false,
                 pageno:1,
                 total:0,
                 sliderbuy:0,
@@ -350,9 +351,6 @@
                 top: 100
             });
         },
-        created(){
-            
-        },
         computed:{
             ...mapState({
                 userinfo: state => {
@@ -383,7 +381,7 @@
             buymoney(){
                 if(this.buyprice > 0 && this.buycount > 0){
                     //this.sliderbuy = ((Number(this.buycount*this.buyprice*1.002)/Number(this.buy_keyong))/100).toFixed(2)
-                    return  Number(this.buycount*this.buyprice*1.002).toFixed(10);
+                    return  this.buycount*this.buyprice*1.002
                 }
             },
             sellmoney(){
@@ -731,7 +729,7 @@
                             }else {
                                 setTimeout(() => {
                                      this.$Modal.error({
-                                        content: "撤单失败"
+                                        content: "撤单失败，"+res.data.msg
                                     })
                                 },300)
                             }
@@ -784,27 +782,32 @@
             changePage(pageno){
                 this.pageno = pageno;
                 this.query_entrust();
+                this.loading = true;
             },
             pagesizesa(pagesize){
                 this.pageno = 1;
                 this.pagesize=pagesize;
-                console.log(pagesize+"--------")
+                this.loading = true;
                 this.query_entrust();
             },
             changePage1(pageno){
+                this.loading = true;
                 this.pageno = pageno;
                 this.query_entrust1();
             },
             pagesizes1(pagesize){
+                this.loading = true;
                 this.pageno = 1;
                 this.pagesize=pagesize;
                 this.query_entrust1();
             },
             changePage2(pageno){
+                this.loading = true;
                 this.pageno = pageno;
                 this.query_entrust2();
             },
             pagesizes2(pagesize){
+                this.loading = true;
                 this.pageno = 1;
                 this.pagesize=pagesize;
                 this.query_entrust2();
@@ -819,12 +822,14 @@
                 this.total=0;
                 this.pagesizes=10;
                 this.pageno=1;
+                this.loading = true;
                 this.query_entrust();
             },
             weituojilu1 () {
                 this.total=0;
                 this.pagesizes=10;
                 this.pageno=1;
+                this.loading = true;
                 this.query_entrust1();
             },
             // 委托列表表头
@@ -1075,10 +1080,13 @@
                             totalsellnum: response.data.totalsellnum
                         }]
                         that.order_record_data = response.data.dealManage;
+                        
                     }
                     if(response.data && response.data.page && response.data.page.sum){
                         that.total = Number(response.data.page.sum);
+                        
                     }
+                    that.loading = false;
                 })
             },
             query_entrust1 (currencycode,starttime,endtime) {
@@ -1112,6 +1120,7 @@
                     if(response.data && response.data.page && response.data.page.sum){
                         that.total = Number(response.data.page.sum);
                     }
+                    that.loading = false;
                 })
             },
             query_entrust2(currencycode,starttime,endtime){
@@ -1144,6 +1153,7 @@
                     if(response.data && response.data.page && response.data.page.sum){
                         that.total = Number(response.data.page.sum);
                     }
+                    that.loading = false;
                 })
             },
             safe (val) {
@@ -1162,6 +1172,7 @@
             },
             infos (name) {
                 console.log(name)
+                this.loading= true;
                 this.pagesize=10;
                 this.pageno=1;
                 this.total=0;
