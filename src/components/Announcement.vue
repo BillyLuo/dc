@@ -10,7 +10,7 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide" v-for="(data,index) in swiperData" :key="index+1">
               <div class="announcement-text">
-                <a href="javascript:;">{{index+1}}-Coinw即将开通BeeChat (CHAT)充值及上线公告</a>
+                <a href="javascript:;">{{index+1}}-富币即将开通BeeChat (CHAT)充值及上线公告</a>
               </div>
             </div>
           </div>
