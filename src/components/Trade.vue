@@ -60,7 +60,7 @@
                                 <span slot="prepend">买入量 {{jichubizhong}}</span>
                             </Input> -->
                             <p>
-                                ≈ ￥ <span>{{buymoney}}</span>
+                                ≈ $ <span>{{buymoney}}</span>
                             </p>
                             <!-- <Slider v-model="value" :max="1000" @on-change="ss"></Slider> -->
                             <Slider v-model="sliderbuy" :tip-format="sliderformat" @on-input="sliderchange"></Slider>
@@ -107,7 +107,7 @@
                                 <span class='span'>卖出量 {{jichubizhong}}</span>
                             </div> -->
                             <p>
-                                ≈ ￥ <span>{{sellmoney}}</span>
+                                ≈ $ <span>{{sellmoney}}</span>
                             </p>
                             <Slider v-model="slidersell" :tip-format="sliderformat" @on-input="slidersellchange"></Slider>
                             <Button class="buy-button buy-button1" @click="sell">
@@ -197,7 +197,10 @@
     }
     var reg = numReg('10','10');
     var regs = numReg('10','3');
-
+    var decimal = function(a,b){
+        let s = a.toString()
+        return s.substring(0,s.lastIndexOf('.')+b)
+    }
     // let menu = [
         //     {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
         //     {"name":"ETH",text:"ETH",icon:"/static/img/coin/icon-eth1.png"},
@@ -266,9 +269,9 @@
                         align:"center",
                         render: (h,params)=>{
                             if(params.row.count){
-                                return  h("span",Number(params.row.count).toFixed(6))
+                                return  h("span",Number(params.row.count).toFixed(10))
                             }else{
-                                return h("span",Number(0).toFixed(6))
+                                return h("span",Number(0).toFixed(10))
                             }
                             
                         }
@@ -280,9 +283,9 @@
                         render: (h, params) => {
                             console.log(params.row);
                             if(params.row.price){
-                                return h("span",Number(params.row.price).toFixed(6))
+                                return h("span",Number(params.row.price).toFixed(10))
                             }else{
-                                return h("span",Number(0).toFixed(6))
+                                return h("span",Number(0).toFixed(10))
                             }
                             
                         }
@@ -304,7 +307,7 @@
                         key: 'tradeprice',
                         align:"center",
                         render: (h, params) => {
-                            return  h("span",Number(params.row.tradeprice).toFixed(6))
+                            return  h("span",Number(params.row.tradeprice).toFixed(10))
                         }
                         
                     },
@@ -313,7 +316,7 @@
                         key: 'tradecount',
                         align:"center",
                         render: (h, params) => {
-                            return  h("span",Number(params.row.tradecount).toFixed(6))
+                            return  h("span",Number(params.row.tradecount).toFixed(10))
                         }
                     }
                 ],
@@ -381,12 +384,12 @@
             buymoney(){
                 if(this.buyprice > 0 && this.buycount > 0){
                     //this.sliderbuy = ((Number(this.buycount*this.buyprice*1.002)/Number(this.buy_keyong))/100).toFixed(2)
-                    return  this.buycount*this.buyprice*1.002
+                    return  decimal(this.buycount*this.buyprice*1.002,11)
                 }
             },
             sellmoney(){
                 if(this.sellprice > 0 && this.sellcount > 0){
-                    return Number((this.sellcount*this.sellprice)-(this.sellcount*this.sellprice*0.002)).toFixed(10);
+                    return decimal((this.sellcount*this.sellprice-this.sellcount*this.sellprice*0.002),11);
                 }
             },
         },
@@ -435,18 +438,18 @@
                 
             },
             slidersellchange(val){
-                console.log(val)
-                console.log("可用资金",this.sell_keyong,"----单价：",this.sellprice,"-----百分比：",val,"-------手续费：1.002")
+                // console.log(val)
+                // console.log("可用资金",this.sell_keyong,"----单价：",this.sellprice,"-----百分比：",val,"-------手续费：1.002")
 
-
-                this.sellcount = (this.sell_keyong*(val/100))
+                console.log(this.sell_keyong*(val/100))
+                this.sellcount = decimal(this.sell_keyong*(val/100),4)
             },
             sliderchange(val){//滑块
-                console.log(val)
-                console.log("可用资金",this.buy_keyong,"----单价：",this.buyprice,"-----百分比：",val,"-------手续费：1.002")
+                // console.log(val)
+                // console.log("可用资金",this.buy_keyong,"----单价：",this.buyprice,"-----百分比：",val,"-------手续费：1.002")
 
 
-                this.buycount = (this.buy_keyong*(val/100))/(this.buyprice*1.002)
+                this.buycount = decimal((this.buy_keyong*(val/100))/(this.buyprice*1.002),4)
             },
             sliderformat(val){//滑块
                 return val+'%'
@@ -670,8 +673,8 @@
                     }
                 }).then((res)=>{
                     if(res.data.accountFund && res.data&&res.data.err_code=="1"){
-                        that.buy_keyong=Number(res.data.accountFund[0].usablefund).toFixed(8)
-                        that.buy_dongjie=Number(res.data.accountFund[0].frozenfund).toFixed(8)
+                        that.buy_keyong=Number(res.data.accountFund[0].usablefund).toFixed(10)
+                        that.buy_dongjie=Number(res.data.accountFund[0].frozenfund).toFixed(10)
                     }else{
                         that.buy_keyong="0.000000"
                         that.buy_dongjie="0.000000"
@@ -690,8 +693,8 @@
                 }).then((res)=>{
                     console.log(res)
                     if(res.data.accountFund && res.data&&res.data.err_code=="1"){
-                        that.sell_keyong=Number(res.data.accountFund[0].usablefund).toFixed(8)
-                        that.sell_dongjie=Number(res.data.accountFund[0].frozenfund).toFixed(8)
+                        that.sell_keyong=Number(res.data.accountFund[0].usablefund).toFixed(10)
+                        that.sell_dongjie=Number(res.data.accountFund[0].frozenfund).toFixed(10)
                     }else{
                         that.sell_keyong="0.000000"
                         that.sell_dongjie="0.000000"
@@ -840,10 +843,10 @@
                         key: "totalbuynum",
                         render (h,row){
                             if(row.row.totalbuynum){
-                                return h("span",Number(row.row.totalbuynum).toFixed(6));
+                                return h("span",Number(row.row.totalbuynum).toFixed(10));
                             }else{
                                 let numb=0;
-                                return  h("span",numb.toFixed(6))
+                                return  h("span",numb.toFixed(10))
                             }
                             
                         }
@@ -853,10 +856,10 @@
                         key: "avebuyprice",
                         render (h,row){
                             if(row.row.avebuyprice){
-                                return  h("span",Number(row.row.avebuyprice).toFixed(6));
+                                return  h("span",Number(row.row.avebuyprice).toFixed(10));
                             }else{
                                 let numb=0;
-                                return  h("span",numb.toFixed(6))
+                                return  h("span",numb.toFixed(10))
                             }
                             
                         }
@@ -866,10 +869,10 @@
                         key: "totalsellnum",
                         render (h,row){
                             if(row.row.totalsellnum){
-                                return  h("span",Number(row.row.totalsellnum).toFixed(6));
+                                return  h("span",Number(row.row.totalsellnum).toFixed(10));
                             }else{
                                 let numb=0;
-                                return  h("span",numb.toFixed(6))
+                                return  h("span",numb.toFixed(10))
                             }
                             
                         }
@@ -879,10 +882,10 @@
                         key: "avesellprice",
                         render (h,row){
                             if(row.row.avesellprice){
-                                return  h("span",Number(row.row.avesellprice).toFixed(6));
+                                return  h("span",Number(row.row.avesellprice).toFixed(10));
                             }else{
                                 let numb=0;
-                                return  h("span",numb.toFixed(6))
+                                return  h("span",numb.toFixed(10))
                             }
                             
                         }
@@ -910,35 +913,35 @@
                             title: '数量',
                             key: 'entrustcount',
                             render: (h,params)=>{
-                                return h("span",Number(params.row.entrustcount).toFixed(6))
+                                return h("span",Number(params.row.entrustcount).toFixed(10))
                             }
                         },
                         {
                             title: '价格',
                             key: 'tradeprice',
                             render: (h,params)=>{
-                                return h("span",Number(params.row.tradeprice).toFixed(6))
+                                return h("span",Number(params.row.tradeprice).toFixed(10))
                             }
                         },
                         {
                             title: '金额',
                             key: 'entrustamount',
                             render: (h,params)=>{
-                                return h("span",Number(params.row.entrustamount).toFixed(6))
+                                return h("span",Number(params.row.entrustamount).toFixed(10))
                             }
                         },
                         {
                             title: '成交量',
                             key: 'tradecount',
                             render: (h,params)=>{
-                                return h("span",Number(params.row.tradecount).toFixed(6))
+                                return h("span",Number(params.row.tradecount).toFixed(10))
                             }
                         },
                         {
                             title: '成交金额',
                             key: 'tradeamount',
                             render: (h,params)=>{
-                                if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",Number(params.row.tradeamount).toFixed(6))
+                                if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",Number(params.row.tradeamount).toFixed(10))
                                     else return h("span","")
                             }
                         },
@@ -957,7 +960,7 @@
                             title: '平均成交价',
                             key: 'averageprice',
                             render: (h,params)=>{
-                                return h("span",Number(params.row.averageprice).toFixed(6))
+                                return h("span",Number(params.row.averageprice).toFixed(10))
                             }
                         },
                         
@@ -1067,7 +1070,8 @@
                         "pageno":that.pageno,
                         "pagesize":that.pagesize,
                         "reqresource":"1",
-                        "status":"1,2,4"
+                        "status":"1,2,4",
+                        "tradecurrency": that.jijiabizhong
                     }
                 })
                 .then((response) => {
@@ -1101,6 +1105,7 @@
                         "starttime":that.begintime1[0] ? that.begintime1[0] : "",
                         "endtime":that.begintime1[1] ? that.begintime1[1] : "",
                         "pageno":that.pageno,
+                        "tradecurrency": that.jijiabizhong,
                         "pagesize":that.pagesize,
                         "reqresource":"1",
                     }
@@ -1135,6 +1140,7 @@
                         "endtime":endtime ? endtime:"",
                         "pageno":that.pageno,
                         "pagesize":that.pagesize,
+                        "tradecurrency": that.jijiabizhong,
                         "reqresource":"1",
                         "status":"0,3"
                     }
@@ -1189,6 +1195,12 @@
                     this.query_entrust2();
                     this.order_record_cloumns_title = "操作"
                 }
+                if(name == 'buy'){
+                    this.query ();
+                    this.mairuzijin();
+                    this.maichuzijin();
+                    this.priceq();
+                }
                 this.wt_title();
                 this.types = name; 
                 this.begintime = "";
@@ -1242,11 +1254,11 @@
                     if (!this.buyprice) {
                         this.buyprice = 0;
                     }
-                    // this.buymoney = (this.buycount*this.buyprice*1.002).toFixed(6);
+                    // this.buymoney = (this.buycount*this.buyprice*1.002).toFixed(10);
                 }else{
                     this.sellcount = Number(row.count);
                     this.sellprice = Number(row.price);
-                    // this.sellmoney = (this.sellcount*this.sellprice*1.002).toFixed(6);
+                    // this.sellmoney = (this.sellcount*this.sellprice*1.002).toFixed(10);
                 }
             },
             chongzhi (val) {

@@ -11,7 +11,7 @@
         <div class="Official-swiper">
           <div class="swiper-container swiper-container-Official">
             <div class="swiper-wrapper">
-              <div class="swiper-slide"  v-for="(data,index) in swiperArry">
+              <div class="swiper-slide"  :v-for="(data,index) in swiperArry">
                 <div class="s-box" :style="index == activeIndex ? data[1] : data[0]">
                   <div class="left">
                       <h4>
