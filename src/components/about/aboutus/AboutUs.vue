@@ -1,6 +1,6 @@
 <template>
   <div id="aboutUs" class="aobut-us">
-    <div class="wrapper">
+    <div>
       <div>
         <h3>{{msg}}</h3>
       </div>

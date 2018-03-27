@@ -21,7 +21,7 @@
             <div>
               <div class="login-out-title">个人中心</div>
               <div class="divide"></div>
-              <div class="all-asset">账户总资产：<span>{{userInfo.amount}}  CNYT</span></div>
+              <!-- <div class="all-asset">账户总资产：<span>{{userInfo.amount}}  CNYT</span></div> -->
               <div class="divide"></div>
               <div class="uid">UID: <span>{{userInfo.uid}}</span></div>
               <div class="divide"></div>

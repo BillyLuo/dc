@@ -145,25 +145,28 @@
      
       setTimeout(function(){
         for(let i=0 ; i< that.dataArry.length;i++){
-            let myChart = echarts.init(document.getElementById('trend-table'+i));
-            const  option = {
-              xAxis: {
-                show : false,
-                type: 'category',
-                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-              },
-              yAxis: {
-                show : false,
-                type: 'value',
-              },
-              series: [{
-                data: that.dataArry[i].dayclose,
-                type: 'line',
-                symbol: '',
-                symbolSize: 0
-              }]
-            };
-            myChart.setOption(option);
+            var el = document.getElementById('trend-table'+i);
+            if (el) {
+              let myChart = echarts.init(el);
+              const  option = {
+                xAxis: {
+                  show : false,
+                  type: 'category',
+                  // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                  show : false,
+                  type: 'value',
+                },
+                series: [{
+                  data: that.dataArry[i].dayclose,
+                  type: 'line',
+                  symbol: '',
+                  symbolSize: 0
+                }]
+              };
+              myChart.setOption(option);
+            }
           }
       },1000)
     }

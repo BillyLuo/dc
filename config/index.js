@@ -77,7 +77,7 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'tradex/static',
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
     /**
