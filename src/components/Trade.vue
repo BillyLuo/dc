@@ -8,7 +8,7 @@
             </Menu>
         </div>
         <div class="tradelist">
-            <Menu ref='asdf' @on-select="infos" class="trade-menu" :active-name="active_name2" >
+            <Menu @on-select="infos" class="trade-menu" :active-name="active_name2" >
                 <MenuItem v-for="value in menu1" :name="value.name" :key="value.name">
                     <span>{{ value.text }}</span>
                 </MenuItem>
@@ -195,6 +195,8 @@
         }
         return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
     }
+    let i=6;
+    let s=0;
     var reg = numReg('10','10');
     var regs = numReg('10','3');
     var decimal = function(a,b){
@@ -256,10 +258,13 @@
                         width:'76px',
                         align:"center",
                         render: (h,params) => {
+                            i--;
+                            s++;
                             if(params.row.operate == "2"){
-                                return h("span","卖出")
+                                
+                                return h("span","卖"+(s))
                             }else{
-                                return h("span","买入")
+                                return h("span","买"+(i))
                             }
                         }
                     },
@@ -463,16 +468,14 @@
                         reqresource:1
                     }
                 }).then((res)=>{
-                    console.log(res)
                     if(res.data.currencys && res.data.err_code == "1" && res.data){
-                    console.log(res.data.currencys)
                         that.menu = res.data.currencys
                         setTimeout(()=>{
-                            that.$refs['currencymenu'].currentActiveName = 'ETH/USDT'
-                            // alert(that.$refs['currencymenu'].currentActiveName);
-                        },300)
-                        
-                        
+                            if(that.$refs['currencymenu']){
+                                that.$refs['currencymenu'].currentActiveName = 'ETH/USDT'
+                            }
+                            
+                        },100)
                     }
                 })
             },
@@ -927,7 +930,7 @@
                             title: '金额',
                             key: 'entrustamount',
                             render: (h,params)=>{
-                                return h("span",Number(params.row.entrustamount).toFixed(10))
+                                return h("span",Number(params.row.entrustamount).toFixed(10)) 
                             }
                         },
                         {
@@ -1046,12 +1049,12 @@
                             return function(obj1,obj2){
                                 var value1 = obj1[property];
                                 var value2 = obj2[property];
-                                return value1 - value2;     // 升序
+                                return value2 - value1;     // 升序
                             }
                         }
                         var sortObj = latestDeal.sort(compare("tradetype"));
                         // 最新成交价格
-                        that.price_datas = sortObj;
+                        that.price_datas = sortObj.sort(compare("count"));
                    }
                         
                     
@@ -1209,7 +1212,6 @@
             },
             info (name) {
                 console.log(name)
-                this.$refs['asdf'].currentActiveName = 'buy',
                 this.types = "buy"
                 this.activeName = name;
                 this.buyprice=0;

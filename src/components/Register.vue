@@ -2,7 +2,7 @@
 <div class="register-box-background">
 	<div class="register-box">
 	<div class="register-left">
-		<img src="/static/img/bg-user.jpg" alt="" width="100%" height="100%">
+		<img src="/static/img/zhuce.png" alt="" width="100%" height="100%">
 	</div>
 	<div class="register-right">
 		<Tabs value="name1" :class="'register-right-tabs'" @on-click="registerTabs">
@@ -299,7 +299,7 @@ export default {
 			this.password = '';
 			this.passwordAgain = '';
 			this.InvitationCode = '';
-			this.single = false;      // 是否同意服务条款
+			this.single = true;      // 是否同意服务条款
 
 			this.errorTel = '';
 			this.errorEmail = '';

@@ -3,7 +3,7 @@
     <div class="wallet-box-background">
       <div class="wallet-box">
         <div class="login-left">
-          <img src="/static/img/bg-user.jpg" alt="" width="100%" height="100%">
+          <img src="/static/img/login.png" alt="" width="100%" height="100%">
         </div>
         <div class="login-right">
           <div style="width:100%" :class="'login-card'">
