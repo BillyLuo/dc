@@ -3,7 +3,7 @@
     <div class="Official-Announcement">
       <div class="wrapper">
         <div class="wrapper-title">
-          <h3>币赢官方公告</h3>
+          <h3>富币官方公告</h3>
           <div class="line"></div>
         </div>
       </div>
@@ -15,7 +15,7 @@
                 <div class="s-box" :style="index == activeIndex ? data[1] : data[0]">
                   <div class="left">
                       <h4>
-                        <a href="javascript:;"> Coinw即将开通BeeChat (CHAT)充值及上线公告</a>
+                        <a href="javascript:;"> 富币即将开通BeeChat (CHAT)充值及上线公告</a>
                       </h4>
                     <p class="time">
                       2018-01-27 15:01

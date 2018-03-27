@@ -14,7 +14,7 @@
                             <p class="color-999999 mb10">您的专属推广链接</p>
                             <div class="grow clearfix">
                                 <div class="col12-lg-7">
-                                    <input type="text" id="extension" value="https://www.coinw.com/newUser/register.html?r=159929" class="ta-c input-style-5 fs-14 pl15 pr15 radius-sm ff-hen">
+                                    <input type="text" id="extension" value="https://www.富币.com/newUser/register.html?r=159929" class="ta-c input-style-5 fs-14 pl15 pr15 radius-sm ff-hen">
                                 </div>
                                 <div class="col12-lg-5">
                                     <button class="w100 btn btn-h42 btn-rounded btn-style-1 fs-16" data-clipboard-target="#extension">{{ btnText }}</button>
