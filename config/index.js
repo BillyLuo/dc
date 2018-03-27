@@ -36,7 +36,7 @@ module.exports = {
     proxyTable: {
        
         
-        //   测试
+        // 测试
         // '/trade': {
         //     target: 'http://172.16.18.213:8000/txs',
         //     pathRewrite: {'^/trade' : ''}
