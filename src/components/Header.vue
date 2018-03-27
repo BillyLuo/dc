@@ -293,15 +293,19 @@ export default {
         }
       }).then((data) =>{
         // console.log(data)
+        that.$router.push({
+          path:'/login',
+          params:{
+            isLogined:false
+          }
+        })
       })
-
-
-      this.$router.push({
-        path:'/login',
-        params:{
-          isLogined:false
-        }
-      })
+      // this.$router.push({
+      //   path:'/login',
+      //   params:{
+      //     isLogined:false
+      //   }
+      // })
     },
   }
 }

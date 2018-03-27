@@ -7,13 +7,14 @@
         </div>
         <div class="certification-text float-left">
           <h3>您的账号已通过实名认证</h3>
-          <p>
+          <!-- <p>
             您实名认证以后，您的账户<span>每天最多可累计提现2BTC。如您想提升现有额度，请完成C2级别认证，以获得更高级别的资金权限。</span>
             我们会严格保密您的身份信息，不会向任何第三方透露。
-          </p>
+          </p> -->
+          <p style="padding:30px 0px;">您已经通过实名认证，我们会严格保密您的身份信息，不会向任何第三方透露。</p>
         </div>
       </div>
-      <div class="certification-item clear">
+      <!-- <div class="certification-item clear">
         <div class="certification-pic float-left">
           <i class="icon-card icon-2"></i>
         </div>
@@ -38,7 +39,7 @@
             我们会严格保密您的身份信息，不会向任何第三方透露。
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
     <div v-if="level == 0">
       <nameCertification v-on:levelChange="levelChange"/>

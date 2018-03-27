@@ -130,6 +130,9 @@
           ],
           msgcheckcode: [
               { required: true, message: '请输入短信验证码', trigger: 'blur' }
+          ],
+          remark:[
+            {type:'string',max:100,message:'备注不应超过100个位',trigger:'blur'}
           ]
         },
         setTradeText:'发送验证码',
@@ -454,12 +457,10 @@
       chooseDate(value) {
         this.setDayActive = value;
         var endDate = this.endDate;
-        if (!endDate) {
-          endDate = new Date();
-          this.endDate = endDate;
-        }
+        endDate = new Date();
+        this.endDate = endDate;
         if (value == 0 ) {
-          this.startDate = new Date(endDate.setHours(0));
+          this.startDate = this.endDate;
           console.log(this.startDate);
         }else if (value) {
           var day = moment(endDate).subtract(value, 'days').toDate();

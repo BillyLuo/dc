@@ -8,7 +8,9 @@
 		<Tabs value="name1" :class="'register-right-tabs'" @on-click="registerTabs">
 			<TabPane label="手机注册" name="name1" :class="'register-right-tabs-tabpaneOne'">
 				<div class="register-input">
-				<Input v-model="tel" size="large" placeholder="请输入手机号" :class="telErrorInput" @on-focus="telFocus"/>
+				<Input v-model="tel" size="large" placeholder="请输入手机号" :class="telErrorInput" @on-focus="telFocus">
+					<span slot="prepend">+86</span>
+				</Input>
 				<p class="register-error-text">
 					{{errorTel}}
 				</p>
@@ -465,7 +467,7 @@ export default {
 			}else{
 				if(this.tel && !(/^1[34578]\d{9}$/.test(this.tel))){
 					this.errorTel = "手机号格式不正确";
-					this.telErrorInput = "errorInput"
+					this.telErrorInput = "errorInput";
 					return false;
 				}
 				if (this.vsCode && this.vsCode.match(/^\w{4}$/g)) {
@@ -493,7 +495,13 @@ export default {
 					this.errorPasswordAgain = '两次密码输入不一致，请重新输入。';
 					return false;
 				}
-
+				if (this.InvitationCode>=8) {
+					this.$Notice.warning({
+						title:'提示',
+						desc:'邀请码过长'
+					})
+					return false;
+				}
 				if(!this.single){
 					this.$Modal.info({
 						content:'请同意《福币用户协议》。'
@@ -577,8 +585,8 @@ export default {
 					this.emailErrorInput = "errorInput"
 					return false;
 				}
-				if (this.email.length > 64) {
-					this.errorEmail = '您输入邮箱过长，不应多于64位';
+				if (this.email.length > 50) {
+					this.errorEmail = '您输入的邮箱字符过长，不应多于50位';
 					return false;
 				}
 				if (this.vsCode && this.vsCode.match(/^\w{4}$/g)) {
