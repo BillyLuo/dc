@@ -20,12 +20,15 @@ const Market = () => import("@/components/market/Market");
 const Broker = () => import("@/components/user/broker");
 const loginrecord = () => import("@/components/user/loginrecord");
 const Api = () => import("@/components/user/api");
-
+const About = () => import('@/components/about/about');
+const AboutUs = () => import('@/components/about/aboutus/AboutUs');
+const Rate = ()=> import('@/components/about/rate/Rate');
+const Apply = ()=> import('@/components/about/apply/Apply');
 Vue.use(Router)
 
 export default new Router({
   mode:'hash',
-  base:'tradex',
+  base:'tradex', 
   routes: [
     {
       path: '/',
@@ -103,6 +106,16 @@ export default new Router({
       path:'/resetByPhone',
       name:'ResetByPhone',
       component:ResetByPhone
+    },
+    {
+      path:'/about',
+      name:'About',
+      component:About,
+      children:[
+        {path:'/about/aboutus',component: AboutUs,name:'AboutUs'},
+        {path:'rate',component:Rate,name:'Rate'},
+        {path:'apply',component:Apply,name:'Apply'}
+      ]
     }
   ],
   scrollBehavior (to, from, savedPosition) {

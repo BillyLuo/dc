@@ -123,7 +123,8 @@
         sendmessage :true,
         ruleValidate: {
           adress: [
-              { required: true, message: '请输入地址', trigger: 'blur' }
+              { required: true, message: '请输入地址', trigger: 'blur' },
+              {type:'string',pattern:'^\w{2,42}$',max:42,message:'提现地址不应超过42位，且不包含特殊字符',trigger:'blur'}
           ],
           transckcode: [
               { required: true, message: '请输入交易密码', trigger: 'blur' }
@@ -519,10 +520,11 @@
           reqresource:1
         }).then((res)=>{
           console.log('-----detail',res.data.accountDetail);
-          if(res.data.accountDetail){
+          if(res.data.accountDetail && res.data.accountDetail.length){
             that.account_detail_data = res.data.accountDetail
+          }else {
+            
           }
-
         }).catch((err)=>{
           console.warn('获取资产详情失败');
         })

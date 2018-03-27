@@ -5,10 +5,10 @@
       <div class="wrapper">
             <div class="wrapper-left">
               <ul>
-                <li><a href="javaScript:;">关于我们</a></li>
-                <li><a href="javaScript:;">资费说明</a></li>
-                <li><a href="javaScript:;">API</a></li>
-                <li><a href="javaScript:;">上币申请</a></li>
+                <li @click="route('aboutus')"><a href="javaScript:;">关于我们</a></li>
+                <li><a @click="route('rate')" href="javaScript:;">资费说明</a></li>
+                <li><a @click="route('api')" href="javaScript:;">API</a></li>
+                <li><a @click="route('apply')" href="javaScript:;">上币申请</a></li>
               </ul>
             </div>
             <div class="wrapper-right">
@@ -43,7 +43,23 @@
 
 <script>
 export default {
-
+  methods:{
+    route(name) {
+      if (name == 'api') {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'功能暂未开放'
+        })
+        return false;
+      }
+      this.$router.push({
+        path:'/about/'+name,
+        query:{
+          active:name
+        }
+      })
+    }
+  }
 }
 </script>
 
