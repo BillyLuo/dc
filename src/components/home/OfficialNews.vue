@@ -6,9 +6,9 @@
       <div class="right-text">
         <div class="title">
           <h3>{{titleNewsText}}</h3>
-          <Button type="ghost" shape="circle" @click="titleNewsChange('官方新闻')">官方新闻</Button>
+          <Button type="ghost" shape="circle" @click="titleNewsChange('新闻')">新闻</Button>
           <Button type="ghost" shape="circle" @click="titleNewsChange('媒体报道')">媒体报道</Button>
-          <Button type="ghost" shape="circle" @click="titleNewsChange('资料库')">资料库</Button>
+          <!-- <Button type="ghost" shape="circle" @click="titleNewsChange('资料库')">资料库</Button> -->
         </div>
         <div class="swiper-text">
           <div class="swiper-container News-swiper-container">
@@ -41,7 +41,7 @@
       }
       return{
         Arrays:Arrays,
-        titleNewsText:'官方新闻'
+        titleNewsText:'新闻'
       }
     },
     methods:{

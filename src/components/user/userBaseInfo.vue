@@ -8,7 +8,7 @@
           <div class="user-info-right float-left">
             <div class="user-name">
               <span>{{userinfo.username}}</span>
-              <span class="user-vip">VIP</span>
+              <!-- <span class="user-vip">VIP</span> -->
             </div>
             <div class="user-contact">
               <span class="user-id">UID:{{userinfo.uid}}</span>

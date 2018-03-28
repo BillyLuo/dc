@@ -8,7 +8,7 @@
 		<Tabs value="name1" :class="'register-right-tabs'" @on-click="registerTabs">
 			<TabPane label="手机注册" name="name1" :class="'register-right-tabs-tabpaneOne'">
 				<div class="register-input">
-				<Input v-model="tel" size="large" placeholder="请输入手机号" :class="telErrorInput" @on-focus="telFocus">
+				<Input v-model="tel" size="large" :maxlength="11" placeholder="请输入手机号" :class="telErrorInput" @on-focus="telFocus">
 					<span slot="prepend">+86</span>
 				</Input>
 				<p class="register-error-text">
@@ -98,7 +98,7 @@
 			</TabPane>
 			<TabPane label="邮箱注册" name="name2" :class="'register-right-tabs-tabpaneTwo'">
 				<div class="register-input">
-				<Input v-model="email" size="large" placeholder="请输入邮箱" :class="emailErrorInput"  @on-focus="telFocus" />
+				<Input v-model="email" size="large" placeholder="请输入邮箱" :maxlength="50" :class="emailErrorInput"  @on-focus="telFocus" />
 				<p class="register-error-text">
 					{{errorEmail}}
 				</p>
@@ -344,7 +344,7 @@ export default {
 				return false;
 			}else{
 				if(this.tel && !(/^1[34578]\d{9}$/.test(this.tel))){
-					this.errorTel = "手机号格式不正确";
+					this.errorTel = "请输入11位正确的手机号";
 					this.telErrorInput = "errorInput"
 					return false;
 				}
@@ -466,7 +466,7 @@ export default {
 				}
 			}else{
 				if(this.tel && !(/^1[34578]\d{9}$/.test(this.tel))){
-					this.errorTel = "手机号格式不正确";
+					this.errorTel = "请输入11位正确的手机号";
 					this.telErrorInput = "errorInput";
 					return false;
 				}
