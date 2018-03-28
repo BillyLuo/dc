@@ -200,7 +200,12 @@
     var regs = numReg('10','3');
     var decimal = function(a,b){
         let s = a.toString()
-        return s.substring(0,s.lastIndexOf('.')+b)
+        if(s.indexOf('.') != -1){
+            return s.substring(0,s.lastIndexOf('.')+b)
+        }else{
+            return s
+        }
+        
     }
     // let menu = [
         //     {"name":"BTC",text:"BTC",icon:"/static/img/coin/icon-btc.png"},
@@ -385,6 +390,8 @@
             }),
             buymoney(){
                 if(this.buyprice > 0 && this.buycount > 0){
+                    console.log(typeof this.buycount);
+                    console.log(Number(this.buycount)*Number(this.buyprice).toFixed(20))
                     //this.sliderbuy = ((Number(this.buycount*this.buyprice*1.002)/Number(this.buy_keyong))/100).toFixed(2)
                     return  decimal(this.buycount*this.buyprice*1.002,11)
                 }
