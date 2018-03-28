@@ -195,8 +195,7 @@
         }
         return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
     }
-    let i=6;
-    let s=0;
+    let i=0;
     var reg = numReg('10','10');
     var regs = numReg('10','3');
     var decimal = function(a,b){
@@ -258,13 +257,11 @@
                         width:'76px',
                         align:"center",
                         render: (h,params) => {
-                            i--;
-                            s++;
+                            i++;
                             if(params.row.operate == "2"){
-                                
-                                return h("span","卖"+(s))
+                                return h("span","卖出")
                             }else{
-                                return h("span","买"+(i))
+                                return h("span","买入")
                             }
                         }
                     },
@@ -446,15 +443,21 @@
                 // console.log(val)
                 // console.log("可用资金",this.sell_keyong,"----单价：",this.sellprice,"-----百分比：",val,"-------手续费：1.002")
 
-                console.log(this.sell_keyong*(val/100))
                 this.sellcount = decimal(this.sell_keyong*(val/100),4)
             },
             sliderchange(val){//滑块
                 // console.log(val)
                 // console.log("可用资金",this.buy_keyong,"----单价：",this.buyprice,"-----百分比：",val,"-------手续费：1.002")
 
-
-                this.buycount = decimal((this.buy_keyong*(val/100))/(this.buyprice*1.002),4)
+                if(this.buyprice && this.buyprice!=0){
+                    this.buycount = decimal((this.buy_keyong*(val/100))/(this.buyprice*1.002),4)
+                }else{
+                    this.$Modal.error({
+                        content: "买入价能为空，且必须大于零。"
+                    })
+                    return false;
+                }
+                
             },
             sliderformat(val){//滑块
                 return val+'%'
@@ -558,10 +561,11 @@
                                 content: "创建委托成功"
                             })
                             that.buycount = 0;
-                            that.buyprice = 0;
+                            // that.buyprice = 0;
                             // that.buymoney = 0;
                             that.mairuzijin();
                             that.maichuzijin();
+                            that.priceq();
                         }else{
                             this.$Modal.error({
                                 content: "创建委托失败，"+res.data.msg
@@ -646,10 +650,11 @@
                                 content: "创建委托成功"
                             })
                             that.sellcount =0;
-                            that.sellprice =0;
+                            // that.sellprice =0;
                             // that.sellmoney =0;
                             that.mairuzijin();
                             that.maichuzijin();
+                            that.priceq();
                         }else{
                             this.$Modal.error({
                                 content: "创建委托失败，"+res.data.msg
