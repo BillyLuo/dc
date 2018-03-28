@@ -965,7 +965,7 @@
                             key: 'charge',
                             render: (h,params)=>{
                                 if(this.order_record_cloumns_title != "jiaoyijilu"){
-                                    return h("span",Number(params.row.charge)+'%')
+                                    return h("span",Number(params.row.charge))
                                 }else{
                                     return h("span",Number(params.row.charge))
                                 }
