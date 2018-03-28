@@ -21,7 +21,7 @@
             </div>
       </div>
       <div class="wrapper-bottom">
-        <div class="bottom-img">
+        <!-- <div class="bottom-img">
           <a href="javaScript:;"><img src="/static/img/siteseal.gif" alt=""></a>
           <b>友情链接</b>
           <a href="javaScript:;"><img src="/static/img/BTC123.png" alt=""></a>
@@ -31,7 +31,7 @@
           <a href="javaScript:;"><img src="/static/img/ETHFANS.png" alt=""></a>
           <a href="javaScript:;"><img src="/static/img/AIcoin.png" alt=""></a>
           <a href="javaScript:;"><img src="/static/img/BOTVS.png" alt=""></a>
-        </div>
+        </div> -->
         <div class="bottom-text">
           <!-- Copyright © 2013-2017 - 富币.COM All Rights Reserved -->
         </div>
