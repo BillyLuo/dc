@@ -14,10 +14,10 @@
               <DatePicker v-model="startDate" @on-change="chooseStartDate" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
               <span style="margin: 0 20px;"> ~ </span>
               <DatePicker v-model="endDate" @on-change="chooseEndDate" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
-              <Button size="small" @click="chooseDate(0)" :type="setDayActive == 0 ? 'primary' : 'ghost'">今天</Button>
+              <!-- <Button size="small" @click="chooseDate(0)" :type="setDayActive == 0 ? 'primary' : 'ghost'">今天</Button>
               <Button size="small" @click="chooseDate(7)" :type="setDayActive == 7 ? 'primary' : 'ghost'">7天</Button>
               <Button size="small" @click="chooseDate(15)" :type="setDayActive == 15 ? 'primary' : 'ghost'">15天</Button>
-              <Button size="small" @click="chooseDate(30)" :type="setDayActive == 30 ? 'primary' : 'ghost'">30天</Button>
+              <Button size="small" @click="chooseDate(30)" :type="setDayActive == 30 ? 'primary' : 'ghost'">30天</Button> -->
               <div style="padding:4px 0;font-size:12px;color: #f00;">{{dateErr}}</div>
             </div>
             <div>
@@ -124,7 +124,7 @@
         ruleValidate: {
           adress: [
               { required: true, message: '请输入地址', trigger: 'blur' },
-              {type:'string',pattern:'^\w{2,42}$',max:42,message:'提现地址不应超过42位，且不包含特殊字符',trigger:'blur'}
+              {type:'string',pattern:/^\w{2,42}$/,max:42,message:'提现地址不应超过42位，且不包含特殊字符',trigger:'blur'}
           ],
           transckcode: [
               { required: true, message: '请输入交易密码', trigger: 'blur' }

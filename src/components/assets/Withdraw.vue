@@ -128,7 +128,7 @@ var withdrawRules = {
 var addAddressRules = {
   address:[
     {required:true,message:'请输入提现地址',trigger:'blur'},
-    {type:'string',pattern:'^\w{2,42}$',message:'提现地址不应超过42位，且不含特殊字符',trigger:'blur'}
+    {type:'string',pattern:/^\w{2,42}$/,message:'提现地址不应超过42位，且不含特殊字符',trigger:'blur'}
   ],
   remark:{
     

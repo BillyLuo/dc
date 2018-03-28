@@ -542,7 +542,7 @@ export default {
     },
     sendModifyTrade(){
       let that = this;
-      let tel = this.$store.state.userinfo.mobile.trim();
+      let tel = this.$store.state.userinfo.phone.trim();
       if (this.modifyTradeTimer) {
         return false;
       }
@@ -574,7 +574,7 @@ export default {
     },
     sendSetTrade(){
       let that = this;
-      let tel = this.$store.state.userinfo.mobile.trim();
+      let tel = this.$store.state.userinfo.phone.trim();
       if (this.sendTradeTimer) {
         return false;
       }
@@ -774,6 +774,14 @@ export default {
       this.$refs.modifyLogin.validate((valid)=>{
         console.log(valid);
         if(valid) {
+          if (!oldpwd) {
+            that.$Message.warning('请输入旧密码。');
+            return false;
+          }
+          if (!oldpwd.match(/^\w{8,20}$/g)) {
+            that.$Message.warning('请输入8-20位密码。');
+            return false;
+          }
           if (!newpwd.match(/\d/g)) {
             that.$Message.warning('密码应至少包含一个数字');
             return false;
@@ -784,6 +792,10 @@ export default {
           }
           if (!newpwd.match(/[A-Z]/g)) {
             that.$Message.warning('密码应至少包含一个大写字母');
+            return false;
+          }
+          if (!newpwd.match(/^[a-zA-Z].+/g)) {
+            that.$Message.warning('密码应该以字母开头');
             return false;
           }
           if (newpwd !== confirmpwd) {
@@ -933,7 +945,7 @@ export default {
       })
     },
     sendLoginMessage(){
-      let tel = this.$store.state.userinfo.mobile;
+      let tel = this.$store.state.userinfo.phone.trim();
       if (!tel) {
         this.$Notice.warning({
           title:'提示',

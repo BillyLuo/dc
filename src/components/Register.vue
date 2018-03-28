@@ -498,7 +498,14 @@ export default {
 				if (this.InvitationCode>=8) {
 					this.$Notice.warning({
 						title:'提示',
-						desc:'邀请码过长'
+						desc:'邀请码不应超过8位'
+					})
+					return false;
+				}
+				if (this.InvitationCode.match(/[^a-zA-Z1-9]/g)) {
+					this.$Notice.warning({
+						title:'提示',
+						desc:'邀请码不应包含特殊字符'
 					})
 					return false;
 				}

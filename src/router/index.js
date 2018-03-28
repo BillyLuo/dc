@@ -24,6 +24,9 @@ const About = () => import('@/components/about/about');
 const AboutUs = () => import('@/components/about/aboutus/AboutUs');
 const Rate = ()=> import('@/components/about/rate/Rate');
 const Apply = ()=> import('@/components/about/apply/Apply');
+const News = ()=> import('@/components/news/News');
+const NewsList = ()=> import('@/components/news/newsList/NewsList');
+const NewsDetail = ()=> import('@/components/news/newsDetail/NewsDetail');
 Vue.use(Router)
 
 export default new Router({
@@ -115,6 +118,14 @@ export default new Router({
         {path:'/about/aboutus',component: AboutUs,name:'AboutUs'},
         {path:'rate',component:Rate,name:'Rate'},
         {path:'apply',component:Apply,name:'Apply'}
+      ]
+    },
+    {
+      path:'/news',
+      component:News,
+      children:[
+        {path:'/',component:NewsList,name:'News'},
+        {path:'detail',component:NewsDetail,name:'NewsDetail'}
       ]
     }
   ],
