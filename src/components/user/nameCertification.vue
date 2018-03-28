@@ -29,9 +29,9 @@
             <Option value="1">
               身份证
             </Option>
-            <Option value="2">
+            <!-- <Option value="2">
               港澳台
-            </Option>
+            </Option> -->
           </Select>
         </FormItem>
         <FormItem label="证件号码：">
@@ -95,11 +95,15 @@ export default {
         this.errorMsg = '请输入正确的姓名，姓名只能是汉字';
         return false;
       }
-      if (certificateno && certificateno.match(/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/)){
-        this.errorMsg = '';
-      }else {
-        this.errorMsg = '请输入合格的身份证号码';
-        return false;
+      if (certificatetype == 1) {
+        if (certificateno && certificateno.match(/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/)){
+          this.errorMsg = '';
+        }else {
+          this.errorMsg = '请输入合格的身份证号码';
+          return false;
+        }
+      }else if (certificatetype == 2) {
+
       }
       if(!idsure) {
         this.errorMsg = '请勾选以确定是您本人的身份证';

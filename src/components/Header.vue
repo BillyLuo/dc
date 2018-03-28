@@ -15,11 +15,11 @@
         <div v-if="isLogined" class="logined">
           <div class="user-name float-left">{{userInfo.username}}</div>
           <div class="user-level float-left">
-            <span class="user-vip">VIP{{userInfo.userLevel}}</span>
+            <!-- <span class="user-vip">VIP{{userInfo.userLevel}}</span> -->
           </div>
           <div class="login-out">
             <div>
-              <div class="login-out-title">个人中心</div>
+              <div class="login-out-title" :style="{cursor:'pointer'}" @click="route('user')">个人中心</div>
               <div class="divide"></div>
               <!-- <div class="all-asset">账户总资产：<span>{{userInfo.amount}}  CNYT</span></div> -->
               <div class="divide"></div>
@@ -340,6 +340,7 @@ export default {
     }
     .user-name {
       cursor: default;
+      font-size: 14px;
     }
   }
   .header-inner {

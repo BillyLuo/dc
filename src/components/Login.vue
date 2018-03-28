@@ -17,7 +17,7 @@
               <Alert type="error" show-icon :class="loginError.length>0?'show':'hide'">{{loginError}}</Alert>
             </div>
             <FormItem prop="user">
-              <Input @on-enter="handleSubmit('formInline')" type="text" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
+              <Input @on-enter="handleSubmit('formInline')" type="text" :maxlength="50" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
               <Icon type="ios-person-outline" slot="prepend" :class="'login-input-icon'"></Icon>
               </Input>
             </FormItem>
@@ -79,7 +79,7 @@
           if(value === ''){
               callback(new Error("请输入手机号"))
           }else if(value && !(/^1[34578]\d{9}$/.test(value))){
-            callback(new Error("手机号格式不正确"))
+            callback(new Error("请输入11位正确的手机号"))
           }else{
             callback()
           }
