@@ -4,6 +4,14 @@
             <TabPane label="最近登陆历史" name="name1">
                 <div class="ext-table">
                     <Table :data="data1" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有登录历史</span>" :columns="columns1" stripe></Table>
+                    <div class="pager">
+                        <div class="pager-inner">
+                            <Page :total="recordPageTotal"
+                                show-total
+                                @on-change="recordPageChange"
+                            />
+                        </div>
+                    </div>
                 </div>
             </TabPane>
             <TabPane label="安全设置历史" name="name2">
@@ -16,15 +24,20 @@
 </template>
 
 <script>
-import {Tabs,TabPane} from "iview"
+import {Tabs,TabPane, Page } from "iview";
+import { Message } from '../../utils/message';
     export default {
         name: 'broker',
         components: {
             TabPane,
-            Tabs
+            Tabs,
+            Page
         },
         data () {
             return {
+                recordPageTotal:0,
+                recordPageNo:1,
+                recordPageSize:10,
                 data1:[],
                 data2:[],
                 columns1: [
@@ -57,40 +70,41 @@ import {Tabs,TabPane} from "iview"
             }
         },
         mounted(){
-            
             this.loginjslu()
-            // this.$ajax({
-            //     method:"get",
-            //     url:"/tradex/tps/pbssr.do",
-            //     data:{
-            //         reqresource:1
-            //     }
-            // }).then((data)=>{
-            //     console.log(data)
-            //     if(data.data){
-            //         that.data2 = data.data.securitySetRecord;
-            //     }
-            // })
         },
         methods:{
             loginjslu (){
+                let pageno = this.recordPageNo;
+                let pagesize = this.recordPageSize;
                 let that =this;
                 this.$ajax({
                     method:"POST",
                     url:"/trade/tps/pblrs.do",
                     data:{
-                        reqresource:1
+                        reqresource:1,
+                        pageno,
+                        pagesize
                     }
-                }).then((data)=>{
-                    console.log(data.data.loginRecord)
-                    console.log(that.data1)
-                    if(data.data.loginRecord){
-                        console.log(0)
-                        that.data1 = data.data.loginRecord;
+                }).then((res)=>{
+                    if (res.data && res.data.err_code == '1') {
+                        console.log('登录记录',res.data.loginRecord)
+                        if(res.data && res.data.loginRecord){
+                            that.data1 = res.data.loginRecord;
+                        }
+                        if (res.data && res.data.page) {
+                            that.recordPageTotal = res.data.page.sum * 1;
+                        }
+                    }else if (res.data && res.data.err_code == '2' && res.data.msg) {
+                        Message.warn('登录记录获取失败，请稍后重试');
                     }
-                    
-                    
+                }).catch((err) => {
+                    console.warn('请求登录err,',err);
+                    Message.warn('登录记录获取失败，请稍后重试');
                 })
+            },
+            recordPageChange(value) {
+                this.recordPageNo = value;
+                this.loginjslu();
             }
         }
     }

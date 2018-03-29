@@ -492,7 +492,7 @@ export default {
       if (!old_tel) {
         this.$Notice.warning({
           title:'提示',
-          desc:'请绑定手机号码后再进行此操作'
+          desc:'请输入手机号码'
         })
         return;
       }
@@ -542,7 +542,7 @@ export default {
     },
     sendModifyTrade(){
       let that = this;
-      let tel = this.$store.state.userinfo.phone.trim();
+      let tel = this.userinfo.phone.value.trim();
       if (this.modifyTradeTimer) {
         return false;
       }
@@ -574,7 +574,7 @@ export default {
     },
     sendSetTrade(){
       let that = this;
-      let tel = this.$store.state.userinfo.phone.trim();
+      let tel = this.userinfo.phone.value.trim();
       if (this.sendTradeTimer) {
         return false;
       }
@@ -770,6 +770,7 @@ export default {
     login_pass_ok (){
       let that = this;
       let {oldpwd,newpwd,confirmpwd,code} = this.modifyLoginValidate;
+      let tel = this.userinfo.phone.value;
       console.log('修改登录密码');
       this.$refs.modifyLogin.validate((valid)=>{
         console.log(valid);
@@ -800,6 +801,13 @@ export default {
           }
           if (newpwd !== confirmpwd) {
             that.$Message.warning('两次密码输入不一致');
+            return false;
+          }
+          if (!tel) {
+            that.$Notice.warning({
+              title:'提示',
+              desc:'请绑定手机号码后再进行此操作'
+            })
             return false;
           }
           that.$Spin.show();
@@ -841,12 +849,20 @@ export default {
     },
     trade_pass_ok (){
       var that = this;
+      let tel = this.userinfo.phone.value;
       let {newpwd,confirmpwd,code} = this.modifyTradeValidate;
       this.$refs.modifyTrade.validate((valid)=>{
         if (valid) {
           if (newpwd !== confirmpwd) {
             that.$Message.warning('两次密码输入不一致');
             return false;
+          }
+          if (!tel) {
+            that.$Notice.warning({
+              title:'提示',
+              desc:'请绑定手机号码后再进行此操作'
+            })
+            return;
           }
           that.$Spin.show();
           that.$ajax.post('/trade/tps/pbvcs.do',{
@@ -890,12 +906,20 @@ export default {
     set_trade_ok() {  //修改交易密码
       console.log('设置交易密码');
       var that = this;
+      var tel = this.userinfo.phone.value;
       let {newpwd,confirmpwd,code,oldpwd} = this.setTradeValidate;
       this.$refs.setTradePwd.validate((valid)=>{
         if (valid) {
           if (newpwd !== confirmpwd) {
             that.$Message.warning('两次密码输入不一致');
             return false;
+          }
+          if (!tel) {
+            that.$Notice.warning({
+              title:'提示',
+              desc:'请绑定手机号码后再进行此操作'
+            })
+            return;
           }
           that.$Spin.show();
           that.$ajax.post('/trade/tps/pbvcs.do',{
@@ -945,7 +969,7 @@ export default {
       })
     },
     sendLoginMessage(){
-      let tel = this.$store.state.userinfo.phone.trim();
+      let tel = this.userinfo.phone.value.trim();
       if (!tel) {
         this.$Notice.warning({
           title:'提示',

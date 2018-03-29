@@ -4,18 +4,39 @@
       <h3><span>资产列表</span></h3>
       <div>
         <Table :class="'no-border-table'" stripe :columns="account_list_column" :data="account_list_data" />
+        <div class="pager">
+          <div class="pager-inner">
+            <Page :total="pagetotal" 
+            show-total
+            placement="top"
+            :page-size-opts="pageSizeOpts"
+            @on-change="change"
+            @on-page-size-change="pageSizeChange" 
+            show-sizer
+            show-elevator/>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { Page } from 'iview';
+import { pageSizeOpts } from '../constant/constant';
 export default {
   mounted () {
     this.getAccountList()
   },
+  components:{
+    Page
+  },
   data () {
     return {
+      pagetotal:0,
+      pageno:1,
+      pagesize:10,
+      pageSizeOpts,
       account_list_data:[],
       account_list_column: [{
         title: '币种名称',
@@ -24,17 +45,38 @@ export default {
       {
         title: '可用资产',
         key: 'useable',
-        sortable: true
+        sortable: true,
+        sortMethod(a,b,type){
+          if (type == 'asc') {
+            return a - b;
+          }else {
+            return b - a;
+          }
+        },
       },
       {
         title: '冻结资产',
         key: 'freeze',
         sortable: true,
+        sortMethod(a,b,type){
+          if (type == 'asc') {
+            return a - b;
+          }else {
+            return b - a;
+          }
+        },
       },
       {
         title: '总量',
         key: 'total',
-        sortable: true
+        sortable: true,
+        sortMethod(a,b,type){
+          if (type == 'asc') {
+            return a - b;
+          }else {
+            return b - a;
+          }
+        },
       },
       {
         title: '操作',
@@ -81,6 +123,19 @@ export default {
     }
   },
   methods:{
+    change(value){
+      this.pageno = value;
+      var pageno = this.pageno;
+      var pagesize = this.pagesize;
+      this.getAccountList(pageno,pagesize);
+    },
+    pageSizeChange(value) {
+      console.log(this.pageno);
+      this.pagesize = value;
+      var pageno = this.pageno;
+      var pagesize = this.pagesize;
+      this.getAccountList(pageno,pagesize);
+    },
     handle(action) {
       console.log(action);
       if (action.type == 'in') {
@@ -104,11 +159,19 @@ export default {
         });
       }
     },
-    getAccountList() {
+    getAccountList(pageno,pagesize) {
+      let that = this;
       this.$ajax.post('/trade/tps/pblaf.do',{
-        reqresource:1
+        reqresource:1,
+        pageno,
+        pagesize
       }).then((data) => {
         console.log('success',data);
+        if (data.data && data.data.page) {
+          console.log('pagepage',data.data.page);
+          that.pagetotal = data.data.page.sum*1;
+          console.log(that.pagetotal);
+        }
         let list = (data.data && data.data.accountFund) ? data.data.accountFund : [];
         let formatList = list.map((value, index) => {
           let result = {};
@@ -125,7 +188,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
   .account-list h3 {
     display: inline-block;
     font-weight: normal;

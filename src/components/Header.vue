@@ -98,9 +98,10 @@ export default {
     })
   },
   updated(){
-    // if (this.isLogined) {
-    //   this.getUserInfo();
-    // }
+    var username = cookies.get('name');
+    if (username) {
+      this.getLoginName();
+    }
   },
   mounted (){
     // this.initActive();
@@ -247,6 +248,10 @@ export default {
           return false
       }else {
         if (!this.isCertified && name != 'home' &&name !='login' && name != 'register') {
+          this.$Notice.warning({
+            title:'提示',
+            desc:'请先完成实名认证'
+          })
           this.$router.push({
             name:'authentication',
             query:{

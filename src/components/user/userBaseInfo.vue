@@ -81,7 +81,8 @@ export default {
           uid: state.userinfo.uid,
           mobile: state.userinfo.mobile,
           estimatedfund: state.userinfo.estimatedfund,
-          validationAmount: amount
+          validationAmount: amount,
+          identityset:state.userinfo.identityset
         });
         var username = state.userinfo.username;
         if (!username || username == 'null') {
@@ -92,7 +93,8 @@ export default {
           uid: state.userinfo.uid,
           mobile: state.userinfo.mobile,
           estimatedfund: state.userinfo.estimatedfund,
-          validationAmount: amount
+          validationAmount: amount,
+          identityset:state.userinfo.identityset
         };
       }
     })
@@ -111,9 +113,22 @@ export default {
         that.estimateassets = res.data.sumAmount
       }
     })
+    // bus.$on('certify',(value) => {
+    //   console.log('******************',value);
+    //   if (value) {
+    //     this.isCertified = true;
+    //   }
+    // })
   },
   methods: {
     protect() {
+      if (this.userinfo.identityset != '1') {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'请先完成实名认证'
+        })
+        return false;
+      }
       bus.$emit('changeSettingMenu','safesettings');
       this.$router.push({
         path: "/user/safesettings"

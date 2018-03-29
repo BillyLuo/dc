@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import userInfo from './userBaseInfo';
 import { Menu, MenuItem } from 'iview';
 import { Message } from '../../utils/message';
@@ -37,6 +38,16 @@ export default {
       userMenu,
       activeMenu:userMenu[0].value
     }
+  },
+  computed:{
+    ...mapState({
+      userinfo(state) {
+        var isCertified = state.userinfo.identityset == '1' ? true : false;
+        return {
+          isCertified
+        }
+      }
+    })
   },
   mounted(){
     var route = this.$route;
@@ -76,6 +87,14 @@ export default {
         this.$Modal.info({
           title:'提示',
           content:'功能暂未开放'
+        })
+        return false;
+      }
+      console.log(this.userinfo);
+      if (!this.userinfo.isCertified && name != 'authentication') {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'请先完成实名认证'
         })
         return false;
       }

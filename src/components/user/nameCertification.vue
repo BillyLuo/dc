@@ -14,7 +14,7 @@
     <Modal v-model="showModal" title="实名认证" :class="'identify-modal'">
       <Form :label-width="80" style="width: 400px;margin: 0 auto;">
         <FormItem label="真实姓名：">
-          <Input placeholder="真实姓名" v-model="realname" @on-change="namechange"/>
+          <Input placeholder="真实姓名" v-model="realname" @on-blur="namechange"/>
           <div style="line-height: 18px;color: #f00;font-size:12px;padding: 10px 0;">
             *请填写真实姓名，认证后不能更改，提现是需要与银行等姓名信息保持一致。
           </div>

@@ -28,6 +28,20 @@
               <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail">查询</Button>
             </div>
             <Table :class="'no-border-table'" stripe :columns="account_detail_column" :data="account_detail_data" />
+            <div class="pager">
+              <div class="pager-inner">
+                <Page  
+                  :total="detailPageTotal" 
+                  show-total
+                  placement="top"
+                  :page-size-opts="pageSizeOpts"
+                  @on-change="change"
+                  @on-page-size-change="pageSizeChange" 
+                  show-sizer
+                  show-elevator
+                />
+              </div>
+            </div>
           </div>
         </TabPane>
         <TabPane :label="label3" name="fundAccount">
@@ -93,9 +107,11 @@
 </template>
 
 <script>
+  import { pageSizeOpts } from '../constant/constant';
+  import {Message} from '../../utils/message';
   import myCoin from './myCoin';
   import userInfo from '../user/userBaseInfo';
-  import { Tabs,TabPane,DatePicker,Table,Form, FormItem } from 'iview';
+  import { Tabs,TabPane,DatePicker,Table,Form,Page, FormItem } from 'iview';
   import moment from 'moment';
   var telReg = /^1[34578]\d{9}$/;
   export default {
@@ -106,11 +122,17 @@
       myCoin,
       TabPane,
       Form, FormItem,
+      Page,
       'user-info': userInfo
     },
     data() {
       return {
-        currentTab:'accountAssets',
+        // currentTab:'accountAssets',
+        pageSizeOpts,
+        currentTab:'accountDetail',
+        detailPageNo:1,
+        detailPageSize:10,
+        detailPageTotal:0,
         operation_type: '1',
         addmodal:false,
         err_msg:"",
@@ -194,6 +216,13 @@
             title: '金额',
             key: 'amount',
             sortable: true,
+            sortMethod(a,b,type){
+              if (type == 'asc') {
+                return a - b;
+              }else {
+                return b - a;
+              }
+            },
             render: (h,param) =>{
               return h("span",Number(param.row.amount).toFixed(6))
             }
@@ -202,6 +231,13 @@
             title: '手续费',
             key: 'servicecharge',
             sortable: true,
+            sortMethod(a,b,type){
+              if (type == 'asc') {
+                return a - b;
+              }else {
+                return b - a;
+              }
+            },
             render: (h,param) =>{
               return h("span",Number(param.row.servicecharge).toFixed(6))
             }
@@ -297,23 +333,36 @@
       }
     },
     mounted(){
-      console.log()
-      let that=this;
-      this.$ajax({
-        method:"post",
-        url:"/trade/tps/pbfct.do",
-        data:{
-          reqresource:1
-        }
-      }).then((res)=>{
-        console.log(res)
-        if(res.data.currencys && res.data.err_code == "1" && res.data){
-          console.log(res.data.currencys)
-          that.fund_account_lists = res.data.currencys
-        }
-      })
+      this.getAssetsDetail();
+      this.getCurrency();
     },
     methods: {
+      change(value){
+        this.detailPageNo = value;
+        this.getAssetsDetail();
+      },
+      pageSizeChange(value) {
+        this.detailPageSize = value;
+        this.getAssetsDetail();
+      },
+      getCurrency(){
+        let that=this;
+        this.$ajax({
+          method:"post",
+          url:"/trade/tps/pbfct.do",
+          data:{
+            reqresource:1
+          }
+        }).then((res)=>{
+          console.log(res)
+          if(res.data.currencys && res.data.err_code == "1" && res.data){
+            console.log(res.data.currencys)
+            that.fund_account_lists = res.data.currencys
+          }
+        }).catch((err)=>{
+
+        })
+      },
       canclemodal(name){
         this.$refs[name].resetFields();
         this.setTradeText = "发送验证码";
@@ -485,6 +534,8 @@
         }
       },
       getAssetsDetail(){
+        var pageno = this.detailPageNo;
+        var pagesize = this.detailPageSize;
         let that =this;
         let startDate = this.startDate;
         let endDate = this.endDate;
@@ -517,16 +568,26 @@
           operation,
           startDate,
           endDate,
-          reqresource:1
+          reqresource:1,
+          pageno,
+          pagesize
         }).then((res)=>{
           console.log('-----detail',res.data.accountDetail);
-          if(res.data.accountDetail && res.data.accountDetail.length){
-            that.account_detail_data = res.data.accountDetail
+          if (res.status == 200 && res.data.err_code == '1') {
+            if (res.data && res.data.page) {
+              that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;
+            }
+            if(res.data.accountDetail && res.data.accountDetail.length){
+              that.account_detail_data = res.data.accountDetail
+            }else {
+              
+            }
           }else {
-            
+            Message.warning('获取资产详情失败,请稍后重试');
           }
         }).catch((err)=>{
           console.warn('获取资产详情失败');
+          Message.warning('获取资产详情失败,请稍后重试');
         })
       }
     },

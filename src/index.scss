@@ -98,6 +98,14 @@ ul,ul li {
   display: block;
   width: 100%;
 }
+.pager {
+  .pager-inner {
+    padding: 20px;
+    ul {
+      float: right;
+    }
+  }
+}
 // .user-vip {
 //   display: inline-block;
 //   font-size: 12px;
