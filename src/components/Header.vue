@@ -99,14 +99,14 @@ export default {
   },
   updated(){
     var username = cookies.get('name');
-    if (username) {
-      this.getLoginName();
-    }
+    // if (username) {
+    //   this.userInfo.username = username;
+    // }
   },
   mounted (){
     // this.initActive();
-    this.getLoginName();
-    // this.getUserInfo();
+    // this.getLoginName();
+    this.getUserInfo();
     this.getPath();
     var that = this;
     window.onscroll = scroll.bind(this);
@@ -140,7 +140,10 @@ export default {
     // this.init();
   },
   watch:{
-    "$route":"getPath"  // 监听事件
+    "$route":"getPath", // 监听事件
+    userInfo: () => {
+      this.getLoginName();
+    }
   },
   methods:{
     getUserInfo(){
@@ -181,11 +184,12 @@ export default {
       let username = cookies.get('name');
       if (username){
         if (username.match(/^.+(?=@)/g) && username.match(/^.+(?=@)/g).length) {
-          this.userInfo.username = username.match(/^.+(?=@)/g)[0] ;
+          this.userInfo.username = username.match(/^.+(?=@).+/g)[0] ;
         }else {
           this.userInfo.username = username;
         }
       }
+      console.log(this.userInfo.username);
     },
     init() {
       if (!this.isLogined) {

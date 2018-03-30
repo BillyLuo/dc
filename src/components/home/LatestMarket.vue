@@ -146,6 +146,8 @@
       setTimeout(function(){
         for(let i=0 ; i< that.dataArry.length;i++){
             var el = document.getElementById('trend-table'+i);
+            // 模拟数据
+            var array = [1,2.2,4.5,6,3.6,3,3.2,5,4.6,5.4,3.2,5.6,4.2,3.2,3.4,4.3];
             if (el) {
               let myChart = echarts.init(el);
               const  option = {
@@ -159,7 +161,8 @@
                   type: 'value',
                 },
                 series: [{
-                  data: that.dataArry[i].dayclose,
+                  // data: that.dataArry[i].dayclose,
+                  data:array,
                   type: 'line',
                   symbol: '',
                   symbolSize: 0

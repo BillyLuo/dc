@@ -130,9 +130,9 @@ var addAddressRules = {
     {required:true,message:'请输入提现地址',trigger:'blur'},
     {type:'string',pattern:/^\w{2,42}$/,message:'提现地址不应超过42位，且不含特殊字符',trigger:'blur'}
   ],
-  remark:{
-    
-  },
+  remark:[
+    {type:'string',max:200,message:'备注不应超过200位',trigger:'blur'}
+  ],
   trade_password:[
     {required:true,message:'请输入交易密码',trigger:'blur'}
   ],

@@ -495,7 +495,7 @@ export default {
 					this.errorPasswordAgain = '两次密码输入不一致，请重新输入。';
 					return false;
 				}
-				if (this.InvitationCode>=8) {
+				if (this.InvitationCode.length >= 8) {
 					this.$Notice.warning({
 						title:'提示',
 						desc:'邀请码不应超过8位'
@@ -505,7 +505,7 @@ export default {
 				if (this.InvitationCode.match(/[^0-9]/g)) {
 					this.$Notice.warning({
 						title:'提示',
-						desc:'邀请码不应包含特殊字符'
+						desc:'邀请码只能是数字'
 					})
 					return false;
 				}
@@ -621,6 +621,21 @@ export default {
 					this.$Notice.warning({
 						title:'提示',
 						desc:'两次密码输入不一致，请重新输入。'
+					})
+					return false;
+				}
+				console.log(this.InvitationCode);
+				if (this.InvitationCode.length >= 8) {
+					this.$Notice.warning({
+						title:'提示',
+						desc:'邀请码不应超过8位'
+					})
+					return false;
+				}
+				if (this.InvitationCode.match(/[^0-9]/g)) {
+					this.$Notice.warning({
+						title:'提示',
+						desc:'邀请码只能是数字'
 					})
 					return false;
 				}
