@@ -121,7 +121,7 @@ export default {
                 url: '/trade/tps/pblds.do',
                 data: {
                     currencytype:"ETH",
-                    pagesize: 10,
+                    pagesize: 100,
                     reqresource:1
                 }
             })

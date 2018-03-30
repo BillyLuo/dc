@@ -450,7 +450,7 @@ export default {
     display: none;
     background: #fff;
     position: absolute;
-    width: 290px;
+    width: 300px;
     left: -60%;
     top: 60px;
     border: 1px solid #F6F7FC;
