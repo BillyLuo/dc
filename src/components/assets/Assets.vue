@@ -127,9 +127,8 @@
     },
     data() {
       return {
-        // currentTab:'accountAssets',
+        currentTab:'accountAssets',
         pageSizeOpts,
-        currentTab:'accountDetail',
         detailPageNo:1,
         detailPageSize:10,
         detailPageTotal:0,
@@ -155,7 +154,7 @@
               { required: true, message: '请输入短信验证码', trigger: 'blur' }
           ],
           remark:[
-            {type:'string',max:100,message:'备注不应超过100个位',trigger:'blur'}
+            {type:'string',max:200,message:'备注不应超过200位',trigger:'blur'}
           ]
         },
         setTradeText:'发送验证码',

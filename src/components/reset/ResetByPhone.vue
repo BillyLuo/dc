@@ -6,13 +6,16 @@
     <div class="reset-form">
       <div class="reset-form-inner">
         <h3 class="reset-title">您正通过 <span>手机</span> 找回登录密码</h3>
-        <Form v-if="step == 1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
+        <Form v-if="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
           <form-item label="手机号码：" prop="tel">
             <Input type="text" size="large" placeholder="手机号码" v-model="resetForm.tel"/>
           </form-item>
           <form-item label="验证码：" prop="imgCode">
             <Input type="text" placeholder="验证码" size="large" class="no-radius-input" v-model="resetForm.imgCode" style="width: 300px;"/>
-            <img src="/static/img/VScode.jpg" class="img-code"/>
+            <img :src="imgSrc" class="img-code" alt="验证码"/>
+            <div class="text-right" :style="{height:'20px'}" >
+              <a href="javascript:;" @click="changeImg">刷新</a>图片验证码
+            </div>
           </form-item>
           <form-item label="短信验证码：" prop="textCode">
             <Input type="text" placeholder="短信验证码" size="large" class="no-radius-input" v-model="resetForm.textCode" style="width: 296px;"/>
@@ -31,15 +34,18 @@
             <Button type="primary" size="large" class="btn-block" @click="next(2)">下一步</Button>
           </div>
         </Form>
-        <Form v-if="step == 2" :label-width="100" style="width: 500px;margn: 0 auto">
-          <FormItem label="登录账号：" prop="loginname">
-            <Input size="large" value=""/>
+        <Form v-if="step == 2" ref="form2" 
+          :model="pwdForm"
+          :rules="pwdRules"
+          :label-width="100" style="width: 500px;margn: 0 auto">
+          <FormItem label="登录账号：" prop="username">
+            <Input size="large" v-model="pwdForm.username" placeholder="请输入您的登录手机号" value=""/>
           </FormItem>
           <FormItem label="新登录密码：" prop="pwd">
-            <Input size="large" placeholder="新登录密码" value=""/>
+            <Input size="large" type="password" v-model="pwdForm.pwd" placeholder="新登录密码，包含数字和大小写" value=""/>
           </FormItem>
-          <FormItem label="确认密码：" prop="repeatPwd">
-            <Input size="large" placeholder="确认密码" value=""/>
+          <FormItem label="确认密码：" prop="confirmpwd">
+            <Input size="large" type="password" v-model="pwdForm.confirmpwd" placeholder="确认密码" value=""/>
           </FormItem>
           <div class="reset-btn-wrapper">
             <Button type="primary" size="large" class="btn-block" @click="next(3)">下一步</Button>
@@ -58,24 +64,56 @@
 
 <script>
 import { Form, FormItem } from 'iview';
+import { telReg,idReg } from '../constant/constant'
 import Step from '../step';
 var telValidator = (rules,value,c)=> {
-  if (!value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+  if (!telReg.test(value)) {
     c('请填写正确的电话号码');
-  }else {
-    c();
-  };
+  }
+  c();
 }
 var resetRules = {
   tel:[
     {validator:telValidator,trigger:'blur'}
+  ],
+  imgCode:[
+    {required:true,message:'请输入图片验证码',trigger:'blur'},
+    {pattern:/^\w{4}$/,message:'请输入4位正确的验证码',trigger:'blur'}
+  ],
+  textCode:[
+    {required:true,message:'请输入短信验证码',trigger:'blur'},
+    {type:'string',pattern:/^\d{6}$/,message:'请输入6位正确的短信验证码',trigger:'blur'}
+  ],
+  credentialsNumber:[
+    {required:true,message:'请输入身份证号码',trigger:'blur'},
+    {pattern:idReg,message:'请输入正确的身份证号',trigger:'blur'}
   ]
 };
+var pwdValidator = (rules,value,c) => {
+  if (!value) {
+    c('请输入密码');
+  }
+  if (value.length > 20 || value.length < 8) {
+    c('密码应该在8-20位');
+  }
+  if (!value.match(/^\w{8,20}$/g)) {
+    c('密码不应包含特殊字符');
+  }
+  if (!value.match(/[a-z]/g) || !value.match(/[0-9]/g) || !value.match(/[A-Z]/g)) {
+    c('密码应该至少包含一个大写字母，一个小写字母和一个数字');
+  }
+  if (!value.match(/^[a-zA-Z]/g)) {
+    c('密码应以字母开头');
+  }
+  c();
+}
 console.log('reset---rules',resetRules);
+var imgSrc = '/trade/tps/pbccs.do';
 export default {
   data () {
     return {
       step:1,
+      imgSrc,
       sendText:'发送验证码',
       resetForm: {
         tel:'',
@@ -84,15 +122,61 @@ export default {
         imgCode:'',
         textCode:''
       },
-      resetRules:resetRules
+      pwdForm:{
+        username:'',
+        pwd:'',
+        confirmpwd:''
+      },
+      resetRules:resetRules,
+      pwdRules: {
+        username:[
+          {required:true,message:'请输入用户名',trigger:'blur'},
+          {pattern:telReg,message:'请输入合格的手机号码',trigger:'blur'}
+        ],
+        pwd:[
+          {required:true,message:'请输入密码',trigger:'blur'},
+          {type:'string',min:8,max:20,message:'请输入8-20位密码',trigger:'blur'},
+          {validator:pwdValidator,trigger:'blur'}
+        ],
+        confirmpwd:[
+          {required:true,message:'请再次输入密码',trigger:'blur'},
+          {
+            validator:(rules,value,c) => {
+              let { pwd , confirmpwd } = this.pwdForm;
+              if (pwd != confirmpwd) {
+                c('两次密码输入不一致');
+              }else {
+                c();
+              }
+            },trigger:'blur'
+          }
+        ]
+      }
     }
   },
   components:{
     Form,FormItem,Step
   },
   methods:{
+    changeImg(){
+      this.imgSrc = imgSrc + '?t=' + Date.now();
+    },
     next(value) {
-      this.step = value;
+      if (value == 2) {
+        this.$refs['form1'].validate((valid) => {
+          console.log('valid or not',valid);
+          if (valid ) {
+            this.step = value;
+          }
+        })
+      }else if (value == 3) {
+        this.$refs['form2'].validate((valid) => {
+          console.log('----valid----or----not',valid);
+          if (valid) {
+            this.step = value;
+          }
+        })
+      }
     },
     login(){
       this.$router.push({
