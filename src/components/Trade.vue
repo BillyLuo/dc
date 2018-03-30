@@ -3,7 +3,10 @@
         <div class="tradelists clear">
              <Menu ref='currencymenu' @on-select="info" mode="horizontal" class="trade-menu" :active-name="activeName" >
                 <MenuItem v-for="value in menu" :name=" value.currencyname + '/' + value.valuationcurrency " :key="value.currencyname">
-                    <span><img :src="''"/>{{ value.currencyname }}/{{value.valuationcurrency}}</span>
+                    <span>
+                        <!-- <img :src="''"/> -->
+                        {{ value.currencyname }}/{{value.valuationcurrency}}
+                    </span>
                 </MenuItem>
             </Menu>
         </div>
@@ -196,7 +199,7 @@
         return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
     }
     let i=0;
-    var reg = numReg('10','10');
+    var reg = numReg('8','8');
     var regs = numReg('10','3');
     var decimal = function(a,b){
         let s = a.toString()
@@ -1061,12 +1064,14 @@
                             return function(obj1,obj2){
                                 var value1 = obj1[property];
                                 var value2 = obj2[property];
-                                return value2 - value1;     // 升序
+                                return value1 - value2;     // 升序
                             }
                         }
-                        var sortObj = latestDeal.sort(compare("tradetype"));
+                        var sortObj = latestDeal.sort(compare("operate"));
+
+                        console.log(sortObj)
                         // 最新成交价格
-                        that.price_datas = sortObj.sort(compare("count"));
+                        that.price_datas = sortObj
                    }
                         
                     
@@ -1091,7 +1096,7 @@
                 })
                 .then((response) => {
                     console.log("weituo======",response)
-                    if(response.data && response.data.dealManage){
+                    if( response.data.err_code=="1" && response.data && response.data.dealManage){
                         that.weituo_data = [{
                             avebuyprice : response.data.avebuyprice,
                             avesellprice: response.data.avesellprice,
@@ -1127,7 +1132,7 @@
                 })
                 .then((response) => {
                     console.log("weituo======",response)
-                    if(response.data  && response.data.dealManage){
+                    if(response.data.err_code=="1" && response.data  && response.data.dealManage){
                         that.weituo_data = [{
                             avebuyprice : response.data.avebuyprice,
                             avesellprice: response.data.avesellprice,
@@ -1137,7 +1142,7 @@
 
                         that.order_record_data1 = response.data.dealManage;
                     }
-                    if(response.data && response.data.page && response.data.page.sum){
+                    if(response.data.err_code=="1" && response.data && response.data.page && response.data.page.sum){
                         that.total = Number(response.data.page.sum);
                     }
                     that.loading = false;

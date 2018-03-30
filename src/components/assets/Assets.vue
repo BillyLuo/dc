@@ -244,7 +244,22 @@
           {
             title: '状态',
             key: 'status',
-            sortable: true
+            sortable: true,
+            render: (h,params) =>{
+                // 0:已提交1:成交,2:撤销,3:部分成交,4:部分成交撤销
+                if(params.row.status == "1"){
+                    return h("span","已成交")
+                }else if(params.row.status == "3" ){
+                   return h("span","部分成交")
+                    
+                }else if(params.row.status == "0" ){
+                   return h("span","已提交")
+                }else if(params.row.status == "2"){
+                    return h("span","已撤销")
+                }else if(params.row.status == "4"){
+                    return  h('span', "部分成交撤销");
+                }
+            }
           },
         ],
         account_detail_data: [
