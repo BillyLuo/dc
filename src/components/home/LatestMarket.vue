@@ -244,6 +244,7 @@
               margin-left: 10px;
               background: url("/static/img/icon-arrow.png");
               background-position: 0px 0px;
+              vertical-align: middle;
             }
             .price-img-down{
               display: inline-block;
@@ -252,6 +253,7 @@
               margin-left: 10px;
               background: url("/static/img/icon-arrow.png");
               background-position:0  15px;
+              vertical-align: middle;
             }
           }
           .ivu-table-row:hover{

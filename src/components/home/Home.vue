@@ -2,7 +2,7 @@
   <div>
     <HeaderSwiper/>
     <LatestMarket/>
-    <!-- <BlockchainCalculator/> -->
+    <BlockchainCalculator/>
     <ChooseUs/>
     <OfficialAnnouncement/>
     <OfficialNews/>

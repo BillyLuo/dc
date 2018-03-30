@@ -205,9 +205,10 @@
             key: 'tradetype',
             sortable: true,
             render: (h,param) =>{
-              if(param.row.tradetype = "1"){
+              console.log(param.row)
+              if(param.row.tradetype == "1"){
                 return h("span","买入")
-              }else if(param.row.tradetype = "2"){
+              }else if(param.row.tradetype == "2"){
                 return h("span","卖出")
               }
             }
