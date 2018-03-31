@@ -24,7 +24,7 @@
 				</li>
 				<li class="li-input">
 				<Select v-model="model2" style="width:100%">
-					<Option v-for="item in cityList1" :value="item.currencyname" :key="item.currencyname">{{ item.currencyname }}</Option>
+					<Option v-for="item in cityList" :value="item.currencyname" :key="item.currencyname">{{ item.currencyname }}</Option>
 				</Select>
 				</li>
 				<li class="li-input">
@@ -129,8 +129,7 @@ export default {
 		value: '',
 		value1: '',
 		model1: 'ETH',
-		model2: 'USDT',
-		cityList1:[]
+		model2: 'USDT'
 	}
 	},
 	mounted(){
@@ -161,7 +160,6 @@ export default {
 		selectCurrency(){
 			this.cityList = [];
 			let that=this;
-			that.cityList1=[];
 			this.$ajax({
 				method:"post",
 				url:"/trade/tps/pbfct.do",
@@ -172,15 +170,9 @@ export default {
 				if(res.data.currencys && res.data.err_code == "1" && res.data){
 					res.data.currencys.map((item)=>{
 						console.log(item)
-						if(item.currencyname!="USDT"){
-							that.cityList.push({
-								currencyname:item.currencyname
-							})
-						}
-						that.cityList1.push({
-								currencyname:item.currencyname
+						that.cityList.push({
+							currencyname:item.currencyname
 						})
-						
 					})
 				}
 			})
