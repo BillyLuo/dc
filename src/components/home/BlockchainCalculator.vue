@@ -5,7 +5,9 @@
 		<div class="calculator">
 		<img src="/static/img/device-01.png" alt="">
 		<div class="box">
-			<h3>区块链商品计算器</h3>
+			<h3>区块链商品计算器 <RadioGroup v-model="jijia">
+				<Radio label="USDT"></Radio>
+			</RadioGroup></h3>
 			<div class="conversion">
 			<ul>
 				<li class="li-input">
@@ -14,7 +16,8 @@
 				</Select>
 				</li>
 				<li class="li-input">
-				<Input :number="true" v-model="value" placeholder="" style="width: 100%"></Input>
+				<input v-model="value" @input="inputBuyPrice($event,'value')"  class="input-number" style="width: 100%;height:100%; border:none;padding-left:5px;"/>
+				<!-- <Input :number="true" v-model="value" placeholder="" style="width: 100%"></Input> -->
 				</li>
 				<li class="li-icon">
 				≈
@@ -93,7 +96,25 @@
 </div>
 </template>
 <script>
+var numReg = function (m,n) {
+        // m=m.toString();
+        // n=n.toString();
+        if (!m) {
+            m = 15;
+        }else if(!m.match(/^[1-9]\d*$/)) {
+            m = 15;
+        }
+        if (!n) {
+            n = 10;
+        }else if (!n.match(/^[1-9]\d*$/)) {
+            n = 10;
+        }
+        return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
+    }
+    let i=0;
+    var reg = numReg('8','2');
 export default {
+	
 	data () {
 	let cityList = [];
 	for (let i = 0;i<26;i++){
@@ -104,6 +125,7 @@ export default {
 	}
 	return {
 		cityList:[],
+		jijia:'USDT',
 		value: '',
 		value1: '',
 		model1: 'ETH',
@@ -111,9 +133,30 @@ export default {
 	}
 	},
 	mounted(){
-	this.selectCurrency()
+		this.selectCurrency()
 	},
 	methods:{
+		inputBuyPrice(e,priceType){
+			var value = e.target.value;
+			if (!value) {
+				this[priceType] = '';
+			}else {
+				console.log(reg.test(value))
+				if (reg.test(value)) {
+					this[priceType] = value;
+				}else {
+					value = value.slice(0,-1);
+					console.log(value)
+					var matched = value.match(reg);
+					console.log(matched)
+					if (matched && matched.length) {
+						this[priceType] = matched[0];
+					}else {
+						this[priceType]  = '';
+					}
+				}
+			}
+		},
 		selectCurrency(){
 			this.cityList = [];
 			let that=this;
@@ -135,9 +178,31 @@ export default {
 			})
 		},
 		zhuanhuan(){
-			console.log(this.value)
-			console.log(this.model1)
-			console.log(this.model2)
+			console.log(this.value);
+			console.log(this.model1);
+			console.log(this.model2);
+			console.log(this.jijia);
+			let that = this;
+			this.$ajax({
+				method:"post",
+				url:"/trade/tps/pbccp.do",
+				data:{
+					currency:that.model1, //币种
+					exccurrency:that.model2, //需要兑换的币种
+					tradecurrency:that.jijia, //计价币种
+					currencynum:that.value.toString(),//数量
+					reqresource:1
+				}
+			}).then((data)=>{
+				console.log(data)
+				if(data.data && data.status==200 && data.data.err_code == "1"){
+					that.value1=data.data.price
+				}else{
+					that.value1 = ""
+				}
+			}).catch((err)=>{
+				console.log(err)
+			})
 		}
 	}
 	
@@ -151,6 +216,15 @@ export default {
 	background: url("/static/img/bg-index-01.jpg");
 	background-size: 100% 100%;
 	.center{
+		.ivu-radio-group{
+			margin-left:100px;
+		}
+		.input-number:focus{
+			border:none;
+			box-shadow: none;
+			-webkit-box-shadow:none;
+			outline:0;
+		}
 		width: 1200px;
 		margin: 0 auto;
 		margin-bottom: 150px;
