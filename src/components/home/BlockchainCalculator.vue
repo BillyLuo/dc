@@ -225,6 +225,9 @@ export default {
 			-webkit-box-shadow:none;
 			outline:0;
 		}
+		.ivu-input-disabled{
+			color:#333;
+		}
 		width: 1200px;
 		margin: 0 auto;
 		margin-bottom: 150px;
