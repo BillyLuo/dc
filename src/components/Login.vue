@@ -74,6 +74,8 @@
     mounted(){
       
     },
+    updated(){
+    },
     data () {
       const validateTel = (rule, value, callback)=> {
           if(value === ''){
@@ -123,7 +125,7 @@
         rememberpass:'记住密码',
         telCodeText:'发送验证码',
         telCodeDisabled:false,
-        checkUrl:'/trade/tps/pbccs.do',
+        checkUrl:'/trade/tps/pbccs.do?t='+Date.now(),
         ruleInline: {
           user: [
             { validator:validateUser, trigger: 'blur' }

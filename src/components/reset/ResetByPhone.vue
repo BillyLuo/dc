@@ -18,18 +18,18 @@
             </div>
           </form-item>
           <form-item label="短信验证码：" prop="textCode">
-            <Input type="text" placeholder="短信验证码" size="large" class="no-radius-input" v-model="resetForm.textCode" style="width: 296px;"/>
-            <Button type="primary" size="large" style="width: 100px;">发送验证码</Button>
+            <Input type="text" placeholder="短信验证码" size="large" class="no-radius-input" v-model="resetForm.textCode">
+              <span slot="append" style="display:block;cursor:pointer;width: 80px;" @click="send">{{sendCodeText}}</span>
+            </Input>
           </form-item>
-          <FormItem prop="credentials">
-            <span class="credentials-type">证件类型：</span>
+          <!-- <FormItem prop="credentials" label="证件类型：">
             <Select style="width: 400px;display:inline-block;" v-model="resetForm.credentials">
               <Option value="1">身份证</Option>
             </Select>
           </FormItem>
           <form-item label="证件号码：" prop="credentialsNumber">
             <Input type="text" size="large" placeholder="证件号码" v-model="resetForm.credentialsNumber"/>
-          </form-item>
+          </form-item> -->
           <div class="reset-btn-wrapper">
             <Button type="primary" size="large" class="btn-block" @click="next(2)">下一步</Button>
           </div>
@@ -38,9 +38,10 @@
           :model="pwdForm"
           :rules="pwdRules"
           :label-width="100" style="width: 500px;margn: 0 auto">
-          <FormItem label="登录账号：" prop="username">
+          <!-- <FormItem label="登录账号：" prop="username">
             <Input size="large" v-model="pwdForm.username" placeholder="请输入您的登录手机号" value=""/>
-          </FormItem>
+          </FormItem> -->
+          <div style="padding: 10px 0;">您正在找回密码的用户登录名是：<a>{{resetForm.tel}}</a>。</div>
           <FormItem label="新登录密码：" prop="pwd">
             <Input size="large" type="password" v-model="pwdForm.pwd" placeholder="新登录密码，包含数字和大小写" value=""/>
           </FormItem>
@@ -74,6 +75,7 @@ var telValidator = (rules,value,c)=> {
 }
 var resetRules = {
   tel:[
+    {required:true,message:'请输入手机号码',trigger:'blur'},
     {validator:telValidator,trigger:'blur'}
   ],
   imgCode:[
@@ -84,6 +86,9 @@ var resetRules = {
     {required:true,message:'请输入短信验证码',trigger:'blur'},
     {type:'string',pattern:/^\d{6}$/,message:'请输入6位正确的短信验证码',trigger:'blur'}
   ],
+  credentials:[
+    {required:true}
+  ],  
   credentialsNumber:[
     {required:true,message:'请输入身份证号码',trigger:'blur'},
     {pattern:idReg,message:'请输入正确的身份证号',trigger:'blur'}
@@ -108,10 +113,13 @@ var pwdValidator = (rules,value,c) => {
   c();
 }
 console.log('reset---rules',resetRules);
-var imgSrc = '/trade/tps/pbccs.do';
+var imgSrc = '/trade/tps/pbccs.do?t='+Date.now();
 export default {
   data () {
     return {
+      userId:'',
+      sendCodeText:'发送验证码',
+      sendTimer:null,
       step:1,
       imgSrc,
       sendText:'发送验证码',
@@ -157,23 +165,151 @@ export default {
   components:{
     Form,FormItem,Step
   },
+  updated(){
+    // this.changeImg();
+  },
   methods:{
     changeImg(){
       this.imgSrc = imgSrc + '?t=' + Date.now();
+    },
+    send() {
+      var tel = this.resetForm.tel.trim();
+      if (!tel) {
+        this.$Notice.error({
+          title:'请输入手机号码',
+        })
+        return;
+      }
+      var that = this;
+      if (this.sendTimer) {
+        return false;
+      }
+      var num = 60;
+      this.sendTimer = setInterval(function () {
+        num --;
+        if (num <= 1) {
+          that.sendCodeText = '发送验证码';
+          clearInterval(that.sendTimer);
+          that.sendTimer = null;
+        }else {
+          that.sendCodeText = num + 's';
+        }
+      },1000)
+      this.sendCode();
+    },
+    sendCode(){
+      var that = this;
+      var tel = this.resetForm.tel.trim();
+      console.log(tel);
+      this.$refs['form1'].validateField('tel',(valid)=>{
+        if (!valid) {
+          that.$ajax({
+            method: "post",
+            url: "/trade/tps/pbscs.do",
+            data:{
+              "verifystr":tel,
+              reqresource:1
+              // "type":"mobile"
+            }
+          }).then(function(data){
+            console.log(data)
+            if(data.data.err_code == "1"){
+              that.$Notice.success({
+                title: '验证码发送成功，请注意查收。',
+                desc: '',
+                top: 100
+              });
+              // $this.$Modal.info({
+              // 	content:'验证码发送成功，请注意查收。'
+              // })
+            }else{
+              that.$Notice.error({
+                title:'验证码发送失败，请重新发送。',
+                top:100
+              })
+            }
+          })
+        }else {
+          // that.$Notice.warning({
+          //   title:'提示',
+          //   desc:'请输入正确的手机号码'
+          // })
+          return;
+        }
+      })
+    },
+    verifyUser(){
+      var modifytype = 2; //1邮箱 2手机
+      var mobileno = this.resetForm.tel.trim();
+      var reqresource = 1;
+      var checkcode = this.resetForm.imgCode;
+      var mobilecode = this.resetForm.textCode;
+      this.$ajax.post('/trade/tps/pbrpw.do',{
+        modifytype,mobileno,reqresource,checkcode,mobilecode
+      }).then((res)=>{
+        if (res.data && res.data.err_code == '1' && res.data.userId){
+          this.step = 2;
+          this.userId = res.data.userId;
+        }else if (res.data && res.data.err_code != '1' && res.data.msg) {
+          this.$Notice.warning({
+            title:'提示',
+            desc:res.data.msg+'，请稍后重试'
+          })
+        }else {
+          this.$Notice.warning({
+            title:'提示',
+            desc:'查询失败，请稍后重试'
+          })
+        }
+      }).catch((err) => {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'网络请求失败，请稍后重试'
+        })
+      })
+    },
+    changepwd(){
+      var userId = this.userId;
+      var anewpwd =this.pwdForm.pwd;
+      var bnewpwd = this.pwdForm.confirmpwd;
+      var reqresource = 1;
+      this.$ajax.post('/trade/tps/pbmpw.do',{
+        userId,anewpwd,bnewpwd,reqresource
+      }).then((res)=>{
+        if (res.data && res.data.err_code == '1'){
+          this.step = 3;
+        }else if (res.data && res.data.err_code != '1' && res.data.msg) {
+          this.$Notice.warning({
+            title:'提示',
+            desc:res.data.msg+'，请稍后重试'
+          })
+        }else {
+          this.$Notice.warning({
+            title:'提示',
+            desc:'设置密码失败，请稍后重试'
+          })
+        }
+      }).catch((err) => {
+        this.$Notice.warning({
+          title:'提示',
+          desc:'网络请求失败，请稍后重试'
+        })
+      })
     },
     next(value) {
       if (value == 2) {
         this.$refs['form1'].validate((valid) => {
           console.log('valid or not',valid);
+          this.changeImg();
           if (valid ) {
-            this.step = value;
+            this.verifyUser();
           }
         })
       }else if (value == 3) {
         this.$refs['form2'].validate((valid) => {
           console.log('----valid----or----not',valid);
           if (valid) {
-            this.step = value;
+            this.changepwd();
           }
         })
       }

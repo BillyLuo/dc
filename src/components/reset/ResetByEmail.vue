@@ -10,17 +10,16 @@
           <form-item label="邮箱地址：" prop="email">
             <Input type="email" size="large" placeholder="邮箱地址" v-model="resetForm.email"/>
           </form-item>
-          <FormItem prop="credentials">
-            <span class="credentials-type">证件类型：</span>
+          <!-- <form-item prop="credentials" label="证件类型： ">
             <Select style="width: 400px;display:inline-block;" v-model="resetForm.credentials">
               <Option value="1">身份证</Option>
             </Select>
-          </FormItem>
+          </form-item>
           <form-item label="证件号码：" prop="credentialsNumber">
             <Input type="text" size="large" placeholder="证件号码" v-model="resetForm.credentialsNumber"/>
-          </form-item>
+          </form-item> -->
           <form-item label="验证码：" prop="imgCode">
-            <Input type="text" placeholder="验证码" size="large" class="no-radius-input" v-model="resetForm.imgCode" style="width: 300px;"/>
+            <Input type="text" placeholder="验证码" size="large" class="no-radius-input" @on-enter="submitEmail" v-model="resetForm.imgCode" style="width: 300px;"/>
             <img :src="imgSrc" class="img-code" @click="changeImgCode"/>
             <div class="text-right" style="padding-top:6px;height: 20px;"><a href="javascript:;" @click="changeImgCode">刷新</a>验证码</div>
           </form-item>
@@ -28,23 +27,24 @@
             <Button type="primary" size="large" class="btn-block" @click="submitEmail">提交</Button>
           </div>
         </Form>
-        <Form v-if="step == 2" ref="pwdForm" 
-          :model="pwdForm"
-          :rules="pwdRules"
-          :label-width="100" style="width: 500px;margn: 0 auto">
-          <FormItem label="登录账号：" prop="username">
-            <Input size="large" v-model="pwdForm.username" placeholder="用户名" value=""/>
-          </FormItem>
-          <FormItem label="新登录密码：" prop="pwd">
-            <Input size="large" type="password" v-model="pwdForm.pwd" placeholder="新登录密码，包含数字和大小写" value=""/>
-          </FormItem>
-          <FormItem label="确认密码：" prop="confirmpwd">
-            <Input size="large" type="password" v-model="pwdForm.confirmpwd" placeholder="确认密码" value=""/>
-          </FormItem>
-          <div class="reset-btn-wrapper">
-            <Button type="primary" size="large" class="btn-block" @click="next(3)">下一步</Button>
-          </div>
-        </Form>
+          <Form v-if="step == 2" ref="pwdForm" 
+            :model="pwdForm"
+            :rules="pwdRules"
+            :label-width="100" style="width: 500px;margn: 0 auto">
+            <!-- <FormItem label="登录账号：" prop="username">
+              <Input size="large" v-model="pwdForm.username" placeholder="用户名" value=""/>
+            </FormItem> -->
+            <div style="padding: 10px 0;">您正在找回密码的用户登录名是：<a>{{resetForm.email}}</a>。</div>
+            <FormItem label="新登录密码：" prop="pwd">
+              <Input size="large" type="password" v-model="pwdForm.pwd" placeholder="新登录密码，包含数字和大小写" value=""/>
+            </FormItem>
+            <FormItem label="确认密码：" prop="confirmpwd">
+              <Input size="large" type="password" v-model="pwdForm.confirmpwd" placeholder="确认密码" value=""/>
+            </FormItem>
+            <div class="reset-btn-wrapper">
+              <Button type="primary" size="large" class="btn-block" @click="next(3)">下一步</Button>
+            </div>
+          </Form>
         <div v-if="step == 3">
           <h3 class="reset-success">恭喜，重置登录密码成功</h3>
           <div class="reset-btn-wrapper">
@@ -69,6 +69,7 @@ var emailValidator = (rules,value,c)=> {
 }
 var resetRules = {
   email:[
+    {required:true},
     {validator:emailValidator,trigger:'blur'}
   ],
   credentials:[
@@ -108,6 +109,7 @@ export default {
       step:1,
       imgSrc:'/trade/tps/pbccs.do',
       sendText:'发送验证码',
+      userId:'',
       resetForm: {
         email:'',
         credentials:'1',
@@ -162,21 +164,89 @@ export default {
     Form,FormItem,Step
   },
   methods:{
+    emailInputBlur () {
+      console.log('blur');
+      var email = this.resetForm.email.trim();
+      var modifytype = 1; //1邮箱 2手机
+      var reqresource = 1;
+      var checkcode = this.resetForm.imgCode;
+      this.resetForm.imgCode = '';
+      return this.$ajax.post('/trade/tps/pbrpw.do',{
+        reqresource,
+        modifytype,
+        email,
+        checkcode
+      }).then((res) => {
+        console.log('res',res.data);
+        if (res.data && res.data.err_code == '1' && res.data.userId) {
+          this.step = 2;
+          this.userId = res.data.userId;
+        }else if (res.data && res.data.err_code != '1' && res.data.msg){
+          this.$Notice.warning({
+            title:'提示',
+            desc:res.data.msg +'，请重试'
+          })
+        }else {
+          this.$Notice.warning({
+            title:'提示',
+            desc:'用户名不存在'
+          })
+        }
+      }).catch((err)=>{
+        console.log('err');
+        this.$Notice.warning({
+          title:'提示',
+          desc:'查询出错，请稍后重试'
+        })
+      })
+    },
     changeImgCode() {
       this.imgSrc = '/trade/tps/pbccs.do?t=' + Date.now();
     },
     submitEmail(){
       this.$refs['form1'].validate((valid)=>{
         if (valid) {
-          this.step = 2;
+          this.changeImgCode();
+          this.emailInputBlur();
+          
+          // this.step = 2;
         }
+      })
+    },
+    changePwd(){
+      var userId = this.userId;
+      var anewpwd = this.pwdForm.pwd.trim();
+      var bnewpwd = this.pwdForm.confirmpwd.trim();
+      var reqresource = 1;
+      this.$ajax.post('/trade/tps/pbmpw.do',{
+        userId,anewpwd,bnewpwd,reqresource
+      }).then((res)=>{
+        console.log(res);
+        if (res.data && res.data.err_code == '1') {
+          this.step = 3;
+        }else if (res.data && res.data.err_code != '1' && res.data.msg) {
+          this.$Notice.waning({
+            title:'提示',
+            desc:res.data.msg+',请稍后重试'
+          }) 
+        }else {
+          this.$Notice.waning({
+            title:'提示',
+            desc:'修改失败，请稍后重试'
+          })
+        }
+      }).catch((err)=>{
+        this.$Notice.waning({
+          title:'提示',
+          desc:'网络请求失败，请稍后重试'
+        })
       })
     },
     next(value) {
       this.$refs['pwdForm'].validate((valid)=>{
         console.log('valid or not',valid);
         if (valid) {
-          this.step = 3;
+          this.changePwd();
         }
       })
 
