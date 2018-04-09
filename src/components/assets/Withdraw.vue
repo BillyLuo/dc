@@ -154,7 +154,7 @@ export default {
         balance:'0.00',
         address:'1',
         account:0,
-        commission:'0.003',
+        commission:'0.002',
         trade_password:'',
         text_code:''
       },
@@ -283,12 +283,37 @@ export default {
           this.validateCode();
         }else {
           // message();
+
         }
       })
     },
     validateCode(){
       console.log('校验验证码');
       console.log(this.withdrawModel);
+      let that = this;
+      this.$ajax({
+          method:"post",
+          url:"/trade/tps/pbwds.do",
+          data:{
+            addrs:  that.withdrawModel.address,
+            count: that.withdrawModel.account,
+            txpwd: that.withdrawModel.trade_password,
+            smscode: that.withdrawModel.text_code,
+            reqresource:1,
+            brokerage: that.withdrawModel.commission,
+            coin:that.withdrawType,
+            pub:"6fca866412cffebc2ec2452d0a000d7f1ead7627"
+          }
+        }).then((res)=>{
+          console.log(res)
+          if(res.data ){
+            that.$Notice.success({
+							title:'温馨提示',
+							desc:'您已提现成功'
+						})
+          }
+        
+      })
     },
     addok() {
       L('确认添加');
