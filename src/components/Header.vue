@@ -251,7 +251,7 @@ export default {
           this.isLogined = false;
           return false
       }else {
-        if (!this.isCertified && name != 'home' &&name !='login' && name != 'register') {
+        if (!this.isCertified && name != 'home' && name !='login' && name != 'register' && name != 'user') {
           this.$Notice.warning({
             title:'提示',
             desc:'请先完成实名认证'

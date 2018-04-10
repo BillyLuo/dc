@@ -6,7 +6,7 @@
     <div class="reset-form">
       <div class="reset-form-inner">
         <h3 class="reset-title">您正通过 <span>手机</span> 找回登录密码</h3>
-        <Form v-if="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
+        <Form v-show="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
           <form-item label="手机号码：" prop="tel">
             <Input type="text" size="large" placeholder="手机号码" v-model="resetForm.tel"/>
           </form-item>
@@ -34,7 +34,7 @@
             <Button type="primary" size="large" class="btn-block" @click="next(2)">下一步</Button>
           </div>
         </Form>
-        <Form v-if="step == 2" ref="form2" 
+        <Form v-show="step == 2" ref="form2" 
           :model="pwdForm"
           :rules="pwdRules"
           :label-width="100" style="width: 500px;margn: 0 auto">
@@ -52,7 +52,7 @@
             <Button type="primary" size="large" class="btn-block" @click="next(3)">下一步</Button>
           </div>
         </Form>
-        <div v-if="step == 3">
+        <div v-show="step == 3">
           <h3 class="reset-success">恭喜，重置登录密码成功</h3>
           <div class="reset-btn-wrapper">
             <Button type="primary" size="large" class="btn-block" @click="login">立即登录</Button>

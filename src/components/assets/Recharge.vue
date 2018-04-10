@@ -67,13 +67,13 @@ export default {
   methods:{
     getParams () {
       // 取到路由带过来的参数 
-      let routerParams = this.$route.query
-      console.log("=======routerParams======",routerParams)
-      this.currencyType = routerParams.name;
-      
+      let routerParams = this.$route.query;
+      let currencyType = routerParams.name;
+      if (currencyType) {
+        this.currencyType = currencyType.toUpperCase();
+      }
     }
   }
-  
 }
 </script>
 
