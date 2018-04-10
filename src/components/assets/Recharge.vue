@@ -5,6 +5,7 @@
     <div class="recharge-address clear">
       <div class="float-left">充值地址</div>
       <input :value="rechargeAddress" readonly :class="'float-left recharge-address-detail'" />
+      <Button class="yy-button" @click="bespoke" type="primary">预约</Button>
     </div>
     <div class="recharge-note">
       <div class="recharge-note-title">充值须知</div>
@@ -27,7 +28,7 @@ export default {
     return {
       title:'ETH充值',
       currencyType:'ETH',
-      rechargeAddress:'0xf323jfaafdfiedfjbgnmnn2',
+      rechargeAddress:'',
       record_column:[
         {
           title: '最后更新',
@@ -67,11 +68,41 @@ export default {
   methods:{
     getParams () {
       // 取到路由带过来的参数 
-      let routerParams = this.$route.query;
-      let currencyType = routerParams.name;
-      if (currencyType) {
-        this.currencyType = currencyType.toUpperCase();
-      }
+      let routerParams = this.$route.query
+      console.log("=======routerParams======",routerParams)
+      this.currencyType = routerParams.name;
+      let that=this;
+      this.$ajax({
+          method:"post",
+          url:"/trade/tps/pblaf.do",
+          data:{
+              reqresource:1,
+              currencytype: that.currencyType
+          }
+      }).then((res)=>{
+          if(res.data.accountFund && res.data&&res.data.err_code=="1"){
+              that.rechargeAddress = res.data.accountFund[0].address
+          }
+      })
+      
+    },
+    bespoke(){
+      let that = this;
+      this.$ajax({
+          method:"post",
+          url:"/trade/tps/pbrcd.do",
+          data:{
+              reqresource:1,
+              coin: that.currencyType
+          }
+      }).then((res)=>{
+          console.log(res.data)
+          if(res.data )
+            that.$Notice.success({
+							title:'温馨提示',
+							desc:'您已预约成功'
+						})
+      })
     }
   }
 }
@@ -101,6 +132,12 @@ export default {
   }
   .recharge-address {
     margin: 50px 0;
+    .yy-button{
+      height:40px;
+      width:80px;
+      // line-height: 40px;
+      margin-left: 20px;
+    }
     div.float-left {
       width: 100px;
       line-height: 40px;
