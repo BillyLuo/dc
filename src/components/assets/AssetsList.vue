@@ -199,6 +199,7 @@ export default {
     font-weight: normal;
     height: 60px;
     line-height: 60px;
+    color: #fff;
     border-bottom: 2px solid #2d8cf0;
     padding: 0 10px;
   }
