@@ -75,7 +75,7 @@ export default {
             param:'1min',
             // 计价币种
             bizhong: 'USDT',
-            currency: 'BTC',
+            currency: 'ETH',
             cityList: [
                 {
                     value: '1min',
@@ -115,7 +115,10 @@ export default {
                 }
             ],
             model1: '',
-            params: {}
+            params: {
+                bizhong: "USDT",
+                currency: "BTC"
+            }
         }
     },
     created(){
@@ -397,8 +400,8 @@ export default {
 <style lang="scss">
 
     .hangqing{
-        // width:1200px;
-        margin: 0 auto;
+        min-width:1200px;
+        margin-top: 80px;
         background: #262a42;
         color:#C7CCE6;
         .hq-header{

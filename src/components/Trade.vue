@@ -1291,10 +1291,7 @@
 </script>
 
 <style lang="scss">
-    .trade{
-        width:1200px;
-        margin: 0 auto;
-    }
+
     input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
         -webkit-appearance: none !important;
     }

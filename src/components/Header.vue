@@ -1,17 +1,11 @@
 <template>
-  <div :class="{'home-header':true,active:scroll}">
-    <div class="header-inner clear wrapper">
-      <div class="header-logo" @click="route('home')">
-      <!-- <div class="header-logo">   -->
-        <img src="/static/img/logo.png"/>
-        <span>福币中心</span>
-      </div>
-      <Menu ref="main_menu" mode="horizontal" @on-select="route" :active-name="activeName">
+  <div :class="{'home-header':true,active:scroll}" :style="height">
+      <Menu ref="main_menu" class='header-menu' mode="horizontal" @on-select="route" :active-name="activeName">
         <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
             {{value.text}}
         </MenuItem>
       </Menu>
-      <div class="header-right float-right header-user">
+      <div class="header-right header-user">
         <div v-if="isLogined" class="logined">
           <div class="user-name float-left">{{userInfo.username}}</div>
           <div class="user-level float-left">
@@ -30,11 +24,14 @@
           </div>
         </div>
         <div v-else class="login">
+            <Button class="log-in-out" @click="route('login')">登录</Button>or<Button @click="route('register')" class="log-in-out">注册</Button>
+            <img src="/static/img/language.png" alt="">
+        </div>
+        <!-- <div  class="login">
           <span class="login-in" @click="route('login')">登录</span>|
           <span class="register" @click="route('register')">注册</span>
-        </div>
+        </div> -->
       </div>
-    </div>
   </div>
 </template>
 
@@ -77,6 +74,7 @@ export default {
       isLogined:false,
       isCertified:false,
       menu,
+      height:"",
       userInfo:{
         username:'',
         userLevel:1,
@@ -229,8 +227,24 @@ export default {
           this.isLogined = false;
           return false
       }
+
+
+
+      if(path != '/home' || path != '/'){
+        this.height = "height:80px;background:#333;position:fixed;top:0;";
+      }
+      
+      if(path == '/home' || path == '/'){
+        this.height = "";
+      }
+
+      console.log("======",path =='/home')
     },
     route(name){
+      
+
+
+
       if(!cookies.get("name")  && (name == "trading" || name == "assets" || name == "user" || name == "market")){
           this.$refs.main_menu.currentActiveName = 'user';
           this.$Modal.info({
@@ -287,6 +301,14 @@ export default {
           path:'/'+name
         });
       }
+      console.log("--------",name)
+
+      if(name != 'home'){
+        this.height = "height:80px;background:#333;position:fixed;top:0;";
+      }else{
+        this.height = "";
+      }
+
     },
     loginOut () {
       this.isLogined = false;
@@ -323,96 +345,162 @@ export default {
 <style scoped lang="scss">
   @import '../my-theme/mixin.scss';
   .home-header {
-    height: 100px;
-    position: fixed;
-    top: 0px;
+    margin-top: 30px;
     min-width: 1200px;
     width: 100%;
     left: auto;
     right: auto;
     margin: auto;
-    background: #fff;
     z-index: 1000;
     transition: 0.4s;
-    &.active {
-      box-shadow: 0px 5px 5px rgba(0,0,0,0.2);
-      height: 60px;
-      .header-inner {
-        padding: 0px;
-      }
-    }
-    .ivu-menu-item {
-      // color: #fff;
-    }
-    .ivu-menu-light{
-      background: transparent;
-    }
+    position: relative;
+    // &.active {
+    //   box-shadow: 0px 5px 5px rgba(0,0,0,0.2);
+    //   height: 80px;
+    //   .header-inner {
+    //     padding: 0px;
+    //   }
+    // }
+
+
     .user-name {
       cursor: default;
       font-size: 14px;
+      line-height: 80px;
     }
-  }
-  .header-inner {
-    margin-right: auto;
-    margin-left: auto;
-    padding: 20px 30px;
-    transition: 0.4s;
-    ul {
-      float: left;
-      &::after{
+    .header-menu{
+        position: absolute;
+        top:0;
+        left: 0;
+        padding-left:140px;
         background: none;
-      }
-      li {
-        // font-size: 16px;
-      }
+        &:before{
+            content: "";
+            display: block;
+            width:34px;
+            height:39px;
+            position: absolute;
+            left:70px;
+            top:50%;
+            margin-top: -19.5px;
+            text-align: center;
+            background: url('/static/img/logo.png') no-repeat;
+        }
+        .ivu-menu-item{
+            color:#fff;
+            font-size:16px;
+            border-bottom: 0px solid transparent !important;
+        }
+        .ivu-menu-item:hover{
+            color: #2d8cf0 !important;
+            border-bottom:none !important;
+        }
+    }
+    .ivu-menu-horizontal {
+        height: 80px;
+        line-height: 80px;
+    }
+    .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active{
+        color: #2d8cf0 !important;
+        border-bottom: none !important;
+    }
+    .ivu-menu-light.ivu-menu-horizontal .ivu-menu-item{
+        color:#fff;
+    }
+    .header-menu:after{
+        height:0px !important;
     }
   }
-  .header-logo {
-    width: 300px;
-    height: 60px;
-    float: left;
-    img {
-      width: 46px;
-      height: 60px;
-      vertical-align: middle;
-      padding: 10px 0;
-      cursor: pointer;
-    }
-    span {
-      font-size: 16px;
-      cursor: pointer;
-    }
-  }
-  .header-right {
-    margin-right: 200px;
-    position: relative;
-    z-index: 1300;
-  }
-  .header-user {
-    height: 70px;
-    // margin-top: 20px;
+  // .header-inner {
+    // margin-right: auto;
+    // margin-left: auto;
+    // padding: 20px 30px;
+    // transition: 0.4s;
+    // ul {
+    //   float: left;
+    //   &::after{
+    //     background: none;
+    //   }
+    //   li {
+    //     // font-size: 16px;
+    //   }
+    // }
+  // }
+  // .header-logo {
+  //   width: 300px;
+  //   height: 60px;
+  //   float: left;
+  //   img {
+  //     width: 46px;
+  //     height: 60px;
+  //     vertical-align: middle;
+  //     padding: 10px 0;
+  //     cursor: pointer;
+  //   }
+  //   span {
+  //     font-size: 16px;
+  //     cursor: pointer;
+  //   }
+  // }
+  .logined {
+    position: absolute;
+    right: 200px;
+    line-height: 40px;
+    color: #fff;
     &:hover .login-out {
       display: block;
     }
   }
-  .logined {
-    padding: 17px 0;
-    line-height: 26px;
-  }
-  .login {
-    margin: 15px 0;
-    width: 130px;
-    height: 30px;
-    font-size: 14px;
-    line-height: 30px;
-    border-radius: 15px;
-    background: $primary-color;
-    text-align: center;
-    color: #fff;
-    span {
-      margin: 0 4px;
-      cursor: pointer;
-    }
+  // .header-user {
+  //   // height: 70px;
+  //   // margin-top: 20px;
+  //   &:hover .login-out {
+  //     display: block;
+  //   }
+  // }
+  // .logined {
+  //   padding: 17px 0;
+  //   line-height: 26px;
+  // }
+  // .login {
+  //   margin: 15px 0;
+  //   width: 130px;
+  //   height: 30px;
+  //   font-size: 14px;
+  //   line-height: 30px;
+  //   border-radius: 15px;
+  //   background: $primary-color;
+  //   text-align: center;
+  //   color: #fff;
+  //   span {
+  //     margin: 0 4px;
+  //     cursor: pointer;
+  //   }
+  // }
+  .login{
+      // width:200px;
+      position: absolute;
+      top:0;
+      right:40px;
+      line-height: 80px;
+      height:80px;
+      color:#fff;
+      z-index:9;
+      .log-in-out{
+          border:none;
+          background: none;
+          color:#fff;
+      }
+      .ivu-btn:focus {
+          -webkit-box-shadow: none;
+          box-shadow: none;
+      }
+      img{
+          width: 21px;
+          height: 21px;
+          display: inline-block;
+          vertical-align: middle;
+      }
   }
   .login-out {
     &:after {
@@ -420,14 +508,14 @@ export default {
       display: block;
       position: absolute;
       bottom: 100%;
-      left: 50%;
+      left: 25%;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
       -webkit-transform: translate(-50%,0);
       -moz-transform: translate(-50%,0);
       -ms-transform: translate(-50%,0);
       transform: translate(-50%,0);
-      border-bottom: 10px solid #fff;
+      border-bottom: 10px solid #2a2b2d;
       -webkit-transform: translate(-50%,1px);
       -moz-transform: translate(-50%,1px);
       -ms-transform: translate(-50%,1px);
@@ -438,32 +526,35 @@ export default {
       display: block;
       position: absolute;
       bottom: 100%;
-      left: 50%;
+      left: 25%;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
       -webkit-transform: translate(-50%,0);
       -moz-transform: translate(-50%,0);
       -ms-transform: translate(-50%,0);
       transform: translate(-50%,0);
-      border-bottom: 10px solid #F6F7FC;
+      border-bottom: 10px solid #2a2b2d;
       -webkit-transform: translate(-50%,0);
       -moz-transform: translate(-50%,0);
       -ms-transform: translate(-50%,0);
       transform: translate(-50%,0);
     }
     display: none;
-    background: #fff;
+    background: #2a2b2d;
     position: absolute;
     width: 300px;
     left: -60%;
-    top: 60px;
-    border: 1px solid #F6F7FC;
+    top: 90px;
+    border: 1px solid #404448;
     box-shadow: 0 4px 4px rgba(0,0,0,.1);
     font-size: 12px;
+    .divide{
+      border:1px solid #404448;
+    }
     .login-out-title {
       font-size: 14px;
       display: inline-block;
-      border-bottom: 2px solid #3166D2;
+      // border-bottom: 2px solid #404448;
       height: 50px;
       line-height: 50px;
       padding: 0 20px;
@@ -479,7 +570,7 @@ export default {
         padding: 2px 12px;
         height: 24px;
         color: #fff;
-        background-color: #3166D2;
+        background-color: #2a2b2d;
         text-align: center;
         line-height: 20px;
       }
@@ -487,15 +578,15 @@ export default {
     .uid {
       height: 48px;
       line-height: 48px;
-      color: #666;
+      color: #fff;
       padding: 0 20px;
     }
     .login-out-btn {
       width: 100%;
       height: 40px;
       border: none;
-      color: #192E5B;
-      background: #F6F7FC;
+      color: #fff;
+      background: #2a2b2d;
       letter-spacing: 2px;
       outline: none;
       &:hover {

@@ -3,10 +3,11 @@
         <Row>
             <Col span="16" class="deal-buysell">
                 <Row>
-                    <Tabs size="small">
-                        <TabPane label="限价交易" class="jiaoyi">
+                    <Tabs size="small" v-model="active_tab" @on-click="changeTab">
+                        <TabPane label="限价交易" name='xjjy' class="jiaoyi">
                             <Col span='12' style="padding:0 10px;">
-                                <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">充币</span></div>
+                                <div class="currency-balance">可用 {{usdtBalance}} {{params.bizhong}} <span @click="recharge(params.bizhong)">充币</span></div>
+                                <div class="currency-balance">冻结 {{usdtBalance1}} {{params.bizhong}}</div>
                                 <!-- <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
@@ -27,7 +28,8 @@
                                                 <span class='span'>{{ params.currency }}</span>
                                             </div>
                                         </FormItem>
-                                        <p class="count-money">交易额 <i>{{buymoney}}</i> <span>USDT</span></p>
+                                        <p class="count-money">交易额 ≈ <i>{{buymoney}}</i> <span>USDT</span></p>
+                                        <Slider v-model="sliderbuy" :tip-format="sliderformat" @on-input="sliderchange"></Slider>
                                         <Button class="mairu" @click="trade(1)">买入{{ params.currency }}</Button>
                                     </Form>
                                 </div>
@@ -37,6 +39,7 @@
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
+                                <div class="currency-balance">冻结 {{changeCurrenyBalance1}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
                                 <div style="padding:20px 10px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
@@ -53,17 +56,18 @@
                                                 <span class='span'>{{ params.currency }}</span>
                                             </div>
                                         </FormItem>
-                                        <p class="count-money">交易额 <i>{{ sellmoney }}</i> <span>USDT</span></p>
+                                        <p class="count-money">交易额 ≈ <i>{{ sellmoney }}</i> <span>USDT</span></p>
+                                        <Slider v-model="slidersell" :tip-format="sliderformat" @on-input="slidersellchange"></Slider>
                                         <Button class="mairu" @click="trade(2)">卖出{{ params.currency }}</Button>
                                     </Form>
                                 </div>
                             </Col>
                         </TabPane>
-                        <TabPane label="市价交易" class='jiaoyi'>
+                        <!-- <TabPane label="市价交易" name='sjjy' class='jiaoyi'>
                             <Col span='12' style="padding:0 10px;">
-                                <!-- <div class="to-login">
+                                <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
-                                </div> -->
+                                </div>
                                 <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">充币</span></div>
                                 <div style="padding:20px 0px 0 0;">
                                     <Form  label-position="top">
@@ -82,9 +86,9 @@
                                 </div>
                             </Col>
                             <Col span='12' style="padding-left:10px;">
-                                <!-- <div class="to-login">
+                                <div class="to-login">
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
-                                </div> -->
+                                </div>
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
                                 <div style="padding:20px 10px 0 0;">
                                     <Form  label-position="top">
@@ -103,6 +107,15 @@
                                     </Form>
                                 </div>
                             </Col>
+                        </TabPane> -->
+                        <TabPane label="委托撤销" name='wtcx' class='jiaoyi'>
+                            <Entrust/>
+                        </TabPane>
+                        <TabPane label="委托历史" name='wtls' class='jiaoyi'>
+                            <Entrusth/>
+                        </TabPane>
+                        <TabPane label="交易记录" name='jyjl' class='jiaoyi'>
+                            <Transaction/>
                         </TabPane>
                     </Tabs>
                     
@@ -123,8 +136,14 @@
 </template>
 
 <script>
-import {Tabs,TabPane,Table,Form,FormItem} from 'iview';
+import {Tabs,TabPane,Table,Form,FormItem,Slider} from 'iview';
+import Entrust from "./Entrust";
+import Entrusth from "./Entrusthistory";
+import Transaction from "./Transaction";
+import bus from '../../bus/bus';
 var numReg = function (m,n) {
+    m=m.toString();
+    n=n.toString();
     if (!m) {
         m = 15;
     }else if(!m.match(/^[1-9]\d*$/)) {
@@ -135,17 +154,29 @@ var numReg = function (m,n) {
     }else if (!n.match(/^[1-9]\d*$/)) {
         n = 8;
     }
+
     return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
 }
-var reg = numReg();
+var reg = numReg(8,8);
+var regs = numReg(10,3);
+var decimal = function(a,b){
+        let s = a.toString()
+        if(s.indexOf('.') != -1){
+            return s.substring(0,s.lastIndexOf('.')+b)
+        }else{
+            return s
+        }
+        
+    }
 export default {
     name: 'Deal',
     components:{
-        Tabs,TabPane,Form,FormItem,Table
+        Tabs,TabPane,Form,FormItem,Table,Entrust,Entrusth,Transaction,Slider
     },
     props: ['params'],
     data: function() {	
         return {
+            active_tab:"xjjy",
             buyprice:'',
             buycount:'',
             sellprice:'',
@@ -155,9 +186,11 @@ export default {
             //usdt  数量
             usdtCurrency:'USDT',
             usdtBalance:'0',
+            usdtBalance1:'0',
             // 选择交易的币种的数量
-            changeCurreny:'BTC',
+            changeCurreny:'ETH',
             changeCurrenyBalance:'0',
+            changeCurrenyBalance1:'0',
             columns1:[
                 {
                     title: ' ',
@@ -229,22 +262,28 @@ export default {
             ],
             data1:[
                
-            ]
+            ],
+            sliderbuy:0,
+            slidersell:0,
         }
+    },
+    created(){
+        this.active_tab="xjjy"
     },
     mounted () {
         var that = this;
         this.getBalance();
-        this.getBalance('BTC');
+        this.getBalance('ETH');
         this.paramsinfo();
         this.priceq();
+        this.active_tab="xjjy"
     },
     computed:{
         buymoney(){
-            return Number(this.buycount*this.buyprice).toFixed(6);
+            return Number(this.buycount*this.buyprice*1.002).toFixed(10);
         },
         sellmoney(){
-            return Number(this.sellcount*this.sellprice).toFixed(6);
+            return Number(this.sellcount*this.sellprice*(1-0.002)).toFixed(10);
         }
     },
     watch:{
@@ -255,28 +294,66 @@ export default {
         }
     },
     methods: {
+        sliderformat(val){//滑块
+            return val+'%'
+        },
+        sliderchange(val){//滑块
+            // console.log("可用资金",this.buy_keyong,"----单价：",this.buyprice,"-----百分比：",val,"-------手续费：1.002")
+            if(this.buyprice && this.buyprice != 0){
+                this.buycount = decimal((this.usdtBalance*(val/100))/(this.buyprice*1.002),4)
+            }else{
+                this.$Modal.error({
+                    content: "买入价能为空，且必须大于零。"
+                })
+                return false;
+            }
+            
+        },
+        slidersellchange(val){
+            // console.log("可用资金",this.sell_keyong,"----单价：",this.sellprice,"-----百分比：",val,"-------手续费：1.002")
+            this.sellcount = decimal(this.changeCurrenyBalance*(val/100),4)
+        },
         inputBuyPrice(e,priceType){
             var value = e.target.value;
-            if (!value) {
-                this[priceType] = '';
-            }else {
-                if (reg.test(value)) {
-                    this[priceType] = value;
+            if(priceType=="buycount" || priceType == "sellcount"){
+                if (!value) {
+                    this[priceType] = '';
                 }else {
-                    value = value.slice(0,-1);
-                    var matched = value.match(reg);
-                    if (matched && matched.length) {
-                        this[priceType] = matched[0];
+                    if (regs.test(value)) {
+                        this[priceType] = value;
                     }else {
-                        this[priceType]  = '';
+                        value = value.slice(0,-1);
+                        var matched = value.match(regs);
+                        if (matched && matched.length) {
+                            this[priceType] = matched[0];
+                        }else {
+                            this[priceType]  = '';
+                        }
+                    }
+                }
+            }else{
+                if (!value) {
+                    this[priceType] = '';
+                }else {
+                    if (reg.test(value)) {
+                        this[priceType] = value;
+                    }else {
+                        value = value.slice(0,-1);
+                        var matched = value.match(reg);
+                        if (matched && matched.length) {
+                            this[priceType] = matched[0];
+                        }else {
+                            this[priceType]  = '';
+                        }
                     }
                 }
             }
+            
         },
         priceq(currency){
             let that =this;
             if (!currency) {
-                currency = 'BTC';
+                currency = 'ETH';
             }
             let tradecurrency = this.usdtCurrency;
             this.$ajax({
@@ -314,6 +391,7 @@ export default {
                 })
             })
         },
+        
         //充币
         recharge (currency) {
             if (!currency) {
@@ -340,6 +418,9 @@ export default {
         },
         paramsinfo (obj) {
             console.log(obj,'currency')
+
+            bus.$emit("vl_currency",this.params)
+
             if (obj && obj.currency) {
                 this.changeCurreny = obj.currency;
                 this.getBalance('USDT');
@@ -389,8 +470,10 @@ export default {
                     if (res.data && res.data.accountFund &&  res.data.accountFund.length) {
                         if (type == 'USDT') {
                             that.usdtBalance = res.data.accountFund[0].usablefund;
+                            that.usdtBalance1 = Number(res.data.accountFund[0].frozenfund).toFixed(10);
                         }else {
                             that.changeCurrenyBalance = res.data.accountFund[0].usablefund;
+                            that.changeCurrenyBalance1 = Number(res.data.accountFund[0].frozenfund).toFixed(10);
                         }
                     }else {
                        if (type == 'USDT') {
@@ -447,6 +530,7 @@ export default {
                             title:'提示',
                             desc:'委托创建成功'
                         })
+                        that.buycount = 0;
                         that.getBalance();
                     }else if (res.data && res.data.msg) {
                         that.$Notice.warning({
@@ -502,6 +586,7 @@ export default {
                             desc:'委托创建成功'
                         })
                         var coin = that.changeCurreny;
+                        that.sellcount = 0;
                         that.getBalance(coin);
                     }else if (res.data && res.data.msg) {
                         that.$Notice.warning({
@@ -525,6 +610,31 @@ export default {
         },
         doTrade(obj) {
             console.log('交易',obj);
+        },
+        changeTab(name){
+            if(name =="xjjy"){
+                this.getBalance(this.changeCurreny);
+                this.getBalance(this.params.bizhong);
+            }
+            if(name == 'wtcx'){
+                this.params["wtcx"] = true;
+                this.params["wtls"] = false;
+                this.params["jyjl"] = false;
+                bus.$emit("vl_currency",this.params)
+            }
+            if(name == 'wtls'){
+                this.params["wtcx"] = false;
+                this.params["wtls"] = true;
+                this.params["jyjl"] = false;
+                bus.$emit("vl_currency",this.params)
+            }
+            if(name == 'jyjl'){
+                this.params["wtcx"] = false;
+                this.params["wtls"] = false;
+                this.params["jyjl"] = true;
+                bus.$emit("vl_currency",this.params)
+            }
+
         }
     }
 }
@@ -536,8 +646,10 @@ export default {
     .hq-deal{
         color:#C7CCE6;
         margin-top: 10px;
-        height:456px;
-        overflow: hidden;
+        min-height:456px;
+        .ivu-row{
+            height:100%;
+        }
         .ivu-tabs {
             color:#C7CCE6;
         }
@@ -622,6 +734,7 @@ export default {
         }
         .new-price{
             padding-left: 10px;
+            height:100%;
             .price-list{
                 background: #1c1f2e;
                 .list-title{

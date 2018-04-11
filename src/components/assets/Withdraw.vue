@@ -13,7 +13,7 @@
         <Button type="primary" @click="showAddModal">增加</Button>
       </FormItem>
       <FormItem label="提现数量" prop="account">
-        <InputNumber :class="'withdraw-item'" v-model="withdrawModel.account"></InputNumber>
+        <InputNumber :class="'withdraw-item'" :max="99999" v-model="withdrawModel.account"></InputNumber>
       </FormItem>
       <FormItem :label="'  '+withdrawType+'手续费比例'" prop="commission">
         <Input :class="'withdraw-item'" v-model="withdrawModel.commission" disabled/>
@@ -291,6 +291,21 @@ export default {
       console.log('校验验证码');
       console.log(this.withdrawModel);
       let that = this;
+      if(that.withdrawModel.account < 0.4){
+        that.$Notice.warning({
+          title:'温馨提示',
+          desc:'提现数量不能小于0.4'
+        })
+        return false;
+      }
+      if(that.withdrawModel.account > that.withdrawModel.balance){
+        that.$Notice.warning({
+          title:'温馨提示',
+          desc:'提现数量不能大于账户余额'
+        })
+        return false;
+      }
+      
       this.$ajax({
           method:"post",
           url:"/trade/tps/pbwds.do",
@@ -310,6 +325,19 @@ export default {
             that.$Notice.success({
 							title:'温馨提示',
 							desc:'您已提现成功'
+						})
+            that.withdrawModel={
+                address:'',
+                account:0,
+                commission:'0.002',
+                trade_password:'',
+                text_code:''
+            };
+            this.getbalance();
+          }else{
+            that.$Notice.warning({
+							title:'温馨提示',
+							desc:'提现失败'
 						})
           }
         

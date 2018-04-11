@@ -87,9 +87,9 @@
   .title-scroll-box{
     width: 100%;
     // padding: 5px 0;
-    height: 50px;
-    background-color: #f6f6f6;
-    position: fixed;
+    height: 30px;
+    background-color: #353535;
+    // position: fixed;
     top:0;
     z-index: 999;
     .title-scroll-move {
@@ -100,11 +100,11 @@
     }
     .box-margin{
       width: 4860px;
-      height: 40px;
+      height: 30px;
       margin: 0 auto;
       overflow: hidden;
       position: absolute;
-      background-color: #f6f6f6;
+      background-color: #353535;
       ul{
         width: 4860px;
         position: absolute;
@@ -117,11 +117,11 @@
         // -o-animation: move-right 90s linear 0s infinite normal running;	
         li{
           width: 180px;
-          height: 40px;
+          height: 30px;
           float: left;
           color: #000;
           font-size: 14px;
-          line-height: 40px;
+          line-height: 30px;
           text-align: center;
           //设置文字不可选中
           -webkit-touch-callout: none;
@@ -131,7 +131,7 @@
           -ms-user-select: none;
           user-select: none;
           .s1{
-            color: #333;
+            color: #fff;
             padding-right: 10px;
           }
           .s2{

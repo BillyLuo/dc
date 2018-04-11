@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-const Home = ()=> import('@/components/home/Home')
+// const Home = ()=> import('@/components/home/Home')
 const Login = ()=> import('@/components/Login')
 const Register = ()=> import ('@/components/Register');
 const ResetPassword = ()=> import('@/components/reset/ResetPassword');
@@ -27,6 +27,7 @@ const Apply = ()=> import('@/components/about/apply/Apply');
 const News = ()=> import('@/components/news/News');
 const NewsList = ()=> import('@/components/news/newsList/NewsList');
 const NewsDetail = ()=> import('@/components/news/newsDetail/NewsDetail');
+const Homes = ()=> import('@/components/home1/home');
 Vue.use(Router)
 
 export default new Router({
@@ -36,12 +37,17 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      component: Home
+      component: Homes
     },
+    // {
+    //   path: '/homes',
+    //   name: 'Index',
+    //   component: Homes
+    // },
     {
       path:'/home',
       name:'Home',
-      component:Home
+      component:Homes
     },
     {
       path:'/login',

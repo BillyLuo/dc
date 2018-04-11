@@ -2,22 +2,22 @@
   <div id="app">
     <!-- <TitleScroll /> -->
     <Header />
-    <div style="margin-top: 100px"></div>
-    <div>
+    <!-- <div style="margin-top: 100px"></div> -->
+    <!-- <div> -->
       <!-- <Announcement/> -->
-    </div>
+    <!-- </div> -->
     <div id="main">
       <div class="main-inner">
         <router-view/>
       </div>
     </div>
-    <Footer />
+    <!-- <Footer /> -->
     <BackTop></BackTop>
   </div>
 </template>
 
 <script>
-import Header from './components/Header';
+import Header from './components/header';
 import Footer from './components/footer';
 import TitleScroll from './components/TitleScroll';
 import Announcement from './components/Announcement'
