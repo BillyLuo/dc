@@ -8,7 +8,7 @@
     <Row>
       <Col>
         <div class="text-left safe-level clear" :style="{color:'#666'}">
-          <div class="color-666 float-left" :style="{width:'300px'}">
+          <div class="color-666 float-left" :style="{width:'300px',fontSize:'14px'}">
             安全等级
           </div>
           <div class="float-left" :style="{width:'300px',marginRight:'40px'}">

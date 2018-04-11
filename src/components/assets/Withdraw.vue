@@ -480,6 +480,23 @@ export default {
     }
 }
 .withdraw {
+  .ivu-input-group-append {
+    background: #353535;
+    border-color: #666;
+    color: #666;
+  }
+  .ivu-select-dropdown{
+    background: rgb(62, 62, 65);
+  }
+  .ivu-select-single .ivu-select-selection{
+    background: #353535;
+    border: 1px solid #666;
+    color: #666;
+  }
+  .ivu-select-item-selected, .ivu-select-item-selected:hover{
+    background: #353535;
+    color: #666;
+  }
   .ivu-input-number {
     border-color: #666;
   }
