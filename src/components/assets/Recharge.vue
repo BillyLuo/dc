@@ -97,11 +97,18 @@ export default {
           }
       }).then((res)=>{
           console.log(res.data)
-          if(res.data )
+          if(res.data && res.data.err_code =="1"){
             that.$Notice.success({
 							title:'温馨提示',
 							desc:'您已预约成功'
 						})
+          }else{
+            that.$Notice.error({
+							title:'错误提示',
+							desc: res.data.msg
+						})
+          }
+            
       })
     }
   }

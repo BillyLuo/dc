@@ -9,10 +9,9 @@
                         <div class="icon_input">
                             <img src="/static/img/suanpan.png" alt="">
                         </div>
-                        <Input size="large">
-                            <Select  slot="prepend" style="width: 80px;">
-                                <Option value="http">http://</Option>
-                                <Option value="https">https://</Option>
+                        <Input v-model="value" size="large">
+                            <Select v-model="model1" slot="prepend" style="width: 80px;">
+                                <Option v-for="item in cityList" :value="item.currencyname" :key="item.currencyname">{{ item.currencyname }}</Option>
                             </Select>
                         </Input>
                         <div class="jiantou">
@@ -23,10 +22,9 @@
                         <div class="icon_input">
                             <img src="/static/img/suanpan.png" alt="">
                         </div>
-                        <Input size="large">
-                            <Select  slot="prepend" style="width: 80px;">
-                                <Option value="http">http://</Option>
-                                <Option value="https">https://</Option>
+                        <Input v-model="value1" disabled size="large">
+                            <Select v-model="model2" slot="prepend" style="width: 80px;">
+                                <Option v-for="item in cityList" :value="item.currencyname" :key="item.currencyname">{{ item.currencyname }}</Option>
                             </Select>
                         </Input>
                     </Col>
@@ -34,7 +32,7 @@
                         <div class="icon_input">
                             <img src="/static/img/sjt.png" style="width:30px;height:16px;margin-top:5px;" alt="">
                         </div>
-                        <Button class="convers">CONVERSION</Button>
+                        <Button class="convers" @click="zhuanhuan">CONVERSION</Button>
                     </Col>
                 </Row>
             </div>
@@ -48,21 +46,69 @@ import bus from '../../bus/bus';
     export default {
         data() {
             return {
-                jichubizhogn:""
+                cityList:[],
+                jijia:'USDT',
+                value: '',
+                value1: '',
+                model1: 'ETH',
+                model2: 'USDT'
             }
         },
-        // watch:{
-        //     vl_currency: "vlcurrencu" 
-        // },
         created(){
             bus.$on('vl_currency', (val) => { //Hub接收事件
-                console.log(val)
+                this.jichubizhogn = val;
             });
         },
+        mounted(){
+            this.selectCurrency()
+        },
         methods:{
-            vlcurrencu(val){
-                console.log(val)
-                this.jichubizhogn = val;
+            selectCurrency(){
+                this.cityList = [];
+                let that=this;
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbfct.do",
+                    data:{
+                        reqresource:1
+                    }
+                }).then((res)=>{
+                    if(res.data.currencys && res.data.err_code == "1" && res.data){
+                        res.data.currencys.map((item)=>{
+                            console.log(item)
+                            that.cityList.push({
+                                currencyname:item.currencyname
+                            })
+                        })
+                    }
+                })
+            },
+            zhuanhuan(){
+                // console.log(this.value);
+                // console.log(this.model1);
+                // console.log(this.model2);
+                // console.log(this.jijia);
+                let that = this;
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbccp.do",
+                    data:{
+                        currency:that.model1, //币种
+                        exccurrency:that.model2, //需要兑换的币种
+                        tradecurrency:that.jijia, //计价币种
+                        currencynum:that.value.toString(),//数量
+                        reqresource:1
+                    }
+                }).then((data)=>{
+                    // console.log(data)
+                    if(data.data && data.status==200 && data.data.err_code == "1"){
+                        that.value1=data.data.price
+                    }else{
+                        that.value1 = ""
+                    }
+                }).catch((err)=>{
+                    console.log(err)
+                })
             }
         }
     }
@@ -95,11 +141,15 @@ import bus from '../../bus/bus';
                 margin-top: 82px;
             }
             .textinput{
-                margin-top:120px;
+                margin-top:100px;
                 .cal{
                     padding:0 40px;
                     text-align: center;
                     position: relative;
+                    background: none;
+                    .ivu-input-disabled{
+                        color:#333;
+                    }
                     .jiantou{
                         position: absolute;
                         height:50px;
@@ -177,7 +227,7 @@ import bus from '../../bus/bus';
                     height:50px;
                 }
             }
-            @media screen and (min-width:1440px) {
+            @media screen and (min-width:1500px) {
                 p{
                     margin-top:120px;
                 }
@@ -186,7 +236,7 @@ import bus from '../../bus/bus';
                 }
                 
             }
-            
+           
         }
     }
 </style>

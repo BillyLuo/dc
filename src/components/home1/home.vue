@@ -13,7 +13,7 @@
                 <img src="/static/img/language.png" alt="">
             </div> -->
             <div class="text">
-                <h1 class='h1'>Type something Type</h1>
+                <h1 class='h1'>币邦</h1>
                 <p class='p1'>Type somethingType somethingType somethingType something</p>
                 <p class="p_button"><Button class="button1">PRESSED</Button></p>
             </div>
@@ -30,20 +30,12 @@
 import List from "./list";
 import Calculator from './Calculator';
 import Foot from './footer';
-    let menu = [
-        {name:'home',text:'首页'},
-        {name:'trading',text:'交易中心'},
-        {name:'assets',text:'数字资产'},
-        {name:'user',text:'个人中心'},
-        {name:'market',text:'行情中心'},
-    ]
     export default {
         components:{
             List,Calculator,Foot
         },
         data() {
           return {
-              menu,
               activeName:"home"
           }
         },

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="title-scroll-box" id="scroll-wrapper"  @mouseenter="scroller(false)" @mouseleave="scroller(true)">
+  <div class="titlescroll">
+    <div class="title-scroll-box" id="scroll-wrapper" >
       <div class="box-margin" id="title-scroll-move-box">
         <ul id="title-scroll-move">
           <li v-for="data in dataArry" :key="data" :class="{down:data%2==0?true:false}">
@@ -28,62 +28,66 @@
         }
       },
     methods:{
-      scroll (num) {
-        var box = document.getElementById('title-scroll-move-box');
-        this.left = num;        
-        box.style.transform = 'translate('+num+'px,'+'0px)';
-      },
-      scroller (value) {
-        var that = this;
-        console.log(value);
-        if (value) {
-          that.timer = setInterval(function () {
-            var num = that.left;
-            // console.log(num);
-            num --;
-            if (num < -3600) {
-              num = 0;
-            }
-            that.left = num;
-            that.scroll(num);
-          },20);
-        }else if (that.timer){
-          clearInterval(that.timer);
-        }
-      }
+      // scroll (num) {
+      //   var box = document.getElementById('title-scroll-move-box');
+      //   this.left = num;        
+      //   box.style.transform = 'translate('+num+'px,'+'0px)';
+      // },
+      // scroller (value) {
+      //   var that = this;
+      //   console.log(value);
+      //   if (value) {
+      //     that.timer = setInterval(function () {
+      //       var num = that.left;
+      //       // console.log(num);
+      //       num --;
+      //       if (num < -3600) {
+      //         num = 0;
+      //       }
+      //       that.left = num;
+      //       that.scroll(num);
+      //     },20);
+      //   }else if (that.timer){
+      //     clearInterval(that.timer);
+      //   }
+      // }
     },
     created(){
       // console.log("页面加载前");
     },
     mounted(){
-      var that = this;
-      if (!that.timer) {
-        that.timer = setInterval(function () {
-          var num = that.left;
-          // console.log(num);
-          num --;
-          if (num < -3600) {
-            num = 0;
-          }
-          that.left = num;
-          that.scroll(num);
-        },20);
-      }
-      var myScroll = new IScroll('#scroll-wrapper', { eventPassthrough: true, scrollX: true, scrollY: false,probeType:3, preventDefault: false });
-      myScroll.on('scrollEnd',function () {
-        var box = document.getElementById('title-scroll-move-box');
-        box.style.transform = 'translate('+this.x+'px,'+this.y+'px)';
-        that.left = this.x;
-        that.scrolling = false;
-        // that.scroller(true);
-      })
-      myScroll.on('scrollStart',function () {
-        that.scrolling = true;
-      })
+      // var that = this;
+      // if (!that.timer) {
+      //   that.timer = setInterval(function () {
+      //     var num = that.left;
+      //     // console.log(num);
+      //     num --;
+      //     if (num < -3600) {
+      //       num = 0;
+      //     }
+      //     that.left = num;
+      //     that.scroll(num);
+      //   },20);
+      // }
+      // var myScroll = new IScroll('#scroll-wrapper', { eventPassthrough: true, scrollX: true, scrollY: false,probeType:3, preventDefault: false });
+      // myScroll.on('scrollEnd',function () {
+      //   var box = document.getElementById('title-scroll-move-box');
+      //   box.style.transform = 'translate('+this.x+'px,'+this.y+'px)';
+      //   that.left = this.x;
+      //   that.scrolling = false;
+      //   // that.scroller(true);
+      // })
+      // myScroll.on('scrollStart',function () {
+      //   that.scrolling = true;
+      // })
     }
   }
 </script>
 <style lang="scss">
+.titlescroll{
+  width:100%;
+  overflow: hidden;
+}
   .title-scroll-box{
     width: 100%;
     // padding: 5px 0;
@@ -99,7 +103,7 @@
       list-style-type: none;
     }
     .box-margin{
-      width: 4860px;
+      // width: 4860px;
       height: 30px;
       margin: 0 auto;
       overflow: hidden;

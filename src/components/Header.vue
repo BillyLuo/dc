@@ -231,7 +231,7 @@ export default {
 
 
       if(path != '/home' || path != '/'){
-        this.height = "height:80px;background:#333;position:fixed;top:0;";
+        this.height = "height:80px;background:#333;position:fixed;top:29px;";
       }
       
       if(path == '/home' || path == '/'){
@@ -304,7 +304,7 @@ export default {
       console.log("--------",name)
 
       if(name != 'home'){
-        this.height = "height:80px;background:#333;position:fixed;top:0;";
+        this.height = "height:80px;background:#333;position:fixed;top:29px;";
       }else{
         this.height = "";
       }
@@ -354,6 +354,7 @@ export default {
     z-index: 1000;
     transition: 0.4s;
     position: relative;
+    z-index: 998;
     // &.active {
     //   box-shadow: 0px 5px 5px rgba(0,0,0,0.2);
     //   height: 80px;
