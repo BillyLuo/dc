@@ -265,6 +265,7 @@ export default {
             ],
             sliderbuy:0,
             slidersell:0,
+            tradepwd:""
         }
     },
     created(){
@@ -487,6 +488,7 @@ export default {
         },
         //交易  type：1 买入    type：2   卖出
         trade(type) {
+            this.tradepwd ="";
             var that = this;
             var operate = type;       //1 买入   2  卖出
             var entrusttype = 1;      //1.限价交易   2.市价交易
@@ -495,118 +497,150 @@ export default {
             var entrustnum = '';      //委托数量
             var entrustprice = '';    //委托价格
             var reqresource = 1;      //请求来源，1：PC，2：APP
-            if (type == 1) {
-                tradecoin = 'USDT';
-                entrustcoin = this.changeCurreny;
-                entrustnum = this.buycount;
-                entrustprice = this.buyprice;
-                if (entrustnum <= 0) {
-                    this.$Notice.warning({
-                        title:'提示',
-                        desc:'请输入委托数量'
-                    })
-                    return false;
-                }
-                if (entrustprice <= 0) {
-                    this.$Notice.warning({
-                        title:'提示',
-                        desc:'请输入委托价格'
-                    })
-                    return false;
-                }
-                this.$ajax.post('/trade/tps/pbces.do',{
-                    entrusttype,
-                    entrustcoin,
-                    tradecoin,
-                    entrustnum,
-                    entrustprice,
-                    reqresource,
-                    operate
-                }).then((res) => {
-                    console.log('发送请求成功',res);
-                    if (res.status == 200 && res.data.err_code == '1') {
-                        console.log('创建委托成功');
-                        that.$Notice.success({
-                            title:'提示',
-                            desc:'委托创建成功'
+            var tradepwd="";
+            this.$Modal.confirm({
+                    title:"请输入交易密码",
+                    render: (h) => {
+                        return h('Input', {
+                            props: {
+                                value: that.tradepwd,
+                                autofocus: true,
+                                placeholder: '请输入交易密码',
+                                type:'password'
+                            },
+                            style:{
+                                marginTop: '30px'
+                            },
+                            on: {
+                                input: (val) => {
+                                   this.tradepwd = val;
+                                   console.log("=========",this.tradepwd)
+                                }
+                            }
                         })
-                        that.buycount = 0;
-                        that.getBalance();
-                    }else if (res.data && res.data.msg) {
-                        that.$Notice.warning({
-                            title:'提示',
-                            desc:'委托创建失败,'+res.data.msg
-                        })
-                    }else {
-                        that.$Notice.warning({
-                            title:'提示',
-                            desc:'委托创建失败，请稍后重试'
-                        })
-                    }
-                }).catch((err) => {
-                    console.log(err,'创建委托失败');
-                    that.$Notice.warning({
-                        title:'提示',
-                        desc:'委托创建失败，请稍后重试'
-                    })
+                    },
+                    onOk: () => {
+                        if (type == 1) {
+                            tradecoin = 'USDT';
+                            entrustcoin = this.changeCurreny;
+                            entrustnum = this.buycount;
+                            entrustprice = this.buyprice;
+                            tradepwd = this.tradepwd;
+                            if (entrustnum <= 0) {
+                                this.$Notice.warning({
+                                    title:'提示',
+                                    desc:'请输入委托数量'
+                                })
+                                return false;
+                            }
+                            if (entrustprice <= 0) {
+                                this.$Notice.warning({
+                                    title:'提示',
+                                    desc:'请输入委托价格'
+                                })
+                                return false;
+                            }
+                            this.$ajax.post('/trade/tps/pbces.do',{
+                                entrusttype,
+                                entrustcoin,
+                                tradecoin,
+                                entrustnum,
+                                entrustprice,
+                                reqresource,
+                                operate,
+                                tradepwd
+                            }).then((res) => {
+                                console.log('发送请求成功',res);
+                                if (res.status == 200 && res.data.err_code == '1') {
+                                    console.log('创建委托成功');
+                                    that.$Notice.success({
+                                        title:'提示',
+                                        desc:'委托创建成功'
+                                    })
+                                    that.buycount = 0;
+                                    that.getBalance();
+                                    that.paramsinfo (that.params)
+                                }else if (res.data && res.data.msg) {
+                                    that.$Notice.warning({
+                                        title:'提示',
+                                        desc:'委托创建失败,'+res.data.msg
+                                    })
+                                }else {
+                                    that.$Notice.warning({
+                                        title:'提示',
+                                        desc:'委托创建失败，请稍后重试'
+                                    })
+                                }
+                            }).catch((err) => {
+                                console.log(err,'创建委托失败');
+                                that.$Notice.warning({
+                                    title:'提示',
+                                    desc:'委托创建失败，请稍后重试'
+                                })
+                            })
+                        }else if (type == 2) {
+                            tradecoin = this.usdtCurrency;
+                            entrustcoin = this.changeCurreny;
+                            entrustnum = this.sellcount;
+                            entrustprice = this.sellprice;
+                            tradepwd = that.tradepwd;
+                            if (entrustnum <= 0) {
+                                this.$Notice.warning({
+                                    title:'提示',
+                                    desc:'请输入委托数量'
+                                })
+                                return false;
+                            }
+                            if (entrustprice <= 0) {
+                                this.$Notice.warning({
+                                    title:'提示',
+                                    desc:'请输入委托价格'
+                                })
+                                return false;
+                            }
+                            this.$ajax.post('/trade/tps/pbces.do',{
+                                entrusttype,
+                                entrustcoin,
+                                tradecoin,
+                                entrustnum,
+                                entrustprice,
+                                reqresource,
+                                operate,
+                                tradepwd
+                            }).then((res) => {
+                                console.log('---res,发送请求成功',res);
+                                if (res.status == 200 && res.data.err_code == '1') {
+                                    console.log('创建委托成功');
+                                    that.$Notice.success({
+                                        title:'提示',
+                                        desc:'委托创建成功'
+                                    })
+                                    var coin = that.changeCurreny;
+                                    that.sellcount = 0;
+                                    that.getBalance(coin);
+                                    that.paramsinfo (that.params)
+                                }else if (res.data && res.data.msg) {
+                                    that.$Notice.warning({
+                                        title:'提示',
+                                        desc:'委托创建失败,'+res.data.msg
+                                    })
+                                }else {
+                                    that.$Notice.warning({
+                                        title:'提示',
+                                        desc:'委托创建失败，请稍后重试'
+                                    })
+                                }
+                            }).catch((err) => {
+                                console.log('err',err);
+                                that.$Notice.warning({
+                                    title:'提示',
+                                    desc:'委托创建失败，请稍后重试'
+                                })
+                            })
+                        }
+                    },
                 })
-            }else if (type == 2) {
-                tradecoin = this.usdtCurrency;
-                entrustcoin = this.changeCurreny;
-                entrustnum = this.sellcount;
-                entrustprice = this.sellprice;
-                if (entrustnum <= 0) {
-                    this.$Notice.warning({
-                        title:'提示',
-                        desc:'请输入委托数量'
-                    })
-                    return false;
-                }
-                if (entrustprice <= 0) {
-                    this.$Notice.warning({
-                        title:'提示',
-                        desc:'请输入委托价格'
-                    })
-                    return false;
-                }
-                this.$ajax.post('/trade/tps/pbces.do',{
-                    entrusttype,
-                    entrustcoin,
-                    tradecoin,
-                    entrustnum,
-                    entrustprice,
-                    reqresource,
-                    operate
-                }).then((res) => {
-                    console.log('---res,发送请求成功',res);
-                    if (res.status == 200 && res.data.err_code == '1') {
-                        console.log('创建委托成功');
-                        that.$Notice.success({
-                            title:'提示',
-                            desc:'委托创建成功'
-                        })
-                        var coin = that.changeCurreny;
-                        that.sellcount = 0;
-                        that.getBalance(coin);
-                    }else if (res.data && res.data.msg) {
-                        that.$Notice.warning({
-                            title:'提示',
-                            desc:'委托创建失败,'+res.data.msg
-                        })
-                    }else {
-                        that.$Notice.warning({
-                            title:'提示',
-                            desc:'委托创建失败，请稍后重试'
-                        })
-                    }
-                }).catch((err) => {
-                    console.log('err',err);
-                    that.$Notice.warning({
-                        title:'提示',
-                        desc:'委托创建失败，请稍后重试'
-                    })
-                })
-            }
+            
         },
         doTrade(obj) {
             console.log('交易',obj);

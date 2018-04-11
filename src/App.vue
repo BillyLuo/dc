@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TitleScroll />
+    <!-- <TitleScroll /> -->
     <Header />
     <!-- <div style="margin-top: 100px"></div> -->
     <!-- <div> -->

@@ -227,10 +227,24 @@ import bus from '../../bus/bus';
                     height:50px;
                 }
             }
-            @media screen and (min-width:1500px) {
+            @media screen and (min-width:1400px) {
                 p{
                     margin-top:120px;
                 }
+            }
+            @media screen and (min-width: 1200px) and (max-width: 1400px) {
+                .textinput{
+                    margin-top:100px;
+                }
+                
+            }
+            @media screen and (min-width: 1400px) and (max-width: 1600px) {
+                .textinput{
+                    margin-top:100px;
+                }
+                
+            }
+            @media screen and (min-width: 1600px) {
                 .textinput{
                     margin-top:170px;
                 }

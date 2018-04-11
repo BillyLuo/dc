@@ -231,7 +231,7 @@ export default {
 
 
       if(path != '/home' || path != '/'){
-        this.height = "height:80px;background:#333;position:fixed;top:29px;";
+        this.height = "height:80px;background:#222222;position:fixed;top:29px;";
       }
       
       if(path == '/home' || path == '/'){
@@ -304,7 +304,7 @@ export default {
       console.log("--------",name)
 
       if(name != 'home'){
-        this.height = "height:80px;background:#333;position:fixed;top:29px;";
+        this.height = "height:80px;background:#222222;position:fixed;top:29px;";
       }else{
         this.height = "";
       }
