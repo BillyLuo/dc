@@ -55,6 +55,10 @@ module.exports = {
         //   target: 'http://18.222.44.183:8002/txs',
         //   pathRewrite: {'^/trade' : ''}
         // },
+        // '/trade': {
+        //   target: 'http://47.93.200.170:8002/txs',
+        //   pathRewrite: {'^/trade' : ''}
+        // },
         '/okcoin': {
             target: 'http://localhost/okcoin/',
             pathRewrite: {'^/okcoin' : ''}

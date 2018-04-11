@@ -3,7 +3,7 @@
         <Tabs value="name1">
             <TabPane label="最近登陆历史" name="name1">
                 <div class="ext-table">
-                    <Table :data="data1" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有登录历史</span>" :columns="columns1" stripe></Table>
+                    <Table :data="data1" :class="'no-border-table dark-mode'" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有登录历史</span>" :columns="columns1" stripe></Table>
                     <div class="pager">
                         <div class="pager-inner">
                             <Page :total="recordPageTotal"
@@ -14,11 +14,11 @@
                     </div>
                 </div>
             </TabPane>
-            <TabPane label="安全设置历史" name="name2">
+            <!-- <TabPane label="安全设置历史" name="name2">
                 <div class="ext-table">
                     <Table :data="data2" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有安全设置历史</span>" :columns="columns2" stripe></Table>
                 </div>
-            </TabPane>
+            </TabPane> -->
         </Tabs>
     </div>
 </template>
@@ -112,12 +112,20 @@ import { Message } from '../../utils/message';
 
 <style lang="scss">
     .broker{
-        min-height:400px;
-        
-        .ivu-tabs-bar{
-            margin-bottom: 0;
+        .ivu-tabs {
+            background: #353535;
         }
-            
+        .ivu-tabs-bar {
+            border: 0;
+            box-shadow: 1px 2px 4px 0px #111;
+            margin-bottom: 3px;
+        }
+        .ivu-tabs-tab-active {
+            color: #fff;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        min-height:400px;
        .ivu-tabs-nav-scroll{
             height:60px;
             .ivu-tabs-nav .ivu-tabs-tab{

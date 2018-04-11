@@ -1,64 +1,73 @@
 <template>
-  <div>
-    <div class="wallet-box-background">
-      <div class="wallet-box">
-        <div class="login-left">
-          <img src="/static/img/login.png" alt="" width="100%" height="100%">
-        </div>
-        <div class="login-right">
-          <div style="width:100%" :class="'login-card'">
-            <div style="text-align:center">
-              <img src="/static/img/logo.png">
-              <h3>登录福币中心</h3>
+  <div :style="{marginTop:'500px'}">
+    <div class="ivu-modal-mask"></div>
+    <div class="ivu-modal-wrap"  @click.stop="closeModal($event)">
+      <div class="ivu-modal">
+        <div class="wallet-box-background">
+          <div class="wallet-box clear">
+            <div class="close-login" @click.stop="closeModal($event)">
+              <Icon type="close"></Icon>
+            </div>
+            <div class="login-left">
+              <div class="login-img">
+                
+              </div>
+              <div class="mask"></div>
+            </div>
+            <div class="login-right">
+              <div style="width:100%" :class="'login-card'">
+                <div style="text-align:center">
+                  <img src="/static/img/logo.png">
+                  <h3>登录福币中心</h3>
+                </div>
+              </div>
+              <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
+                <div style="height:38px;">
+                  <Alert type="error" show-icon :class="loginError.length>0?'show':'hide'">{{loginError}}</Alert>
+                </div>
+                <FormItem prop="user">
+                  <Input @on-enter="handleSubmit('formInline')" type="text" :maxlength="50" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
+                  <Icon type="ios-person-outline" slot="prepend" :class="'login-input-icon'"></Icon>
+                  </Input>
+                </FormItem>
+                <FormItem prop="password">
+                  <Input @on-enter="handleSubmit('formInline')" type="password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
+                  <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
+                  </Input>
+                </FormItem>
+                <FormItem prop="checkcode" :class="'item-checkcode login-input'">
+                  <Input v-model="formInline.checkcode" placeholder="请输入图片验证码" @on-enter="handleSubmit('formInline')">
+                    <img class="checkcode" slot="append" :src="checkUrl" @click="changeCode"/>
+                  </Input>
+                  <div style="text-align: right;padding: 4px;height: 20px;">看不清？<a href="javascript:;" @click="changeCode">换一张图片</a>。</div>
+                </FormItem>
+                <!-- <FormItem prop="tel">
+                  <Input type="text" v-model="formInline.tel" placeholder="手机号" :class="'login-input'">
+                  <Icon type="ios-telephone-outline" slot="prepend" :class="'login-input-icon'"></Icon>
+                  </Input>
+                </FormItem>
+                <FormItem prop="verificationCode">
+                  <Input type="text" v-model="formInline.verificationCode" placeholder="验证码" :class="'login-input'" style="width: 200px">
+                  </Input>
+                  <Button type="primary" :class="'verification-code-button'" @click="telCodeButtonClick" :disabled="telCodeDisabled">
+                    {{ telCodeText }}
+                  </Button>
+                </FormItem> -->
+                <!-- <div style="padding: 4px 0 15px 0;">
+                  <Checkbox v-model="rememberpass" @on-change="togglepass">记住密码</Checkbox>
+                </div> -->
+                <FormItem>
+                  <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
+                </FormItem>
+                <div style="font-size: 12px;">
+                  <span  class="color-999" >没有账号？ </span><a href="javascript:;" @click="goRigister"> 请注册</a> <a class="float-right" href="javascript:;" @click="resetpass">忘记密码？</a>
+                </div>
+              </Form>
             </div>
           </div>
-          <Form ref="formInline" :model="formInline" :rules="ruleInline" inline :class="'login-form-all'">
-            <div style="height:38px;">
-              <Alert type="error" show-icon :class="loginError.length>0?'show':'hide'">{{loginError}}</Alert>
-            </div>
-            <FormItem prop="user">
-              <Input @on-enter="handleSubmit('formInline')" type="text" :maxlength="50" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
-              <Icon type="ios-person-outline" slot="prepend" :class="'login-input-icon'"></Icon>
-              </Input>
-            </FormItem>
-            <FormItem prop="password">
-              <Input @on-enter="handleSubmit('formInline')" type="password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
-              <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
-              </Input>
-            </FormItem>
-            <FormItem prop="checkcode" :class="'item-checkcode login-input'">
-              <Input v-model="formInline.checkcode" placeholder="请输入图片验证码" @on-enter="handleSubmit('formInline')">
-                <img class="checkcode" slot="append" :src="checkUrl" @click="changeCode"/>
-              </Input>
-              <div style="text-align: right;padding: 4px;height: 20px;">看不清？<a href="javascript:;" @click="changeCode">换一张图片</a>。</div>
-            </FormItem>
-            <!-- <FormItem prop="tel">
-              <Input type="text" v-model="formInline.tel" placeholder="手机号" :class="'login-input'">
-              <Icon type="ios-telephone-outline" slot="prepend" :class="'login-input-icon'"></Icon>
-              </Input>
-            </FormItem>
-            <FormItem prop="verificationCode">
-              <Input type="text" v-model="formInline.verificationCode" placeholder="验证码" :class="'login-input'" style="width: 200px">
-              </Input>
-              <Button type="primary" :class="'verification-code-button'" @click="telCodeButtonClick" :disabled="telCodeDisabled">
-                {{ telCodeText }}
-              </Button>
-            </FormItem> -->
-            <!-- <div style="padding: 4px 0 15px 0;">
-              <Checkbox v-model="rememberpass" @on-change="togglepass">记住密码</Checkbox>
-            </div> -->
-            <FormItem>
-              <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
-            </FormItem>
-            <div style="font-size: 12px;">
-              <span  class="color-999" >没有账号？ </span><a href="javascript:;" @click="goRigister"> 请注册</a> <a class="float-right" href="javascript:;" @click="resetpass">忘记密码？</a>
-            </div>
-          </Form>
         </div>
       </div>
     </div>
-
-
   </div>
 
 </template>
@@ -147,6 +156,19 @@
       }
     },
     methods: {
+      closeModal(e){
+        var target = e.target;
+        if (target && (target.className.match('ivu-modal-wrap') ||
+          target.className.match('close-login') ||
+          target.className.match('ivu-icon-close') ||
+          target.className.match('wallet-box-background'))) {
+        }else {
+          return false;
+        }
+        this.$router.push({
+          path:'/'
+        })
+      },
       changeCode(){
         this.formInline.checkcode = '';
         this.checkUrl = '/trade/tps/pbccs.do?' + Date.now();
@@ -306,26 +328,66 @@
 <style>
   .wallet-box-background{
     width: 100%;
-    background: #f9f9f9;
-    padding: 20px 0;
-    height: 585px;
+    /* background: #f9f9f9; */
+    /* padding: 20px 0; */
+    /* height: 585px; */
   }
   .wallet-box{
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    position: relative;
+  }
+  .close-login {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -12px;
+    right: -16px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    color: #2e2e2e;
+    background: #fff;
+    cursor: pointer;
   }
   .login-left{
-    width: 800px;
-    height: 480px;
+    /* width: 800px; */
+    /* height: 480px; */
     float: left;
+    position: relative;
+  }
+  .login-left .login-img {
+    display: block;
+    width: 500px;
+    height: 680px;
+    background: url(/static/img/login.jpg) no-repeat;
+    background-position:0 -80px;
+    background-size: cover;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  .login-left .mask {
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left:0;
+    right:0;
+    margin: auto;
+    background: rgba(46,46,46,.9);
+    z-index: 3;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
   }
   .login-right{
-    width: 400px;
+    width: 500px;
     box-sizing: border-box;
-    padding: 0px 45px 25px 45px;
+    padding: 80px;
     height: 480px;
     float: right;
     background: #fff;
+    border-top-right-radius: 8px;
   }
   .login-form-all>.ivu-form-item{
     width:100%;

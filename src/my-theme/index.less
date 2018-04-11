@@ -1,4 +1,50 @@
 @import '~iview/src/styles/index.less';
 
 // Here are the variables to cover, such as:
-// @primary-color: #ffb900;
+// @primary-color: #999;
+
+
+
+@background: #353535;
+@secondary-color:#2C2D2F;
+
+.dark-mode .ivu-input,.dark-mode .ivu-select-selection {
+  background: @background;
+  &:hover,&:focus {
+    border-color: #fff;
+  }
+}
+.dark-mode .ivu-select-item-selected, .ivu-select-item-selected:hover{
+  background: @secondary-color;
+}
+.dark-mode .ivu-select .ivu-select-dropdown {
+  background: @background;
+}
+.dark-mode .ivu-select .ivu-select-item:hover {
+  background: @secondary-color;
+}
+
+.dark-mode .ivu-table th,.dark-mode .ivu-table td {
+  background: @background;
+  color: #596980;
+  border-bottom: 0px;
+  height: 50px;
+}
+.dark-mode .ivu-table .ivu-table-row:hover td {
+  background: #333;
+}
+.dark-mode.ivu-table-wrapper {
+  border-top: 0px;
+}
+.dark-mode .ivu-table {
+  background: @background
+}
+.dark-mode .ivu-table::before {
+  height:0;
+}
+.dark-mode .ivu-table-header {
+  border-bottom: 1px solid #1E2D43;
+}
+.dark-mode .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td{
+  background-color: #414448;
+}

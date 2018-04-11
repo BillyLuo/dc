@@ -6,7 +6,7 @@
     <div class="reset-form">
       <div class="reset-form-inner">
         <h3 class="reset-title">您正通过 <span>电子邮件</span> 找回登录密码</h3>
-        <Form v-if="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
+        <Form v-show="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
           <form-item label="邮箱地址：" prop="email">
             <Input type="email" size="large" placeholder="邮箱地址" v-model="resetForm.email"/>
           </form-item>
@@ -27,7 +27,7 @@
             <Button type="primary" size="large" class="btn-block" @click="submitEmail">提交</Button>
           </div>
         </Form>
-          <Form v-if="step == 2" ref="pwdForm" 
+          <Form v-show="step == 2" ref="pwdForm" 
             :model="pwdForm"
             :rules="pwdRules"
             :label-width="100" style="width: 500px;margn: 0 auto">
@@ -45,7 +45,7 @@
               <Button type="primary" size="large" class="btn-block" @click="next(3)">下一步</Button>
             </div>
           </Form>
-        <div v-if="step == 3">
+        <div v-show="step == 3">
           <h3 class="reset-success">恭喜，重置登录密码成功</h3>
           <div class="reset-btn-wrapper">
             <Button type="primary" size="large" class="btn-block" @click="login">立即登录</Button>
@@ -69,7 +69,7 @@ var emailValidator = (rules,value,c)=> {
 }
 var resetRules = {
   email:[
-    {required:true},
+    {required:true,message:'请输入邮箱地址',trigger:'blur'},
     {validator:emailValidator,trigger:'blur'}
   ],
   credentials:[

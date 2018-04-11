@@ -1,33 +1,79 @@
-.setting-item {
-  width: 300px;
-  height: 150px;
-  border: 1px solid #eee;
-  margin: 20px auto;
-  border-radius: 4px;
-  position: relative;
-  .item-pic {
-    display: inline-block;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    margin: 35px 30px;
-    vertical-align: middle;
-    i {
-      display: block;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background-image: url(/static/img/icon-info.png);
-      background-repeat: no-repeat;
+.user-main {
+  .ivu-menu-vertical.ivu-menu-light:after{
+    width: 0;
+  }
+  .ivu-menu-light.ivu-menu-vertical .ivu-menu-item:not(.ivu-menu-submenu) {
+    color: #596980;
+    border-bottom: 1px solid #414448;
+    &:hover {
+      background: #353535;
+      color: #fff;
     }
   }
+  .ivu-menu {
+    background: #353535;
+    &.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
+      border-right: 0px;
+      color:#fff;
+      border-bottom: 1px solid #4CB2F9;
+      &:hover {
+        color: #595959;
+      }
+    }
+  }
+}
+.ivu-col {
+  background: #222222;
+  padding: 0 10px;
+}
+.safe-level {
+  height: 60px;
+  line-height: 60px;
+  border-bottom: 1px solid #383A3D;
+}
+.setting-item {
+  // width: 300px;
+  height: 60px;
+  line-height: 60px;
+  border-bottom: 1px solid #383A3D;
+  // margin: 20px auto;
+  // border-radius: 4px;
+  position: relative;
+  // .item-pic {
+  //   display: inline-block;
+  //   width: 70px;
+  //   height: 70px;
+  //   border-radius: 50%;
+  //   margin: 35px 30px;
+  //   vertical-align: middle;
+  //   i {
+  //     display: block;
+  //     width: 70px;
+  //     height: 70px;
+  //     border-radius: 50%;
+  //     background-image: url(/static/img/icon-info.png);
+  //     background-repeat: no-repeat;
+  //   }
+  // }
+  &.bind-tradepass {
+    border-bottom: 0px;
+  }
   .item-content {
-    margin-top: 50px;
+    // margin-top: 50px;
     // width: 180px;
     text-align: left;
+    width: 60%;
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
     h3 {
       color: #666;
+      font-size: 14px;
       font-weight: 400;
+      float: left;
+      width: 300px;
     }
     a {
       font-size: 12px;
@@ -46,7 +92,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 100%;
+    width: 300px;
     text-align: right;
     color: #aaa;
     font-size: 12px;
@@ -55,7 +101,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     &:hover {
-      color: #333;
+      color: #666;
     }
     &.disabled:hover {
       color: #aaa;
@@ -68,62 +114,23 @@ $bind-phone-color: #CA78FA;
 $bind-code-color: #6F7BF3;
 $bind-loginpass-color: #F4E058;
 $bind-tradepass-color: #FFA257;
-
-.safe-settings .ivu-col {
-  .bind-email{
-    i {
-      background-position: 0 0;
-      background-color: $bind_email_color;
-    }
-    &:hover {
-      border-color: $bind_email_color;
-    }
-  }
-  .bind-name{
-    i {
-      background-position: 0 -70px;
-      background-color: $bind-name-color;
-    }
-    &:hover {
-      border-color: $bind_name_color;
-    }
-  }
-  .bind-phone{
-    i {
-      background-position: 0 -140px ;
-      background-color: $bind-phone-color;
-    }
-    &:hover {
-      border-color: $bind_phone_color;
-    }
-  }
-  .bind-code {
-    i {
-      background-position: 0 -210px;
-      background-color: $bind-code-color;
-    }
-    &:hover {
-      border-color: $bind_code_color;
-    }
-  }
-  .bind-loginpass {
-    i {
-      background-position: 0 -280px ;
-      background-color: $bind-loginpass-color;
-    }
-    &:hover {
-      border-color: $bind_loginpass_color;
-    }
-  }
-  .bind-tradepass{
-    i {
-      background-position: 0 -350px ;
-      background-color: $bind-tradepass-color;
-    }
-    &:hover {
-      border-color: $bind_tradepass_color;
-    }
-  }
+.icon-status {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  line-height: 16px;
+  border-radius: 50%;
+  color: #423733;
+  margin-right: 2px;
+}
+.icon-status.icon-to-be-set {
+  background: #DF522D;
+}
+.icon-status.icon-setted {
+  background: #5EAB75;
 }
 .ivu-input-group-append .ivu-btn.send-code {
   background: #2d8cf0;
