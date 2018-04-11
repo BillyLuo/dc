@@ -54,7 +54,7 @@ router.afterEach(route => {
 });
 let menu = [
   {name:'home',text:'首页'},
-  {name:'trading',text:'交易中心'},
+  // {name:'trading',text:'交易中心'},
   {name:'assets',text:'数字资产'},
   {name:'user',text:'个人中心'},
   {name:'market',text:'行情中心'},

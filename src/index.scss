@@ -4,6 +4,11 @@ body {
   // overflow-x: scroll;
   color: #333;
   background: #353535;
+  height:100%;
+}
+html{
+  min-height:100%;
+  background: #2C2D2F;
 }
 ul,ul li {
   list-style: none;
@@ -12,6 +17,8 @@ ul,ul li {
   width: 1200px;
   margin: 0 auto;
   padding-top:27px;
+  margin-top: 80px;
+  min-height:100%;
 }
 .show {
   display: block;
@@ -90,6 +97,7 @@ ul,ul li {
 }
 .main-inner{
   background: #2C2D2F;
+  min-height:100%;
 }
 .divide {
   border-bottom: 1px solid #f4f4f4;
