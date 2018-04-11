@@ -17,7 +17,7 @@
     </div>
     <div class="recharge-record">
       <h3>{{currencyType}}充值记录</h3>
-      <Table :class="'no-border-table'" stripe :columns="record_column" :data="record_data" />
+      <Table :class="'no-border-table dark-mode'" stripe :columns="record_column" :data="record_data" />
     </div>
   </div>
 </template>
@@ -147,16 +147,17 @@ export default {
       width: 600px;
       height: 40px;
       padding: 0 10px;
-      background: #fafafa;
-      border: 1px solid #f5f5f5;
+      background: transparent;
+      // border: 1px solid #f5f5f5;
+      border: 0px;
       color: #666;
       appearance: none;
     }
     
   }
   .recharge-note {
-    border: 1px solid #F2F6FE;
-    background: #FDFEFF;
+    border: 1px solid #666;
+    // background: #FDFEFF;
     padding: 20px;
     border-radius: 3px;
   }
@@ -201,7 +202,7 @@ export default {
         display: inline-block;
         width: 60px;
         height: 2px;
-        background-color: #FDD11A;
+        background-color: #3166D2;
         position: absolute;
         left: 0;
         bottom: 0;

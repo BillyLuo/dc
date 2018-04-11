@@ -39,7 +39,7 @@
     </div>
     <div class="withdraw-record">
       <h3>提现记录</h3>
-      <Table :class="'no-border-table'" stripe :columns="record_column" :data="record_data" />
+      <Table :class="'no-border-table dark-mode'" stripe :columns="record_column" :data="record_data" />
     </div>
     <Modal
       class="addaddress"
@@ -428,7 +428,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   @import './withdraw';
   .withdraw-title {
     font-size: 16px;
@@ -439,13 +439,14 @@ export default {
     padding: 0 2px;
     padding-left: 0;
     position: relative;
+    color: #666;
     &:after{
       content:'';
       display: inline-block;
       width: 100%;
       left: 0px;
       height: 2px;
-      background: #3166D2;
+      // background: #3166D2;
       position: absolute;
       bottom: 0px;
     }
@@ -461,6 +462,14 @@ export default {
     }
 }
 .withdraw {
+  .ivu-input-number {
+    border-color: #666;
+  }
+  .ivu-input,.ivu-input-number-input {
+    background: #353535;
+    color: #666;
+    border-color: #666;
+  }
   .submit-btn {
     width: 400px;
     margin-left: 160px;
@@ -468,8 +477,8 @@ export default {
   }
 }
 .withdraw-note {
-  border: 1px solid #F2F6FE;
-  background: #FDFEFF;
+  border: 1px solid #666;
+  // background: #FDFEFF;
   padding: 20px;
   border-radius: 3px;
 }
