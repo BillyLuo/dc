@@ -338,7 +338,6 @@
     background: #fff;
     border-radius: 8px;
     position: relative;
-    margin-bottom: 100px;
   }
   .close-login {
     position: absolute;

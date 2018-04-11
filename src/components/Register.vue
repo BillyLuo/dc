@@ -816,7 +816,6 @@ export default {
 .register-box-background {
   /* background: #f9f9f9; */
   width: 100%;
-	margin-bottom: 100px;
 }
 .register-box {
   width: 1000px;

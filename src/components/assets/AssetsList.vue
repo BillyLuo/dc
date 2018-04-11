@@ -3,7 +3,7 @@
     <div class="account-list">
       <h3><span>资产列表</span></h3>
       <div>
-        <Table :class="'no-border-table'" stripe :columns="account_list_column" :data="account_list_data" />
+        <Table :class="'no-border-table dark-mode'" stripe :columns="account_list_column" :data="account_list_data" />
         <div class="pager">
           <div class="pager-inner">
             <Page :total="pagetotal" 
@@ -38,14 +38,17 @@ export default {
       pagesize:10,
       pageSizeOpts,
       account_list_data:[],
-      account_list_column: [{
+      account_list_column: [
+      {
         title: '币种名称',
-        key: 'name'
+        key: 'name',
+        className:'coin-name'
       },
       {
         title: '可用资产',
         key: 'useable',
         sortable: true,
+        className:'table-asset',
         sortMethod(a,b,type){
           if (type == 'asc') {
             return a - b;
@@ -58,6 +61,7 @@ export default {
         title: '冻结资产',
         key: 'freeze',
         sortable: true,
+        className:'table-asset',
         sortMethod(a,b,type){
           if (type == 'asc') {
             return a - b;
@@ -70,6 +74,7 @@ export default {
         title: '总量',
         key: 'total',
         sortable: true,
+        className:'table-asset',
         sortMethod(a,b,type){
           if (type == 'asc') {
             return a - b;
@@ -196,5 +201,13 @@ export default {
     line-height: 60px;
     border-bottom: 2px solid #2d8cf0;
     padding: 0 10px;
+  }
+  .account-list {
+    .ivu-table td.coin-name {
+      color:#4CB2F9;
+    }
+    .ivu-table td.table-asset {
+      color: #fff;
+    }
   }
 </style>

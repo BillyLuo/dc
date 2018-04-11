@@ -264,7 +264,7 @@ export default {
     h3 {
       font-size: 18px;
       font-weight: 400;
-      color: #333;
+      color: #fff;
       margin-bottom: 10px;
       a {
         color: #3166D2;

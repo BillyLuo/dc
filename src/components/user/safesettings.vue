@@ -1,44 +1,86 @@
 <template>
   <div class="safe-settings">
+    <div :style="{background:'#2A2A2A',marginBottom:'3px',fontSize:'18px',color:'#fff',height:'76px',lineHeight:'76px',boxShadow:'1px 2px 3px 0px #000'}">
+      <h4 class="text-left" :style="{paddingLeft:'10px',fontWeight:'500'}">
+        账户安全
+      </h4>
+    </div>
     <Row>
-      <Col span="8">
+      <Col>
+        <div class="text-left safe-level clear" :style="{color:'#666'}">
+          <div class="color-666 float-left" :style="{width:'300px'}">
+            安全等级
+          </div>
+          <div class="float-left" :style="{width:'300px',marginRight:'40px'}">
+            <Progress :stroke-width="15" :percent="safeLevel">
+              <span>{{safeLevelStatus}}</span>
+            </Progress>
+          </div>
+          <div class="float-left">
+            {{safeLevelInfo}}
+          </div>
+        </div>
+      </Col>
+      <Col span="24">
         <div class="setting-item bind-email">
           <div class="clear">
             <div class="item-pic float-left">
               <i></i>
             </div>
              <div class="item-content float-left">
-              <h3>绑定您的邮箱</h3>
+              <h3>
+                <i v-if="userinfo.email.bound" class="icon-status icon-setted">
+                  <Icon type="checkmark-round"></Icon>
+                </i>
+                <i v-else class="icon-status icon-to-be-set">
+                  <Icon type="alert"></Icon>
+                </i> 
+                绑定您的邮箱</h3>
               <a href="javascript:;" :class="{active:userinfo.email.bound,disabled:true}" @click="openEmailModal">{{userinfo.email.bound?'已绑定':'未绑定'}}</a>
              </div>
              <a href="javascript:;" @click="openEmailModal" :class="{'item-status':true,disabled:userinfo.email.bound}">{{userinfo.email.bound?userinfo.email.value.slice(0,4)+'****'+userinfo.email.value.match(/@.+$/):'绑定'}}</a>
           </div>
         </div>
       </Col>
-      <Col span="8">
+      <Col span="24">
         <div class="setting-item bind-name">
           <div class="clear">
             <div class="item-pic float-left">
               <i></i>
             </div>
              <div class="item-content float-left">
-              <h3>实名认证</h3>
+              <h3>
+                <i v-if="userinfo.nameAuth.bound" class="icon-status icon-setted">
+                  <Icon type="checkmark-round"></Icon>
+                </i>
+                <i v-else class="icon-status icon-to-be-set">
+                  <Icon type="alert"></Icon>
+                </i> 
+                <span>实名认证</span>
+              </h3>
               <a v-if="userinfo.nameAuth.bound" class="active disabled" href="javascript:;">已认证</a>
               <a href="javascript:;" v-else>未认证</a>
              </div>
              <a href="javascript:;" class="item-status disabled" v-if="userinfo.nameAuth.bound" >您的账号已通过实名认证</a>
-             <a href="javascript:;" class="item-sttus" v-else @click="()=>{this.$router.push({path:'/user/authentication',query:{name:'authentication'}})}">实名认证</a>
+             <a href="javascript:;" class="item-status" v-else @click="()=>{this.$router.push({path:'/user/authentication',query:{name:'authentication'}})}">实名认证</a>
           </div>
         </div>
       </Col>
-      <Col span="8">
+      <Col span="24">
         <div class="setting-item bind-phone">
           <div class="clear">
             <div class="item-pic float-left">
               <i></i>
             </div>
              <div class="item-content float-left">
-              <h3>手机绑定</h3>
+              <h3>
+                <i v-if="userinfo.phone.bound" class="icon-status icon-setted">
+                  <Icon type="checkmark-round"></Icon>
+                </i>
+                <i v-else class="icon-status icon-to-be-set">
+                  <Icon type="alert"></Icon>
+                </i> 
+                手机绑定</h3>
               <a href="javascript:;" v-if="userinfo.phone.bound" class="active">{{userinfo.phone.value.slice(0, 4) +
           "****" + userinfo.phone.value.slice(-4)}}</a>
               <a href="javascript:;" v-else>绑定</a>
@@ -48,28 +90,42 @@
           </div>
         </div>
       </Col>
-      <Col span="8">
+      <!-- <Col span="24">
         <div class="setting-item bind-code">
           <div class="clear">
             <div class="item-pic float-left">
               <i></i>
             </div>
              <div class="item-content float-left">
-              <h3>谷歌验证码</h3>
+              <h3>
+                <i v-if="userinfo.google.bound" class="icon-status icon-setted">
+                  <Icon type="checkmark-round"></Icon>
+                </i>
+                <i v-else class="icon-status icon-to-be-set">
+                  <Icon type="alert"></Icon>
+                </i> 
+                谷歌验证码</h3>
               <a href="javascript:;">未绑定</a>
              </div>
              <a href="javascript:;" class="item-status" @click="google">绑定</a>
           </div>
         </div>
-      </Col>
-      <Col span="8">
+      </Col> -->
+      <Col span="24">
         <div class="setting-item bind-loginpass">
           <div class="clear">
             <div class="item-pic float-left">
               <i></i>
             </div>
              <div class="item-content float-left">
-              <h3>登录密码设置</h3>
+              <h3>
+                <i v-if="userinfo.loginPass.bound" class="icon-status icon-setted">
+                  <Icon type="checkmark-round"></Icon>
+                </i>
+                <i v-else class="icon-status icon-to-be-set">
+                  <Icon type="alert"></Icon>
+                </i> 
+                登录密码设置</h3>
               <a v-if="userinfo.loginPass.bound" class="active" href="javascript:;">已设置</a>
               <a v-else href="javascript:;">设置</a>
              </div>
@@ -77,14 +133,21 @@
           </div>
         </div>
       </Col>
-      <Col span="8">
+      <Col span="24">
         <div class="setting-item bind-tradepass">
           <div class="clear">
             <div class="item-pic float-left">
               <i></i>
             </div>
              <div class="item-content float-left">
-              <h3>交易密码设置</h3>
+              <h3>
+                <i v-if="userinfo.tradePass.bound" class="icon-status icon-setted">
+                  <Icon type="checkmark-round"></Icon>
+                </i>
+                <i v-else class="icon-status icon-to-be-set">
+                  <Icon type="alert"></Icon>
+                </i> 
+                交易密码设置</h3>
               <a v-if="userinfo.tradePass.bound" class="active">
                 已设置
               </a>
@@ -257,11 +320,14 @@
 
 <script>
 import { mapState } from "vuex";
-import { Form, FormItem } from 'iview';
+import { Form, FormItem, Icon, Progress } from 'iview';
 var telReg = /^1[34578]\d{9}$/;
 export default {
   data () {
     return {
+      safeLevelStatus:'',
+      safeLevel:0,
+      safeLevelInfo:'',
       emailModal: false,
       emailErrMsg:'',
       telModal:false,
@@ -416,40 +482,69 @@ export default {
         nameAuth = {bound:false,value:''},
         phone = {bound:false,value:''},
         loginPass = {bound:false,value:''},
-        tradePass = {bound:false,value:''};
+        tradePass = {bound:false,value:''},
+        google = {bound:false,value:''};
+        var num = 0;
         if (state.userinfo.emailset ==1) {
           email.bound = true;
           email.value = info.email;
+          num += 1;
         }
         if (info.identityset ==1) {
           nameAuth.bound = true;
+          num += 1;
         }
         if (info.mobileset ==1) {
+          num += 1;
           phone.bound = true;
           phone.value = info.mobile;
           this.modifyTelValidate.tel = info.mobile;
         }
         if (info.googlecodeset ==1 ) {
-          
+          num += 1;
+          google.bound = true;
         }
         if (info.loginpasswordset == 1) {
+          num += 1;
           loginPass.bound = true;
         }
         if (info.tradepasswordset == 1) {
+          num += 1;
           tradePass.bound = true;
         }
         console.log('------userinfo-------',{
-          email,nameAuth,phone,loginPass,tradePass
-        });
+          email,nameAuth,phone,loginPass,tradePass,google
+        },this);
+        var safeLevel = num/5*100;
+        var safeLevelStatus = '';
+        var safeLevelInfo = '';
+        if (safeLevel < 20) {
+          safeLevelStatus = '极低';
+          safeLevelInfo = '为保障您的账户安全，请尽快完善安全设置';
+        }else if (safeLevel < 40) {
+          safeLevelStatus = '较低';
+          safeLevelInfo = '为保障您的账户安全，请尽快完善安全设置';
+        }else if (safeLevel < 80) {
+          safeLevelStatus = '中等';
+          safeLevelInfo = '您的账户较为安全，请尽快完善其他安全设置';
+        }else {
+          safeLevelStatus = '安全';
+          safeLevelInfo = '您已通过所有安全认证';
+        }
+        this.safeLevel = safeLevel;
+        this.safeLevelStatus = safeLevelStatus;
+        this.safeLevelInfo = safeLevelInfo;
         return {
-          email,nameAuth,phone,loginPass,tradePass
+          email,nameAuth,phone,loginPass,tradePass,google
         }
       }
     })
   },
   components:{
     Form,
-    FormItem
+    FormItem,
+    Icon,
+    Progress
   },
   methods:{
     //设置手机
@@ -1038,5 +1133,5 @@ export default {
 </script>
 
 <style lang="scss">
-  @import './safesettings';
+  
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="assets" class="">
-    <user-info></user-info>
+    <!-- <user-info></user-info> -->
     <div class="account-manage">
       <Tabs :class="'vertical-tab'" v-model="currentTab" :animated="false" @on-click="tabClick">
         <TabPane :label="label1" name="accountAssets">
@@ -27,7 +27,7 @@
               </Select>
               <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail">查询</Button>
             </div>
-            <Table :class="'no-border-table'" stripe :columns="account_detail_column" :data="account_detail_data" />
+            <Table :class="'no-border-table dark-mode'" stripe :columns="account_detail_column" :data="account_detail_data" />
             <div class="pager">
               <div class="pager-inner">
                 <Page  
@@ -625,6 +625,9 @@
     width:1200px;
     margin: 0 auto;
   }
+  #assets {
+    background: #2C2D2F;
+  }
   .account-manage {
     .ivu-tabs-tabpane {
       &>h3 {
@@ -649,31 +652,39 @@
         float: left;
         font-size: 16px;
         font-weight: 400;
-        width: 160px;
-        position: relative;
+        width: 170px;
+        position: absolute;
+        top: 0;
+        bottom:-16px;
         z-index: 10;
+        background: #353535;
       }
       .ivu-tabs-nav {
-        background: #fff;
+        background: #353535;
+        width: 100%;
       }
       .ivu-tabs-content {
         width: 1020px;
         padding: 20px;
         float: right;
         min-height: 400px;
-        background: #fff;
+        background: #353535;
       }
       .ivu-tabs-tab {
+        color: #596980;
         display: block;
-        padding: 20px 40px;
+        padding: 20px 50px;
         margin: 0;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #414448;
         &:hover {
-          color: $primary-color;
+          color:#fff;
         }
       }
       .ivu-tabs-tab-active {
-        border-right: 2px solid $primary-color;
+        border-right: 0;
+        border-bottom-color: #4CB2F9;
+        color: #fff;
+        font-size: 16px;
       }
     }
     .no-border-table.ivu-table-wrapper {
@@ -697,18 +708,17 @@
       margin: 4px;
       color: #fff;
       outline: none;
-      opacity: 0.8;
+      opacity: 0.85;
       cursor: pointer;
     }
     button:hover {
       opacity: 1;
     }
     .account-in {
-      color: rgb(124, 154, 221);
-      background: #EBF0FB;
+      background:#566670;
     }
     .account-out {
-      background: #7CBDE6;
+      background: #4CB2F9;
     }
   }
   
@@ -777,7 +787,7 @@
         border:1px solid #eee;
         border-radius:5px;
         position: relative;
-        
+        color: #f1f1f1;
       }
       .icon-trash{
         position: absolute;

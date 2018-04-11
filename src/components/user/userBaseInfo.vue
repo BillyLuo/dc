@@ -1,35 +1,42 @@
 <template>
   <div class="wrapper">
-    <div class="account bg-white">
+    <div class="account">
       <Row>
-        <Col span="8">
+        <Col span="2"></Col>
+        <Col span="10" :style="{borderRight:'1px solid #414448'}">
         <div class="user-info clear">
           <img class="user-portrait" src="/static/img/portrait.jpg" alt="portrait">
           <div class="user-info-right float-left">
             <div class="user-name">
-              <span>{{userinfo.username}}</span>
-              <!-- <span class="user-vip">VIP</span> -->
+              <span>{{userinfo.mobile ? userinfo.mobile.slice(0,3)+'****'+userinfo.mobile.slice(-4) : userinfo.email }}</span>
+              <span v-if="userinfo.identityset == '1'" class="user-verification">个人认证</span>
             </div>
             <div class="user-contact">
               <span class="user-id">UID:{{userinfo.uid}}</span>
-              <span class="user-tel">{{formatTel}}</span>
+              <!-- <span class="user-tel">{{formatTel}}</span> -->
             </div>
           </div>
         </div>
         </Col>
-        <Col span="8">
+        <Col span="10">
         <div class="total-assets text-center">
-          <span>预估总资产 <span class="primary-color">{{estimateassets}}</span><span class="primary-color"> / USDT</span></span>
+          <div>
+            <p :style="{color:'#fff','font-size':'16px','line-height':'1.5em'}">预估总资产</p>
+            <div class="color-white">
+              <span>{{estimateassets}}</span><span class="asset-count"> / USDT</span>
+            </div>
+          </div>
         </div>
         </Col>
-        <Col span="8">
+        <Col span="2"></Col>
+        <!-- <Col span="8">
         <div class="safe-settings">
           <div>您已设置<a href="javascript:;">{{userinfo.validationAmount}}</a>个保护项，还有<a href="javascript:;">{{6 - userinfo.validationAmount}}</a>个可以设置</div>
           <div class="set-safe">
             <Button class="primary-border primary-color" type="ghost" @click="protect">保护项设置</Button>
           </div>
         </div>
-        </Col>
+        </Col> -->
       </Row>
     </div>
   </div>
@@ -141,17 +148,19 @@ export default {
 
 <style lang="scss">
 .account {
-  padding: 20px;
+  padding: 20px 50px;
   margin-bottom: 20px;
+  background: #222222;
   .ivu-row {
     .ivu-col:not(:last-of-type) {
       height: 80px;
-      border-right: 1px solid #eee;
+      padding: 0 40px;
     }
   }
 }
 
 .user-info {
+  font-size: 14px;
   img.user-portrait {
     width: 80px;
     height: 80px;
@@ -160,16 +169,22 @@ export default {
     margin-right: 20px;
   }
 }
-
+.user-verification {
+  padding: 2px 10px;
+  border-radius: 4px;
+  background: #4CB2F9;
+  margin-left: 10px;
+}
 .user-info-right {
   padding: 10px 0;
   width: 260px;
+  color:#fff;
   & > div {
     height: 30px;
     line-height: 30px;
   }
   .user-id {
-    color: #3166d2;
+    // color: #3166d2;
     margin-right: 20px;
   }
 }
@@ -182,7 +197,7 @@ export default {
 
 .safe-settings {
   text-align: center;
-  padding: 10px 0;
+  background: #353535;
   .set-safe {
     margin: 0 auto;
     margin-top: 10px;

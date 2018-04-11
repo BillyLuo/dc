@@ -2,7 +2,7 @@
   <div class="name-certification level1">
     <div class="clear">
       <div class="float-left">
-        重要<span style="color: #2d8cf0;">提示</span>
+        <span style="color:#fff;">实名认证</span>
       </div>
       <div class="float-right">
         <p>您还没有实名认证，请<Button type="ghost" size="small" @click="identify">立即认证身份</Button>。</p>

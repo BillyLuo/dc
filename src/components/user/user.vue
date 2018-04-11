@@ -9,7 +9,7 @@
           </MenuItem>
         </Menu>
       </div>
-      <div class="user-content bg-white">
+      <div class="user-content">
         <router-view></router-view>
       </div>
     </div>
@@ -25,9 +25,9 @@ import bus from '../../bus/bus'
 let userMenu = [
   {label:'基本信息',value:'safesettings'},
   // {label:'金牌经纪人',value:'broker'},
-  {label:'API访问',value:'api'},
-  {label:'登录记录',value:'loginrecord'},
-  {label:'实名认证',value:'authentication'}
+  // {label:'API访问',value:'api'},
+  {label:'实名认证',value:'authentication'},
+  {label:'登录记录',value:'loginrecord'}
 ]
 export default {
   components:{
@@ -110,6 +110,7 @@ export default {
 </script>
 
 <style lang='scss'>
+  @import './safesettings';
   .user-menu .ivu-menu-vertical .ivu-menu-item{
     padding-top: 20px;
     padding-bottom: 20px;
