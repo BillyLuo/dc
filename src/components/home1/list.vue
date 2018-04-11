@@ -17,7 +17,7 @@
             <div  v-for="(item,index) in array" v-if="index < 12" v-show="true" :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear':'clear'" >
                 <div class="draw_chart">
                     <img  :src='item.star?"/static/img/star1.png":"/static/img/star.png"' alt="">
-                    <div class="charts" :id="'chart'+index"></div>
+                    <canvas class="charts" :id="'chart'+index"></canvas>
                 </div>
                 <div class="info_chart">
                     <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.bi}} <span :class="item.zhangfu >0?'span1 green':'span1 red'">{{item.zhangfu>0?"+"+item.zhangfu+"%":item.zhangfu+'%'}}</span></p>
@@ -27,7 +27,7 @@
             <div  v-for="(item,index) in array"  v-if="index >= 12" v-show='show_list' :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear  animated '+animate:'clear  animated '+animate" >
                 <div class="draw_chart">
                     <img  :src='item.str?"/static/img/star.png":"/static/img/star1.png"' alt="">
-                    <div class="charts" :id="'chart'+index"></div>
+                    <canvas class="charts" :id="'chart'+index"></canvas>
                 </div>
                 <div class="info_chart">
                     <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.bi}} <span :class="item.zhangfu >0?'span1 green':'span1 red'">{{item.zhangfu>0?"+"+item.zhangfu+"%":item.zhangfu+'%'}}</span></p>
@@ -375,16 +375,24 @@ let menu=[
                 })
             },
             showstyle(val){
+                console.log(val)
+                let that=this;
                 if(val =="1"){
                     this.chart_active= true;
                     this.list_active = false;
+                    that.echarts();
+                    window.onresize = () => {
+                        setTimeout(function(){
+                            that.echarts();
+                        },100)
+                    }
                 }
                 if(val =="2"){
                     this.chart_active= false;
                     this.list_active = true;
                 }
             },
-            echarts(val){
+            echarts(){
                 var colors = ['#f6e89d', '#afccf0', '#f4d2af', "#7fd8c0"];  
                 let that = this;
                 this.array.map((item,index)=>{
@@ -439,7 +447,7 @@ let menu=[
                     }
                 })
             },
-            echarts1(val){
+            echarts1(){
                 var colors = ['#f6e89d', '#afccf0', '#f4d2af', "#7fd8c0"];  
                 let that = this;
                 this.array.map((item,index)=>{
@@ -788,6 +796,14 @@ let menu=[
                 position: absolute;
                 left:30px;
                 top:4px;
+            }
+
+            @media screen and (max-width:1500px) {
+                .ivu-table-cell img{
+                    position: absolute;
+                    left:0px;
+                    top:4px;
+                }
             }
         }
         .showall{

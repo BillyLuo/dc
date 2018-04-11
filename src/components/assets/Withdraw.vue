@@ -7,10 +7,13 @@
         <Input :class="'withdraw-item'" v-model="withdrawModel.balance" disabled/>
       </FormItem>
       <FormItem label="提现地址" prop="address">
-        <Select :class="'withdraw-item'" v-model="withdrawModel.address">
-          <Option v-for="(item) in withdrawAddress" :value="item.adress" :key="item.adress">{{item.adress}}</Option>
+        <Select :class="'withdraw-item'" v-model="withdrawModel.address" >
+          <Option v-for="(item) in withdrawAddress" :value="item.adress+'-'+item.pub"  :key="item.adress">{{item.adress}}</Option>
         </Select>
         <Button type="primary" @click="showAddModal">增加</Button>
+      </FormItem>
+      <FormItem  v-if="withdrawType !='ETH'" label="公钥" prop="account">
+        <Input :class="'withdraw-item'" v-model="withdrawModel.pub" disabled/>
       </FormItem>
       <FormItem label="提现数量" prop="account">
         <InputNumber :class="'withdraw-item'" :max="99999" v-model="withdrawModel.account"></InputNumber>
@@ -50,6 +53,9 @@
       <Form ref="addaddress" :model="addModal" :rules="addAddressRules" :label-width="100" style="width: 400px;">
         <FormItem prop="address" label="提现地址：">
           <Input v-model="addModal.address" />
+        </FormItem>
+        <FormItem v-if="withdrawType !='ETH'" label="公钥" prop="pub">
+            <Input v-model="addModal.pub" placeholder=""></Input>
         </FormItem>
         <FormItem prop="remark" label="备注：">
           <Input v-model="addModal.remark" />
@@ -123,6 +129,9 @@ var withdrawRules = {
   text_code:[
     {required:true,trigger: 'blur',message:'请填写验证码'},
     {type:'string',min:6,max:6,message:'请填写6位验证码',trigger:'blur'}
+  ],
+  pub:[
+    { required: true, message: '请输入地址', trigger: 'blur' },
   ]
 }
 var addAddressRules = {
@@ -139,6 +148,9 @@ var addAddressRules = {
   add_text_code:[
     {required:true,message:'请输入验证码',trigger:'blur'},
     {type:'string',len:6,message:'请输入6位验证码',trigger:'blur'}
+  ],
+  pub:[
+    { required: true, message: '请输入地址', trigger: 'blur' },
   ]
 }
 export default {
@@ -156,13 +168,15 @@ export default {
         account:0,
         commission:'0.002',
         trade_password:'',
-        text_code:''
+        text_code:'',
+        pub:''
       },
       addModal:{
         address:'',
         remark:'',
         trade_password:'',
-        add_text_code:''
+        add_text_code:'',
+        pub:""
       },
       withdrawAddress:[
         ],
@@ -189,6 +203,10 @@ export default {
     this.getParams();
   },
   methods:{
+    getpub(val){
+      console.log(val,"67890-=====================");
+      this.withdrawModel.pub = val;
+    },
     getParams () {
       // 取到路由带过来的参数 
       let routerParams = this.$route.query
