@@ -58,7 +58,7 @@
                 </div>
             </Col>
         </Row>
-        <div class="login_info">
+        <!-- <div class="login_info">
             <Row style="line-height:140px;">
                 <Col span="6">
                     <Input class="login_input login_input1" placeholder="Username"></Input>
@@ -73,7 +73,7 @@
                     <Button class="login_input login_input4">Sign up for Finchain</Button>
                 </Col>
             </Row>
-        </div>
+        </div> -->
         <div class="footer_footer">
             <p>@ 2018，FINCHAIN 360</p>
         </div>

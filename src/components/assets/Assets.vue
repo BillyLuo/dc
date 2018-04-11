@@ -74,6 +74,9 @@
                 <FormItem label="提现地址" prop="adress">
                     <Input v-model="formValidate.adress" placeholder=""></Input>
                 </FormItem>
+                <FormItem v-if="fund_account_active !='ETH' " label="公钥" prop="pub">
+                    <Input v-model="formValidate.pub" placeholder=""></Input>
+                </FormItem>
                 <FormItem label="备注" prop="remark">
                     <Input v-model="formValidate.remark" placeholder=""></Input>
                 </FormItem>
@@ -139,7 +142,8 @@
             adress: '',
             remark: '',
             transckcode: '',
-            msgcheckcode:""
+            msgcheckcode:"",
+            pub:''
         },
         sendmessage :true,
         ruleValidate: {
@@ -155,6 +159,9 @@
           ],
           remark:[
             {type:'string',max:200,message:'备注不应超过200位',trigger:'blur'}
+          ],
+          pub:[
+            { required: true, message: '请输入地址', trigger: 'blur' },
           ]
         },
         setTradeText:'发送验证码',
@@ -268,74 +275,6 @@
         ],
         fund_account_active: 'ETH',
         fund_account_lists: [
-          // {
-          //   label: '银行卡管理',
-          //   value: 'bk'
-          // },
-          {
-            label: 'ETH 提现管理',
-            value: 'ETH'
-          },
-          {
-            label: 'Hsr 提现管理',
-            value: 'hsr'
-          },
-          {
-            label: 'CDT 提现管理',
-            value: 'cdt'
-          },
-          {
-            label: 'OX 提现管理',
-            value: 'ox'
-          },
-          {
-            label: 'TNT 提现管理',
-            value: 'tnt'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: 'mana'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '22'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '33'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '44'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '55'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '66'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '77'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: 'm88ana'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '99'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '00'
-          },
-          {
-            label: 'MANA 提现管理',
-            value: '9900'
-          }
         ],
         startDate:'',
         endDate:new Date(),

@@ -7,6 +7,10 @@
       <input :value="rechargeAddress" readonly :class="'float-left recharge-address-detail'" />
       <Button class="yy-button" @click="bespoke" type="primary">预约</Button>
     </div>
+    <div v-show="currencyType == 'ETH'?false:true" class="recharge-address clear">
+      <div class="float-left">公钥</div>
+      <input :value="public_pas" readonly :class="'float-left recharge-address-detail'" />
+    </div>
     <div class="recharge-note">
       <div class="recharge-note-title">充值须知</div>
       <ul class="recharge-note-content">
@@ -29,6 +33,7 @@ export default {
       title:'ETH充值',
       currencyType:'ETH',
       rechargeAddress:'',
+      public_pas:"",
       record_column:[
         {
           title: '最后更新',
@@ -81,7 +86,8 @@ export default {
           }
       }).then((res)=>{
           if(res.data.accountFund && res.data&&res.data.err_code=="1"){
-              that.rechargeAddress = res.data.accountFund[0].address
+              that.rechargeAddress = res.data.accountFund[0].address;
+              that.public_pas = res.data.accountFund[0].pub;
           }
       })
       
