@@ -40,7 +40,7 @@
                                 </div> -->
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
                                 <div class="currency-balance">冻结 {{changeCurrenyBalance1}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
-                                <div style="padding:20px 10px 0 0;">
+                                <div style="padding:20px 0px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
                                             <div style="position:relative;">
@@ -124,7 +124,7 @@
             <Col span="8" class="new-price">
                 <div class="price-list">
                     <div class="list-title">
-                        最新价 <span>{{0.12321432}} {{ params.currency }}</span>
+                        最新价 <span>{{new_price}} {{ params.currency }}</span>
                     </div>
                     <div class="list-table recent-price">
                         <Table  @on-row-click="dblclick" :columns="columns1" :data="data1"></Table>
@@ -141,6 +141,7 @@ import Entrust from "./Entrust";
 import Entrusth from "./Entrusthistory";
 import Transaction from "./Transaction";
 import bus from '../../bus/bus';
+import { mapState } from "vuex";
 var numReg = function (m,n) {
     m=m.toString();
     n=n.toString();
@@ -177,6 +178,7 @@ export default {
     data: function() {	
         return {
             active_tab:"xjjy",
+            new_price:"",
             buyprice:'',
             buycount:'',
             sellprice:'',
@@ -269,32 +271,100 @@ export default {
         }
     },
     created(){
-        this.active_tab="xjjy"
+        this.active_tab="xjjy";
+        bus.$on("chexiao",(val)=>{
+            if(val.chexiaowancheng){
+                this.paramsinfo({});
+            }
+        })
     },
     mounted () {
         var that = this;
-        this.getBalance();
-        this.getBalance('ETH');
         this.paramsinfo();
-        this.priceq();
-        this.active_tab="xjjy"
+        // this.priceq();
+       
+        this.active_tab="xjjy";
     },
     computed:{
+        ...mapState({
+            userinfo: state => {
+                var amount = 0;
+                if (state.userinfo.emailset ==1) {
+                amount += 1;
+                }
+                if (state.userinfo.identityset ==1) {
+                amount += 1;
+                }
+                if (state.userinfo.mobileset==1) {
+                amount += 1;
+                }
+                if (state.userinfo.googlecodeset ==1 ) {
+                amount += 1;
+                }
+                if (state.userinfo.loginpasswordset == 1) {
+                amount += 1;
+                }
+                if (state.userinfo.tradepasswordset == 1) {
+                amount += 1;
+                }
+                return {
+                    validationAmount: amount
+                };
+            }
+        }),
         buymoney(){
-            return Number(this.buycount*this.buyprice*1.002).toFixed(10);
+            return this.buycount*this.buyprice*1.002;
         },
         sellmoney(){
-            return Number(this.sellcount*this.sellprice*(1-0.002)).toFixed(10);
+            return this.sellcount*this.sellprice*(1-0.002);
         }
     },
     watch:{
         params: "paramsinfo",
         changeCurreny(){
-            var currency = this.changeCurreny;
-            this.priceq(currency);
+            // this.newPrice();
         }
     },
     methods: {
+        newPrice(){
+            console.log(this.params,"======================")
+            let that =this;
+            this.$ajax({
+                method:"post",
+                url:"/trade/tps/pbfcd.do",
+                data:{
+                    "currencytype":that.changeCurreny,
+                    'tradecurrency':that.usdtCurrency,
+                    "reqresource":"1"
+                }
+            }).then((res)=>{
+                console.log(res)
+                if(res.data && res.data.err_code == "1" && res.data.currencyDetail.length){
+                    that.new_price = Number(res.data.currencyDetail[0].curprice);
+                    that.buyprice =res.data.currencyDetail[0].curprice;
+                    that.sellprice = res.data.currencyDetail[0].curprice;
+                }else if(res.data && res.data.err_code != '1' && res.data.msg){
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'查询出错了，'+res.data.msg
+                    })
+                    that.buyprice = '';
+                    that.sellprice = '';
+                }else {
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'查询出错了，请稍后重试'
+                    })
+                    that.buyprice = '';
+                    that.sellprice = '';
+                }
+            }).catch((res)=>{
+                this.$Notice.warning({
+                    title:'提示',
+                    desc:'查询出错了，请稍后重试'
+                })
+            })
+        },
         sliderformat(val){//滑块
             return val+'%'
         },
@@ -351,48 +421,47 @@ export default {
             }
             
         },
-        priceq(currency){
-            let that =this;
-            if (!currency) {
-                currency = 'ETH';
-            }
-            let tradecurrency = this.usdtCurrency;
-            this.$ajax({
-                method:"post",
-                url:"/trade/tps/pbfcd.do",
-                data:{
-                    "currencytype":currency,
-                    'tradecurrency':tradecurrency,
-                    "reqresource":"1"
-                }
-            }).then((res)=>{
-                console.log(res)
-                if(res.data && res.data.err_code == "1" && res.data.currencyDetail){
-                    that.buyprice =res.data.currencyDetail[0].curprice;
-                    that.sellprice = res.data.currencyDetail[0].curprice;
-                }else if(res.data && res.data.err_code != '1' && res.data.msg){
-                    this.$Notice.warning({
-                        title:'提示',
-                        desc:'查询出错了，'+res.data.msg
-                    })
-                    that.buyprice = '';
-                    that.sellprice = '';
-                }else {
-                    this.$Notice.warning({
-                        title:'提示',
-                        desc:'查询出错了，请稍后重试'
-                    })
-                    that.buyprice = '';
-                    that.sellprice = '';
-                }
-            }).catch((res)=>{
-                this.$Notice.warning({
-                    title:'提示',
-                    desc:'查询出错了，请稍后重试'
-                })
-            })
-        },
-        
+        // priceq(currency){
+        //     let that =this;
+        //     if (!currency) {
+        //         currency = 'ETH';
+        //     }
+        //     let tradecurrency = this.usdtCurrency;
+        //     this.$ajax({
+        //         method:"post",
+        //         url:"/trade/tps/pbfcd.do",
+        //         data:{
+        //             "currencytype":currency,
+        //             'tradecurrency':tradecurrency,
+        //             "reqresource":"1"
+        //         }
+        //     }).then((res)=>{
+        //         console.log(res)
+        //         if(res.data && res.data.err_code == "1" && res.data.currencyDetail){
+        //             that.buyprice =res.data.currencyDetail[0].curprice;
+        //             that.sellprice = res.data.currencyDetail[0].curprice;
+        //         }else if(res.data && res.data.err_code != '1' && res.data.msg){
+        //             this.$Notice.warning({
+        //                 title:'提示',
+        //                 desc:'查询出错了，'+res.data.msg
+        //             })
+        //             that.buyprice = '';
+        //             that.sellprice = '';
+        //         }else {
+        //             this.$Notice.warning({
+        //                 title:'提示',
+        //                 desc:'查询出错了，请稍后重试'
+        //             })
+        //             that.buyprice = '';
+        //             that.sellprice = '';
+        //         }
+        //     }).catch((res)=>{
+        //         this.$Notice.warning({
+        //             title:'提示',
+        //             desc:'查询出错了，请稍后重试'
+        //         })
+        //     })
+        // },
         //充币
         recharge (currency) {
             if (!currency) {
@@ -419,13 +488,17 @@ export default {
         },
         paramsinfo (obj) {
             console.log(obj,'currency')
-
+            this.usdtCurrency = this.params.bizhong;
+            this.changeCurreny = this.params.currency;
+            console.log(this.usdtCurrency+"==================="+this.changeCurreny)
             bus.$emit("vl_currency",this.params)
-
+            this.getBalance(this.usdtCurrency);
+            this.getBalance(this.changeCurreny);
+            this.newPrice();
             if (obj && obj.currency) {
                 this.changeCurreny = obj.currency;
-                this.getBalance('USDT');
-                this.getBalance(obj.currency);
+                // this.getBalance(this.usdtCurrency);
+                // this.getBalance(obj.currency);
                 this.changeCurreny = obj.currency;
             }
             let that =this;
@@ -436,7 +509,7 @@ export default {
                     data: {
                         count : 5,//查询条数
                         coin : obj ? obj.currency :'ETH',//币种
-                        tradecoin: 'USDT',//交易币种
+                        tradecoin: this.usdtCurrency,//交易币种
                         reqresource:1
                     }
                 }).then((data)=>{
@@ -457,10 +530,11 @@ export default {
                     
                 })
         },
+        // 可用冻结资金
         getBalance(type) {
             var that = this;
             if (!type) {
-                type = 'USDT';
+                type = this.usdtCurrency;
             }
             this.$ajax.post('/trade/tps/pblaf.do',{
                 reqresource:1,
@@ -470,10 +544,10 @@ export default {
                 if (res.status == 200 && res.data && res.data.err_code == '1') {
                     if (res.data && res.data.accountFund &&  res.data.accountFund.length) {
                         if (type == 'USDT') {
-                            that.usdtBalance = res.data.accountFund[0].usablefund;
+                            that.usdtBalance = Number(res.data.accountFund[0].usablefund).toFixed(10);
                             that.usdtBalance1 = Number(res.data.accountFund[0].frozenfund).toFixed(10);
                         }else {
-                            that.changeCurrenyBalance = res.data.accountFund[0].usablefund;
+                            that.changeCurrenyBalance = Number(res.data.accountFund[0].usablefund).toFixed(10);
                             that.changeCurrenyBalance1 = Number(res.data.accountFund[0].frozenfund).toFixed(10);
                         }
                     }else {
@@ -514,14 +588,25 @@ export default {
                             on: {
                                 input: (val) => {
                                    this.tradepwd = val;
-                                   console.log("=========",this.tradepwd)
+                                //    console.log("=========",this.tradepwd)
                                 }
                             }
                         })
                     },
                     onOk: () => {
+                        console.log("---------------------",that.userinfo.validationAmount)
+                        if(that.userinfo.validationAmount < 5){
+                            console.log("21432143214")
+                            that.$Notice.warning({
+                                title:'提示',
+                                desc:'请先到个人中心完成安全设置。'
+                            })
+                            return false;
+                        }
                         if (type == 1) {
-                            tradecoin = 'USDT';
+                            // "entrustcoin":that.jichubizhong,
+                            // "tradecoin":that.jijiabizhong,
+                            tradecoin = this.params.bizhong;
                             entrustcoin = this.changeCurreny;
                             entrustnum = this.buycount;
                             entrustprice = this.buyprice;
@@ -642,9 +727,6 @@ export default {
                 })
             
         },
-        doTrade(obj) {
-            console.log('交易',obj);
-        },
         changeTab(name){
             if(name =="xjjy"){
                 this.getBalance(this.changeCurreny);
@@ -669,7 +751,13 @@ export default {
                 bus.$emit("vl_currency",this.params)
             }
 
-        }
+        },
+        safe (val) {
+            if(val == "1"){
+                this.$Modal.remove()
+            }
+            this.$router.push("user");
+        },
     }
 }
 </script>

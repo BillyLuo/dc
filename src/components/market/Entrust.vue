@@ -47,7 +47,7 @@ import bus from '../../bus/bus';
                 }
             });
             this.total=0;
-            this.pagesize=10
+            this.pagesize=10;
             this.pageno=1;
         },
         mounted(){
@@ -78,6 +78,7 @@ import bus from '../../bus/bus';
                                     })
                                 },300)
                                 that.query_entrust2();
+                                 bus.$emit("chexiao",{"chexiaowancheng":true})
                             }else {
                                 setTimeout(() => {
                                      this.$Modal.error({
@@ -86,8 +87,6 @@ import bus from '../../bus/bus';
                                 },300)
                             }
                         })
-                        
-                        
                     }
                 });
                 
@@ -258,7 +257,7 @@ import bus from '../../bus/bus';
                                     })
                                 },300)
                                 this.query_entrust2();
-                               
+                               bus.$emit("chexiao",{"chexiaowancheng":true})
                             }else {
                                 setTimeout(() => {
                                      this.$Modal.error({
