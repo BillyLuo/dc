@@ -12,7 +12,8 @@ var state = {
     loginpasswordset:'',
     tradepasswordset:'',
     email:'',
-    mobile:''
+    mobile:'',
+    estimateassets:''//账户总资产
   }
 }
 export default state;

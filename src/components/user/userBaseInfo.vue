@@ -115,10 +115,20 @@ export default {
         reqresource:1
       }
     }).then((res)=>{
-      console.log(res)
+      console.log('000000',res)
       if(res.data && res.data.sumAmount){
         that.estimateassets = res.data.sumAmount
+      }else{
+        that.$Notice.warning({
+          title:'提示',
+          desc:'预估总资产查询出错，请稍后重试'
+        })
       }
+    }).catch((err)=>{
+      that.$Notice.warning({
+        title:'提示',
+        desc:'预估总资产查询出错，请稍后重试'
+      })
     })
     // bus.$on('certify',(value) => {
     //   console.log('******************',value);

@@ -1,7 +1,22 @@
 <template>
   <div>
     <div class="account-list">
-      <h3><span>资产列表</span></h3>
+      <div class="account-list-header">
+        <Row>
+          <Col span="4">
+            <h3><span>资产列表</span></h3>
+          </Col>
+          <Col span="14" :style="{color:'#fff'}">
+            预估总资产： {{}}
+          </Col>
+          <Col span="3">
+            <a href="javascript:;" @click="route('assetsdetail')" class="account-detail">账户明细</a>
+          </Col>
+          <Col span="3">
+            <a href="javascript:;" @click="route('coinaddress')" class="account-management">提币管理</a>
+          </Col>
+        </Row>
+      </div>
       <div>
         <Table :class="'no-border-table dark-mode'" stripe :columns="account_list_column" :data="account_list_data" />
         <div class="pager">
@@ -128,6 +143,11 @@ export default {
     }
   },
   methods:{
+    route(value) {
+      this.$router.push({
+        path:'/assets/'+value
+      })
+    },
     change(value){
       this.pageno = value;
       var pageno = this.pageno;
@@ -204,11 +224,25 @@ export default {
     padding: 0 10px;
   }
   .account-list {
+    .account-list-header {
+      background:#2a2a2a;
+      box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);
+      .ivu-col {
+        height: 60px;
+        line-height: 60px;
+      }
+    }
     .ivu-table td.coin-name {
       color:#4CB2F9;
     }
     .ivu-table td.table-asset {
       color: #fff;
+    }
+    .account-detail,.account-management {
+      display: block;
+      height: 60px;
+      text-align: center;
+      border-left: 1px solid #222;
     }
   }
 </style>

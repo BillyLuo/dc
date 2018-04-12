@@ -8,6 +8,8 @@ const ResetByEmail = ()=> import('@/components/reset/ResetByEmail');
 const ResetByPhone = ()=> import('@/components/reset/ResetByPhone');
 const Assets = ()=> import('@/components/assets/Assets')
 const AssetsList = ()=> import('@/components/assets/AssetsList');
+const AssetsDetail = ()=> import('@/components/assets/AssetsDetail');
+const CoinAddress = ()=> import('@/components/assets/CoinAddress');
 const Recharge = ()=> import('@/components/assets/Recharge')
 const Withdraw = ()=> import('@/components/assets/Withdraw')
 const Trade = ()=> import('@/components/Trade')
@@ -66,6 +68,8 @@ export default new Router({
       children:[
         {path:'',name:'Assets',component:AssetsList},
         {path:'/assets/assetslist',component:AssetsList},
+        {path:'/assets/assetsdetail',component:AssetsDetail},
+        {path:'/assets/coinaddress',component:CoinAddress},
         {path:'/assets/recharge',name:'Recharge',component:Recharge},
         {path:'/assets/withdraw',name:'Withdraw',component:Withdraw}
       ]

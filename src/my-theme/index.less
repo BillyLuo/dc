@@ -3,12 +3,12 @@
 // Here are the variables to cover, such as:
 // @primary-color: #999;
 // @btn-primary-bg : #353535;
-@btn-default-border : #666;
+// @btn-default-border : #666;
 .ivu-btn-primary {
-  border: 1px solid #666;
-  &:hover {
-    border: 1px solid #666;
-  }
+  // border: 1px solid #666;
+  // &:hover {
+  //   border: 1px solid #666;
+  // }
 }
 
 
@@ -17,11 +17,12 @@
 
 .dark-mode .ivu-input,.dark-mode .ivu-select-selection {
   background: @background;
+  border-color: #666;
   &:hover,&:focus {
-    border-color: #fff;
+    border-color: #666;
   }
 }
-.dark-mode .ivu-select-item-selected, .ivu-select-item-selected:hover{
+.dark-mode .ivu-select-item-selected, .dark-mode .ivu-select-item-selected:hover{
   background: @secondary-color;
 }
 .dark-mode .ivu-select .ivu-select-dropdown {
