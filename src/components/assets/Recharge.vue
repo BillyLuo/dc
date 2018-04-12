@@ -3,16 +3,16 @@
     <h3 class="recharge-currency">{{currencyType+'充值'}}</h3>
     <div class="divide"></div>
     <div class="recharge-address clear">
-      <div class="float-left">充值地址</div>
+      <div class="float-left color-666">充值地址</div>
       <input :value="rechargeAddress" readonly :class="'float-left recharge-address-detail'" />
       <Button class="yy-button" @click="bespoke" type="primary">预约</Button>
     </div>
     <div v-show="currencyType == 'ETH'?false:true" class="recharge-address clear">
-      <div class="float-left">公钥</div>
+      <div class="float-left color-666">公钥</div>
       <input :value="public_pas" readonly :class="'float-left recharge-address-detail'" />
     </div>
     <div class="recharge-note">
-      <div class="recharge-note-title">充值须知</div>
+      <div class="recharge-note-title color-666">充值须知</div>
       <ul class="recharge-note-content">
         <li>冲币备注。</li>
         <li>您充值{{currencyType}}上述地址后，需要整个{{currencyType}}网络节点的确认，为了快速到账，您可以向ETH网络支付少量的手续费。</li>
@@ -20,7 +20,7 @@
       </ul>
     </div>
     <div class="recharge-record">
-      <h3>{{currencyType}}充值记录</h3>
+      <h3 class="color-white">{{currencyType}}充值记录</h3>
       <Table :class="'no-border-table dark-mode'" stripe :columns="record_column" :data="record_data" />
     </div>
   </div>
@@ -125,6 +125,7 @@ export default {
   .recharge {
   }
   .recharge-currency {
+    color:#fff;
     height: 38px;
     line-height: 38px;
     display: inline-block;
@@ -138,7 +139,7 @@ export default {
       width: 100%;
       left: 0px;
       height: 2px;
-      background: #3166D2;
+      // background: #3166D2;
       position: absolute;
       bottom: 0px;
     }
@@ -176,7 +177,6 @@ export default {
   }
   .recharge-note-title {
     font-size: 16px;
-    color: #333;
     margin-bottom: 10px;
   }
   .recharge-note-content {

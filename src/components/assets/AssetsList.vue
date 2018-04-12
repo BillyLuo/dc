@@ -6,13 +6,13 @@
           <Col span="4">
             <h3><span>资产列表</span></h3>
           </Col>
-          <Col span="14" :style="{color:'#fff'}">
-            预估总资产： {{}}
+          <Col span="16" :style="{color:'#fff'}">
+            预估总资产： {{estimateassets}} / USDT
           </Col>
-          <Col span="3">
+          <Col span="2">
             <a href="javascript:;" @click="route('assetsdetail')" class="account-detail">账户明细</a>
           </Col>
-          <Col span="3">
+          <Col span="2">
             <a href="javascript:;" @click="route('coinaddress')" class="account-management">提币管理</a>
           </Col>
         </Row>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { Page } from 'iview';
 import { pageSizeOpts } from '../constant/constant';
 export default {
@@ -45,6 +46,16 @@ export default {
   },
   components:{
     Page
+  },
+  computed:{
+    ...mapState({
+      estimateassets (state) {
+        console.log('state--------------',state);
+        if (state.userinfo.estimateassets) {
+          return state.userinfo.estimateassets;
+        }
+      }
+    })
   },
   data () {
     return {
@@ -242,7 +253,7 @@ export default {
       display: block;
       height: 60px;
       text-align: center;
-      border-left: 1px solid #222;
+      border-left: 1px solid #121212;
     }
   }
   .pager {
