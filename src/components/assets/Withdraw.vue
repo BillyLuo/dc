@@ -7,8 +7,8 @@
         <Input :class="'withdraw-item'" v-model="withdrawModel.balance" disabled/>
       </FormItem>
       <FormItem label="提现地址" prop="address">
-        <Select :class="'withdraw-item'" v-model="withdrawModel.address" >
-          <Option v-for="(item) in withdrawAddress" :value="item.adress+'-'+item.pub"  :key="item.adress">{{item.adress}}</Option>
+        <Select :class="'withdraw-item'" v-model="withdrawModel.address" @on-change="getpub" >
+          <Option v-for="(item) in withdrawAddress" :value="item.adress"  :key="item.adress">{{item.adress}}</Option>
         </Select>
         <Button type="primary" @click="showAddModal">增加</Button>
       </FormItem>
@@ -16,7 +16,7 @@
         <Input :class="'withdraw-item'" v-model="withdrawModel.pub" disabled/>
       </FormItem>
       <FormItem label="提现数量" prop="account">
-        <InputNumber :class="'withdraw-item'" :max="99999" v-model="withdrawModel.account"></InputNumber>
+        <InputNumber :class="'withdraw-item'" v-model="withdrawModel.account"></InputNumber>
       </FormItem>
       <FormItem :label="'  '+withdrawType+'手续费比例'" prop="commission">
         <Input :class="'withdraw-item'" v-model="withdrawModel.commission" disabled/>
@@ -205,7 +205,14 @@ export default {
   methods:{
     getpub(val){
       console.log(val,"67890-=====================");
-      this.withdrawModel.pub = val;
+      if(this.withdrawType!="ETH"){
+        this.withdrawAddress.map((item)=>{
+          if(item.adress == val){
+            this.withdrawModel.pub = item.pub;
+          }
+        })
+      }
+      // this.withdrawModel.pub = val;
     },
     getParams () {
       // 取到路由带过来的参数 
@@ -320,6 +327,14 @@ export default {
         that.$Notice.warning({
           title:'温馨提示',
           desc:'提现数量不能大于账户余额'
+        })
+        return false;
+      }
+
+      if(that.withdrawModel.account > 99999){
+        that.$Notice.warning({
+          title:'温馨提示',
+          desc:'提现数量不能大于99999'
         })
         return false;
       }

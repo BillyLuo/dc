@@ -9,7 +9,8 @@
                         <div class="icon_input">
                             <img src="/static/img/suanpan.png" alt="">
                         </div>
-                        <Input v-model="value" size="large">
+                        <!-- <Input :number="true" v-model="value" size="large" @on-change="inputlength($event)"> -->
+                        <Input :number="true" v-model="value" size="large" @on-change="inputlength($event)">
                             <Select v-model="model1" slot="prepend" style="width: 80px;">
                                 <Option v-for="item in cityList" :value="item.currencyname" :key="item.currencyname">{{ item.currencyname }}</Option>
                             </Select>
@@ -42,6 +43,22 @@
 </template>
 
 <script>
+var numReg = function (m,n) {
+        // m=m.toString();
+        // n=n.toString();
+        if (!m) {
+            m = 15;
+        }else if(!m.match(/^[1-9]\d*$/)) {
+            m = 15;
+        }
+        if (!n) {
+            n = 10;
+        }else if (!n.match(/^[1-9]\d*$/)) {
+            n = 10;
+        }
+        return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
+    }
+var reg = numReg('10','10');
 import bus from '../../bus/bus';
     export default {
         data() {
@@ -63,6 +80,38 @@ import bus from '../../bus/bus';
             this.selectCurrency()
         },
         methods:{
+            inputlength(e){
+                // let that =this;
+                // console.log(e.target.value)
+                // var value = e.target.value;
+                // console.log(value)
+                // if (!value) {
+                //     this.value = '';
+                // }else {
+                //     console.log(reg.test(value))
+                //     if (reg.test(value)) {
+                //         this.value = value;
+                //     }
+
+                //     if(!reg.test(value)){
+                //         console.log("'''")
+                //         setTimeout(()=>{
+                //             that.value  = '';
+                //         },10)
+                //         that.value  = '';
+                //         // value = value.slice(0,-1);
+                //         // console.log("----",value.slice(0,-1))
+                //         // var matched = value.match(reg);
+                //         // console.log(matched)
+                //         // if (matched && matched.length) {
+                //         //     this.value = matched[0];
+                //         // }else {
+                //         //     this.value  = '';
+                //         // }
+                //     }
+                // }
+                
+            },
             selectCurrency(){
                 this.cityList = [];
                 let that=this;

@@ -15,7 +15,7 @@
             <div class="text">
                 <h1 class='h1'>币邦</h1>
                 <p class='p1'>Type somethingType somethingType somethingType something</p>
-                <p class="p_button"><Button class="button1">PRESSED</Button></p>
+                <!-- <p class="p_button"><Button class="button1">PRESSED</Button></p> -->
             </div>
         </div>
     </div>

@@ -50,9 +50,9 @@
 <script>
 
 let menu=[
-    {key:"ETH",name:"ETH"},
+    // {key:"ETH",name:"ETH"},
     {key:"USDT",name:"USDT"},
-    {key:"BTC",name:"BTC"}
+    // {key:"BTC",name:"BTC"}
 ];
     let list=[
         {

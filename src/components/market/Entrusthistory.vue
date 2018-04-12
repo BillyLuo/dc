@@ -2,7 +2,7 @@
     <div>
         <div class="trade-time">
             <span>查询日期：</span>
-            <DatePicker :value="begintime" format="yyyy-MM-dd" type="daterange" placement="bottom-end" placeholder="请选择查询日期" @on-change="timeschange" style="width: 200px"></DatePicker>
+            <DatePicker :value="begintime" format="yyyy-MM-dd" type="daterange"  placeholder="请选择查询日期" @on-change="timeschange" style="width: 200px"></DatePicker>
             <Button @click="weituojilu">刷新统计</Button>
         </div>
         <div class="trade-table">
@@ -51,6 +51,7 @@ import bus from '../../bus/bus';
                     if(val.wtls){
                         that.query_entrust();
                     }
+                    this.weituolist();
                 }
             });
             this.total=0;

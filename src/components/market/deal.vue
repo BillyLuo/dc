@@ -19,7 +19,7 @@
                                                 <span class='span'>{{ params.bizhong }}</span>
                                             </div>
                                            
-                                            <p>≈ <i> 0.0000 </i> CNY</p>
+                                            <!-- <p>≈ <i> 0.0000 </i> CNY</p> -->
                                         </FormItem> 
                                         <FormItem label="买入量" class="deal-input">
                                             
@@ -48,7 +48,7 @@
                                                 <span class='span'>{{ params.bizhong }}</span>
                                             </div>
                                            
-                                            <p>≈ <i> 0.0000 </i> CNY</p>
+                                            <!-- <p>≈ <i> 0.0000 </i> CNY</p> -->
                                         </FormItem>
                                         <FormItem label="卖出量" class="deal-input">
                                             <div style="position:relative;">
@@ -488,6 +488,7 @@ export default {
         },
         paramsinfo (obj) {
             console.log(obj,'currency')
+            this.active_tab="xjjy";
             this.usdtCurrency = this.params.bizhong;
             this.changeCurreny = this.params.currency;
             console.log(this.usdtCurrency+"==================="+this.changeCurreny)
