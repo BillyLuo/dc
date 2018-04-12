@@ -198,6 +198,15 @@ export default {
     },
     getPath(){
       let path = this.$route.path;
+      if(path != '/home' || path != '/'){
+        this.height = "height:80px;background:#222222;position:fixed;top:0px;";
+      }
+      
+      if(path == '/home' || path == '/'){
+        this.height = "";
+      }
+
+      console.log("======",path =='/home')
       // console.log(path)
       this.$refs.main_menu.currentActiveName = 'home';
       let that =this;
@@ -230,21 +239,14 @@ export default {
 
 
 
-      if(path != '/home' || path != '/'){
-        this.height = "height:80px;background:#222222;position:fixed;top:0px;";
-      }
       
-      if(path == '/home' || path == '/'){
-        this.height = "";
-      }
-
-      console.log("======",path =='/home')
     },
     route(name){
-      
-
-
-
+      if(name != 'home'){
+        this.height = "height:80px;background:#222222;position:fixed;top:0px;";
+      }else{
+        this.height = "";
+      }
       if(!cookies.get("name")  && (name == "trading" || name == "assets" || name == "user" || name == "market")){
           this.$refs.main_menu.currentActiveName = 'user';
           this.$Modal.info({
@@ -303,11 +305,7 @@ export default {
       }
       console.log("--------",name)
 
-      if(name != 'home'){
-        this.height = "height:80px;background:#222222;position:fixed;top:0px;";
-      }else{
-        this.height = "";
-      }
+      
 
     },
     loginOut () {
@@ -545,7 +543,7 @@ export default {
     position: absolute;
     width: 300px;
     left: -60%;
-    top: 90px;
+    top: 80px;
     border: 1px solid #404448;
     box-shadow: 0 4px 4px rgba(0,0,0,.1);
     font-size: 12px;
