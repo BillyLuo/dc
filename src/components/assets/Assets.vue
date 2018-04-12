@@ -2,9 +2,9 @@
   <div id="assets" class="">
     <!-- <user-info></user-info> -->
     <div class="account-manage">
-      <Tabs :class="'vertical-tab'" v-model="currentTab" :animated="false" @on-click="tabClick">
+      <router-view></router-view>
+      <!-- <Tabs :class="'vertical-tab'" v-model="currentTab" :animated="false" @on-click="tabClick">
         <TabPane :label="label1" name="accountAssets">
-          <router-view></router-view>
         </TabPane>
         <TabPane :label="label2" name="accountDetail">
           <h3><span>我的财务管理</span></h3>
@@ -14,10 +14,6 @@
               <DatePicker v-model="startDate" @on-change="chooseStartDate" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
               <span style="margin: 0 20px;"> ~ </span>
               <DatePicker v-model="endDate" @on-change="chooseEndDate" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
-              <!-- <Button size="small" @click="chooseDate(0)" :type="setDayActive == 0 ? 'primary' : 'ghost'">今天</Button>
-              <Button size="small" @click="chooseDate(7)" :type="setDayActive == 7 ? 'primary' : 'ghost'">7天</Button>
-              <Button size="small" @click="chooseDate(15)" :type="setDayActive == 15 ? 'primary' : 'ghost'">15天</Button>
-              <Button size="small" @click="chooseDate(30)" :type="setDayActive == 30 ? 'primary' : 'ghost'">30天</Button> -->
               <div style="padding:4px 0;font-size:12px;color: #f00;">{{dateErr}}</div>
             </div>
             <div>
@@ -82,26 +78,6 @@
             地址列表
           </div>
           <Table :class="'no-border-table dark-mode'" :columns="addressColumns" :data="addresslist"></Table>
-          <!-- <div class="fund_account">
-            <a href="javascript:;" :class="{active:fund_account_active == item.currencyname}" v-for="(item) in fund_account_lists" :key="item.currencyname" @click="changeFundAccount(item.currencyname)">
-              <span>{{item.currencyname}} 提现管理</span>
-            </a>
-          </div>
-          <div class="address_add">
-            <div class="address_list">
-              <div class="showaddress" v-for="(item) in addresslist" :key="item.name">
-                <div class="icon-text">
-                  <span class="icon-trash" @click="deleteaddress(item.walletAdressId );"><Icon type="trash-a"></Icon></span>
-                  <span class="address-text">{{ item.adress }}</span>
-                </div>
-                
-              </div>
-            </div>
-            <div class="address" @click="address">
-              <img src="/static/img/blank-img-01.png" alt="">
-              <p>添加地址</p>
-            </div>
-          </div> -->
           <Modal
               v-model="addmodal"
               width="400"
@@ -135,13 +111,7 @@
               </div>
           </Modal>
         </TabPane>
-        <!-- <TabPane :label="label4" name="fundsManagement">
-          <h3><span>我的资产管理</span></h3>
-        </TabPane>-->
-        <!-- <TabPane label="我的COINS" name="myCoin">
-          <myCoin></myCoin>
-        </TabPane> -->
-      </Tabs>
+      </Tabs> -->
     </div>
   </div>
 </template>
@@ -510,7 +480,6 @@
         console.log("a---click",value)
         console.log(this.fund_account_active)
         this.selectaddress()
-
       },
       selectaddress() {//查询地址
         let that=this;
@@ -747,6 +716,7 @@
   //财务管理
   .financial-management {
     padding: 20px;
+    background: #353535;
     button {
       margin: 0 6px;
     }

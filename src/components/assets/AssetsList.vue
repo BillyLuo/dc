@@ -245,4 +245,7 @@ export default {
       border-left: 1px solid #222;
     }
   }
+  .pager {
+    color: #666;
+  }
 </style>
