@@ -81,7 +81,7 @@
     a.active {
       color: #aaa;
       &:hover {
-        color: #333;
+        color: #aaa;
       }
       &.disabled:hover {
         color: #aaa;
@@ -100,11 +100,17 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    &.item-status-active {
+      color: #2d8cf0;
+      &:hover {
+        color: #2d8cf0;
+      }
+    }
     &:hover {
-      color: #666;
+      color: #2d8cf0;
     }
     &.disabled:hover {
-      color: #aaa;
+      color: #666;
     }
   }
 }

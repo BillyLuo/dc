@@ -112,6 +112,7 @@ import { Message } from '../../utils/message';
 
 <style lang="scss">
     .broker{
+        margin-top: 30px;
         .ivu-tabs {
             background: #353535;
         }
@@ -128,6 +129,7 @@ import { Message } from '../../utils/message';
         min-height:400px;
        .ivu-tabs-nav-scroll{
             height:60px;
+            background: #2a2a2a;
             .ivu-tabs-nav .ivu-tabs-tab{
                 padding:20px 16px;
             }

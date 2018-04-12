@@ -45,7 +45,44 @@
           </div>
         </TabPane>
         <TabPane :label="label3" name="fundAccount">
-          <div class="fund_account">
+          <div style="background:#2a2a2a;box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);height:72px;line-height: 72px;color: #fff;padding: 0 20px;font-size: 16px;">
+            提币地址管理
+          </div>
+          <div class="fund-account-inner">
+            <Row>
+              <Col span="4">
+                币种
+              </Col>
+              <Col span="8">
+                提币地址
+              </Col>
+              <Col span="8">
+                备注
+              </Col>
+              <Col span="4"> </Col>
+            </Row>
+            <Row>
+            <Col span="4">
+                <Select v-model="fund_account_active" :class="'dark-mode'" size="large" @on-change="changeFundAccount">
+                  <Option v-for="(item) in fund_account_lists" :value="item.currencyname" :key="item.currencyname"></Option>
+                </Select>
+              </Col>
+              <Col span="8">
+                <input class="account-input" v-model="adress" placeholder="提币地址"/>
+              </Col>
+              <Col span="8">
+                <input class="account-input" v-model="remark"  placeholder="备注"/>
+              </Col>
+              <Col span="4">
+                <Button size="large" class="btn-block" type="primary" @click="address">添加</Button>
+              </Col>
+            </Row>
+          </div>
+          <div style="background:#2a2a2a;box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);height:72px;line-height: 72px;color: #fff;padding: 0 20px;font-size: 16px;">
+            地址列表
+          </div>
+          <Table :class="'no-border-table dark-mode'" :columns="addressColumns" :data="addresslist"></Table>
+          <!-- <div class="fund_account">
             <a href="javascript:;" :class="{active:fund_account_active == item.currencyname}" v-for="(item) in fund_account_lists" :key="item.currencyname" @click="changeFundAccount(item.currencyname)">
               <span>{{item.currencyname}} 提现管理</span>
             </a>
@@ -64,7 +101,7 @@
               <img src="/static/img/blank-img-01.png" alt="">
               <p>添加地址</p>
             </div>
-          </div>
+          </div> -->
           <Modal
               v-model="addmodal"
               width="400"
@@ -110,11 +147,12 @@
 </template>
 
 <script>
+  import { mapState } from "vuex";
   import { pageSizeOpts } from '../constant/constant';
   import {Message} from '../../utils/message';
   import myCoin from './myCoin';
   import userInfo from '../user/userBaseInfo';
-  import { Tabs,TabPane,DatePicker,Table,Form,Page, FormItem } from 'iview';
+  import { Tabs,TabPane,DatePicker,Table,Form,Page, FormItem, Row, Col } from 'iview';
   import moment from 'moment';
   var telReg = /^1[34578]\d{9}$/;
   export default {
@@ -126,10 +164,14 @@
       TabPane,
       Form, FormItem,
       Page,
+      Row,
+      Col,
       'user-info': userInfo
     },
     data() {
       return {
+        adress:'',
+        remark:'',
         currentTab:'accountAssets',
         pageSizeOpts,
         detailPageNo:1,
@@ -145,6 +187,27 @@
             msgcheckcode:"",
             pub:''
         },
+        addressColumns:[
+          {title:'币种',key:'coin'},
+          {title:'提币地址',key:'adress'},
+          {title:'备注',key:'remark'},
+          {title:'操作',key:'operation',render:(h,obj) => {
+            let that = this;
+            obj = obj.row;
+            return h('div',[h('button', {
+                'class': {
+                  'delete-address-btn': true
+                },
+                domProps: {
+                  innerHTML: '删除'
+                },
+                on: {
+                  click: this.deleteaddress.bind(this,obj.walletAdressId)
+                }
+              })
+            ])
+          }}
+        ],
         sendmessage :true,
         ruleValidate: {
           adress: [
@@ -177,7 +240,7 @@
         },
         label3: (h) => {
           return h('div', [
-            h('span', '资金账号')
+            h('span', '提币管理')
           ])
         },
         label4: (h) => {
@@ -286,9 +349,21 @@
         sendTradeTimer:true,
       }
     },
+    computed:{
+      ...mapState({
+        estimateassets (state) {
+          console.log('state---------',state);
+
+          if (state.userinfo.estimateassets) {
+            return state.userinfo.estimateassets;
+          }
+        }
+      })
+    },
     mounted(){
       this.getAssetsDetail();
       this.getCurrency();
+      this.$store.dispatch('getEstimateassets');
     },
     methods: {
       change(value){
@@ -319,6 +394,8 @@
       },
       canclemodal(name){
         this.$refs[name].resetFields();
+        this.adress = '';
+        this.remark = '';
         this.setTradeText = "发送验证码";
         this.sendmessage = true;
         clearInterval(this.sendTradeTimer);
@@ -361,26 +438,28 @@
           that.formValidate['reqresource'] =1;
           console.log(that.formValidate)
           this.$refs[name].validate((valid) => {
-              if (valid) {
-                  that.$ajax({
-                    method:"post",
-                    url:"/trade/tps/pbwam.do",
-                    data:that.formValidate
-                  }).then((data)=>{
-                    if(data.data && data.data.err_code=="1"){
-                      that.addmodal = false;
-                      that.$Message.success("添加成功");
-                      that.selectaddress()
-                      that.$refs.formValidate.resetFields();
-                    }else{
-                      that.err_msg = data.data.msg
-                    }
-                     
-                  })
-              } else {
-                return false;
-                  // this.$Message.error('Fail!');
-              }
+            if (valid) {
+                that.$ajax({
+                  method:"post",
+                  url:"/trade/tps/pbwam.do",
+                  data:that.formValidate
+                }).then((data)=>{
+                  if(data.data && data.data.err_code=="1"){
+                    that.addmodal = false;
+                    that.$Message.success("添加成功");
+                    that.selectaddress()
+                    that.$refs.formValidate.resetFields();
+                    that.remark = '';
+                    that.adress = '';
+                  }else{
+                    that.err_msg = data.data.msg
+                  }
+                    
+                })
+            } else {
+              return false;
+                // this.$Message.error('Fail!');
+            }
           })
       },
       sendSetTrade(){//短信验证码
@@ -421,8 +500,9 @@
         
       },
       address(){//点击添加地址
-        console.log("============",this.fund_account_active)
         this.addmodal = true;
+        this.formValidate.adress = this.adress;
+        this.formValidate.remark = this.remark;
         this.err_msg = "";
       },
       changeFundAccount(value) {//选择币种
@@ -442,7 +522,7 @@
               coin:that.fund_account_active
             }
           }).then((data)=>{
-            console.log(data)
+            console.log('address---list---',data)
             if(data.data && data.data.err_code == "1"){
               that.addresslist = data.data.walletAdress
             }
@@ -578,6 +658,7 @@
           display: inline-block;
           padding-bottom: 10px;
           border-bottom: 2px solid $primary-color;
+          color: #fff;
         }
       }
     }
@@ -751,8 +832,46 @@
     }
   }
   .error_msg{
-      text-align: center;
-      color:#f00;
-      font-size:14px;
+    text-align: center;
+    color:#f00;
+    font-size:14px;
+  }
+  .fund-account-inner {
+    padding: 40px 10px;
+    margin-bottom: 20px;
+    background: #222;
+    .ivu-row {
+      margin: 10px 0;
     }
+    .ivu-select-dropdown {
+      background-color: #353535;
+    }
+    .ivu-select-item,.ivu-select-selected-value {
+      color: #08b3ff;
+      &:hover {
+        background: #222;
+      }
+    }
+    .ivu-col {
+      padding: 0 10px;
+    }
+    .account-input {
+      display: block;
+      width: 100%;
+      padding: 0 10px;
+      height: 36px;
+      background: #222;
+      border:1px solid #556880;
+      border-radius:3px;
+      outline: none;
+      color: #fff;
+    }
+  }
+  .delete-address-btn {
+    color: #08b3ff;
+    background: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
 </style>

@@ -38,7 +38,7 @@
                 绑定您的邮箱</h3>
               <a href="javascript:;" :class="{active:userinfo.email.bound,disabled:true}" @click="openEmailModal">{{userinfo.email.bound?userinfo.email.value.slice(0,4)+'****'+userinfo.email.value.match(/@.+$/):'未绑定'}}</a>
              </div>
-             <a href="javascript:;" @click="openEmailModal" :class="{'item-status':true,disabled:userinfo.email.bound}">{{userinfo.email.bound?'已绑定':'绑定'}}</a>
+             <a href="javascript:;" @click="openEmailModal" :class="{'item-status':true,'item-status-active':!userinfo.email.bound,disabled:userinfo.email.bound}">{{userinfo.email.bound?'已绑定':'绑定'}}</a>
           </div>
         </div>
       </Col>
@@ -62,7 +62,7 @@
               <a href="javascript:;" v-else>未认证</a>
              </div>
              <a href="javascript:;" class="item-status disabled" v-if="userinfo.nameAuth.bound" >您的账号已通过实名认证</a>
-             <a href="javascript:;" class="item-status" v-else @click="()=>{this.$router.push({path:'/user/authentication',query:{name:'authentication'}})}">实名认证</a>
+             <a href="javascript:;" class="item-status item-status-active" v-else @click="()=>{this.$router.push({path:'/user/authentication',query:{name:'authentication'}})}">实名认证</a>
           </div>
         </div>
       </Col>
@@ -86,7 +86,7 @@
               <a href="javascript:;" v-else>绑定</a>
              </div>
              <a href="javascript:;" v-if="userinfo.phone.bound" class="item-status" @click="openTelModal">修改</a>
-             <a href="javascript:;" class="item-status" v-else @click="openTelSetModal">绑定</a>
+             <a href="javascript:;" class="item-status item-status-active" v-else @click="openTelSetModal">绑定</a>
           </div>
         </div>
       </Col>
@@ -153,12 +153,13 @@
               </a>
               <a v-else href="javascript:;" @click="openTradePassModal">未设置</a>
              </div>
-             <a v-if="!userinfo.tradePass.bound" href="javascript:;" class="item-status" @click="openTradePassModal">绑定</a>
+             <a v-if="!userinfo.tradePass.bound" href="javascript:;" class="item-status item-status-active" @click="openTradePassModal">绑定</a>
              <a v-else href="javascript:;" class="item-status" @click="()=>{this.setTradePwdModal=true}">修改</a>
           </div>
         </div>
       </Col>
     </Row>
+    <LoginRecord />
     <Modal
         width="400"
         title="邮箱认证"
@@ -321,6 +322,7 @@
 <script>
 import { mapState } from "vuex";
 import { Form, FormItem, Icon, Progress } from 'iview';
+import LoginRecord from './loginrecord';
 var telReg = /^1[34578]\d{9}$/;
 export default {
   data () {
@@ -524,7 +526,7 @@ export default {
         }else if (safeLevel < 40) {
           safeLevelStatus = '较低';
           safeLevelInfo = '为保障您的账户安全，请尽快完善安全设置';
-        }else if (safeLevel < 80) {
+        }else if (safeLevel < 100) {
           safeLevelStatus = '中等';
           safeLevelInfo = '您的账户较为安全，请尽快完善其他安全设置';
         }else {
@@ -544,7 +546,8 @@ export default {
     Form,
     FormItem,
     Icon,
-    Progress
+    Progress,
+    LoginRecord
   },
   methods:{
     //设置手机
@@ -736,6 +739,7 @@ export default {
               bound:true,
               value:email
             }
+            that.$store.dispatch('getUserInfo');
           }else {
             if (res.status == 200 && res.data && res.data.err_code == '2') {
               this.$Notice.warning({

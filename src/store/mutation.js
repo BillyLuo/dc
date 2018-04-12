@@ -21,8 +21,13 @@ function getUserBaseInfo (state,payload) {
   state.userinfo.mobile='';
   state.userinfo = Object.assign(state.userinfo,payload)
 }
+function getEstimateassets(state,payload){
+  state.userinfo.estimateassets = '';
+  state.userinfo = Object.assign(state.userinfo,{estimateassets:payload});
+}
 export default {
   change,
   getUserLoginInfo,
-  getUserBaseInfo
+  getUserBaseInfo,
+  getEstimateassets
 }

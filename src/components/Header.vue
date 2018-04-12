@@ -545,7 +545,7 @@ export default {
     position: absolute;
     width: 300px;
     left: -60%;
-    top: 90px;
+    top: 70px;
     border: 1px solid #404448;
     box-shadow: 0 4px 4px rgba(0,0,0,.1);
     font-size: 12px;

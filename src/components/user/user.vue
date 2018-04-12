@@ -2,13 +2,13 @@
   <div class="user-center">
     <user-info></user-info>
     <div class="user-main clear">
-      <div class="user-menu" active-name="user-menu">
+      <!-- <div class="user-menu" active-name="user-menu">
         <Menu ref="safesettings" width="160px" :active-name="activeMenu" @on-select="changeValue">
           <MenuItem v-for="item in userMenu" :name="item.value" :key="item.value">
             {{item.label}}
           </MenuItem>
         </Menu>
-      </div>
+      </div> -->
       <div class="user-content">
         <router-view></router-view>
       </div>
@@ -123,7 +123,7 @@ export default {
       float: left;
     }
     .user-content {
-      width: 1020px;
+      width: 1200px;
       margin-left: 20px;
       float: right;
     }
