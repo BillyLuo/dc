@@ -218,8 +218,9 @@ export default {
       })
 
       if(!cookies.get("name") && (path == "/trading" || path == "/assets" || path == "/user" || path == "/market")){
-          this.$Modal.info({
-            content:'请您先登录'
+          this.$Notice.warning({
+            title:'提示',
+            desc:'请您先登录'
           });
           this.$refs.main_menu.currentActiveName = 'user';
           this.$router.push({
@@ -249,8 +250,9 @@ export default {
       }
       if(!cookies.get("name")  && (name == "trading" || name == "assets" || name == "user" || name == "market")){
           this.$refs.main_menu.currentActiveName = 'user';
-          this.$Modal.info({
-            content:'请您先登录'
+          this.$Notice.warning({
+            title:'提示',
+            desc:'请您先登录'
           });
           // this.activeName = 'user';
           this.$router.push({
@@ -290,8 +292,9 @@ export default {
       if (!this.isLogined && name != 'register' && name && name!='home') {
         this.$refs.main_menu.currentActiveName = 'home';
         if (name != 'home' && name != 'login' && name != 'register') {
-          this.$Modal.info({
-            content:'请您先登录'
+          this.$Notice.warning({
+            title:'提示',
+            desc:'请您先登录'
           });
         } 
         this.$router.push({

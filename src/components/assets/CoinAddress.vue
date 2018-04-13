@@ -140,6 +140,7 @@ export default {
   },
   mounted (){
     this.getCurrency();
+    this.selectaddress();
   },
   methods:{
     getCurrency(){

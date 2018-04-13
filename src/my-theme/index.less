@@ -18,17 +18,26 @@
 .dark-mode .ivu-input,.dark-mode .ivu-select-selection {
   background: @background;
   border-color: #666;
+  box-shadow: 0;
   &:hover,&:focus {
     border-color: #666;
+    box-shadow: 0;
   }
+}
+.dark-mode.ivu-select:focus {
+  box-shadow: none;
+  outline: 0;
+}
+.dark-mode.ivu-select:focus .ivu-select-selection {
+  border-color: #666;
 }
 .dark-mode .ivu-select-item-selected, .dark-mode .ivu-select-item-selected:hover{
   background: @secondary-color;
 }
-.dark-mode .ivu-select .ivu-select-dropdown {
+.dark-mode.ivu-select .ivu-select-dropdown {
   background: @background;
 }
-.dark-mode .ivu-select .ivu-select-item:hover {
+.dark-mode.ivu-select .ivu-select-item:hover {
   background: @secondary-color;
 }
 

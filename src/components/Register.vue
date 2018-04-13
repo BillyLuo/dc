@@ -202,6 +202,7 @@
 </template>
 <script>
 import { Tabs, TabPane } from "iview";
+import {emailReg} from './constant/constant.js';
 export default {
   components: {
     Tabs,
@@ -457,7 +458,7 @@ export default {
       } else {
         if (
           this.email &&
-          !/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(this.email)
+          !emailReg.test(this.email)
         ) {
           this.errorEmail = "邮箱格式不正确";
           this.emailErrorInput = "errorInput";
