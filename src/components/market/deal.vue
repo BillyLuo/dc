@@ -42,7 +42,7 @@
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
-                                <div class="currency-balance">冻结 {{changeCurrenyBalance1}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
+                                <div class="currency-balance">冻结 {{changeCurrenyBalance1}} {{changeCurreny}} </div>
                                 <div style="padding:20px 0px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
