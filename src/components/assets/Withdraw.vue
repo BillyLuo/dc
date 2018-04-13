@@ -31,7 +31,7 @@
       </FormItem>
     </Form>
     <div class="submit-btn">
-      <Button class="btn-block" type="primary" @click="submitWithdraw('form')">立即提现</Button>
+      <Button class="btn-block" type="primary" :disabled="disabled" @click="submitWithdraw('form')">立即提现</Button>
     </div>
     <div class="withdraw-note">
       <div class="withdraw-note-title color-white">提现须知</div>
@@ -155,6 +155,22 @@ var addAddressRules = {
     { required: true, message: '公钥不能为空', trigger: 'blur' },
   ]
 }
+var numReg = function (m,n) {
+        // m=m.toString();
+        // n=n.toString();
+        if (!m) {
+            m = 15;
+        }else if(!m.match(/^[1-9]\d*$/)) {
+            m = 15;
+        }
+        if (!n) {
+            n = 10;
+        }else if (!n.match(/^[1-9]\d*$/)) {
+            n = 10;
+        }
+        return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
+    }
+var reg = numReg('5','1');
 export default {
   components:{
     Form: Form,
@@ -164,6 +180,7 @@ export default {
     return {
       msg:'提币',
       withdrawType:'ETH',
+      disabled:false,
       withdrawModel:{
         balance:'0.00',
         address:'1',
@@ -206,6 +223,45 @@ export default {
   },
   methods:{
     numberchange(val){
+      var ss =  val.toString();
+      if(ss.indexOf(".") !=-1){
+        var value =ss.split('.')[1];
+        console.log("==",value.length)
+        if(value.length>1){
+          console.log(value.substr(0,1))
+          this.withdrawModel.account = Number(ss.split('.')[0]+'.'+value.substr(0,1))
+          this.disabled = true;
+          this.$Notice.warning({
+            title:'温馨提示',
+            desc:"小数点后只能输入一位数"
+          })
+          return false;
+        }else{
+          this.disabled = false;
+        }
+      }
+      
+      // var value = val;
+      // if (!value) {
+      //     this.withdrawModel.account = 0;
+      // }else {
+      //     value = value.toString();
+      //     console.log(typeof value,"=-=-=-=-=-=-=-")
+      //     // console.log(reg.test(value))
+      //     if (reg.test(value)) {
+      //         this.withdrawModel.account = Number(value);
+      //     }else {
+      //         value = value.slice(0,-1);
+      //         // console.log(value)
+      //         var matched = value.match(reg);
+      //         // console.log(matched)
+      //         if (matched && matched.length) {
+      //             this.withdrawModel.account = Number(matched[0]);
+      //         }else {
+      //             this.withdrawModel.account  = 0;
+      //         }
+      //     }
+      // }
       if(val > 99999){
         this.$Notice.warning({
           title:'温馨提示',
@@ -245,7 +301,7 @@ export default {
           }
       }).then((res)=>{
           console.log(res)
-          if(res.data.accountFund && res.data&&res.data.err_code=="1"){
+          if(res.data.accountFund && res.data && res.data.err_code=="1"){
               that.withdrawModel.balance = res.data.accountFund[0].usablefund
               // that.withdrawModel.account = Number(res.data.accountFund[0].total)
           }else{
@@ -375,8 +431,10 @@ export default {
                 account:0,
                 commission:'0.002',
                 trade_password:'',
-                text_code:''
+                text_code:'',
+                balance:""
             };
+
             this.getbalance();
           }else{
             that.$Notice.warning({
