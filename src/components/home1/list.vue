@@ -8,7 +8,7 @@
             </Menu>
            
             <Input icon="search" v-model="value" placeholder="Enter something..." style="width: 200px;"></Input>
-            <ButtonGroup class="list_style">
+            <ButtonGroup class="list_style clear">
                 <Button :class="{jgg_show:true,l_show:true,list_style_active:chart_active}" @click="showstyle('1')" icon="android-apps"></Button>
                 <Button :class="{list_show:true,l_show:true,list_style_active:list_active}" icon="navicon-round"  @click="showstyle('2')"></Button>
             </ButtonGroup>

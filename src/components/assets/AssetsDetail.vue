@@ -51,40 +51,45 @@ export default {
       detailPageSize:10,
       detailPageTotal:0,
       startDate:'',
-      endDate:new Date(),
+      endDate:"",
       setDayActive:7,
       dateErr:'',
-      operation_type: '1',
+      operation_type: '',
       typeList: [
         {
           label: 'BTC提现',
-          value: '1'
+          value: 'BTC'
         },
         {
           label: 'ETH提现',
-          value: '2'
+          value: 'ETH'
         },
         {
           label: 'BHC提现',
-          value: '3'
+          value: 'BCH'
         }
       ],
       account_detail_column: [
         {
+          title: '币种',
+          key: 'coin',
+          sortable: true
+        },
+        {
           title: '交易时间',
-          key: 'tradetime',
+          key: 'createdTime',
           sortable: true
         },
         {
           title: '类型',
-          key: 'tradetype',
+          key: 'operateType',
           sortable: true,
           render: (h,param) =>{
             console.log(param.row)
-            if(param.row.tradetype == "1"){
-              return h("span","买入")
-            }else if(param.row.tradetype == "2"){
-              return h("span","卖出")
+            if(param.row.operateType == "1"){
+              return h("span","充币")
+            }else if(param.row.operateType == "2"){
+              return h("span","提币")
             }
           }
         },
@@ -105,8 +110,8 @@ export default {
         },
         {
           title: '手续费',
-          key: 'servicecharge',
-          sortable: true,
+          key: 'serviceCharge',
+          // sortable: true,
           sortMethod(a,b,type){
             if (type == 'asc') {
               return a - b;
@@ -115,26 +120,24 @@ export default {
             }
           },
           render: (h,param) =>{
-            return h("span",Number(param.row.servicecharge).toFixed(6))
+            return h("span",Number(param.row.serviceCharge).toFixed(6))
           }
         },
         {
           title: '状态',
           key: 'status',
-          sortable: true,
+          // sortable: true,
           render: (h,params) =>{
               // 0:已提交1:成交,2:撤销,3:部分成交,4:部分成交撤销
               if(params.row.status == "1"){
-                  return h("span","已成交")
-              }else if(params.row.status == "3" ){
-                  return h("span","部分成交")
+                  return h("span","充值到账")
+              }else if(params.row.status == "2" ){
+                  return h("span","提币中")
                   
-              }else if(params.row.status == "0" ){
-                  return h("span","已提交")
-              }else if(params.row.status == "2"){
-                  return h("span","已撤销")
+              }else if(params.row.status == "3" ){
+                  return h("span","提币到账")
               }else if(params.row.status == "4"){
-                  return  h('span', "部分成交撤销");
+                  return h("span","提币失败")
               }
           }
         },
@@ -147,7 +150,31 @@ export default {
   components:{
     DatePicker,Page
   },
+  mounted(){
+    
+    this.getBi();
+    this.getAssetsDetail();
+  },
   methods:{
+    getBi(){
+      this.typeList = [];
+      let that =this;
+      this.$ajax.post('/trade/tps/pblaf.do',{
+        reqresource:1,
+        pageno:1,
+        pagesize:100
+      }).then((data) => {
+        console.log('success',data);
+        let list = (data.data && data.data.accountFund) ? data.data.accountFund : [];
+        let formatList = list.map((value, index) => {
+          let result = {};
+          result.label = value.currencyname+"提现";
+          result.value = value.currencyname;
+          return result;
+        })
+        that.typeList = formatList;
+      })
+    },
     chooseStartDate(value) {
       this.startDate = value;
     },
@@ -183,58 +210,86 @@ export default {
       var pageno = this.detailPageNo;
       var pagesize = this.detailPageSize;
       let that =this;
-      let startDate = this.startDate;
-      let endDate = this.endDate;
-      let operation = this.operation_type;
-      if (startDate) {
-        startDate = moment(this.startDate).format('YYYY-MM-DD');
+      let starttime = this.startDate;
+      let endtime = this.endDate;
+      let coin = this.operation_type;
+      if (starttime) {
+        starttime = moment(this.startDate).format('YYYY-MM-DD 00:00:00');
       }else {
-        startDate = '';
+        starttime = '';
       } 
-      if (endDate) {
-        endDate = moment(this.endDate).format('YYYY-MM-DD');
+      if (endtime) {
+        endtime = moment(this.endDate).format('YYYY-MM-DD 23:59:59');
       }else {
         // this.endDate = new Date();
         // endDate = moment().format('YYYY-MM-DD');
         this.endDate = ""
       }
       console.log({
-        operation,
-        startDate,
-        endDate
+        coin,
+        starttime,
+        endtime
       });
       this.dateErr = '';
-      if (startDate && endDate) {
-        if (moment(endDate).isBefore(startDate)) {
+      if (starttime && endtime) {
+        if (moment(endtime).isBefore(starttime)) {
           this.dateErr = '查询开始时间应小于结束时间';
           return false;
         }
       }
-      this.$ajax.post('/trade/tps/pblad.do',{
-        operation,
-        startDate,
-        endDate,
+      this.$ajax.post('/trade/tps/pbqrw.do',{
+        coin,
+        starttime,
+        endtime,
         reqresource:1,
         pageno,
         pagesize
       }).then((res)=>{
-        console.log('-----detail',res.data.accountDetail);
+        console.log('-----detail',res);
         if (res.status == 200 && res.data.err_code == '1') {
-          if (res.data && res.data.page) {
-            that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;
+          if(res.data.recordDetail){
+            that.account_detail_data = res.data.recordDetail
           }
-          if(res.data.accountDetail && res.data.accountDetail.length){
-            that.account_detail_data = res.data.accountDetail
-          }else {
-            
-          }
+          // if (res.data && res.data.page) {
+          //   that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;
+          // }
+          // if(res.data.accountDetail && res.data.accountDetail.length){
+          //   that.account_detail_data = res.data.accountDetail
+          // }else {
+          // }
         }else {
-          Message.warning('获取资产详情失败,请稍后重试');
+          console.log("----")
+          that.$Message.warning('获取资产详情失败,请稍后重试');
         }
       }).catch((err)=>{
         console.warn('获取资产详情失败');
-        Message.warning('获取资产详情失败,请稍后重试');
+        that.$Message.warning('获取资产详情失败,请稍后重试');
       })
+      // this.$ajax.post('/trade/tps/pblad.do',{
+      //   operation,
+      //   startDate,
+      //   endDate,
+      //   reqresource:1,
+      //   pageno,
+      //   pagesize
+      // }).then((res)=>{
+      //   console.log('-----detail',res.data.accountDetail);
+      //   if (res.status == 200 && res.data.err_code == '1') {
+      //     if (res.data && res.data.page) {
+      //       that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;
+      //     }
+      //     if(res.data.accountDetail && res.data.accountDetail.length){
+      //       that.account_detail_data = res.data.accountDetail
+      //     }else {
+            
+      //     }
+      //   }else {
+      //     Message.warning('获取资产详情失败,请稍后重试');
+      //   }
+      // }).catch((err)=>{
+      //   console.warn('获取资产详情失败');
+      //   Message.warning('获取资产详情失败,请稍后重试');
+      // })
     }
   }
 }

@@ -9,12 +9,13 @@
                         <div class="icon_input">
                             <img src="/static/img/suanpan.png" alt="">
                         </div>
-                        <!-- <Input :number="true" v-model="value" size="large" @on-change="inputlength($event)"> -->
-                        <Input :number="true" v-model="value" size="large" @on-change="inputlength($event)">
-                            <Select v-model="model1" slot="prepend" style="width: 80px;">
+                        <div class="shuru">
+                            <input class="inputs" v-model="value" size="large" @input="inputlength($event)" />
+                            <Select class="selects" v-model="model1" slot="prepend" style="width: 80px;">
                                 <Option v-for="item in cityList" :value="item.currencyname" :key="item.currencyname">{{ item.currencyname }}</Option>
                             </Select>
-                        </Input>
+                        </div>
+                        
                         <div class="jiantou">
                             <img  src="/static/img/jiantou.png" alt="">
                         </div>
@@ -81,35 +82,26 @@ import bus from '../../bus/bus';
         },
         methods:{
             inputlength(e){
-                // let that =this;
-                // console.log(e.target.value)
-                // var value = e.target.value;
-                // console.log(value)
-                // if (!value) {
-                //     this.value = '';
-                // }else {
-                //     console.log(reg.test(value))
-                //     if (reg.test(value)) {
-                //         this.value = value;
-                //     }
-
-                //     if(!reg.test(value)){
-                //         console.log("'''")
-                //         setTimeout(()=>{
-                //             that.value  = '';
-                //         },10)
-                //         that.value  = '';
-                //         // value = value.slice(0,-1);
-                //         // console.log("----",value.slice(0,-1))
-                //         // var matched = value.match(reg);
-                //         // console.log(matched)
-                //         // if (matched && matched.length) {
-                //         //     this.value = matched[0];
-                //         // }else {
-                //         //     this.value  = '';
-                //         // }
-                //     }
-                // }
+                console.log(e)
+                var value = e.target.value;
+                if (!value) {
+                    this.value = '';
+                }else {
+                    console.log(reg.test(value))
+                    if (reg.test(value)) {
+                        this.value = value;
+                    }else {
+                        value = value.slice(0,-1);
+                        console.log(value)
+                        var matched = value.match(reg);
+                        console.log(matched)
+                        if (matched && matched.length) {
+                            this.value = matched[0];
+                        }else {
+                            this.value  = '';
+                        }
+                    }
+                }
                 
             },
             selectCurrency(){
@@ -191,6 +183,50 @@ import bus from '../../bus/bus';
             }
             .textinput{
                 margin-top:100px;
+                .shuru{
+                    position: relative;
+                }
+                .inputs{
+                    width:100%;
+                    height:50px;
+                    border-radius: 5px;
+                    border:none;
+                    padding-left:90px;
+                }
+                .selects{
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    height:50px;
+                    .ivu-select-selection{
+                        height:50px;
+                        .ivu-select-selected-value{
+                            height:49px;
+                            line-height: 49px;
+                            background: #fff;
+                        }
+                    }
+                    .ivu-btn:focus {
+                        -webkit-box-shadow: none;
+                        box-shadow: none;
+                    }
+                    .ivu-select-visible .ivu-select-selection {
+                        
+                        border-color: #dddee1;
+                        outline: 0;
+                        -webkit-box-shadow: none;
+                        box-shadow: none;
+                    }
+                }
+                .ivu-select-selection:hover {
+                    border-color: #dddee1;
+                }
+                .ivu-select-visible .ivu-select-selection {
+                    border-color: #dddee1;
+                    outline: 0;
+                    -webkit-box-shadow: none;
+                    box-shadow: none;
+                }
                 .cal{
                     padding:0 40px;
                     text-align: center;
