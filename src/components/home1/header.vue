@@ -48,8 +48,9 @@
                 console.log(cookies.get("name"))
                 this.$router.push(name)
                 if(!cookies.get("name") && name!="home" && name!="login" && name!="register"){
-                    this.$Modal.info({
-                        content:'请您先登录'
+                    this.$Notice.warning({
+                        title:'提示',
+                        desc:'请您先登录'
                     });
                     this.$router.push("login");
                     this.$refs.main_menu.currentActiveName = "home"
@@ -62,7 +63,7 @@
                 if(path !='/' && path!="/home" && path!="/login" && path!="/register"){
                     this.height = "height:80px;background:#333;"
                 }else{
-                    this.height = "";
+                    this.height = "height:80px;";
                 }
                 
             }

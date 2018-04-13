@@ -3,10 +3,10 @@
     <h3><span>我的财务管理</span></h3>
     <div class="financial-management">
       <div>
-        <span style="color:#666;">起始时间：</span>
+        <!-- <span style="color:#666;">起始时间：</span>
         <DatePicker v-model="startDate" @on-change="chooseStartDate" :editable="false" type="date" placeholder="请选择开始时间" style="width: 200px"></DatePicker>
         <span style="margin: 0 20px;"> ~ </span>
-        <DatePicker v-model="endDate" @on-change="chooseEndDate" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker>
+        <DatePicker v-model="endDate" @on-change="chooseEndDate" :editable="false" type="date" placeholder="请选择结束时间" style="width: 200px;margin-right:30px;"></DatePicker> -->
         <!-- <Button size="small" @click="chooseDate(0)" :type="setDayActive == 0 ? 'primary' : 'ghost'">今天</Button>
         <Button size="small" @click="chooseDate(7)" :type="setDayActive == 7 ? 'primary' : 'ghost'">7天</Button>
         <Button size="small" @click="chooseDate(15)" :type="setDayActive == 15 ? 'primary' : 'ghost'">15天</Button>
@@ -15,7 +15,7 @@
       </div>
       <div>
         <span style="color:#666">操作类型：</span>
-        <Select @on-change="changeType" :filterable="true" v-model="operation_type" style="width:200px;margin: 30px 0;">
+        <Select :class="'dark-mode'" @on-change="changeType" :filterable="true" v-model="operation_type" style="width:200px;margin: 30px 0;">
           <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail">查询</Button>
@@ -55,20 +55,7 @@ export default {
       setDayActive:7,
       dateErr:'',
       operation_type: '',
-      typeList: [
-        {
-          label: 'BTC提现',
-          value: 'BTC'
-        },
-        {
-          label: 'ETH提现',
-          value: 'ETH'
-        },
-        {
-          label: 'BHC提现',
-          value: 'BCH'
-        }
-      ],
+      typeList: [],
       account_detail_column: [
         {
           title: '币种',
@@ -166,13 +153,19 @@ export default {
       }).then((data) => {
         console.log('success',data);
         let list = (data.data && data.data.accountFund) ? data.data.accountFund : [];
-        let formatList = list.map((value, index) => {
+        let formatList1 = list.map((value, index) => {
           let result = {};
           result.label = value.currencyname+"提现";
           result.value = value.currencyname;
           return result;
+        });
+        let formatList2 = list.map((value,index)=>{
+          let result = {};
+          result.label = value.currencyname+"充值";
+          result.value = value.currencyname;
+          return result;
         })
-        that.typeList = formatList;
+        that.typeList = formatList1.concat(formatList2);
       })
     },
     chooseStartDate(value) {
@@ -239,8 +232,8 @@ export default {
       }
       this.$ajax.post('/trade/tps/pbqrw.do',{
         coin,
-        starttime,
-        endtime,
+        // starttime,
+        // endtime,
         reqresource:1,
         pageno,
         pagesize

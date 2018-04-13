@@ -9,10 +9,10 @@
           <Col span="16" :style="{color:'#fff'}">
             预估总资产： {{estimateassets}} / USDT
           </Col>
-          <Col span="2">
+          <Col span="2" class="account-menu">
             <a href="javascript:;" @click="route('assetsdetail')" class="account-detail">账户明细</a>
           </Col>
-          <Col span="2">
+          <Col span="2" class="account-menu">
             <a href="javascript:;" @click="route('coinaddress')" class="account-management">提币管理</a>
           </Col>
         </Row>
@@ -254,9 +254,13 @@ export default {
       height: 60px;
       text-align: center;
       border-left: 1px solid #121212;
+      font-size: 14px;
     }
   }
   .pager {
     color: #666;
+  }
+  .account-menu.ivu-col {
+    padding: 0;
   }
 </style>

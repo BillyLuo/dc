@@ -8,7 +8,12 @@
         <h3 class="reset-title">您正通过 <span>电子邮件</span> 找回登录密码</h3>
         <Form v-show="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
           <form-item label="邮箱地址：" prop="email">
-            <Input type="email" size="large" placeholder="邮箱地址" v-model="resetForm.email"/>
+            <Input type="email" size="large" :maxlength="50" placeholder="邮箱地址" v-model="resetForm.email">
+              <span slot="append" :style="{cursor:'pointer'}" @click="validateEmail">{{sendEmailText}}</span>
+            </Input>
+          </form-item>
+          <form-item label="邮箱验证码：" prop="emailCode">
+            <Input type="text" size="large" :maxlength="6" placeholder="邮箱验证码" v-model="resetForm.emailCode"/>
           </form-item>
           <!-- <form-item prop="credentials" label="证件类型： ">
             <Select style="width: 400px;display:inline-block;" v-model="resetForm.credentials">
@@ -70,7 +75,13 @@ var emailValidator = (rules,value,c)=> {
 var resetRules = {
   email:[
     {required:true,message:'请输入邮箱地址',trigger:'blur'},
+    {max:50,message:'邮箱地址过长',trigger:'blur'},
     {validator:emailValidator,trigger:'blur'}
+  ],
+  emailCode:[
+    {required:true,message:'请输入邮箱密码',trigger:'blur'},
+    {len:6,message:'请输入6位邮箱验证码',trigger:'blur'},
+    {pattern:/\w{6}/,message:'验证码不应包含特殊字符',trigger:'blur'}
   ],
   credentials:[
     {required:true}
@@ -107,11 +118,14 @@ export default {
   data () {
     return {
       step:1,
+      sendEmailText:'发送邮箱验证码',
+      emailTimer:null,
       imgSrc:'/trade/tps/pbccs.do',
       sendText:'发送验证码',
       userId:'',
       resetForm: {
         email:'',
+        emailCode:'',
         credentials:'1',
         credentialsNumber:'',
         imgCode:''
@@ -164,6 +178,30 @@ export default {
     Form,FormItem,Step
   },
   methods:{
+    sendEmail(){
+      var that = this;
+      if (this.emailTimer) {
+        return false;
+      }
+      var num = 60;
+      this.emailTimer = setInterval(()=>{
+        num --;
+        if (num > 0) {
+          that.sendEmailText = num + 's后重试';
+        }else {
+          clearInterval(that.emailTimer);
+          that.sendEmailText = '发送邮箱验证码';
+          that.emailTimer = null;
+        }
+      },1000);
+    },
+    validateEmail () {
+      this.$refs['form1'].validateField('email',(valid)=>{
+        if (!valid) {
+          this.sendEmail();
+        }
+      })
+    },
     emailInputBlur () {
       console.log('blur');
       var email = this.resetForm.email.trim();

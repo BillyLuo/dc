@@ -440,29 +440,29 @@ export default {
       modifyTradeRules:{
         newpwd:[
           {required:true,message:'请输入交易密码',trigger:'blur'},
-          {type:'string',min:6,max:20,message:'登录密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
+          {type:'string',min:6,max:20,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
         ],
         confirmpwd:[
           {required:true,message:'请再次输入交易密码',trigger:'blur'},
-          {type:'string',min:6,max:20,message:'登录密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
+          {type:'string',min:6,max:20,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
-          {type:'string',min:6,max:6,message:'登录密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
+          {type:'string',min:6,max:6,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
         ]
       },
       setTradeRules:{
         oldpwd:[
           {required:true,message:'请输入交易密码',trigger:'blur'},
-          {type:'string',min:6,max:20,message:'登录密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
+          {type:'string',min:6,max:20,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
         ],
         newpwd:[
           {required:true,message:'请输入交易密码',trigger:'blur'},
-          {type:'string',min:6,max:20,message:'登录密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
+          {type:'string',min:6,max:20,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
         ],
         confirmpwd:[
           {required:true,message:'请再次输入交易密码',trigger:'blur'},
-          {type:'string',min:6,max:20,message:'登录密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
+          {type:'string',min:6,max:20,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
