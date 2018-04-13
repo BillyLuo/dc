@@ -56,12 +56,14 @@ function initCharts (symbol) {
             "toolbar_bg": "#f1f3f6",
             "enable_publishing": false,
             "withdateranges": false,
+            "hide_top_toolbar":false,
             "hide_side_toolbar": false,
             "allow_symbol_change": false,
             "hideideasbutton": true,
             "show_popup_button": false,
             "popup_width": "1000",
-            "popup_height": "650"
+            "popup_height": "650",
+            "save_image":false
         });
 } 
 

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Header from './components/header';
+import Header from './components/Header';
 import Footer from './components/footer';
 // import TitleScroll from './components/TitleScroll';
 import TitleScroll from './components/home1/titlescroll';

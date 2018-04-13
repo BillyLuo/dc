@@ -16,7 +16,7 @@
         <Input :class="'withdraw-item'" v-model="withdrawModel.pub" disabled/>
       </FormItem>
       <FormItem label="提现数量" prop="account">
-        <InputNumber :class="'withdraw-item'" v-model="withdrawModel.account"></InputNumber>
+        <InputNumber :class="'withdraw-item'" :max="999999" @on-change="numberchange" v-model="withdrawModel.account"></InputNumber>
       </FormItem>
       <FormItem :label="'  '+withdrawType+'手续费比例'" prop="commission">
         <Input :class="'withdraw-item'" v-model="withdrawModel.commission" disabled/>
@@ -124,15 +124,16 @@ var withdrawRules = {
     {validator:accountValidator,trigger:'blur'}
   ],
   trade_password:[
-    {required:true,message:'请输入交易密码',trigger:'blur'}
+    {required:true,message:'请输入交易密码',trigger:'blur'},
+    {type:'string',min:6,max:20,message:'交易密码应该在6-20位，且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
   ],
   text_code:[
     {required:true,trigger: 'blur',message:'请填写验证码'},
     {type:'string',min:6,max:6,message:'请填写6位验证码',trigger:'blur'}
   ],
-  // pub:[
-  //   { required: true, message: '请输入地址', trigger: 'blur' },
-  // ]
+  pub:[
+    { required: true, message: '公钥不能为空', trigger: 'blur' },
+  ]
 }
 var addAddressRules = {
   address:[
@@ -143,15 +144,16 @@ var addAddressRules = {
     {type:'string',max:200,message:'备注不应超过200位',trigger:'blur'}
   ],
   trade_password:[
-    {required:true,message:'请输入交易密码',trigger:'blur'}
+    {required:true,message:'请输入交易密码',trigger:'blur'},
+    {type:'string',min:6,max:20,message:'交易密码应该在6-20位，且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
   ],
   add_text_code:[
     {required:true,message:'请输入验证码',trigger:'blur'},
-    {type:'string',len:6,message:'请输入6位验证码',trigger:'blur'}
+    {type:'string',min:6,max:6,message:'请输入6位验证码',trigger:'blur'}
   ],
-  // pub:[
-  //   { required: true, message: '请输入地址', trigger: 'blur' },
-  // ]
+  pub:[
+    { required: true, message: '公钥不能为空', trigger: 'blur' },
+  ]
 }
 export default {
   components:{
@@ -203,6 +205,15 @@ export default {
     this.getParams();
   },
   methods:{
+    numberchange(val){
+      if(val > 99999){
+        this.$Notice.warning({
+          title:'温馨提示',
+          desc:'最大数量不能超过99999'
+        })
+        return false;
+      }
+    },
     getpub(val){
       console.log(val,"67890-=====================");
       if(this.withdrawType!="ETH"){
@@ -492,7 +503,13 @@ export default {
   }
   .withdraw-item {
       width: 400px;
+      .ivu-input-number:hover .ivu-input-number-handler-wrap{
+        opacity: 0;
+      }
     }
+}
+.ivu-input-number-handler-wrap{
+  display: none
 }
 .withdraw {
   .ivu-input-group-append {
