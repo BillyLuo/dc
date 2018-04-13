@@ -1,8 +1,8 @@
 <template>
   <div class="withdraw">
-    <h3 class="withdraw-title">{{withdrawType}}提现</h3>
+    <h3 class="withdraw-title color-white">{{withdrawType}}提现</h3>
     <div class="divide"></div>
-    <Form :class="'withdraw-table'" ref="form" :rules="withdrawRules" inline label-position="left" :model="withdrawModel" :label-width="140">
+    <Form :class="'withdraw-table'" ref="form" :rules="withdrawRules" label-position="left" :model="withdrawModel" :label-width="140">
       <FormItem label="  账户余额" prop="balance">
         <Input :class="'withdraw-item'" v-model="withdrawModel.balance" disabled/>
       </FormItem>
@@ -34,14 +34,14 @@
       <Button class="btn-block" type="primary" @click="submitWithdraw('form')">立即提现</Button>
     </div>
     <div class="withdraw-note">
-      <div class="withdraw-note-title">提现须知</div>
+      <div class="withdraw-note-title color-white">提现须知</div>
       <ul class="withdraw-note-content">
         <li>处理时间为09:00-0:00</li>
         <li>最小提币数量为0.4个,最大提币数量为99999.0个。</li>
       </ul>
     </div>
     <div class="withdraw-record">
-      <h3>提现记录</h3>
+      <h3 class="color-white">提现记录</h3>
       <Table :class="'no-border-table dark-mode'" stripe :columns="record_column" :data="record_data" />
     </div>
     <Modal
@@ -495,7 +495,12 @@ export default {
       bottom: 0px;
     }
   }
-  .withdraw-table {
+.withdraw {
+  .ivu-form-item{
+    display: block;
+  }
+}
+.withdraw-table {
   margin-top: 40px;
   padding: 20px;
   .ivu-form-item {
@@ -506,7 +511,7 @@ export default {
       .ivu-input-number:hover .ivu-input-number-handler-wrap{
         opacity: 0;
       }
-    }
+  }
 }
 .ivu-input-number-handler-wrap{
   display: none
