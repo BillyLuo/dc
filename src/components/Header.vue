@@ -203,7 +203,7 @@ export default {
       }
       
       if(path == '/home' || path == '/'){
-        this.height = "";
+        this.height = "height:0px;position:absolute;top:0px;";
       }
 
       console.log("======",path =='/home')
@@ -246,7 +246,7 @@ export default {
       if(name != 'home'){
         this.height = "height:80px;background:#222222;position:fixed;top:0px;";
       }else{
-        this.height = "";
+        this.height = "height:0px;position:absolute;top:0px;";
       }
       if(!cookies.get("name")  && (name == "trading" || name == "assets" || name == "user" || name == "market")){
           this.$refs.main_menu.currentActiveName = 'user';

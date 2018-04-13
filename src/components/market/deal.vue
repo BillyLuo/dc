@@ -781,9 +781,14 @@ export default {
         .ivu-tabs {
             color:#C7CCE6;
         }
+        .ivu-col{
+            background: none;
+            padding:0;
+        }
         .deal-buysell{
             background: #1c1f2e;
             min-height: 456px;
+            
             .ivu-tooltip-inner{
                 padding:8px 5px;
             }
