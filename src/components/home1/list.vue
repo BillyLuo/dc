@@ -505,7 +505,6 @@ let menu=[
             },
             showall(){
                 if(this.show_list == true){
-                    
                     this.button_info = "See All";
                     this.animate="fadeOutUp"
                     setTimeout(()=>{

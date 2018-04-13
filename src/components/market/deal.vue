@@ -29,7 +29,7 @@
                                             </div>
                                         </FormItem>
                                         <p class="count-money">交易额 ≈ <i>{{buymoney}}</i> <span>USDT</span></p>
-                                        <div style="padding-right:20px;">
+                                        <div style="padding-right:12px;padding-left:5px;">
                                             <Slider v-model="sliderbuy" :tip-format="sliderformat" @on-input="sliderchange"></Slider>
                                         </div>
                                         
@@ -42,7 +42,7 @@
                                     <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
-                                <div class="currency-balance">冻结 {{changeCurrenyBalance1}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
+                                <div class="currency-balance">冻结 {{changeCurrenyBalance1}} {{changeCurreny}} </div>
                                 <div style="padding:20px 0px 0 0;">
                                     <Form  label-position="top">
                                         <FormItem label="卖出价" class="deal-input">
@@ -60,7 +60,7 @@
                                             </div>
                                         </FormItem>
                                         <p class="count-money">交易额 ≈ <i>{{ sellmoney }}</i> <span>USDT</span></p>
-                                        <div style="padding-right:10px;">
+                                        <div style="padding-right:12px;padding-left:5px;">
                                             <Slider v-model="slidersell" :tip-format="sliderformat" @on-input="slidersellchange"></Slider>
                                         </div>
                                         <Button class="mairu" @click="trade(2)">卖出{{ params.currency }}</Button>
@@ -483,7 +483,7 @@ export default {
             console.log(val);
         },
         dblclick (row,index) {
-            if(row.operate == "1"){
+            if(row.operate == "2"){
                 this.buycount =  Number(row.count);
                 this.buyprice =  Number(row.price);
             }else{
@@ -784,6 +784,9 @@ export default {
         .deal-buysell{
             background: #1c1f2e;
             min-height: 456px;
+            .ivu-tooltip-inner{
+                padding:8px 5px;
+            }
             .ivu-tabs-nav-scroll{
                 padding:10px 20px 0;
             }
