@@ -132,6 +132,7 @@ import { Message } from '../../utils/message';
             background: #2a2a2a;
             .ivu-tabs-nav .ivu-tabs-tab{
                 padding:20px 16px;
+                color: #fff;
             }
             
         }

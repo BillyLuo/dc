@@ -116,7 +116,6 @@ import bus from '../../bus/bus';
                 }).then((res)=>{
                     if(res.data.currencys && res.data.err_code == "1" && res.data){
                         res.data.currencys.map((item)=>{
-                            console.log(item)
                             that.cityList.push({
                                 currencyname:item.currencyname
                             })

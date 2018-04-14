@@ -22,7 +22,7 @@
     }
   }
 }
-.ivu-col {
+.safe-settings .ivu-col {
   background: #222222;
   padding: 0 10px;
 }
@@ -69,7 +69,7 @@
       clear: both;
     }
     h3 {
-      color: #666;
+      color:#586c86;
       font-size: 14px;
       font-weight: 400;
       float: left;
@@ -77,11 +77,11 @@
     }
     a {
       font-size: 12px;
+      color: #586c86;
     }
     a.active {
-      color: #aaa;
       &:hover {
-        color: #aaa;
+        color: #666;
       }
       &.disabled:hover {
         color: #aaa;
@@ -94,12 +94,12 @@
     right: 0;
     width: 300px;
     text-align: right;
-    color: #aaa;
     font-size: 12px;
     padding: 10px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: #586c86;
     &.item-status-active {
       color: #2d8cf0;
       &:hover {

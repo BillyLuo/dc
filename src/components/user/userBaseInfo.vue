@@ -2,33 +2,35 @@
   <div class="wrapper">
     <div class="account">
       <Row>
-        <Col span="2"></Col>
-        <Col span="10" :style="{borderRight:'1px solid #414448'}">
+        <Col span="1"></Col>
+        <Col span="11" :style="{borderRight:'1px solid #414448'}">
         <div class="user-info clear">
-          <img class="user-portrait" src="/static/img/portrait.jpg" alt="portrait">
+          <div class="user-portrait">
+
+          </div>
           <div class="user-info-right float-left">
             <div class="user-name">
               <span>{{userinfo.mobile ? userinfo.mobile.slice(0,3)+'****'+userinfo.mobile.slice(-4) : userinfo.email }}</span>
               <span v-if="userinfo.identityset == '1'" class="user-verification">个人认证</span>
             </div>
             <div class="user-contact">
-              <span class="user-id">UID:{{userinfo.uid}}</span>
+              <span :style="{fontSize:'14px'}" class="user-id">UID:{{userinfo.uid}}</span>
               <!-- <span class="user-tel">{{formatTel}}</span> -->
             </div>
           </div>
         </div>
         </Col>
-        <Col span="10">
+        <Col span="11">
         <div class="total-assets text-center">
           <div>
-            <p :style="{color:'#fff','font-size':'16px','line-height':'1.5em'}">预估总资产</p>
-            <div class="color-white">
+            <p :style="{color:'#cdcdcd','font-size':'14px','line-height':'1.5em'}">预估总资产</p>
+            <div class="color-white"  :style="{fontSize:'20px'}">
               <span>{{estimateassets}}</span><span class="asset-count"> / USDT</span>
             </div>
           </div>
         </div>
         </Col>
-        <Col span="2"></Col>
+        <Col span="1"></Col>
         <!-- <Col span="8">
         <div class="safe-settings">
           <div>您已设置<a href="javascript:;">{{userinfo.validationAmount}}</a>个保护项，还有<a href="javascript:;">{{6 - userinfo.validationAmount}}</a>个可以设置</div>
@@ -158,30 +160,37 @@ export default {
 
 <style lang="scss">
 .account {
-  padding: 20px 50px;
+  padding: 20px 20px;
   margin-bottom: 20px;
   background: #222222;
   .ivu-row {
     .ivu-col:not(:last-of-type) {
       height: 80px;
-      padding: 0 40px;
+      padding: 0 20px;
     }
   }
-}
-
-.user-info {
-  font-size: 14px;
-  img.user-portrait {
+  .user-name {
+    font-size: 20px;
+  }
+  .user-portrait {
     width: 80px;
     height: 80px;
     border-radius: 50%;
+    background-image: url('/static/img/portrait.png');
+    background-repeat: no-repeat;
+    background-size: 60px;
+    background-position: center;
     float: left;
     margin-right: 20px;
+    background-color:#545454;
+    border:1px solid #787878;
+    box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);
   }
 }
 .user-verification {
   padding: 2px 10px;
   border-radius: 4px;
+  font-size: 12px;
   background: #4CB2F9;
   margin-left: 10px;
 }

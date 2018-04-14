@@ -114,12 +114,14 @@
             width: 75px;
             height: 75px;
             border-radius: 100%;
-            background: url(/static/img/portrait.jpg);
+            background-image: url(/static/img/portrait.png);
             background-size: 100% 100%;
             position: absolute;
             top: -30px;
             right: 15px;
-            box-shadow: 0 0 15px #333;
+            background-color:#545454;
+            border:1px solid #787878;
+            box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);
           }
           .text{
             h4{

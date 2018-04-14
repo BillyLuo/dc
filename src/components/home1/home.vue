@@ -53,6 +53,7 @@ import Foot from './footer';
     .banner{
         width:100%;
         position: relative;
+        min-height: 400px;
         .img-banner img{
             width:100%;
             display: block;
