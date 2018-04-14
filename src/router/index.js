@@ -30,6 +30,7 @@ const News = ()=> import('@/components/news/News');
 const NewsList = ()=> import('@/components/news/newsList/NewsList');
 const NewsDetail = ()=> import('@/components/news/newsDetail/NewsDetail');
 const Homes = ()=> import('@/components/home1/home');
+const Quotation = () => import("@/components/market/Quotation")
 Vue.use(Router)
 
 export default new Router({
@@ -102,8 +103,8 @@ export default new Router({
     },
     {
       path: '/market',
-      name: 'Market',
-      component: Market
+      name: 'Quotation',
+      component: Quotation
     },
     {
       path:'/reset',

@@ -445,10 +445,13 @@ export default {
   //   }
   // }
   .logined {
+    width:200px;
     position: absolute;
-    right: 200px;
+    right: 0px;
     line-height: 40px;
+    text-align: center;
     color: #fff;
+    z-index: 1009;
     &:hover .login-out {
       display: block;
     }
@@ -510,7 +513,7 @@ export default {
       display: block;
       position: absolute;
       bottom: 100%;
-      left: 25%;
+      left: 55%;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
       -webkit-transform: translate(-50%,0);
@@ -528,7 +531,7 @@ export default {
       display: block;
       position: absolute;
       bottom: 100%;
-      left: 25%;
+      left: 55%;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
       -webkit-transform: translate(-50%,0);
