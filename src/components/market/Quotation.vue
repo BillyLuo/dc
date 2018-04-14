@@ -7,7 +7,7 @@
             </div>
             <div class="title_hq" style="width:125px;">
                 <p class="news_p">24h涨跌</p>
-                <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{zhangfu}} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
+                <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{zhangfu +'%'}} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
             </div>
             <div class="title_hq" style="width:140px;">
                 <Select class="select_usd" style="width:138px" v-model="model" @on-change="selectbi">
@@ -26,7 +26,7 @@
                         <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{ news_price }}</span>
                     </Col>
                     <Col class="db_table rose" span="12">
-                        <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{zhangfu}} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
+                        <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{ zhangfu +"%" }} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
                     </Col>
                     <Col class="db_table" span="6" style="height:100%;">
                         <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'"> </span>
@@ -111,10 +111,10 @@
             </Col>
         </Row>
         <Row class="weituo">
-            <Col span="18" class="wwj">
+            <Col span="18" class="wwj" style="padding-right:2px; background:#353535;">
                 <Tabs v-model="active_tab" @on-click="cdTab">
                     <TabPane label="委托撤单" name='wtcd'>
-                        <Table class="no-border-table dark-mode" height="600" :loading="loading" :data="order_record_data2" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                        <Table class="no-border-table dark-mode" height="721" :loading="loading" :data="order_record_data2" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                     </TabPane>
                     <TabPane label="委托历史" name='wtls'>
                         <Table  class="no-border-table dark-mode" :data="weituo_data" :columns="weituo_columns" stripe></Table>
@@ -349,7 +349,7 @@ export default {
             let that=this;
             this.data.map((item)=>{
                 if(item.currencyname == val){
-                    that.zhangfu = item.range;
+                    that.zhangfu = Number(item.range).toFixed(2);
                     that.news_price = item.curprice;
                     that.jichubizhong = item.currencyname;
                     that.jijiabizhong = item.tradecurrency;
@@ -384,7 +384,7 @@ export default {
                     that.data = data.data.currencyDetail;
                    that.data.map((item)=>{
                         if(item.currencyname == that.model){
-                            that.zhangfu = item.range;
+                            that.zhangfu = Number(item.range).toFixed(2);
                             that.news_price = item.curprice;
                             console.log("==========",item.range,"====",)
                         }
@@ -395,6 +395,7 @@ export default {
         },
         listcolumns2(){
             let that =this;
+            that.datas2=[];
             this.columns2=[
                 {
                     title: '时间',
@@ -454,7 +455,6 @@ export default {
             .then(function (response) {
                 console.log(response.data.latestDeal);
                 if(response.data.latestDeal){
-                    that.datas2=[];
                     that.datas2 = response.data.latestDeal;
                 }
                 
@@ -1532,6 +1532,9 @@ export default {
                     color: #596980;
                     border-bottom: 0px;
                     height: 50px;
+                }
+                .ivu-table-body{
+                    background: #222222;
                 }
                 .right_scroll{
                     .ivu-table-body::-webkit-scrollbar{
