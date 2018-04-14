@@ -16,7 +16,7 @@
       <div>
         <span style="color:#666">操作类型：</span>
         <Select :class="'dark-mode'" @on-change="changeType" :filterable="true" v-model="operation_type" style="width:200px;margin: 30px 0;">
-          <Option v-for="(item,index) in typeList" :value="item.value" :key="item.value+index">{{ item.label }}</Option>
+          <Option v-for="(item) in typeList" :value="item.value+'-'+item.type" :key="item.value+'-'+item.type">{{ item.label }}</Option>
         </Select>
         <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail">查询</Button>
       </div>
@@ -54,6 +54,7 @@ export default {
       endDate:"",
       setDayActive:7,
       dateErr:'',
+      types:"",
       operation_type: '',
       typeList: [],
       account_detail_column: [
@@ -72,7 +73,7 @@ export default {
           key: 'operateType',
           sortable: true,
           render: (h,param) =>{
-            console.log(param.row)
+            // console.log(param.row)
             if(param.row.operateType == "1"){
               return h("span","充币")
             }else if(param.row.operateType == "2"){
@@ -157,12 +158,14 @@ export default {
           let result = {};
           result.label = value.currencyname+"提现";
           result.value = value.currencyname;
+          result.type = "2"
           return result;
         });
         let formatList2 = list.map((value,index)=>{
           let result = {};
           result.label = value.currencyname+"充值";
           result.value = value.currencyname;
+          result.type = "1"
           return result;
         })
         that.typeList = formatList1.concat(formatList2);
@@ -173,6 +176,12 @@ export default {
     },
     changeType(value) {
       console.log(value);
+      // // if(value){
+      //   console.log(value.split("-")[1]+"======="+value.split("-")[0])
+        this.types = value;
+        // this.operation_type = value.split("-")[0]
+      // }
+      
     },
     chooseEndDate(value) {
       console.log(value);
@@ -205,7 +214,7 @@ export default {
       let that =this;
       let starttime = this.startDate;
       let endtime = this.endDate;
-      let coin = this.operation_type;
+      let coin = this.operation_type?this.types.split('-')[0]:"";
       this.account_detail_data=[]
       if (starttime) {
         starttime = moment(this.startDate).format('YYYY-MM-DD 00:00:00');
@@ -242,7 +251,23 @@ export default {
         console.log('-----detail',res);
         if (res.status == 200 && res.data.err_code == '1') {
           if(res.data.recordDetail){
-            that.account_detail_data = res.data.recordDetail
+            console.log(res.data.recordDetail)
+            console.log("------")
+            console.log(that.types)
+            if(this.types.split('-')[1]){
+              console.log("------")
+              res.data.recordDetail.map((item)=>{
+                if(that.types.split('-')[1] == item.operateType){
+                  that.account_detail_data.push(item)
+                  console.log(item)
+                }
+              })
+            }else{
+              that.account_detail_data = res.data.recordDetail
+            }
+            
+            
+            
           }
           // if (res.data && res.data.page) {
           //   that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;

@@ -111,10 +111,10 @@
             </Col>
         </Row>
         <Row class="weituo">
-            <Col span="18" class="wwj">
+            <Col span="18" class="wwj" style="padding-right:2px; background:#353535;">
                 <Tabs v-model="active_tab" @on-click="cdTab">
                     <TabPane label="委托撤单" name='wtcd'>
-                        <Table class="no-border-table dark-mode" height="600" :loading="loading" :data="order_record_data2" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                        <Table class="no-border-table dark-mode" height="720" :loading="loading" :data="order_record_data2" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                     </TabPane>
                     <TabPane label="委托历史" name='wtls'>
                         <Table  class="no-border-table dark-mode" :data="weituo_data" :columns="weituo_columns" stripe></Table>
@@ -1532,11 +1532,14 @@ export default {
                     border-bottom: 0px;
                     height: 50px;
                 }
+                .ivu-table-body{
+                    background: #222222;
+                }
                 .right_scroll{
                     .ivu-table-body::-webkit-scrollbar{
                         width: 8px;
                         height: 0px;
-                        background-color: #f8f8f800;
+                        background-color: #f8f8f8;
                     }
                     /*定义滚动条的轨道，内阴影及圆角*/
                     .ivu-table-body::-webkit-scrollbar-track{
