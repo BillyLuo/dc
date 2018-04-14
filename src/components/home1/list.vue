@@ -11,7 +11,7 @@
             <AutoComplete
                 v-model="querycoin"
                 :filter-method="query"
-                placeholder="查询币种"
+                placeholder="请输入关键词..."
                 :data="coinData"
                 @on-select="select"
                 icon="ios-search"

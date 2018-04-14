@@ -1217,6 +1217,7 @@ export default {
             top:0;
             right:240px;
             z-index: 1000;
+            background: #222;
             .title_hq{
                 float: left;
                 text-align: center;

@@ -28,7 +28,9 @@ export default {
   },
   mounted(){
     var name = this.$route.name;
-    this.active = name;
+    if (name && name.length > 5) {
+      this.active = name;
+    }
   },
   data () {
     return {

@@ -362,10 +362,9 @@ export default {
     left: auto;
     right: auto;
     margin: auto;
-    z-index: 1000;
+    z-index: 999;
     transition: 0.4s;
     position: relative;
-    z-index: 998;
     // &.active {
     //   box-shadow: 0px 5px 5px rgba(0,0,0,0.2);
     //   height: 80px;

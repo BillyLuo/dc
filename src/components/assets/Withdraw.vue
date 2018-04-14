@@ -542,7 +542,6 @@ export default {
     padding: 0 2px;
     padding-left: 0;
     position: relative;
-    color: #666;
     &:after{
       content:'';
       display: inline-block;
