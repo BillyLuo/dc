@@ -103,11 +103,6 @@ export default new Router({
     },
     {
       path: '/market',
-      name: 'Market',
-      component: Market
-    },
-    {
-      path: '/quotation',
       name: 'Quotation',
       component: Quotation
     },
