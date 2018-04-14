@@ -257,9 +257,6 @@ export default {
       font-size: 14px;
     }
   }
-  .pager {
-    color: #666;
-  }
   .account-menu.ivu-col {
     padding: 0;
   }

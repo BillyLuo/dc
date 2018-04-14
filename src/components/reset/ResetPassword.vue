@@ -1,37 +1,45 @@
 <template>
   <div class="reset-password-wrapper wrapper">
     <div class="reset-password">
-      <div class="reset-title">
-        <h3>请选择登录密码找回方式</h3>
-      </div>
+      <Title text="请选择登录密码找回方式"/>
+    </div>
+    <div class="choose-reset-wrapper bg-2a2a2a">
       <Row>
-        <Col span="12" class="reset-card">
-          <Card>
-            <i class="reset-email"></i>
-            <p>通过邮箱找回</p>
-            <span>需要登录邮箱找回密码</span>
-            <Button type="primary" class="btn-block" size="large" @click="reset('resetByEmail')">点击找回</Button>
-          </Card>
+        <Col span="2">
+          <span :class="{'choose-item':true,active:(active == 'ResetByPhone')}" @click="changeActive('ResetByPhone','ResetByPhone')">手机找回</span>
         </Col>
-        <Col span="12" class="reset-card">
-          <Card>
-            <i class="reset-phone"></i>
-            <p>通过手机找回</p>
-            <span>需要手机验证找回密码</span>
-            <Button type="primary" class="btn-block" size="large" @click="reset('resetByPhone')">点击找回</Button>
-          </Card>
+        <Col span="2">
+          <span :class="{'choose-item':true,active:(active == 'ResetByEmail')}" @click="changeActive('ResetByEmail','ResetByEmail')">邮箱找回</span>
         </Col>
       </Row>
+      <div class="reset-content">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Title from '../common/Title';
+console.log('----title-----',Title);
 export default {
+  components:{
+    Title
+  },
+  mounted(){
+    var name = this.$route.name;
+    this.active = name;
+  },
+  data () {
+    return {
+      active:'ResetByPhone'
+    }
+  },
   methods:{
-    reset(value) {
+    changeActive(value,name) {
+      this.active = value;
       this.$router.push({
-        path:'/'+value
+        name
       })
     }
   }
@@ -41,62 +49,31 @@ export default {
 <style scoped lang="scss">
   .reset-password-wrapper {
     padding: 30px 0 40px;
+    .choose-reset-wrapper {
+      padding: 0 10px;
+      height: 60px;
+      line-height: 60px;
+      box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);
+    }
+    .choose-item {
+      cursor: pointer;
+      color:#586c86;
+      font-size: 16px;
+      display: block;
+      line-height: 60px;
+      &.active {
+        color: #fff;
+      }
+    }
   }
   .reset-password {
-    padding: 20px 30px;
-    background: #fff;
+    padding: 20px 0px;
+    // background: #fff;
     .ivu-row {
       padding: 0 10px;
     }
   }
-  .reset-title {
-    h3 {
-      font-weight: 400;
-      text-align: center;
-      height: 80px;
-      line-height: 80px;
-      border-bottom: 3px solid #3166D2;
-      margin-bottom: 40px;
-    }
-  }
-  .reset-card {
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    padding: 0 20px;
-    &>.ivu-card {
-      padding: 20px 20px;
-    }
-    p {
-      font-size: 20px;
-    }
-    span {
-      display: block;
-      height: 20px;
-      line-height: 20px;
-      margin: 20px 0;
-      color: #666;
-      font-size: 16px;
-    }
-    .btn-block {
-      height: 50px;
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-  }
-  .reset-phone,.reset-email {
-    display: block;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    background: url(/static/img/resetpiclist.png) no-repeat;
-  }
-  .reset-email {
-    background-position: 0 0;
-  }
-  .reset-phone {
-    background-position: 0 -259px;
+  .reset-content {
+    background: #222;
   }
 </style>

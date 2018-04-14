@@ -107,18 +107,24 @@ export default new Router({
     },
     {
       path:'/reset',
-      name:'Reset',
-      component:ResetPassword
-    },
-    {
-      path:'/resetByEmail',
-      name:'ResetByEmail',
-      component:ResetByEmail
-    },
-    {
-      path:'/resetByPhone',
-      name:'ResetByPhone',
-      component:ResetByPhone
+      component:ResetPassword,
+      children:[
+        {
+          path:'',
+          name:'Reset',
+          component:ResetByPhone
+        },
+        {
+          path:'/reset/resetByEmail',
+          name:'ResetByEmail',
+          component:ResetByEmail
+        },
+        {
+          path:'/reset/resetByPhone',
+          name:'ResetByPhone',
+          component:ResetByPhone
+        },
+      ]
     },
     {
       path:'/about',

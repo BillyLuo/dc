@@ -1,8 +1,6 @@
 <template>
   <div class="coin-address">
-    <div style="background:#2a2a2a;box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);height:72px;line-height: 72px;color: #fff;padding: 0 20px;font-size: 16px;">
-      提币地址管理
-    </div>
+    <Title text="提币地址管理" />
     <div class="fund-account-inner">
       <Row>
         <Col span="4">
@@ -74,9 +72,10 @@
 
 <script>
 import { Page, Form, FormItem } from 'iview';
+import Title from '../common/Title';
 export default {
   components:{
-    Page,Form,FormItem
+    Page,Form,FormItem,Title
   },
   data () {
     return {

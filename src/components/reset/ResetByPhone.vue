@@ -1,24 +1,24 @@
 <template>
-  <div class="reset-by-phone wrapper">
+  <div class="reset-by-phone">
     <div class="reset-step">
-      <Step :step="['01. 填写账户','02. 设置密码','03. 完成']" :currentStep="step"/>
+      <!-- <Step :step="['01. 填写账户','02. 设置密码','03. 完成']" :currentStep="step"/> -->
     </div>
     <div class="reset-form">
       <div class="reset-form-inner">
         <h3 class="reset-title">您正通过 <span>手机</span> 找回登录密码</h3>
         <Form v-show="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
           <form-item label="手机号码：" prop="tel">
-            <Input type="text" size="large" placeholder="手机号码" v-model="resetForm.tel"/>
+            <Input :class="'dark-mode'" type="text" size="large" placeholder="手机号码" v-model="resetForm.tel"/>
           </form-item>
           <form-item label="验证码：" prop="imgCode">
-            <Input type="text" placeholder="验证码" size="large" class="no-radius-input" v-model="resetForm.imgCode" style="width: 300px;"/>
+            <Input :class="'dark-mode'" type="text" placeholder="验证码" size="large" class="no-radius-input" v-model="resetForm.imgCode" style="width: 300px;"/>
             <img :src="imgSrc" class="img-code" alt="验证码"/>
             <div class="text-right" :style="{height:'20px'}" >
               <a href="javascript:;" @click="changeImg">刷新</a>图片验证码
             </div>
           </form-item>
           <form-item label="短信验证码：" prop="textCode">
-            <Input type="text" placeholder="短信验证码" size="large" class="no-radius-input" v-model="resetForm.textCode">
+            <Input type="text" placeholder="短信验证码" size="large" class="no-radius-input dark-mode" v-model="resetForm.textCode">
               <span slot="append" style="display:block;cursor:pointer;width: 80px;" @click="send">{{sendCodeText}}</span>
             </Input>
           </form-item>
@@ -43,10 +43,10 @@
           </FormItem> -->
           <div style="padding: 10px 0;">您正在找回密码的用户登录名是：<a>{{resetForm.tel}}</a>。</div>
           <FormItem label="新登录密码：" prop="pwd">
-            <Input size="large" type="password" v-model="pwdForm.pwd" placeholder="新登录密码，包含数字和大小写" value=""/>
+            <Input :class="'dark-mode'" size="large" type="password" v-model="pwdForm.pwd" placeholder="新登录密码，包含数字和大小写" value=""/>
           </FormItem>
           <FormItem label="确认密码：" prop="confirmpwd">
-            <Input size="large" type="password" v-model="pwdForm.confirmpwd" placeholder="确认密码" value=""/>
+            <Input :class="'dark-mode'" size="large" type="password" v-model="pwdForm.confirmpwd" placeholder="确认密码" value=""/>
           </FormItem>
           <div class="reset-btn-wrapper">
             <Button type="primary" size="large" class="btn-block" @click="next(3)">下一步</Button>
@@ -327,14 +327,12 @@ export default {
   .reset-step {
     padding-bottom: 10px;
     margin: 20px 0;
-    background: #fff;
   }
   .no-radius-input .ivu-input {
     border-radius: 0;
   }
   .reset-form {
-    padding: 40px 350px 60px;
-    background: #fff;
+    padding: 0px 350px 60px;
     .ivu-form-item {
       margin: 30px 0;
     }

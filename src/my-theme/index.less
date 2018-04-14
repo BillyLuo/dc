@@ -16,13 +16,26 @@
 @secondary-color:#2C2D2F;
 
 .dark-mode .ivu-input,.dark-mode .ivu-select-selection {
-  background: @background;
-  border-color: #666;
-  box-shadow: 0;
+  background: #2a2a2a;
+  color: #586c86;
+  border-color: #586c86;
+  box-shadow: none;
   &:hover,&:focus {
-    border-color: #666;
-    box-shadow: 0;
+    border-color: #586c86;
+    box-shadow: none;
   }
+}
+.ivu-form-item-error .dark-mode .ivu-input {
+  border: 1px solid #ed3f14;
+}
+.dark-mode {
+  .ivu-input-group-append {
+    background:#2a2a2a;
+    border: 1px solid #586c86;
+  }
+}
+.ivu-form-item-error .dark-mode .ivu-input-group-append {
+  border: 1px solid #ed3f14;
 }
 .dark-mode.ivu-select:focus {
   box-shadow: none;

@@ -1,19 +1,19 @@
 <template>
-  <div class="reset-by-email wrapper">
+  <div class="reset-by-email">
     <div class="reset-step">
-      <Step :step="['01. 填写账户','02. 设置密码','03. 完成']" :currentStep="step" />
+      <!-- <Step :step="['01. 填写账户','02. 设置密码','03. 完成']" :currentStep="step" /> -->
     </div>
     <div class="reset-form">
       <div class="reset-form-inner">
         <h3 class="reset-title">您正通过 <span>电子邮件</span> 找回登录密码</h3>
         <Form v-show="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
           <form-item label="邮箱地址：" prop="email">
-            <Input type="email" size="large" :maxlength="50" placeholder="邮箱地址" v-model="resetForm.email">
+            <Input :class="'dark-mode'" type="email" size="large" :maxlength="50" placeholder="邮箱地址" v-model="resetForm.email">
               <span slot="append" :style="{cursor:'pointer'}" @click="validateEmail">{{sendEmailText}}</span>
             </Input>
           </form-item>
           <form-item label="邮箱验证码：" prop="emailCode">
-            <Input type="text" size="large" :maxlength="6" placeholder="邮箱验证码" v-model="resetForm.emailCode"/>
+            <Input :class="'dark-mode'" type="text" size="large" :maxlength="6" placeholder="邮箱验证码" v-model="resetForm.emailCode"/>
           </form-item>
           <!-- <form-item prop="credentials" label="证件类型： ">
             <Select style="width: 400px;display:inline-block;" v-model="resetForm.credentials">
@@ -24,7 +24,7 @@
             <Input type="text" size="large" placeholder="证件号码" v-model="resetForm.credentialsNumber"/>
           </form-item> -->
           <form-item label="验证码：" prop="imgCode">
-            <Input type="text" placeholder="验证码" size="large" class="no-radius-input" @on-enter="submitEmail" v-model="resetForm.imgCode" style="width: 300px;"/>
+            <Input :class="'dark-mode no-radius-input'" type="text" placeholder="验证码" size="large" @on-enter="submitEmail" v-model="resetForm.imgCode" style="width: 300px;"/>
             <img :src="imgSrc" class="img-code" @click="changeImgCode"/>
             <div class="text-right" style="padding-top:6px;height: 20px;"><a href="javascript:;" @click="changeImgCode">刷新</a>验证码</div>
           </form-item>
@@ -41,10 +41,10 @@
             </FormItem> -->
             <div style="padding: 10px 0;">您正在找回密码的用户登录名是：<a>{{resetForm.email}}</a>。</div>
             <FormItem label="新登录密码：" prop="pwd">
-              <Input size="large" type="password" v-model="pwdForm.pwd" placeholder="新登录密码，包含数字和大小写" value=""/>
+              <Input :class="'dark-mode'" size="large" type="password" v-model="pwdForm.pwd" placeholder="新登录密码，包含数字和大小写" value=""/>
             </FormItem>
             <FormItem label="确认密码：" prop="confirmpwd">
-              <Input size="large" type="password" v-model="pwdForm.confirmpwd" placeholder="确认密码" value=""/>
+              <Input :class="'dark-mode'" size="large" type="password" v-model="pwdForm.confirmpwd" placeholder="确认密码" value=""/>
             </FormItem>
             <div class="reset-btn-wrapper">
               <Button type="primary" size="large" class="btn-block" @click="next(3)">下一步</Button>
@@ -304,14 +304,12 @@ export default {
   .reset-step {
     padding-bottom: 10px;
     margin: 20px 0;
-    background: #fff;
   }
   .no-radius-input .ivu-input {
     border-radius: 0;
   }
   .reset-form {
-    padding: 40px 350px 60px;
-    background: #fff;
+    padding: 0px 350px 60px;
     .ivu-form-item {
       margin: 30px 0;
     }
