@@ -7,7 +7,16 @@
                 </MenuItem>
             </Menu>
            
-            <Input icon="search" v-model="value" placeholder="Enter something..." style="width: 200px;"></Input>
+            <!-- <Input icon="search" @on-change="query" v-model="querycoin" placeholder="Enter something..." style="width: 200px;"></Input> -->
+            <AutoComplete
+                v-model="querycoin"
+                :filter-method="query"
+                placeholder="查询币种"
+                :data="coinData"
+                @on-select="select"
+                icon="ios-search"
+                style="width:200px">
+            </AutoComplete>
             <ButtonGroup class="list_style clear">
                 <Button :class="{jgg_show:true,l_show:true,list_style_active:chart_active}" @click="showstyle('1')" icon="android-apps"></Button>
                 <Button :class="{list_show:true,l_show:true,list_style_active:list_active}" icon="navicon-round"  @click="showstyle('2')"></Button>
@@ -39,7 +48,7 @@
             </div>
         </div>
         <div class="list_table" v-show="list_active">
-            <Table :columns="columns_list" :data="data">
+            <Table :columns="columns_list" :data="array">
 
             </Table>
         </div>
@@ -228,7 +237,7 @@ let menu=[
 
         }
     ]
-    import { Menu,MenuItem,ButtonGroup } from 'iview';
+    import { Menu,MenuItem,ButtonGroup,AutoComplete } from 'iview';
     import echarts from 'echarts';
     import bus from '../../bus/bus';
 import index from 'vue';
@@ -237,12 +246,14 @@ import index from 'vue';
         components:{
             Menu,
             MenuItem,
-            ButtonGroup
+            ButtonGroup,
+            AutoComplete
         },
         data(){
             return {
                 changed:false,
-                value:"",
+                querycoin:"",
+                coinData:[],
                 menu,
                 activeName:"USDT",
                 show_list:false,
@@ -272,11 +283,11 @@ import index from 'vue';
                             h("img",
                                 {
                                     attrs:{
-                                        src:param.row.currencyname == "ETH" ? "/static/img/xzwjx.png" : "/static/img/wjx.png"
+                                        src:param.row.star ? "/static/img/xzwjx.png" : "/static/img/wjx.png"
                                     },
                                     on:{
-                                        click:()=>{
-                                            this.collection(param)
+                                        click:(e)=>{
+                                            this.collect(e,param.row,param.index);
                                         }
                                     }
                                 }
@@ -353,6 +364,12 @@ import index from 'vue';
         },
         
         methods:{
+            query(value,option) {
+                return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
+            },
+            select(value) {
+                console.log(value);
+            },
             getMarket(){
                 var that = this;
                 this.$ajax({
@@ -427,7 +444,6 @@ import index from 'vue';
             },
             //收藏
             collect(e,item,index) {
-                console.log('curcurcurcur',e,currency,index);
                 let currency = item.currencyname;
                 let tradecurrency = item.tradecurrency;
                 let type = 'insert';
@@ -497,8 +513,11 @@ import index from 'vue';
                 }).then((data)=>{
                     console.log("shouye ====== ",data.data)
                     console.log(data.data.currencyDetail)
-                    if(data.data.currencyDetail){
+                    if(data.data && data.data.currencyDetail){
                         that.data = data.data.currencyDetail;
+                        that.coinData = data.data.currencyDetail.map((item,index)=>{
+                            return item.currencyname;
+                        })
                         that.getMarket();
                     }
                 })
