@@ -509,7 +509,8 @@ export default {
           remark:that.addModal.remark,
           transckcode:that.addModal.trade_password,
           msgcheckcode:that.addModal.add_text_code,
-          reqresource:1
+          reqresource:1,
+          pub:that.addModal.pub
         }
       }).then((data)=>{
         if(data.data && data.data.err_code=="1"){
