@@ -7,7 +7,7 @@
             </div>
             <div class="title_hq" style="width:125px;">
                 <p class="news_p">24h涨跌</p>
-                <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{zhangfu}} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
+                <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{zhangfu +'%'}} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
             </div>
             <div class="title_hq" style="width:140px;">
                 <Select class="select_usd" style="width:138px" v-model="model" @on-change="selectbi">
@@ -26,7 +26,7 @@
                         <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{ news_price }}</span>
                     </Col>
                     <Col class="db_table rose" span="12">
-                        <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{zhangfu}} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
+                        <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{ zhangfu +"%" }} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
                     </Col>
                     <Col class="db_table" span="6" style="height:100%;">
                         <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'"> </span>
@@ -114,7 +114,7 @@
             <Col span="18" class="wwj" style="padding-right:2px; background:#353535;">
                 <Tabs v-model="active_tab" @on-click="cdTab">
                     <TabPane label="委托撤单" name='wtcd'>
-                        <Table class="no-border-table dark-mode" height="720" :loading="loading" :data="order_record_data2" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
+                        <Table class="no-border-table dark-mode" height="721" :loading="loading" :data="order_record_data2" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                     </TabPane>
                     <TabPane label="委托历史" name='wtls'>
                         <Table  class="no-border-table dark-mode" :data="weituo_data" :columns="weituo_columns" stripe></Table>
@@ -349,7 +349,7 @@ export default {
             let that=this;
             this.data.map((item)=>{
                 if(item.currencyname == val){
-                    that.zhangfu = item.range;
+                    that.zhangfu = Number(item.range).toFixed(2);
                     that.news_price = item.curprice;
                     that.jichubizhong = item.currencyname;
                     that.jijiabizhong = item.tradecurrency;
@@ -384,7 +384,7 @@ export default {
                     that.data = data.data.currencyDetail;
                    that.data.map((item)=>{
                         if(item.currencyname == that.model){
-                            that.zhangfu = item.range;
+                            that.zhangfu = Number(item.range).toFixed(2);
                             that.news_price = item.curprice;
                             console.log("==========",item.range,"====",)
                         }
@@ -1539,7 +1539,7 @@ export default {
                     .ivu-table-body::-webkit-scrollbar{
                         width: 8px;
                         height: 0px;
-                        background-color: #f8f8f8;
+                        background-color: #f8f8f800;
                     }
                     /*定义滚动条的轨道，内阴影及圆角*/
                     .ivu-table-body::-webkit-scrollbar-track{
