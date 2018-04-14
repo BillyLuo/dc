@@ -16,7 +16,7 @@
       <div>
         <span style="color:#666">操作类型：</span>
         <Select :class="'dark-mode'" @on-change="changeType" :filterable="true" v-model="operation_type" style="width:200px;margin: 30px 0;">
-          <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Option v-for="(item,index) in typeList" :value="item.value" :key="item.value+index">{{ item.label }}</Option>
         </Select>
         <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail">查询</Button>
       </div>
@@ -206,6 +206,7 @@ export default {
       let starttime = this.startDate;
       let endtime = this.endDate;
       let coin = this.operation_type;
+      this.account_detail_data=[]
       if (starttime) {
         starttime = moment(this.startDate).format('YYYY-MM-DD 00:00:00');
       }else {
