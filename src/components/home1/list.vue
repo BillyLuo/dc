@@ -16,25 +16,25 @@
         <div class="currency_list clear" v-show="chart_active">
             <div  v-for="(item,index) in array" v-if="index < 12" v-show="true" :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear':'clear'" >
                 <div class="draw_chart">
-                    <img  :src='item.star?"/static/img/star1.png":"/static/img/star.png"' alt="">
+                    <img @click="collect($event,item,index)" :src='item.star?"/static/img/star1.png":"/static/img/star.png"' alt="">
                     <canvas class="charts" :id="'chart'+index"></canvas>
                 </div>
                 <div class="info_chart">
-                    <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.bi}} <span :class="item.zhangfu >0?'span1 green':'span1 red'">{{item.zhangfu>0?"+"+item.zhangfu+"%":item.zhangfu+'%'}}</span></p>
-                    <p class="price">{{ item.price }} {{ item.bi }}<span>${{ item.money }}</span></p>
+                    <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
+                    <p class="price">{{ item.curprice }} {{ item.tradecurrency }}<span></span></p>
                 </div>
             </div>
             <div  v-for="(item,index) in array"  v-if="index >= 12" v-show='show_list' :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear  animated '+animate:'clear  animated '+animate" >
                 <div class="draw_chart">
-                    <img  :src='item.str?"/static/img/star.png":"/static/img/star1.png"' alt="">
+                    <img @click="collect($event,item,index)" :src='item.star?"/static/img/star1.png":"/static/img/star.png"' alt="">
                     <canvas class="charts" :id="'chart'+index"></canvas>
                 </div>
                 <div class="info_chart">
-                    <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.bi}} <span :class="item.zhangfu >0?'span1 green':'span1 red'">{{item.zhangfu>0?"+"+item.zhangfu+"%":item.zhangfu+'%'}}</span></p>
-                    <p class="price">{{ item.price }} {{ item.bi }}<span>${{ item.money }}</span></p>
+                    <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
+                    <p class="price">{{ item.curprice }} {{ item.tradecurrency }}<span></span></p>
                 </div>
             </div>
-            <div :class="'showall '+animate" style="width:100%;">
+            <div :class="'showall '+animate" v-if="array.length > 12" style="width:100%;">
                 <Button @click="showall">{{ button_info }}</Button>
             </div>
         </div>
@@ -231,6 +231,7 @@ let menu=[
     import { Menu,MenuItem,ButtonGroup } from 'iview';
     import echarts from 'echarts';
     import bus from '../../bus/bus';
+import index from 'vue';
     export default {
         name:"list",
         components:{
@@ -240,11 +241,12 @@ let menu=[
         },
         data(){
             return {
+                changed:false,
                 value:"",
                 menu,
                 activeName:"USDT",
                 show_list:false,
-                array:list,
+                array:[],
                 button_info:"See All",
                 animate:"fadeInDown",
                 chart_active:true,
@@ -342,7 +344,6 @@ let menu=[
         },
         mounted(){
             const that = this;
-            this.echarts();
             window.onresize = () => {
                 setTimeout(function(){
                     that.echarts();
@@ -352,6 +353,134 @@ let menu=[
         },
         
         methods:{
+            getMarket(){
+                var that = this;
+                this.$ajax({
+                    method:'post',
+                    url:'/trade/tps/pbqct.do?t='+Date.now(),
+                    data:{
+                        reqresource:'1'
+                    }
+                }).then((res)=>{
+                    console.log('33333',res);
+                    if (res.status == 200) {
+                        if (res.data && res.data.err_code == '1') {
+                            let collection = res.data.currencyDetail;
+                            let market = that.data;
+                            if (!collection || !collection.length) {
+                                that.array = market.map((item,index)=>{
+                                    item.star = false;
+                                    item.charts = [1.2,3,3.3,2.2,2.2,2.0,1.9,4.3,5.4,3.2,2.5,2.7];
+                                    return item;
+                                })
+                            }else {
+                                var result = [];
+                                result = market.map((item,index) => {
+                                    item.star = false;
+                                    item.charts = [1.2,3,3.3,2.2,2.2,2.0,1.9,4.3,5.4,3.2,2.5,2.7];
+                                    for (var i =0;i<collection.length;i++) {
+                                        if (item.currencyname == collection[i].currencyname ){
+                                            item.star = true;
+                                        }
+                                    }
+                                    return item;
+                                })
+                                console.log('start00000',result);
+                                that.array = result;
+                            }
+                            if (that.changed) {
+                                return;
+                            }else {
+                                setTimeout(()=>{
+                                    that.echarts();                                    
+                                },150)
+                                that.changed = true;
+                            }
+                        }else {
+                            that.initMarket();
+                        }
+                    }else {
+                        that.initMarket();
+                    }
+                }).catch((err) => {
+                    that.initMarket();
+                })
+            },
+            initMarket(){
+                let that = this;
+                let market = that.data;
+                if (market.length) {
+                    that.array = market.map((item,index)=>{
+                        item.star = false;
+                        item.charts = [1.2,3,3.3,2.2,2.2,2.0,1.9,4.3,5.4,3.2,2.5,2.7];
+                        return item;
+                    })
+                }
+                if (that.changed) {
+                    return;
+                }else {
+                    setTimeout(()=>{
+                        that.echarts();                                    
+                    },150)
+                    that.changed = true;
+                }
+            },
+            //收藏
+            collect(e,item,index) {
+                console.log('curcurcurcur',e,currency,index);
+                let currency = item.currencyname;
+                let tradecurrency = item.tradecurrency;
+                let type = 'insert';
+                let reqresource = '1';
+                if (item.star) {
+                    type = 'delete';
+                }
+                this.$ajax({
+                    url:'/trade/tps/pbcct.do',
+                    method:'post',
+                    data:{
+                        currency,tradecurrency,type,reqresource
+                    }
+                }).then((res)=>{
+                    console.log('----0000收藏了0000---',res);
+                    if (type == 'insert') {
+                        if (res.data && res.data.err_code == '1'){
+                            this.$Message.success('收藏成功');
+                            var target = this.array[index];
+                            target.star = true;
+                            // this.array.splice(index,1);
+                            // this.array.push(target);
+                            this.array[index]['star'] = true;
+                            this.array = Object.assign([],this.array);
+                            // this.getMarket();
+                        }else if (res.status == 200 && res.data && res.data.err_code != '1' && res.data.msg){
+                            this.$Message.warning('收藏失败,'+res.data.msg);
+                        }else {
+                            this.$Message.warning('收藏失败,请稍后重试');
+                        }
+                    }else {
+                       if (res.data && res.data.err_code == '1'){
+                            this.$Message.success('取消收藏成功');
+                            console.log(this.array[index]);
+                            this.array[index].star = false;
+                            this.array = Object.assign([],this.array);
+                            // this.getMarket();
+                        }else if (res.status == 200 && res.data && res.data.err_code != '1' && res.data.msg){
+                            this.$Message.warning('取消收藏失败,'+res.data.msg);
+                        }else {
+                            this.$Message.warning('取消收藏失败,请稍后重试');
+                        } 
+                    }
+                }).catch((err)=>{
+                    if (type == 'insert') {
+                        console.log('lalalallala收藏失败了',err);
+                        this.$Message.warning('收藏失败,请稍后重试');
+                    }else {
+                        console.log('lalalallala取消收藏失败了',err);
+                        this.$Message.warning('取消收藏失败,请稍后重试');
+                    }
+                })
+            },
             collection(param){
                 console.log(param)
                 this.chushihua();
@@ -370,7 +499,7 @@ let menu=[
                     console.log(data.data.currencyDetail)
                     if(data.data.currencyDetail){
                         that.data = data.data.currencyDetail;
-                    
+                        that.getMarket();
                     }
                 })
             },
@@ -443,7 +572,7 @@ let menu=[
                                 ]
                             };
                         myChart.hideLoading();
-                        myChart.setOption(option1)
+                        myChart.setOption(option1);
                     }
                 })
             },

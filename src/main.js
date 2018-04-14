@@ -43,16 +43,18 @@ axios.interceptors.response.use(function (response) {
     cookies.set("name",cookies.get("name"),{
         expires: 1800
     })
-  }  
+  }else {
+    console.log('请求失败了！！！！！！！',err);
+  }
   return response
 },function(err){
-  // console.log(err,err.response.status)
-  if(err.response.status == "406"){
-    cookies.set("name", "",{expires: 0});
-    router.push("/login");
-    return Promise.reject(err)
-  }
-  return Promise.reject(err)
+  console.log('请求失败了！！！！！！！',err);
+  // if(err.response && err.response.status == "406"){
+  //   cookies.set("name", "",{expires: 0});
+  //   router.push("/login");
+  //   return Promise.reject(err)
+  // }
+  // return Promise.reject(err);
 }) 
 
 // axios.install = (Vue) => {

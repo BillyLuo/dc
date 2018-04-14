@@ -208,11 +208,13 @@ export default {
       var modifytype = 1; //1邮箱 2手机
       var reqresource = 1;
       var checkcode = this.resetForm.imgCode;
+      var emailcode = this.resetForm.emailCode;
       this.resetForm.imgCode = '';
       return this.$ajax.post('/trade/tps/pbrpw.do',{
         reqresource,
         modifytype,
         email,
+        emailcode,
         checkcode
       }).then((res) => {
         console.log('res',res.data);

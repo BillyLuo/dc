@@ -8,15 +8,15 @@
     <Row>
       <Col>
         <div class="text-left safe-level clear" :style="{color:'#666'}">
-          <div class="color-666 float-left" :style="{width:'300px',fontSize:'14px'}">
+          <div class="color-grey float-left" :style="{width:'300px',fontSize:'14px'}">
             安全等级
           </div>
           <div class="float-left" :style="{width:'300px',marginRight:'40px'}">
             <Progress :stroke-width="15" :percent="safeLevel">
-              <span>{{safeLevelStatus}}</span>
+              <span class="color-grey">{{safeLevelStatus}}</span>
             </Progress>
           </div>
-          <div class="float-left">
+          <div class="float-left color-grey">
             {{safeLevelInfo}}
           </div>
         </div>
@@ -36,7 +36,7 @@
                   <Icon type="alert"></Icon>
                 </i> 
                 绑定您的邮箱</h3>
-              <a href="javascript:;" :class="{active:userinfo.email.bound,disabled:true}" @click="openEmailModal">{{userinfo.email.bound?userinfo.email.value.slice(0,4)+'****'+userinfo.email.value.match(/@.+$/):'未绑定'}}</a>
+              <a href="javascript:;" :class="{active:userinfo.email.bound,disabled:true}" @click="openEmailModal">{{userinfo.email.bound?(userinfo.email.value.match(/.+@/)[0].length > 3 ? userinfo.email.value.slice(0,2)+'****':userinfo.email.value.match(/.+(?=@)/))+userinfo.email.value.match(/@.+$/):'未绑定'}}</a>
              </div>
              <a href="javascript:;" @click="openEmailModal" :class="{'item-status':true,'item-status-active':!userinfo.email.bound,disabled:userinfo.email.bound}">{{userinfo.email.bound?'已绑定':'绑定'}}</a>
           </div>
@@ -735,11 +735,11 @@ export default {
             this.emailErrMsg = '';
             this.$Message.success('邮箱设置成功。');
             this.emailModal = false;
-            this.userinfo.email = {
-              bound:true,
-              value:email
-            }
-            that.$store.dispatch('getUserInfo');
+            // this.userinfo.email = {
+            //   bound:true,
+            //   value:email
+            // }
+            this.$store.dispatch('getUserInfo');
           }else {
             if (res.status == 200 && res.data && res.data.err_code == '2') {
               this.$Notice.warning({
