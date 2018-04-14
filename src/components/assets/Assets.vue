@@ -612,13 +612,13 @@
   #assets{
     width:1200px;
     margin: 0 auto;
-    margin-top:80px;
+    margin-top:20px;
   }
   #assets {
     background: #2C2D2F;
   }
   .account-manage {
-    padding-top:20px;
+    // padding-top:20px;
     .ivu-tabs-tabpane {
       &>h3 {
         font-weight: 400;

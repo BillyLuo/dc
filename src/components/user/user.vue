@@ -118,6 +118,7 @@ export default {
   .user-center {
     width:1200px;
     margin: 0 auto;
+    margin-top:20px;
     .user-menu {
       width: 160px;
       float: left;
