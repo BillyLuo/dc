@@ -22,13 +22,13 @@
             <Col span="6">
                 <Table class="right-list"  @on-row-click="dbclick" :columns="columns1" :data="data1"></Table>
                 <div class="table_qt">
-                    <Col class="db_table" span="8">
+                    <Col class="db_table" span="6">
                         <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{ news_price }}</span>
                     </Col>
-                    <Col class="db_table rose" span="8">
+                    <Col class="db_table rose" span="12">
                         <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'">{{zhangfu}} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
                     </Col>
-                    <Col class="db_table" span="8" style="height:100%;">
+                    <Col class="db_table" span="6" style="height:100%;">
                         <span :style="zhangfu >0 ?'color:#e55541;':'color:#1e9900;'"> </span>
                     </Col>
                 </div>
@@ -37,8 +37,8 @@
                     <Tabs size="small" v-model="buy_sell"  @on-click="changeTab">
                         <TabPane label="买入" name='buy' class="buy_bi">
                             <div class="keyong">
-                                <p>可用 {{ jijia_keyong }} {{ jijiabizhong }}</p>
-                                <p>冻结 {{ jijia_dongjie }} {{ jijiabizhong }}</p>
+                                <p>可用 {{ jijia_keyong }}</p>
+                                <p>冻结 {{ jijia_dongjie }}</p>
                             </div>
                             <div class="price" style="margin-top:2px;">
                                 <input v-model="price"  @input="inputBuyPrice($event,'price')" class="input-number" />
@@ -61,8 +61,8 @@
                         </TabPane>
                         <TabPane label="卖出" name='sell' class="buy_bi">
                             <div class="keyong">
-                                <p>可用 {{ jichu_keyong }} {{ jichubizhong }}</p>
-                                <p>冻结 {{ jichu_dongjie }} {{ jichubizhong }}</p>
+                                <p>可用 {{ jichu_keyong }} </p>
+                                <p>冻结 {{ jichu_dongjie }} </p>
                             </div>
                             <div class="price" style="margin-top:2px;">
                                 <input v-model="price1"  @input="inputBuyPrice($event,'price1')" class="input-number" />
@@ -1208,12 +1208,12 @@ export default {
 <style lang="scss">
     .quotation{
         min-width:1440px;
-        margin-top:80px;
+        // margin-top:80px;
         background:#222222;
         .title{
             width:390px;
             height:80px;
-            position: fixed;
+            position: absolute;
             top:0;
             right:240px;
             z-index: 1000;
@@ -1336,20 +1336,14 @@ export default {
                 height:54px;
                 .db_table{
                     text-align: center;
-                    font-size:18px;
+                    font-size:16px;
                     font-weight:600;
                     line-height: 54px;
                     color:#1e9900;
                 }
-                .db_table1{
-                    text-align: center;
-                    font-size:18px;
-                    font-weight:600;
-                    line-height: 54px;
-                    color:#e55541;
-                }
+                
                 .rose{
-                    font-size:24px;
+                    font-size:20px;
                     // text-align: left;
                     // padding-left:5px;
                 }

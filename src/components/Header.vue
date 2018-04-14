@@ -199,7 +199,12 @@ export default {
     getPath(){
       let path = this.$route.path;
       if(path != '/home' || path != '/'){
-        this.height = "height:80px;background:#222222;position:fixed;top:0px;";
+        if(path == '/market'){
+          this.height = "height:80px;background:#222222;min-width:1440px;position:relative";
+        }else{
+          this.height = "height:80px;background:#222222;";
+        }
+        
       }
       
       if(path == '/home' || path == '/'){
@@ -244,7 +249,12 @@ export default {
     },
     route(name){
       if(name != 'home'){
-        this.height = "height:80px;background:#222222;position:fixed;top:0px;";
+        if(name == 'market'){
+          this.height = "height:80px;background:#222222;min-width:1440px;position:relative";
+        }else{
+          this.height = "height:80px;background:#222222;";
+        }
+       
       }else{
         this.height = "height:0px;position:absolute;top:0px;";
       }
