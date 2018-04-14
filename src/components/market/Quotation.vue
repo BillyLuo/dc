@@ -395,6 +395,7 @@ export default {
         },
         listcolumns2(){
             let that =this;
+            that.datas2=[];
             this.columns2=[
                 {
                     title: '时间',
@@ -454,7 +455,6 @@ export default {
             .then(function (response) {
                 console.log(response.data.latestDeal);
                 if(response.data.latestDeal){
-                    that.datas2=[];
                     that.datas2 = response.data.latestDeal;
                 }
                 
