@@ -31,6 +31,7 @@ const NewsList = ()=> import('@/components/news/newsList/NewsList');
 const NewsDetail = ()=> import('@/components/news/newsDetail/NewsDetail');
 const Homes = ()=> import('@/components/home1/home');
 const Quotation = () => import("@/components/market/Quotation")
+const Cashrecharge = () => import("@/components/assets/Cashrecharge");
 Vue.use(Router)
 
 export default new Router({
@@ -72,7 +73,8 @@ export default new Router({
         {path:'/assets/assetsdetail',component:AssetsDetail},
         {path:'/assets/coinaddress',component:CoinAddress},
         {path:'/assets/recharge',name:'Recharge',component:Recharge},
-        {path:'/assets/withdraw',name:'Withdraw',component:Withdraw}
+        {path:'/assets/withdraw',name:'Withdraw',component:Withdraw},
+        {path:'/assets/cashrecharge',name:'Cashrecharge',component:Cashrecharge}
       ]
     },
     {
