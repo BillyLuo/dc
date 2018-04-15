@@ -1,7 +1,7 @@
 <template>
   <div :class="{'home-header':true,active:scroll}" :style="height">
       <Menu ref="main_menu" class='header-menu' mode="horizontal" @on-select="route" :active-name="activeName">
-        <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
+        <MenuItem v-for="(value,index) in menu" :class="value.className" :name="value.name" :key="value.name + index">
             {{value.text}}
         </MenuItem>
       </Menu>
@@ -53,6 +53,7 @@ router.afterEach(route => {
     // console.log('------------',this)
 });
 let menu = [
+  {name:'home',text:'',className:'menu-logo'},
   {name:'home',text:'首页'},
   // {name:'trading',text:'交易中心'},
   {name:'assets',text:'数字资产'},
@@ -385,8 +386,7 @@ export default {
         left: 0;
         padding-left:140px;
         background: none;
-        &:before{
-            content: "";
+        .menu-logo{
             display: block;
             width:34px;
             height:39px;

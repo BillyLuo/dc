@@ -825,17 +825,21 @@ export default {
   position: relative;
 }
 .close-login {
-	position: absolute;
-	width: 20px;
-	height: 20px;
-	top: -12px;
-	right: -16px;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 20px;
-	color: #2e2e2e;
-	background: #fff;
-	cursor: pointer;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 6px;
+  right: 6px;
+  font-size: 14px;
+  // border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  color: #ddd;
+  // background: #fff;
+  cursor: pointer;
+  &:hover {
+    color: #08B3FF;
+  }
 }
 .register-box > .register-left {
   width: 500px;

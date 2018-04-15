@@ -1000,9 +1000,9 @@ export default {
             if(this.price && this.price!=0){
                 this.count = decimal((this.jijia_keyong*(val/100))/(this.price*1.002),4)
             }else{
-                this.$Notice.error({
-                    content: "买入价能为空，且必须大于零。"
-                })
+                // this.$Notice.error({
+                //     desc: "买入价能为空，且必须大于零。"
+                // })
                 return false;
             }
             
@@ -1024,7 +1024,11 @@ export default {
                         if (matched && matched.length) {
                             this[priceType] = matched[0];
                         }else {
-                            this[priceType]  = '';
+                            if (this[priceType].match(/^[1-9]\d{10,}/)){
+                                this[priceType] = this[priceType].match(/^[1-9]\d{9}/)[0];
+                            }else {
+                                this[priceType]  = '';
+                            }
                         }
                     }
                 }
@@ -1043,7 +1047,11 @@ export default {
                         if (matched && matched.length) {
                             this[priceType] = matched[0];
                         }else {
-                            this[priceType]  = '';
+                            if (this[priceType].match(/^[1-9]\d{8,}/)){
+                                this[priceType] = this[priceType].match(/^[1-9]\d{7}/)[0];
+                            }else {
+                                this[priceType]  = '';
+                            }
                         }
                     }
                 }

@@ -12,6 +12,7 @@
       </div>
     </div>
     <!-- <Footer /> -->
+    <div class="contact-us"></div>
     <BackTop></BackTop>
   </div>
 </template>
@@ -43,4 +44,17 @@ export default {
 
 <style lang="scss">
   @import './index.scss';
+  .contact-us {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      background-image: url('/static/img/contact_us.png');
+      background-repeat: no-repeat;
+      // background-color: #fff;
+      background-size: contain;
+      z-index: 100;
+      bottom: 100px;
+      right: 32px;
+      cursor: pointer;
+  }
 </style>
