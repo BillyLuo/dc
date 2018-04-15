@@ -6,7 +6,7 @@
           <Col span="4">
             <h3><span>资产列表</span></h3>
           </Col>
-          <Col span="16" :style="{color:'#fff'}">
+          <Col span="14" :style="{color:'#fff'}">
             预估总资产： {{estimateassets}} / USDT
           </Col>
           <Col span="2" class="account-menu">
@@ -14,6 +14,9 @@
           </Col>
           <Col span="2" class="account-menu">
             <a href="javascript:;" @click="route('coinaddress')" class="account-management">提币管理</a>
+          </Col>
+          <Col span="2" class="account-menu">
+            <a href="javascript:;" @click="route('cashrecharge')" class="account-management">在线充值</a>
           </Col>
         </Row>
       </div>
