@@ -23,28 +23,33 @@
             </ButtonGroup>
         </div>
         <div class="currency_list clear" v-show="chart_active">
-            <div  v-for="(item,index) in array" v-if="index < 12" v-show="true" :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear':'clear'" >
-                <div class="draw_chart">
-                    <img @click="collect($event,item,index)" :src='item.star?"/static/img/star1.png":"/static/img/star.png"' alt="">
-                    <canvas class="charts" :id="'chart'+index"></canvas>
+            <div v-if="array.length" class="currency_list_inner clear">
+                <div  v-for="(item,index) in array" v-if="index < 12" v-show="true" :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear':'clear'" >
+                    <div class="draw_chart">
+                        <img @click="collect($event,item,index)" :src='item.star?"/static/img/star1.png":"/static/img/star.png"' alt="">
+                        <canvas class="charts" :id="'chart'+index"></canvas>
+                    </div>
+                    <div class="info_chart">
+                        <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
+                        <p class="price">{{ item.curprice }} {{ item.tradecurrency }}<span></span></p>
+                    </div>
                 </div>
-                <div class="info_chart">
-                    <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
-                    <p class="price">{{ item.curprice }} {{ item.tradecurrency }}<span></span></p>
+                <div  v-for="(item,index) in array"  v-if="index >= 12" v-show='show_list' :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear  animated '+animate:'clear  animated '+animate" >
+                    <div class="draw_chart">
+                        <img @click="collect($event,item,index)" :src='item.star?"/static/img/star1.png":"/static/img/star.png"' alt="">
+                        <canvas class="charts" :id="'chart'+index"></canvas>
+                    </div>
+                    <div class="info_chart">
+                        <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
+                        <p class="price">{{ item.curprice }} {{ item.tradecurrency }}<span></span></p>
+                    </div>
+                </div>
+                <div :class="'showall '+animate" v-if="array.length > 12" style="width:100%;">
+                    <Button @click="showall">{{ button_info }}</Button>
                 </div>
             </div>
-            <div  v-for="(item,index) in array"  v-if="index >= 12" v-show='show_list' :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear  animated '+animate:'clear  animated '+animate" >
-                <div class="draw_chart">
-                    <img @click="collect($event,item,index)" :src='item.star?"/static/img/star1.png":"/static/img/star.png"' alt="">
-                    <canvas class="charts" :id="'chart'+index"></canvas>
-                </div>
-                <div class="info_chart">
-                    <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
-                    <p class="price">{{ item.curprice }} {{ item.tradecurrency }}<span></span></p>
-                </div>
-            </div>
-            <div :class="'showall '+animate" v-if="array.length > 12" style="width:100%;">
-                <Button @click="showall">{{ button_info }}</Button>
+            <div v-else style="width: 100%;color: #f1f1f1;text-align:center;padding: 80px 0;">
+                暂时没有获取到任何币种信息，请检查网络或重新登录
             </div>
         </div>
         <div class="list_table" v-show="list_active">
@@ -258,6 +263,8 @@ import index from 'vue';
                 activeName:"USDT",
                 show_list:false,
                 array:[],
+                coinArray:[],//query 是暂存所有的cion
+                queryArrray:[],
                 button_info:"See All",
                 animate:"fadeInDown",
                 chart_active:true,
@@ -365,6 +372,16 @@ import index from 'vue';
         
         methods:{
             query(value,option) {
+                var coinArray = this.coinArray;
+                var that = this;
+                if (!value || value.length >= 2) {
+                    setTimeout(() => {
+                        that.echarts();
+                    }, 300);
+                }
+                this.array = coinArray.filter((item,index)=>{
+                    return item.currencyname.toUpperCase().indexOf(value.toUpperCase()) !== -1;
+                })
                 return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
             },
             select(value) {
@@ -405,6 +422,7 @@ import index from 'vue';
                                 console.log('start00000',result);
                                 that.array = result;
                             }
+                            this.coinArray = Object.assign([],this.array);
                             if (that.changed) {
                                 return;
                             }else {
@@ -444,6 +462,7 @@ import index from 'vue';
             },
             //收藏
             collect(e,item,index) {
+                let that = this;
                 let currency = item.currencyname;
                 let tradecurrency = item.tradecurrency;
                 let type = 'insert';
@@ -766,7 +785,7 @@ import index from 'vue';
         .currency_list{
             margin-top: 30px;
             transition: 0.4s;
-            & > div{
+            & .currency_list_inner>div{
                 float: left;
                 margin-bottom: 10px;
                 width:23.5%;
@@ -904,7 +923,7 @@ import index from 'vue';
             }
             .ranges{
                 display: inline-block;
-                width:60px;
+                // width:60px;
                 text-align: left;
             }
             .range_zhang{

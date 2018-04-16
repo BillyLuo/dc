@@ -16,7 +16,7 @@
             <a href="javascript:;" @click="route('coinaddress')" class="account-management">提币管理</a>
           </Col>
           <Col span="2" class="account-menu">
-            <a href="javascript:;" @click="route('cashrecharge')" class="account-management">线下充值</a>
+            <a href="javascript:;" @click="route('cashrecharge')" class="account-management">线下客服</a>
           </Col>
         </Row>
       </div>

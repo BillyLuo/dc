@@ -577,28 +577,28 @@ export default {
 .withdraw {
   .ivu-input-group-append {
     background: #353535;
-    border-color: #666;
-    color: #666;
+    border-color: #586c86;
+    color: #586c86;
   }
   .ivu-select-dropdown{
     background: rgb(62, 62, 65);
   }
   .ivu-select-single .ivu-select-selection{
     background: #353535;
-    border: 1px solid #666;
-    color: #666;
+    border: 1px solid #586c86;
+    color: #586c86;
   }
   .ivu-select-item-selected, .ivu-select-item-selected:hover{
     background: #353535;
-    color: #666;
+    color: #586c86;
   }
   .ivu-input-number {
-    border-color: #666;
+    border-color: #586c86;
   }
-  .ivu-input,.ivu-input-number-input {
+  .ivu-input,.ivu-input[disabled],.widthraw-item .ivu-input[disabled],.ivu-input-number-input {
     background: #353535;
-    color: #666;
-    border-color: #666;
+    color: #586c86;
+    border-color: #586c86;
   }
   .submit-btn {
     width: 400px;
@@ -607,7 +607,7 @@ export default {
   }
 }
 .withdraw-note {
-  border: 1px solid #666;
+  border: 1px solid #586c86;
   // background: #FDFEFF;
   padding: 20px;
   border-radius: 3px;

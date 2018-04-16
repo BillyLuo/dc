@@ -722,6 +722,7 @@
     button {
       margin: 0 6px;
     }
+    margin-top: 2px;
   }
   
   //资金账号

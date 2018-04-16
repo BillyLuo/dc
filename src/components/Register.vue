@@ -65,7 +65,7 @@
 									size="large"
                   class="register-input"
 									placeholder="输入密码"
-                  autocomplete="off"
+                  autocomplete="new-password"
                   maxLength="20"
 									:class="passwordCodeErrorInput"
 									@focus="passwordFocus"
@@ -105,7 +105,7 @@
 								</div>
                 <div class="register-label">再次输入密码</div>
 								<div class="register-input-item">
-								<input type="password" maxLength="20" autocomplete="off" class="register-input" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @foucs="passwordAgainFocus"/>
+								<input type="password" maxLength="20" autocomplete="new-password" class="register-input" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @foucs="passwordAgainFocus"/>
 								<p class="register-error-text">
 									{{ errorPasswordAgain }}
 								</p>
@@ -167,7 +167,7 @@
 									@focus="passwordFocus"
 									@input="passwordChange"
 									@blur="passwordBlur"
-                  autocomplete="off"
+                  autocomplete="new-password"
 								/>
 								<div class="prompt email-prompt" v-if="prompt">
 									<p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
@@ -202,7 +202,7 @@
 								</div>
                 <div class="register-label">再次输入密码</div>
 								<div class="register-input-item">
-								<input class="register-input" maxLength="20" autocomplete="off" type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @focus="passwordAgainFocus" />
+								<input class="register-input" maxLength="20" autocomplete="new-password" type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @focus="passwordAgainFocus" />
 								<p class="register-error-text">
 									{{ errorPasswordAgain }}
 								</p>
@@ -231,7 +231,7 @@
 </template>
 <script>
 import { Tabs, TabPane } from "iview";
-import {emailReg} from './constant/constant.js';
+import {emailReg,telReg} from './constant/constant.js';
 export default {
   components: {
     Tabs,
@@ -432,7 +432,7 @@ export default {
         this.telErrorInput = "errorInput";
         return false;
       } else {
-        if (this.tel && !/^1[34578]\d{9}$/.test(this.tel)) {
+        if (this.tel && !telReg.test(this.tel)) {
           this.errorTel = "请输入11位正确的手机号";
           this.telErrorInput = "errorInput";
           return false;
@@ -572,7 +572,9 @@ export default {
           this.passwordAgainCodeErrorInput = "errorInput";
         }
       } else {
-        if (this.tel && !/^1[34578]\d{9}$/.test(this.tel)) {
+        if (this.tel && telReg.test(this.tel)) {
+          
+        }else {
           this.errorTel = "请输入11位正确的手机号";
           this.telErrorInput = "errorInput";
           return false;

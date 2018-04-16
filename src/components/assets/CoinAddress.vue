@@ -302,5 +302,6 @@ export default {
 <style lang="scss">
   .fund-account-inner {
     color: #666;
+    margin-top: 2px;
   }
 </style>

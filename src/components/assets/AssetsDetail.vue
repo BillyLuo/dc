@@ -323,6 +323,5 @@ export default {
     color: rgb(255, 255, 255);
     padding: 0px 20px;
     font-size: 16px;
-    margin-bottom: 20px;
   }
 </style>
