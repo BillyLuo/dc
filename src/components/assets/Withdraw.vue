@@ -302,7 +302,7 @@ export default {
       }).then((res)=>{
           console.log(res)
           if(res.data.accountFund && res.data && res.data.err_code=="1"){
-              that.withdrawModel.balance = res.data.accountFund[0].usablefund
+              that.withdrawModel.balance = Number(res.data.accountFund[0].usablefund).toFixed(10)
               // that.withdrawModel.account = Number(res.data.accountFund[0].total)
           }else{
               that.withdrawModel.balance = 0
