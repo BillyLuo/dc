@@ -518,7 +518,7 @@ export default {
           that.$Message.success("添加成功");
           that.address_list()
         }else{
-          that.$Message.success(data.data.msg);
+          that.$Message.warning(data.data.msg);
         }
           
       })

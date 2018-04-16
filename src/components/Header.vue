@@ -25,7 +25,7 @@
         </div>
         <div v-else class="login">
             <Button class="log-in-out" @click="route('login')">登录</Button>or<Button @click="route('register')" class="log-in-out">注册</Button>
-            <img src="/static/img/language.png" alt="">
+            <!-- <img src="/static/img/language.png" alt=""> -->
         </div>
         <!-- <div  class="login">
           <span class="login-in" @click="route('login')">登录</span>|
@@ -558,7 +558,7 @@ export default {
     position: absolute;
     width: 300px;
     left: -60%;
-    top: 70px;
+    top: 80px;
     border: 1px solid #404448;
     box-shadow: 0 4px 4px rgba(0,0,0,.1);
     font-size: 12px;
