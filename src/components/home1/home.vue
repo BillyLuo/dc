@@ -2,7 +2,7 @@
 <div>
     <div class="banner">
         <div class="img-banner">
-            <img src="/static/img/banner1.png" alt="">
+            <img src="/static/img/banner.jpeg" alt="币邦国际">
             <!-- <Menu ref="main_menu" class="header-menu" mode="horizontal" @on-select="route" :active-name="activeName">
                 <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
                     {{value.text}}
@@ -12,11 +12,10 @@
                 <Button class="log-in-out">登录</Button>or<Button class="log-in-out">注册</Button>
                 <img src="/static/img/language.png" alt="">
             </div> -->
-            <div class="text">
+            <!-- <div class="text">
                 <h1 class='h1'>币邦</h1>
                 <p class='p1'>Type somethingType somethingType somethingType something</p>
-                <!-- <p class="p_button"><Button class="button1">PRESSED</Button></p> -->
-            </div>
+            </div> -->
         </div>
     </div>
     <List/>
@@ -53,7 +52,7 @@ import Foot from './footer';
     .banner{
         width:100%;
         position: relative;
-        min-height: 400px;
+        min-height: 300px;
         .img-banner img{
             width:100%;
             display: block;

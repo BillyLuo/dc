@@ -1,6 +1,6 @@
 <template>
   <div class="cashrech">
-    <h3><span>线下充值</span></h3>
+    <h3><span>线下客服</span></h3>
     <div class="financial-management">
       <!-- <div>
         
@@ -32,22 +32,22 @@ export default {
           ],
           account_detail_data:[
                 {
-                    name: '1号美女客服',
+                    name: '客服1',
                     qq: '100000',
                     jianjie: '币邦金牌客服'
                 },
                 {
-                    name: '2号美女客服',
+                    name: '客服2',
                     qq: '100001',
                     jianjie: '币邦金牌客服'
                 },
                 {
-                    name: '1号帅哥客服',
+                    name: '客服3',
                     qq: '100002',
                     jianjie: '币邦金牌客服'
                 },
                 {
-                    name: '2号帅哥客服',
+                    name: '客服4',
                     qq: '100003',
                     jianjie: '币邦金牌客服'
                 }
@@ -61,13 +61,13 @@ export default {
   .cashrech {
       &>h3{
             background: rgb(42, 42, 42);
-            box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px 0px;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
             height: 72px;
             line-height: 72px;
             color: rgb(255, 255, 255);
             padding: 0px 20px;
             font-size: 16px;
-            margin-bottom: 20px;
+            // margin-bottom: 20px;
       } 
    
     .ivu-table .ivu-table-body .ivu-table-cell{

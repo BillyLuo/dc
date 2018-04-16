@@ -81,7 +81,7 @@
                   <Icon type="alert"></Icon>
                 </i> 
                 手机绑定</h3>
-              <a href="javascript:;" v-if="userinfo.phone.bound" class="active">{{userinfo.phone.value.slice(0, 4) +
+              <a href="javascript:;" v-if="userinfo.phone.bound" class="active">{{userinfo.phone.value.slice(0, 3) +
           "****" + userinfo.phone.value.slice(-4)}}</a>
               <a href="javascript:;" v-else>绑定</a>
              </div>

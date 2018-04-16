@@ -45,7 +45,7 @@
                 </FormItem>
                 <FormItem prop="password">
                   <div class="login-label">密码</div>
-                  <input @keyup.enter="handleSubmit('formInline')" type="password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
+                  <input @keyup.enter="handleSubmit('formInline')" type="password" autocomplete="new-password" v-model="formInline.password" placeholder="密码" :class="'login-input'">
                   <Icon type="ios-locked-outline" slot="prepend" :class="'login-input-icon'"></Icon>
                   </Input>
                 </FormItem>

@@ -148,6 +148,7 @@ function initCharts (symbol) {
             "timezone": "Asia/Hong_Kong",
             "theme": "Dark",
             "style": "1",
+            fullscreen:true,
             "locale": "zh_CN",
             "toolbar_bg": "#f1f3f6",
             "enable_publishing": false,
@@ -1014,7 +1015,7 @@ export default {
         inputBuyPrice(e,priceType){
             var value = e.target.value;
             var oldValue = this[priceType+'_'];
-            console.log('oldvalue',oldValue,this);
+            // console.log('oldvalue',oldValue,this);
             if(priceType=="count" || priceType == "count1"){
                 if (!value) {
                     this[priceType] = '';

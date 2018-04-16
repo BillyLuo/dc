@@ -42,6 +42,9 @@ export default {
   methods:{
     contact () {
       if (!cookies.get('name')) {
+        this.$router.push({
+          path:'/login'
+        })
         return;
       }
       this.$router.push({
