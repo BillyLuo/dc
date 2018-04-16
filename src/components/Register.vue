@@ -10,51 +10,69 @@
             </div>
 					<div class="register-left">
 						<div class="login-img"></div>
-						<div class="mask"></div>
+						<div class="mask">
+              <div class="mask-inner">
+                <div class="mask-logo">
+                  <img src="/static/img/logo.png"/>
+                  <h2>币邦</h2>
+                </div>
+                <div class="mask-line"></div>
+                <div class="mask-content">
+                  <h3>type something</h3>
+                  <h4>type something type</h4>
+                </div>
+              </div>
+            </div>
 					</div>
 					<div class="register-right">
 						<Tabs value="name1" :class="'register-right-tabs'" @on-click="registerTabs">
 							<TabPane label="手机注册" name="name1" :class="'register-right-tabs-tabpaneOne'">
-								<div class="register-input">
-								<Input v-model="tel" size="large" :maxlength="11" placeholder="请输入手机号" :class="telErrorInput" @on-focus="telFocus">
-									<span slot="prepend">+86</span>
-								</Input>
-								<p class="register-error-text">
-									{{errorTel}}
-								</p>
+                <div class="register-label">手机号码</div>
+								<div class="register-input-item">
+									<span class="float-left tel-country">+86</span>
+								  <input v-model="tel" size="large" :maxlength="11" placeholder="请输入手机号" class="register-input register-tel" :class="telErrorInput" @focus="telFocus" />
+                  <p class="register-error-text">
+                    {{errorTel}}
+                  </p>
 								</div>
-								<div class="register-input">
-								<Input v-model="vsCode" size="large" placeholder="验证码" :class="vsCodeErrorInput" @on-focus="vsCodeFocus" />
-								<p class="register-error-text">
-									{{ errorVsCode }}
-								</p>
-								<div class="register-vsCode">
-									<img :src="src" alt="" width="100%" height="100%"  @click="imgsrc">
+                <div class="register-label">验证码</div>
+								<div class="register-input-item">
+                  <input v-model="vsCode" size="large" maxLength="4" class="register-input" placeholder="验证码" :class="vsCodeErrorInput" @focus="vsCodeFocus" />
+                  <p class="register-error-text">
+                    {{ errorVsCode }}
+                  </p>
+                  <div class="register-vsCode">
+                    <img :src="src" alt="图片验证码" @click="imgsrc">
+                  </div>
+                  </div>
+                  <div class="register-label">短信验证码</div>
+                  <div class="register-input-item">
+                  <input class="register-input" v-model="telCode" maxLength="6" size="large" placeholder="短信验证码" :class="telCodeErrorInput" @focus="telCodeFocus"/>
+                  <p class="register-error-text">
+                    {{ errorTelCode }}
+                  </p>
+                  <div class="register-vsCode">
+                    <span type="primary" size="small" @click="telCodeTimeOut" :disabled="telCodeDisabled">
+                    {{ telCodeText }}
+                    </span>
+                  </div>
 								</div>
-								</div>
-								<div class="register-input">
-								<Input v-model="telCode" size="large" placeholder="短信验证码" :class="telCodeErrorInput" @on-focus="telCodeFocus"/>
-								<p class="register-error-text">
-									{{ errorTelCode }}
-								</p>
-								<div class="register-vsCode">
-									<Button type="primary" @click="telCodeTimeOut" :disabled="telCodeDisabled">
-									{{ telCodeText }}
-									</Button>
-								</div>
-								</div>
-								<div class="register-input">
-								<Input
+                <div class="register-label">密码</div>
+								<div class="register-input-password">
+								<input
 									type="password"
 									v-model="password"
 									size="large"
+                  class="register-input"
 									placeholder="输入密码"
+                  autocomplete="off"
+                  maxLength="20"
 									:class="passwordCodeErrorInput"
-									@on-focus="passwordFocus"
-									@on-change="passwordChange"
-									@on-blur="passwordBlur"
+									@focus="passwordFocus"
+									@input="passwordChange"
+									@blur="passwordBlur"
 								/>
-								<div class="prompt" v-if="prompt">
+								<div class="prompt tel-prompt" v-if="prompt">
 									<p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
 									<p class="p-gray">
 									<span v-html="PromptOne"></span>
@@ -85,64 +103,73 @@
 									{{ errorPassword }}
 								</p>
 								</div>
-								<div class="register-input">
-								<Input type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus"/>
+                <div class="register-label">再次输入密码</div>
+								<div class="register-input-item">
+								<input type="password" maxLength="20" autocomplete="off" class="register-input" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @foucs="passwordAgainFocus"/>
 								<p class="register-error-text">
 									{{ errorPasswordAgain }}
 								</p>
 								</div>
-								<div class="register-input">
-								<Input v-model="InvitationCode" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
+                <div class="register-label">邀请码</div>
+								<div class="register-input-item">
+								<input v-model="InvitationCode" class="register-input" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
 								<p class="register-error-text">
 									{{ errorInvitationCode }}
 								</p>
 								</div>
-								<div class="register-input">
+								<div style="margin-top: 30px;margin-bottom: 10px;">
 								<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《福币用户协议》</a></Checkbox>
 								</div>
-								<div class="register-input">
-								<Button type="primary" @click="submitTel">注册</Button>
+								<div class="go-register">
+								<Button type="primary" size="large" @click="submitTel">注册</Button>
 								</div>
 							</TabPane>
-							<TabPane label="邮箱注册" name="name2" :class="'register-right-tabs-tabpaneTwo'">
-								<div class="register-input">
-								<Input v-model="email" size="large" placeholder="请输入邮箱" :maxlength="50" :class="emailErrorInput"  @on-focus="telFocus" />
+							<TabPane label="邮箱注册" maxLength="50" name="name2" :class="'register-right-tabs-tabpaneTwo'">
+                <div class="register-label">邮箱</div>
+								<div class="register-input-item">
+								<input v-model="email" size="large" class="register-input" placeholder="请输入邮箱" :maxlength="50" :class="emailErrorInput"  @foucs="telFocus" />
 								<p class="register-error-text">
 									{{errorEmail}}
 								</p>
 								</div>
-								<div class="register-input">
-								<Input v-model="vsCode" size="large" placeholder="验证码" :class="vsCodeErrorInput" @on-focus="vsCodeFocus" />
+                <div class="register-label">验证码</div>
+								<div class="register-input-item">
+								<input class="register-input" maxLength="4" v-model="vsCode" size="large" placeholder="验证码" :class="vsCodeErrorInput" @foucs="vsCodeFocus" />
 								<p class="register-error-text">
 									{{ errorVsCode }}
 								</p>
 								<div class="register-vsCode">
-									<img :src="src" alt="" width="100%" height="100%" @click="imgsrc">
+									<img :src="src" alt="图片验证码" @click="imgsrc">
 								</div>
 								</div>
-								<div class="register-input">
-								<Input v-model="telCode" size="large" placeholder="邮箱验证码" :class="telCodeErrorInput" @on-focus="telCodeFocus" />
+                <div class="register-label">邮箱验证码</div>
+								<div class="register-input-item">
+								<input class="register-input" maxLength="6" v-model="telCode" size="large" placeholder="邮箱验证码" :class="telCodeErrorInput" @focus="telCodeFocus" />
 								<p class="register-error-text">
 									{{ errorTelCode }}
 								</p>
 								<div class="register-vsCode">
-									<Button type="primary" @click="telCodeTimeOut1" :disabled="telCodeDisabled">
+									<span type="primary" size="small" @click="telCodeTimeOut1" :disabled="telCodeDisabled">
 									{{ telCodeText }}
-									</Button>
+									</span>
 								</div>
 								</div>
-								<div class="register-input">
-								<Input
+                <div class="register-label">密码</div>
+								<div class="register-input-item">
+								<input
 									type="password"
 									v-model="password"
 									size="large"
+                  maxLength="20"
+                  class="register-input"
 									placeholder="输入密码"
 									:class="passwordCodeErrorInput"
-									@on-focus="passwordFocus"
-									@on-change="passwordChange"
-									@on-blur="passwordBlur"
+									@focus="passwordFocus"
+									@input="passwordChange"
+									@blur="passwordBlur"
+                  autocomplete="off"
 								/>
-								<div class="prompt" v-if="prompt">
+								<div class="prompt email-prompt" v-if="prompt">
 									<p style="font-size:12px;color: #000;font-weight:600">您的密码必须符合：</p>
 									<p class="p-gray">
 										<span v-html="PromptOne"></span>
@@ -173,23 +200,25 @@
 									{{ errorPassword }}
 								</p>
 								</div>
-								<div class="register-input">
-								<Input type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @on-focus="passwordAgainFocus" />
+                <div class="register-label">再次输入密码</div>
+								<div class="register-input-item">
+								<input class="register-input" maxLength="20" autocomplete="off" type="password" v-model="passwordAgain" size="large" placeholder="再次输入密码" :class="passwordAgainCodeErrorInput" @focus="passwordAgainFocus" />
 								<p class="register-error-text">
 									{{ errorPasswordAgain }}
 								</p>
 								</div>
-								<div class="register-input">
-								<Input v-model="InvitationCode" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
+                <div class="register-label">邀请码</div>
+								<div class="register-input-item">
+								<input class="register-input" v-model="InvitationCode" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
 								<p class="register-error-text">
 									{{ errorInvitationCode }}
 								</p>
 								</div>
-								<div class="register-input">
+								<div class="register-input-item">
 								<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《福币用户协议》</a></Checkbox>
 								</div>
-								<div class="register-input">
-								<Button type="primary" @click="submitEmail">注册</Button>
+								<div class="go-register">
+								<Button type="primary" size="large" @click="submitEmail">注册</Button>
 								</div>
 							</TabPane>
 						</Tabs>
@@ -408,6 +437,9 @@ export default {
           this.telErrorInput = "errorInput";
           return false;
         }
+        if ($this.getCode) {
+          return;
+        }
         let $this = this;
         this.telCodeText = 60;
         this.telCodeDisabled = true;
@@ -416,6 +448,7 @@ export default {
           if ($this.telCodeText <= 1) {
             clearTimeout($this.getCode);
             $this.telCodeText = "重新获取";
+            $this.getCode = null;
             $this.telCodeDisabled = false;
           }
         }, 1000);
@@ -465,6 +498,9 @@ export default {
           return false;
         }
         let $this = this;
+        if (this.getCode) {
+          return;
+        }
         this.telCodeText = 60;
         this.telCodeDisabled = true;
         this.getCode = setInterval(function() {
@@ -472,6 +508,7 @@ export default {
           if ($this.telCodeText <= 1) {
             clearTimeout($this.getCode);
             $this.telCodeText = "重新获取";
+            $this.getCode = null;
             $this.telCodeDisabled = false;
           }
         }, 1000);
@@ -813,7 +850,13 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
+input:-webkit-autofill {
+background-color : #FAFFBD ;
+background-image : none ;
+color : #000 ;
+}
+$placeholder: #e1e1e1;
 .register-box-background {
   /* background: #f9f9f9; */
   width: 100%;
@@ -850,7 +893,7 @@ export default {
   position: relative;
 }
 .register-box > .register-right {
-  height: 650px;
+  height: 740px;
   width: 500px;
   box-sizing: border-box;
   /* height: 580px; */
@@ -882,6 +925,36 @@ export default {
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 }
+.mask {
+  .mask-inner {
+    padding: 140px 80px;
+    text-align: right;
+    color: #fff;
+    img {
+      width: 80px;
+      height: 90px;
+    }
+    h2 {
+      font-size: 30px;
+      font-weight: normal;
+      padding: 30px 0;
+      color: #fff;
+    }
+    h3 {
+      font-size: 26px;
+      font-weight: 400;
+      padding: 30px 0;
+    }
+    h4 {
+      font-size: 30px;
+      font-weight: 500;
+    }
+    .mask-line {
+      height: 1px;
+      background: #fff;
+    }
+  }
+}
 .register-right-tabs > .ivu-tabs-bar > .ivu-tabs-nav-container {
   font-size: 18px;
   color: #999;
@@ -898,41 +971,77 @@ export default {
 .register-right-tabs > .ivu-tabs-nav > .ivu-tabs-tab-active {
   color: #000;
 }
-.register-input {
-  width: 100%;
-  margin-bottom: 14px;
+.register-input-item {
+  margin-bottom: 10px;
   position: relative;
   height: 48px;
+  .tel-country {
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+  }
+  .register-tel {
+    padding-left: 30px;
+  }
 }
-.register-input input {
-  height: 40px;
-  background: #fafafa;
+
+.register-input {
+  display: block;
+  width: 100%;
+  outline:none;
+  border:0;
+  border-bottom: 1px solid $placeholder;
+  height:32px;
+  background: #fff;
+  color: #4CB2F9;
+  /* padding: 0 10px; */
+  margin: 4px 0;
+}
+register-input:-moz-placeholder{
+    color: $placeholder;
+}
+.register-input:-ms-input-placeholder{
+  color: $placeholder;
+}
+.register-input::-moz-placeholder {
+  color: $placeholder;
+}
+input.register-input::-webkit-input-placeholder{
+  color: $placeholder;
 }
 .errorInput input {
   border: 1px solid red;
 }
-.register-input .register-vsCode {
+.register-vsCode {
   position: absolute;
-  width: 110px;
-  height: 40px;
+  width: 100px;
+  height: 30px;
   top: 0;
   right: 0;
 }
+.register-vsCode img {
+  display: block;
+  width: 100px;
+  height: 30px;
+}
+.register-vsCode span {
+  color: #08B3FF;
+  cursor: pointer;
+}
 .register-input button {
   width: 100%;
-  height: 40px;
+  height: 30px;
   font-size: 14px;
 }
-.register-input .register-error-text {
-  position: absolute;
-  top: 42px;
-  left: 10px;
+.register-error-text {
   font-size: 12px;
+  height: 16px;
+  line-height: 16px;
   color: red;
 }
 .prompt {
   position: absolute;
-  top: 60px;
+  top: 50px;
   left: 50px;
   width: 200px;
   background-color: #f2f2f2;
@@ -940,6 +1049,9 @@ export default {
   border-radius: 2px;
   box-shadow: 0 7px 20px #000;
   z-index: 10;
+}
+.tel-prompt {
+  top: 320px;
 }
 .prompt p {
   font-size: 12px;
@@ -1021,5 +1133,10 @@ export default {
   position: absolute;
   top: -15px;
   left: 90px;
+}
+.go-register {
+  .ivu-btn {
+    width: 100%;
+  }
 }
 </style>

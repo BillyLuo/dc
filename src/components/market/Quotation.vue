@@ -203,10 +203,14 @@ export default {
             //right 
             zhangfu:"",
             price:'',
+            price_:'',
             count:"",
+            count_:'',
             slides_value:0,
             price1:'',
+            price1_:'',
             count1:"",
+            count1_:'',
             slides_value1:0,
             jichu_keyong:'',
             jichu_dongjie:'',
@@ -1009,23 +1013,25 @@ export default {
         },
         inputBuyPrice(e,priceType){
             var value = e.target.value;
+            var oldValue = this[priceType+'_'];
+            console.log('oldvalue',oldValue,this);
             if(priceType=="count" || priceType == "count1"){
                 if (!value) {
                     this[priceType] = '';
+                    this[priceType+'_'] = '';
                 }else {
-                    console.log(regs.test(value))
                     if (regs.test(value)) {
                         this[priceType] = value;
+                        this[priceType+'_'] = value;
                     }else {
                         value = value.slice(0,-1);
-                        console.log(value)
                         var matched = value.match(regs);
-                        console.log(matched)
                         if (matched && matched.length) {
                             this[priceType] = matched[0];
+                            this[priceType+'_'] = matched[0];
                         }else {
-                            if (this[priceType].match(/^[1-9]\d{10,}/)){
-                                this[priceType] = this[priceType].match(/^[1-9]\d{9}/)[0];
+                            if (regs.test(oldValue)) {
+                                this[priceType] = oldValue;
                             }else {
                                 this[priceType]  = '';
                             }
@@ -1035,20 +1041,20 @@ export default {
             }else{
                 if (!value) {
                     this[priceType] = '';
+                    this[priceType+'_'] = '';
                 }else {
-                    console.log(reg.test(value))
                     if (reg.test(value)) {
                         this[priceType] = value;
+                        this[priceType+'_'] = value;
                     }else {
                         value = value.slice(0,-1);
-                        console.log(value)
                         var matched = value.match(reg);
-                        console.log(matched)
                         if (matched && matched.length) {
                             this[priceType] = matched[0];
+                            this[priceType+'_'] = matched[0];
                         }else {
-                            if (this[priceType].match(/^[1-9]\d{8,}/)){
-                                this[priceType] = this[priceType].match(/^[1-9]\d{7}/)[0];
+                            if (reg.test(oldValue)) {
+                                this[priceType] = oldValue;
                             }else {
                                 this[priceType]  = '';
                             }

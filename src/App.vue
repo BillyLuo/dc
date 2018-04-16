@@ -12,7 +12,7 @@
       </div>
     </div>
     <!-- <Footer /> -->
-    <div class="contact-us"></div>
+    <div class="contact-us" @click="contact"></div>
     <BackTop></BackTop>
   </div>
 </template>
@@ -37,6 +37,16 @@ export default {
     // console.log('app created');
     if (cookies.get('name')) {
       this.$store.dispatch('getUserInfo');
+    }
+  },
+  methods:{
+    contact () {
+      if (!cookies.get('name')) {
+        return;
+      }
+      this.$router.push({
+        path:'/assets/cashrecharge'
+      })
     }
   }
 }

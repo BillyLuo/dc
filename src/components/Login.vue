@@ -12,7 +12,19 @@
               <div class="login-img">
                 
               </div>
-              <div class="mask"></div>
+              <div class="mask">
+                <div class="mask-inner">
+                  <div class="mask-logo">
+                    <img src="/static/img/logo.png"/>
+                    <h2>币邦</h2>
+                  </div>
+                  <div class="mask-line"></div>
+                  <div class="mask-content">
+                    <h3>type something</h3>
+                    <h4>type something type</h4>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="login-right">
               <div style="width:100%" :class="'login-card'">
@@ -390,6 +402,36 @@
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
   }
+  .mask {
+    .mask-inner {
+      padding: 140px 80px;
+      text-align: right;
+      color: #fff;
+      img {
+        width: 80px;
+        height: 90px;
+      }
+      h2 {
+        font-size: 30px;
+        font-weight: normal;
+        padding: 30px 0;
+        color: #fff;
+      }
+      h3 {
+        font-size: 26px;
+        font-weight: 400;
+        padding: 30px 0;
+      }
+      h4 {
+        font-size: 30px;
+        font-weight: 500;
+      }
+      .mask-line {
+        height: 1px;
+        background: #fff;
+      }
+    }
+  }
   .login-right{
     width: 500px;
     box-sizing: border-box;
@@ -421,11 +463,12 @@
     outline:none;
     border:0;
     border-bottom: 1px solid $placeholder;
-    height:32px;
+    height:34px;
     background: #fff;
     color: #4CB2F9;
     /* padding: 0 10px; */
     margin: 4px 0;
+    font-size: 14px;
   }
   login-input:-moz-placeholder{
     color: $placeholder;
