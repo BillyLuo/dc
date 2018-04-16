@@ -923,8 +923,8 @@ import index from 'vue';
             }
             .ranges{
                 display: inline-block;
-                // width:60px;
                 text-align: left;
+                text-align: center;
             }
             .range_zhang{
                 position: relative;
