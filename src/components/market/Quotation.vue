@@ -41,11 +41,11 @@
                                 <p>冻结 {{ jijia_dongjie }}</p>
                             </div>
                             <div class="price" style="margin-top:2px;">
-                                <input v-model="price"  @input="inputBuyPrice($event,'price')" class="input-number" />
+                                <input v-model="price"  @input="inputBuyPrice($event,'price')" @blur="inputBlur($event,'price')" class="input-number" />
                                 <span> {{ '限价 '+jijiabizhong }}</span>
                             </div>
                             <div class="price">
-                                <input v-model="count"  @input="inputBuyPrice($event,'count')" class="input-number" />
+                                <input v-model="count"  @input="inputBuyPrice($event,'count')" @blur="inputBlur($event,'count')" class="input-number" />
                                 <span> {{ '仓位 '+jichubizhong }}</span>
                             </div>
                             <div class="slides_sty">
@@ -65,11 +65,11 @@
                                 <p>冻结 {{ jichu_dongjie }} </p>
                             </div>
                             <div class="price" style="margin-top:2px;">
-                                <input v-model="price1"  @input="inputBuyPrice($event,'price1')" class="input-number" />
+                                <input v-model="price1"  @input="inputBuyPrice($event,'price1')" @blur="inputBlur($event,'price1')" class="input-number" />
                                 <span> {{ '限价 '+jijiabizhong }}</span>
                             </div>
                             <div class="price">
-                                <input v-model="count1"  @input="inputBuyPrice($event,'count1')" class="input-number" />
+                                <input v-model="count1"  @input="inputBuyPrice($event,'count1')" @blur="inputBlur($event,'count1')" class="input-number" />
                                 <span> {{ '仓位 '+jichubizhong }}</span>
                             </div>
                             <div class="slides_sty">
@@ -1064,6 +1064,13 @@ export default {
                 }
             }
             
+        },
+        inputBlur(e,type){
+            var value = this[type];
+            var len = value.length;
+            if (value.indexOf('.') === len - 1) {
+                this[type] = value.slice(0,len - 1);
+            }
         },
         newPrice(){
             let that =this;
