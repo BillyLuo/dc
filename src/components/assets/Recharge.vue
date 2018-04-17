@@ -7,10 +7,10 @@
       <input :value="rechargeAddress" readonly :class="'float-left recharge-address-detail'" />
       <Button class="yy-button" @click="bespoke" type="primary">预约</Button>
     </div>
-    <!-- <div v-show="currencyType == 'ETH'?false:true" class="recharge-address clear">
+    <div v-show="currencyType == 'ETH'?false:true" class="recharge-address clear">
       <div class="float-left color-666">公钥</div>
       <input :value="public_pas" readonly :class="'float-left recharge-address-detail'" />
-    </div> -->
+    </div>
     <div class="recharge-note">
       <div class="recharge-note-title color-586c86">充值须知</div>
       <ul class="recharge-note-content">
