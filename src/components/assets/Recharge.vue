@@ -3,7 +3,7 @@
     <h3 class="recharge-currency">{{currencyType+'充值'}}</h3>
     <div class="divide"></div>
     <div class="recharge-address clear">
-      <div class="float-left color-666">充值地址</div>
+      <div class="float-left color-586c86">充值地址</div>
       <input :value="rechargeAddress" readonly :class="'float-left recharge-address-detail'" />
       <Button class="yy-button" @click="bespoke" type="primary">预约</Button>
     </div>
@@ -12,7 +12,7 @@
       <input :value="public_pas" readonly :class="'float-left recharge-address-detail'" />
     </div>
     <div class="recharge-note">
-      <div class="recharge-note-title color-666">充值须知</div>
+      <div class="recharge-note-title color-586c86">充值须知</div>
       <ul class="recharge-note-content">
         <li>冲币备注。</li>
         <li>您充值{{currencyType}}上述地址后，需要整个{{currencyType}}网络节点的确认，为了快速到账，您可以向ETH网络支付少量的手续费。</li>
@@ -266,7 +266,7 @@ export default {
       background: transparent;
       // border: 1px solid #f5f5f5;
       border: 0px;
-      color: #666;
+      color: #586c86;
       appearance: none;
     }
     
@@ -282,7 +282,6 @@ export default {
     margin-bottom: 10px;
   }
   .recharge-note-content {
-    color: #999;
     line-height: 1.8em;
     li {
       position: relative;

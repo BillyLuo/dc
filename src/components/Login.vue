@@ -76,7 +76,7 @@
                   <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
                 </FormItem>
                 <div style="font-size: 12px;margin-top: 120px;">
-                  <a class="float-left reset-pass"style="margin-right: 20px" href="javascript:;" @click="resetpass">忘记密码？</a>
+                  <a class="float-left reset-pass" style="margin-right: 20px" href="javascript:;" @click="resetpass">忘记密码？</a>
                   <span  class="register-btn" >还没有账号？ </span><a href="javascript:;" @click="goRigister"> 注册</a> 
                 </div>
               </Form>

@@ -537,6 +537,7 @@ import index from 'vue';
                         that.coinData = data.data.currencyDetail.map((item,index)=>{
                             return item.currencyname;
                         })
+                        that.coinArray = data.data.currencyDetail;
                         that.getMarket();
                     }
                 })
