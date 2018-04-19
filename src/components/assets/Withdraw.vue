@@ -1,6 +1,6 @@
 <template>
   <div class="withdraw">
-    <h3 class="withdraw-title color-white">{{withdrawType}}提现</h3>
+    <h3 class="withdraw-title color-white">{{withdrawType}}提币</h3>
     <div class="divide"></div>
     <Form :class="'withdraw-table'" ref="form" :rules="withdrawRules" label-position="left" :model="withdrawModel" :label-width="140">
       <FormItem label="  账户余额" prop="balance">
@@ -31,7 +31,7 @@
       </FormItem>
     </Form>
     <div class="submit-btn">
-      <Button class="btn-block" type="primary" :disabled="disabled" @click="submitWithdraw('form')">立即提现</Button>
+      <Button class="btn-block" type="primary" :disabled="disabled" @click="submitWithdraw('form')">立即提币</Button>
     </div>
     <div class="withdraw-note">
       <div class="withdraw-note-title color-white">提现须知</div>
@@ -41,8 +41,9 @@
       </ul>
     </div>
     <div class="withdraw-record">
-      <h3 class="color-white">提现记录</h3>
-      <Table :class="'no-border-table dark-mode'" stripe :columns="record_column" :data="record_data" />
+      <h3 class="color-white">提币记录</h3>
+      <Table :class="'no-border-table dark-mode'" stripe :columns="account_detail_column" :data="account_detail_data" />
+      <!-- <Table :class="'no-border-table dark-mode'" stripe :columns="record_column" :data="record_data" /> -->
     </div>
     <Modal
       class="addaddress"
@@ -51,7 +52,7 @@
       @on-ok="addok"
     >
       <Form ref="addaddress" :model="addModal" :rules="addAddressRules" :label-width="100" style="width: 400px;">
-        <FormItem prop="address" label="提现地址：">
+        <FormItem prop="address" label="提币地址：">
           <Input v-model="addModal.address" />
         </FormItem>
         <FormItem v-if="withdrawType !='ETH'" label="公钥" prop="pub">
@@ -208,7 +209,83 @@ export default {
       sendStatus:0, //0，未发送，1，发送中  2，已发送
       withdrawRules:withdrawRules,
       addAddressRules,
-      addaddress:false  //添加地址modal
+      addaddress:false,  //添加地址modal
+      account_detail_column: [
+        {
+          title: '币种',
+          key: 'coin',
+          sortable: true
+        },
+        {
+          title: '交易时间',
+          key: 'createdTime',
+          sortable: true
+        },
+        {
+          title: '类型',
+          key: 'operateType',
+          sortable: true,
+          render: (h,param) =>{
+            // console.log(param.row)
+            if(param.row.operateType == "1"){
+              return h("span","充币")
+            }else if(param.row.operateType == "2"){
+              return h("span","提币")
+            }
+          }
+        },
+        {
+          title: '金额',
+          key: 'amount',
+          sortable: true,
+          sortMethod(a,b,type){
+            if (type == 'asc') {
+              return a - b;
+            }else {
+              return b - a;
+            }
+          },
+          render: (h,param) =>{
+            return h("span",Number(param.row.amount).toFixed(6))
+          }
+        },
+        {
+          title: '手续费',
+          key: 'serviceCharge',
+          // sortable: true,
+          sortMethod(a,b,type){
+            if (type == 'asc') {
+              return a - b;
+            }else {
+              return b - a;
+            }
+          },
+          render: (h,param) =>{
+            return h("span",Number(param.row.serviceCharge).toFixed(6))
+          }
+        },
+        {
+          title: '状态',
+          key: 'status',
+          // sortable: true,
+          render: (h,params) =>{
+              // 0:已提交1:成交,2:撤销,3:部分成交,4:部分成交撤销
+              if(params.row.status == "1"){
+                  return h("span","充值到账")
+              }else if(params.row.status == "2" ){
+                  return h("span","提币中")
+                  
+              }else if(params.row.status == "3" ){
+                  return h("span","提币到账")
+              }else if(params.row.status == "4"){
+                  return h("span","提币失败")
+              }
+          }
+        },
+      ],
+      account_detail_data: [
+
+      ],
     }
   },
   watch: {
@@ -220,8 +297,44 @@ export default {
       this.withdrawModel.address = this.withdrawAddress[0];
     }
     this.getParams();
+    this.detaillist();
   },
   methods:{
+    detaillist(){
+      let that=this;
+      this.account_detail_data=[];
+      this.$ajax.post('/trade/tps/pbqrw.do',{
+        coin:this.withdrawType,
+        reqresource:1,
+        operateType:2,
+        pageno:1,
+        pagesize:100
+      }).then((res)=>{
+        console.log('-----detail',res);
+        if (res.status == 200 && res.data.err_code == '1') {
+          if(res.data.recordDetail){
+              res.data.recordDetail.map((item)=>{
+                if(item.operateType == "2"){
+                  that.account_detail_data.push(item)
+                }
+              })
+              // that.account_detail_data =res.data.recordDetail
+          }
+          // if (res.data && res.data.page) {
+          //   that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;
+          // }
+          // if(res.data.accountDetail && res.data.accountDetail.length){
+          //   that.account_detail_data = res.data.accountDetail
+          // }else {
+          // }
+        }else {
+          that.$Message.warning('获取提币记录失败,请稍后重试');
+        }
+      }).catch((err)=>{
+        console.warn('获取提币记录失败');
+        that.$Message.warning('获取提币记录失败,请稍后重试');
+      })
+    },
     numberchange(val){
       var ss =  val.toString();
       if(ss.indexOf(".") !=-1){
