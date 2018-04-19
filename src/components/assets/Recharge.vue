@@ -34,31 +34,104 @@ export default {
       currencyType:'ETH',
       rechargeAddress:'',
       public_pas:"",
-      record_column:[
+      // record_column:[
+      //   {
+      //     title: '最后更新',
+      //     key: 'lastupdate'
+      //   },
+      //   {
+      //     title: '充值地址',
+      //     key: 'rechargeaddress',
+      //     sortable: false
+      //   },
+      //   {
+      //     title: '充值数量',
+      //     key: 'rechargecount',
+      //     sortable: true
+      //   },
+      //   {
+      //     title: '确认数',
+      //     key: 'count',
+      //     sortable: true
+      //   },
+      //   {
+      //     title: '状态',
+      //     key: 'status',
+      //     sortable: false
+      //   }
+      // ],
+      record_column: [
         {
-          title: '最后更新',
-          key: 'lastupdate'
-        },
-        {
-          title: '充值地址',
-          key: 'rechargeaddress',
-          sortable: false
-        },
-        {
-          title: '充值数量',
-          key: 'rechargecount',
+          title: '币种',
+          key: 'coin',
           sortable: true
         },
         {
-          title: '确认数',
-          key: 'count',
+          title: '交易时间',
+          key: 'createdTime',
           sortable: true
+        },
+        {
+          title: '类型',
+          key: 'operateType',
+          sortable: true,
+          render: (h,param) =>{
+            // console.log(param.row)
+            if(param.row.operateType == "1"){
+              return h("span","充币")
+            }else if(param.row.operateType == "2"){
+              return h("span","提币")
+            }
+          }
+        },
+        {
+          title: '金额',
+          key: 'amount',
+          sortable: true,
+          sortMethod(a,b,type){
+            if (type == 'asc') {
+              return a - b;
+            }else {
+              return b - a;
+            }
+          },
+          render: (h,param) =>{
+            return h("span",Number(param.row.amount).toFixed(6))
+          }
+        },
+        {
+          title: '手续费',
+          key: 'serviceCharge',
+          // sortable: true,
+          sortMethod(a,b,type){
+            if (type == 'asc') {
+              return a - b;
+            }else {
+              return b - a;
+            }
+          },
+          render: (h,param) =>{
+            return h("span",Number(param.row.serviceCharge).toFixed(6))
+          }
         },
         {
           title: '状态',
           key: 'status',
-          sortable: false
-        }
+          // sortable: true,
+          render: (h,params) =>{
+              // 0:已提交1:成交,2:撤销,3:部分成交,4:部分成交撤销
+              if(params.row.status == "1"){
+                  return h("span","充值到账")
+              }else if(params.row.status == "2" ){
+                  return h("span","提币中")
+                  
+              }else if(params.row.status == "3" ){
+                  return h("span","提币到账")
+              }else if(params.row.status == "4"){
+                  return h("span","提币失败")
+              }
+          }
+        },
       ],
       record_data:[]
     }
@@ -69,8 +142,37 @@ export default {
   },
   mounted(){
     this.getParams();
+    this.detaillist();
   },
   methods:{
+    detaillist(){
+      let that=this;
+      this.record_data=[];
+      this.$ajax.post('/trade/tps/pbqrw.do',{
+        coin:this.currencyType,
+        reqresource:1,
+        operateType:1,
+        pageno:1,
+        pagesize:100
+      }).then((res)=>{
+        console.log('-----detail',res);
+        if (res.status == 200 && res.data.err_code == '1') {
+          if(res.data.recordDetail){
+              res.data.recordDetail.map((item)=>{
+                if(item.operateType == "1"){
+                  that.record_data.push(item)
+                }
+              })
+              
+          }
+        }else {
+          that.$Message.warning('获取充币记录失败,请稍后重试');
+        }
+      }).catch((err)=>{
+        console.warn('获取充币记录失败');
+        that.$Message.warning('获取充币记录失败,请稍后重试');
+      })
+    },
     getParams () {
       // 取到路由带过来的参数 
       let routerParams = this.$route.query
