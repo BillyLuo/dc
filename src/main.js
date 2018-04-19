@@ -88,6 +88,7 @@ var VueScrollTo = require('vue-scrollto');
 Vue.use(VueScrollTo);
 router.beforeEach((to, from, next) => {
     LoadingBar.start();
+    console.log('to,from,',to,from);
     next();
 });
 

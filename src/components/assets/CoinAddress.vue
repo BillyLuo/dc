@@ -54,7 +54,7 @@
               <Input type="password" v-model="formValidate.transckcode"  placeholder=""></Input>
           </FormItem>
           <FormItem label="验证码：" prop="msgcheckcode">
-            <Input v-model="formValidate.msgcheckcode" placeholder="验证码" type="text">
+            <Input v-model="formValidate.msgcheckcode" :maxlength="6" placeholder="验证码" type="text">
               <a href="javascript:;" style="color: #333;" slot="append" @click="sendSetTrade">{{setTradeText}}</a>
             </Input>
           </FormItem>
@@ -123,7 +123,9 @@ export default {
             { required: true, message: '请输入交易密码', trigger: 'blur' }
         ],
         msgcheckcode: [
-            { required: true, message: '请输入短信验证码', trigger: 'blur' }
+            { required: true, message: '请输入短信验证码', trigger: 'blur' },
+            {max:6,message:'您输入的验证码过长',trigger:'blur'},
+            {pattern:/\d{6}/,message:'请正确输入6位短信验证码',trigger:'blur'}
         ],
         remark:[
           {type:'string',max:200,message:'备注不应超过200位',trigger:'blur'}

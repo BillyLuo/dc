@@ -59,7 +59,10 @@ export default {
     this.initActive(activeName);
     console.log(this.$store.state.userinfo,'userinfo--------');
     if (!this.$store.state.userinfo.uid) {
-      Message.warn('网络请求似乎出现了问题，请检查您的网络或重新登录。');
+      Message.warn('您的登录超时，请重新登录。');
+      this.$router.push({
+        name:"Login"
+      })
     }
   },
   updated () {

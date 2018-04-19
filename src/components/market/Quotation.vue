@@ -137,6 +137,7 @@
 <script>
 import TradingView from './trading';
 import {Tabs,TabPane,Table,Form,FormItem,Slider} from 'iview';
+var Big = require('big.js');
 import { mapState } from "vuex";
 function initCharts (symbol) {
         new TradingView.widget({
@@ -327,12 +328,14 @@ export default {
         }),
         buymoney(){
             if(this.price > 0 && this.count > 0){
-                return  decimal(this.count*this.price*1.002,11)
+                var price = new Big(this.price);
+                return price.times(this.count*1.002).toFixed(10);
             }
         },
         sellmoney(){
             if(this.price1 > 0 && this.count1 > 0){
-                return decimal((this.count1*this.price1-this.count1*this.price1*0.002),11);
+                 var price1 = new Big(this.price1);
+                return price1.times(this.count1*0.998).toFixed(10);
             }
         },
     },
@@ -1351,6 +1354,7 @@ export default {
             }
             .ivu-table-cell{
                 padding:0;
+                cursor: default;
             }
             .table_qt{
                 background:#2a2a2a;

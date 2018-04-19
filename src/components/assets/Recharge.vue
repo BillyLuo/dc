@@ -8,7 +8,7 @@
       <Button class="yy-button" @click="bespoke" type="primary">预约</Button>
     </div>
     <div v-show="currencyType == 'ETH'?false:true" class="recharge-address clear">
-      <div class="float-left color-666">公钥</div>
+      <div class="float-left color-586c86">公钥</div>
       <input :value="public_pas" readonly :class="'float-left recharge-address-detail'" />
     </div>
     <div class="recharge-note">
@@ -170,7 +170,7 @@ export default {
     
   }
   .recharge-note {
-    border: 1px solid #666;
+    border: 1px solid #586c86;
     // background: #FDFEFF;
     padding: 20px;
     border-radius: 3px;

@@ -39,7 +39,7 @@ import Foot from './footer';
           }
         },
         mounted(){
-           
+            
         },
         methods:{
             route(name){

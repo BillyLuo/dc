@@ -25,6 +25,7 @@ import TitleScroll from './components/home1/titlescroll';
 import Announcement from './components/Announcement'
 import store from 'store';
 import cookies from 'cookies-js';
+import Vue from 'vue';
 export default {
   name: 'App',
   components:{
@@ -38,6 +39,10 @@ export default {
     if (cookies.get('name')) {
       this.$store.dispatch('getUserInfo');
     }
+    this.getLang();
+  },
+  watch:{
+    '$i18n.locale':'getLang'
   },
   methods:{
     contact () {
@@ -50,6 +55,11 @@ export default {
       this.$router.push({
         path:'/assets/cashrecharge'
       })
+    },
+    getLang(){
+      var locale = this.$i18n.locale;
+      this.lang = this.$i18n.messages[locale];
+      Vue.prototype.lang = this.lang;
     }
   }
 }
