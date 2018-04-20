@@ -30,7 +30,7 @@
                         <canvas class="charts" :id="'chart'+index"></canvas>
                     </div>
                     <div class="info_chart">
-                        <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
+                        <p class="bizhong" style=""><img :class="'icon-'+item.currencyname.toLowerCase()" :src="'/static/img/coin/'+item.currencyname+'_mid.png'"/>{{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
                         <p class="price">{{ item.curprice }} {{ item.tradecurrency }}<span></span></p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                         <canvas class="charts" :id="'chart'+index"></canvas>
                     </div>
                     <div class="info_chart">
-                        <p class="bizhong" style=""><img src="/static/img/logo.png"/>Ethereum {{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
+                        <p class="bizhong" style=""><img :class="'icon-'+item.currencyname.toLowerCase()" :src="'/static/img/coin/'+item.currencyname+'_mid.png'"/>{{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
                         <p class="price">{{ item.curprice }} {{ item.tradecurrency }}<span></span></p>
                     </div>
                 </div>
@@ -282,6 +282,7 @@ import index from 'vue';
                     key: 'currencyname',
                     align:'center',
                     sortable: true,
+                    className:'currency-name',
                     render:(h,param)=>{
                         // param.row.currencyname/param.row.tradecurrency
                         return  h('div',{
@@ -299,7 +300,7 @@ import index from 'vue';
                                     }
                                 }
                             ),
-                            h("span",param.row.currencyname+"/"+param.row.tradecurrency)
+                            h('span',param.row.currencyname+"/"+param.row.tradecurrency)
                         ])
                     }
                 },
@@ -489,7 +490,11 @@ import index from 'vue';
                             this.array = Object.assign([],this.array);
                             // this.getMarket();
                         }else if (res.status == 200 && res.data && res.data.err_code != '1' && res.data.msg){
-                            this.$Message.warning('收藏失败,'+res.data.msg);
+                            if (res.data.msg.match('session')){
+                                this.$Message.warning('您的登录信息已经超时，请重新登录。');
+                            }else {
+                                this.$Message.warning('收藏失败,'+res.data.msg);
+                            }
                         }else {
                             this.$Message.warning('收藏失败,请稍后重试');
                         }
@@ -501,7 +506,11 @@ import index from 'vue';
                             this.array = Object.assign([],this.array);
                             // this.getMarket();
                         }else if (res.status == 200 && res.data && res.data.err_code != '1' && res.data.msg){
-                            this.$Message.warning('取消收藏失败,'+res.data.msg);
+                            if (res.data.msg.match('session')){
+                                this.$Message.warning('您的登录信息已经超时，请重新登录。');
+                            }else {
+                                this.$Message.warning('收藏失败,'+res.data.msg);
+                            }
                         }else {
                             this.$Message.warning('取消收藏失败,请稍后重试');
                         } 
@@ -891,7 +900,7 @@ import index from 'vue';
                 background: none;
                 .ivu-table-tbody{
                     color:#fff;
-                    .ivu-table-column-center{
+                    .ivu-table-column-center,.ivu-table-column-left{
                         background: #353535;
                     }
                 }
@@ -992,5 +1001,8 @@ import index from 'vue';
                 box-shadow: none;
             }
         }
+    }
+    .icon-byteball {
+        // border-radius: 20%;
     }
 </style>

@@ -1,23 +1,6 @@
 <template>
 <div>
-    <div class="banner">
-        <div class="img-banner">
-            <img src="/static/img/banner.jpeg" alt="币邦国际">
-            <!-- <Menu ref="main_menu" class="header-menu" mode="horizontal" @on-select="route" :active-name="activeName">
-                <MenuItem v-for="(value,index) in menu" :name="value.name" :key="value.name + index">
-                    {{value.text}}
-                </MenuItem>
-            </Menu> -->
-            <!-- <div class="login">
-                <Button class="log-in-out">登录</Button>or<Button class="log-in-out">注册</Button>
-                <img src="/static/img/language.png" alt="">
-            </div> -->
-            <!-- <div class="text">
-                <h1 class='h1'>币邦</h1>
-                <p class='p1'>Type somethingType somethingType somethingType something</p>
-            </div> -->
-        </div>
-    </div>
+    <header-swiper />
     <List/>
     <Calculator/>
     <Foot/>
@@ -29,9 +12,10 @@
 import List from "./list";
 import Calculator from './Calculator';
 import Foot from './footer';
+import HeaderSwiper from './headerSwiper';
     export default {
         components:{
-            List,Calculator,Foot
+            List,Calculator,Foot,HeaderSwiper
         },
         data() {
           return {

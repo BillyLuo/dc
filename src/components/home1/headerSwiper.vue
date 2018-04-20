@@ -12,13 +12,13 @@
         </div>
         <div class="swiper-slide">
           <div class="hander-swiper-img hander-swiper-3">
-            <div class="wrapper">
+            <!-- <div class="wrapper">
               <h4>数字资产量化交易平台</h4>
               <h3>Professional Cryptocurrency
                 Exchange Platform</h3>
               <div class="line"></div>
               <div class="understanding">了解详情</div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -35,10 +35,11 @@
     },
     mounted(){
       let mySwiper = new Swiper('.header-swiper-container', {
-        speed:2000,
+        speed:1000,
         loop: true,
         autoplay : {
-          delay:3000
+          delay:3000,
+          disableOnInteraction:false
         },
         pagination: {
           el: '.swiper-pagination',
@@ -52,17 +53,17 @@
 .header-swiper-box{
   .hander-swiper-img{
     width: 100%;
-    height: 460px;
+    height: 480px;
     background-size: 100% 100%;
   }
   .hander-swiper-1{
-    background-image: url("/static/img/banner1.jpg");
+    background-image: url("/static/img/banner.jpeg");
   }
   .hander-swiper-2{
-    background-image: url("/static/img/banner2.jpg");
+    background-image: url("/static/img/banner1.png");
   }
   .hander-swiper-3{
-    background-image: url("/static/img/banner3.jpg");
+    background-image: url("/static/img/banner2.jpg");
     .wrapper{
       width: 1200px;
       margin: 0 auto;
