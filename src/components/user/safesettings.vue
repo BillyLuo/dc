@@ -354,6 +354,7 @@ export default {
       setTradeTimer:null,
       loginCodeState:1,  //1,未发送  2.发送中
       loginTimer:null,
+      country:'086',
       modifyTelValidate:{
         tel:'',
         code:'',
@@ -384,7 +385,7 @@ export default {
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
-          {type:'string',message:'请正确输入6位验证码',len:6,pattern:/^\d{6}$/,trigger:'blur'}
+          {type:'string',message:'请正确输入6位验证码',len:4,pattern:/^\d{4}$/,trigger:'blur'}
         ],
         new_tel:[
           {required:true,message:'请输入您的新手机号码。',trigger:'blur'},
@@ -392,7 +393,7 @@ export default {
         ],
         new_code:[
           {required:true,message:'请输入短信验证码',trigger:'blur'},
-          {type:'string',message:'请正确输入6位验证码',len:6,pattern:/^\d{6}$/,trigger:'blur'}
+          {type:'string',message:'请正确输入6位验证码',len:4,pattern:/^\d{4}$/,trigger:'blur'}
         ],
         imgCode:[
           {required:true,message:'请输入验证码',trigger:'blur'},
@@ -410,7 +411,7 @@ export default {
         ],
         code:[
           {required:true,message:'请输入短信验证码',trigger:'blur'},
-          {type:'string',min:6,max:6,message:'请输入6位短信验证码',trigger:'blur'}
+          {type:'string',min:4,max:4,message:'请输入4位短信验证码',trigger:'blur'}
         ]
       },
       modifyLoginValidate:{
@@ -434,7 +435,7 @@ export default {
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
-          {type:'string',message:'请输入6位短信验证码',len:6,pattern:/^\d{6}$/,trigger:'blur'}
+          {type:'string',message:'请输入4位短信验证码',len:4,pattern:/^\d{4}$/,trigger:'blur'}
         ]
       },
       modifyTradeRules:{
@@ -448,7 +449,7 @@ export default {
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
-          {type:'string',min:6,max:6,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'}
+          {type:'string',min:4,max:4,message:'请输入4位验证码',pattern:/^\w{4}$/,trigger:'blur'}
         ]
       },
       setTradeRules:{
@@ -466,7 +467,7 @@ export default {
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
-          {type:'string',min:6,max:6,message:'请输入6位验证码',trigger:'blur'}
+          {type:'string',min:4,max:4,message:'请输入4位验证码',trigger:'blur'}
         ]
       }
     }
@@ -565,7 +566,7 @@ export default {
         });
         return;
       }else {
-        this.sendTextMsg();
+        this.sendTextMsg(tel);
       }
       var num = 60;
       var that = this;
@@ -785,6 +786,8 @@ export default {
           region:'1',
           mobileold:tel,
           mobile:new_tel,
+          country_code:that.country,
+          country_codeold:that.country,
           mobilecodeold:code,
           mobilecode:new_code,
           code:imgCode,
@@ -830,6 +833,7 @@ export default {
             type:'mobile',
             mobile:tel,
             region:1,
+            country_code:that.country,
             mobilecode:code,
             code:imgCode,
             reqresource:1
@@ -1092,9 +1096,11 @@ export default {
             that.loginCodeMsg = '发送验证码';
           }
         },1000);
-        this.$ajax.post('/trade/tps/pbscs.do',{
-          verifystr:tel,
-          reqresource:1
+        this.$ajax.post('/trade/tps/pbaut.do',{
+            reqresource: 1,
+            country_code:that.country,
+            phone:tel,
+            "type":"2"
         }).then((res) => {
           console.log('短信验证',res);
           if (res.status == 200 && res.data && res.data.err_code == '1') {
@@ -1117,9 +1123,11 @@ export default {
         });
         return;
       }
-      this.$ajax.post('/trade/tps/pbscs.do',{
-        verifystr:tel,
-        reqresource:1
+      this.$ajax.post('/trade/tps/pbaut.do',{
+            reqresource: 1,
+            country_code:that.country,
+            phone:tel,
+            "type":"2"
       }).then((res) => {
         console.log('短信验证',res);
         if (res.status == 200 && res.data && res.data.err_code == '1') {

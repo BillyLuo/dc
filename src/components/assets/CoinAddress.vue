@@ -54,7 +54,7 @@
               <Input type="password" v-model="formValidate.transckcode"  placeholder=""></Input>
           </FormItem>
           <FormItem label="验证码：" prop="msgcheckcode">
-            <Input v-model="formValidate.msgcheckcode" :maxlength="6" placeholder="验证码" type="text">
+            <Input v-model="formValidate.msgcheckcode" :maxlength="4" placeholder="验证码" type="text">
               <a href="javascript:;" style="color: #333;" slot="append" @click="sendSetTrade">{{setTradeText}}</a>
             </Input>
           </FormItem>
@@ -124,8 +124,8 @@ export default {
         ],
         msgcheckcode: [
             { required: true, message: '请输入短信验证码', trigger: 'blur' },
-            {max:6,message:'您输入的验证码过长',trigger:'blur'},
-            {pattern:/\d{6}/,message:'请正确输入6位短信验证码',trigger:'blur'}
+            {max:4,message:'您输入的验证码过长',trigger:'blur'},
+            {pattern:/\d{4}/,message:'请正确输入4位短信验证码',trigger:'blur'}
         ],
         remark:[
           {type:'string',max:200,message:'备注不应超过200位',trigger:'blur'}
@@ -195,8 +195,6 @@ export default {
                     that.$Message.error("删除失败");
                   }
               })
-              
-              
           }
       });
     },
@@ -252,8 +250,9 @@ export default {
         return false;
       }
 
-      this.$ajax.post('/trade/tps/pbscs.do',{
-        reqresource:1
+      this.$ajax.post('/trade/tps/pbaut.do',{
+            reqresource: 1,
+            "type":"2"
       }).then((res) => {
         console.log('短信验证',res);
         if (res.status == 200 && res.data && res.data.err_code == '1') {

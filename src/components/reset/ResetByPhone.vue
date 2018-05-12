@@ -84,7 +84,7 @@ var resetRules = {
   ],
   textCode:[
     {required:true,message:'请输入短信验证码',trigger:'blur'},
-    {type:'string',pattern:/^\d{6}$/,message:'请输入6位正确的短信验证码',trigger:'blur'}
+    {type:'string',pattern:/^\d{4}$/,message:'请输入4位正确的短信验证码',trigger:'blur'}
   ],
   credentials:[
     {required:true}
@@ -123,6 +123,7 @@ export default {
       step:1,
       imgSrc,
       sendText:'发送验证码',
+      country:'086',
       resetForm: {
         tel:'',
         credentials:'1',
@@ -205,10 +206,12 @@ export default {
         if (!valid) {
           that.$ajax({
             method: "post",
-            url: "/trade/tps/pbscs.do",
+            url: "/trade/tps/pbaut.do",
             data:{
-              "verifystr":tel,
-              reqresource:1
+              "phone":tel,
+              reqresource:1,
+              country_code:this.country,
+              "type":"2"
               // "type":"mobile"
             }
           }).then(function(data){

@@ -118,7 +118,7 @@
 								</p>
 								</div>
 								<div style="margin-top: 30px;margin-bottom: 10px;">
-								<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《福币用户协议》</a></Checkbox>
+								<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《币邦用户协议》</a></Checkbox>
 								</div>
 								<div class="go-register">
 								<Button type="primary" size="large" @click="submitTel">注册</Button>
@@ -215,7 +215,7 @@
 								</p>
 								</div>
 								<div class="register-input-item">
-								<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《福币用户协议》</a></Checkbox>
+								<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《币邦用户协议》</a></Checkbox>
 								</div>
 								<div class="go-register">
 								<Button type="primary" size="large" @click="submitEmail">注册</Button>
@@ -265,7 +265,7 @@ export default {
       InvitationCodeErrorInput: "",
       getCode: "", // 倒计时
       telCodeDisabled: false,
-
+      country:"086",
       prompt: false,
       PromptOne:
         '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
@@ -427,6 +427,7 @@ export default {
     },
     telCodeTimeOut() {
       //验证码倒计时 手机
+      let $this=this;
       if (!this.tel) {
         this.errorTel = "请输入手机号";
         this.telErrorInput = "errorInput";
@@ -437,10 +438,11 @@ export default {
           this.telErrorInput = "errorInput";
           return false;
         }
+        console.log($this)
         if ($this.getCode) {
           return;
         }
-        let $this = this;
+        // let $this = this;
         this.telCodeText = 60;
         this.telCodeDisabled = true;
         this.getCode = setInterval(function() {
@@ -455,10 +457,14 @@ export default {
 
         this.$ajax({
           method: "post",
-          url: "/trade/tps/pbscs.do",
+          url: "/trade/tps/pbaut.do",
           data: {
-            verifystr: this.tel,
-            reqresource: 1
+            // verifystr: this.tel,
+            reqresource: 1,
+            country_code:this.country,
+            phone:this.tel,
+            "type":"2"
+
             // "type":"mobile"
           }
         }).then(function(data) {
@@ -514,11 +520,11 @@ export default {
         }, 1000);
         this.$ajax({
           method: "post",
-          url: "/trade/tps/pbscs.do",
+          url: "/trade/tps/pbsel.do",
           data: {
-            verifystr: this.email,
-            reqresource: 1
-            // "type":"email"
+            email: this.email,
+            // reqresource: 1,
+            type:"1"
           }
         }).then(function(data) {
           console.log(data);
@@ -585,10 +591,10 @@ export default {
           this.errorVsCode = "请输入4位图片验证码";
           return false;
         }
-        if (this.telCode && this.telCode.match(/^\d{6}$/g)) {
+        if (this.telCode && this.telCode.match(/^\d{4}$/g)) {
           this.errorTelCode = "";
         } else {
-          this.errorTelCode = "请输入6位短信验证码";
+          this.errorTelCode = "请输入4位短信验证码";
           return;
         }
         // 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
@@ -627,7 +633,7 @@ export default {
         }
         if (!this.single) {
           this.$Modal.info({
-            content: "请同意《福币用户协议》。"
+            content: "请同意《币邦用户协议》。"
           });
           return false;
         }
@@ -647,6 +653,7 @@ export default {
             loginname: this.tel,
             checkcode: this.vsCode,
             msgcheckcode: this.telCode,
+            country_code:this.country,
             password: this.password,
             confirmpassword: this.passwordAgain,
             invitedcode: this.InvitationCode,
@@ -733,10 +740,10 @@ export default {
           this.errorVsCode = "请输入4位图片验证码";
           return false;
         }
-        if (this.telCode && this.telCode.match(/^\w{6}$/g)) {
+        if (this.telCode && this.telCode.match(/^\w{4}$/g)) {
           this.errorTelCode = "";
         } else {
-          this.errorTelCode = "请输入6位邮箱验证码";
+          this.errorTelCode = "请输入4位邮箱验证码";
           return;
         }
         // 密码格式/^[a-zA-Z]+(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,20}$/
@@ -781,7 +788,7 @@ export default {
         if (!this.single) {
           this.$Notice.warning({
             title: "提示",
-            desc: "请同意《福币用户协议》。"
+            desc: "请同意《币邦用户协议》。"
           });
           return false;
         }

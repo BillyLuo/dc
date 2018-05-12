@@ -80,8 +80,8 @@ var resetRules = {
   ],
   emailCode:[
     {required:true,message:'请输入邮箱密码',trigger:'blur'},
-    {len:6,message:'请输入6位邮箱验证码',trigger:'blur'},
-    {pattern:/\w{6}/,message:'验证码不应包含特殊字符',trigger:'blur'}
+    {len:4,message:'请输入6位邮箱验证码',trigger:'blur'},
+    {pattern:/\w{4}/,message:'验证码不应包含特殊字符',trigger:'blur'}
   ],
   credentials:[
     {required:true}
@@ -194,6 +194,28 @@ export default {
           that.emailTimer = null;
         }
       },1000);
+      this.$ajax({
+          method: "post",
+          url: "/trade/tps/pbsel.do",
+          data: {
+            email: this.resetForm.email.trim(),
+            type:"1"
+          }
+        }).then(function(data) {
+          console.log(data);
+          if (data.data.err_code == "1") {
+            $this.$Notice.success({
+              title: "验证码发送成功，请注意查收。",
+              desc: "",
+              top: 100
+            });
+          } else {
+            $this.$Notice.error({
+              title: "验证码发送失败，请重新发送。",
+              top: 100
+            });
+          }
+        });
     },
     validateEmail () {
       this.$refs['form1'].validateField('email',(valid)=>{
