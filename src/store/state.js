@@ -1,6 +1,7 @@
 var state = {
   userinfo:{
     username:'',
+    country_codeold:'',
     uid:'',
     email:'',
     mobile:'',
