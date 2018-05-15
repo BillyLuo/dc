@@ -252,7 +252,7 @@ export default {
     return {
       lang:'',// 浏览器语言
       countryList:[],
-      country:'',
+      country:'86',
       src: "/trade/tps/pbccs.do?t=" + Date.now(),
       tel: "",
       email: "",
@@ -279,7 +279,6 @@ export default {
       InvitationCodeErrorInput: "",
       getCode: "", // 倒计时
       telCodeDisabled: false,
-      country:"086",
       prompt: false,
       PromptOne:
         '<i class="fa fa-times" aria-hidden="true" style="color:red"></i>',
