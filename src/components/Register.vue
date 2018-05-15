@@ -29,7 +29,9 @@
 							<TabPane label="手机注册" name="name1" :class="'register-right-tabs-tabpaneOne'">
                 <div class="register-label">手机号码</div>
 								<div class="register-input-item">
-									<span class="float-left tel-country">+86</span>
+									<Select class="select-country" v-model="country">
+                    <Option v-for="(country,index) in countryList" :value="country.phone_code">{{country.full_name + '('+country.phone_code + ')'}}</Option>
+                  </Select>
 								  <input v-model="tel" size="large" :maxlength="11" placeholder="请输入手机号" class="register-input register-tel" :class="telErrorInput" @focus="telFocus" />
                   <p class="register-error-text">
                     {{errorTel}}
@@ -239,6 +241,8 @@ export default {
   },
   data() {
     return {
+      countryList:[],
+      country:'',
       src: "/trade/tps/pbccs.do?t=" + Date.now(),
       tel: "",
       email: "",
@@ -288,7 +292,22 @@ export default {
       top: 130
     });
   },
+  mounted () {
+    this.initCountry();
+  },
   methods: {
+    initCountry () {
+      this.$ajax.post('/trade/tps/pbcol.do',{
+        is_page:0
+      }).then((res) => {
+        if (res.status == 200 && res.data.err_code == '1' && res.data && res.data.countries) {
+          this.countryList = res.data.countries;
+          console.log('国家----------------',res,res.data);
+        }
+      }).catch((err) => {
+        console.log('获取国家列表失败',err);
+      })
+    },
     closeModal(e) {
       var target = e.target;
       if (
@@ -990,7 +1009,7 @@ $placeholder: #e1e1e1;
     bottom: 20px;
   }
   .register-tel {
-    padding-left: 30px;
+    padding-left: 110px;
   }
 }
 
@@ -1147,5 +1166,12 @@ input.register-input::-webkit-input-placeholder{
   .ivu-btn {
     width: 100%;
   }
+}
+.select-country {
+  width: 100px;
+  position: absolute;
+  top: -1px;
+  left:0;
+  border: 0;
 }
 </style>
