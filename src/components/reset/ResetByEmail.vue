@@ -331,7 +331,9 @@ export default {
     border-radius: 0;
   }
   .reset-form {
-    padding: 0px 350px 60px;
+    width: 500px;
+    margin: 0 auto;
+    padding-bottom:60px;
     .ivu-form-item {
       margin: 30px 0;
     }

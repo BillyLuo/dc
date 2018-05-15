@@ -8,6 +8,7 @@ function getUserLoginInfo(state,payload) {
   state.userinfo.email = '';
   state.userinfo.mobile = '';
   state.userinfo.estimatedfund='';
+  state.userinfo.country_codeold = '';
   state.userinfo = Object.assign(state.userinfo,payload)
 }
 function getUserBaseInfo (state,payload) {

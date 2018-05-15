@@ -177,7 +177,12 @@
       :rules="telSetRules"
       ref="telSet"
       :model="telSetValidate"
-      >
+      > 
+        <FormItem label="国家：" prop="country_code">
+          <Select class="" v-model="telSetValidate.country_code">
+            <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="手机号码：" prop="tel">
           <Input v-model="telSetValidate.tel" placeholder="请输入手机号码" />
         </FormItem>
@@ -212,7 +217,12 @@
                 <a href="javascript:;" slot="append" style="color: #333;" class="send-code" @click="sendModifyTel1">{{sendModifyTelText1}}</a>
               </Input>
           </FormItem>
-          <FormItem label="手机号码" prop="new_tel">
+          <FormItem label="国家：" prop="country_code">
+            <Select class="" v-model="modifyTelValidate.country_code">
+              <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+            </Select>
+          </FormItem>
+          <FormItem label="新手机号码" prop="new_tel">
               <Input v-model="modifyTelValidate.new_tel" placeholder="手机号码">
               </Input>
           </FormItem>
@@ -327,6 +337,8 @@ var telReg = /^1[34578]\d{9}$/;
 export default {
   data () {
     return {
+      lang:'',
+      countryList:[],
       safeLevelStatus:'',
       safeLevel:0,
       safeLevelInfo:'',
@@ -354,8 +366,9 @@ export default {
       setTradeTimer:null,
       loginCodeState:1,  //1,未发送  2.发送中
       loginTimer:null,
-      country:'086',
+      country_codeold:'',
       modifyTelValidate:{
+        country_code:'',
         tel:'',
         code:'',
         new_tel:'',
@@ -363,6 +376,7 @@ export default {
         imgCode:''
       },
       telSetValidate:{
+        country_code:'',
         tel:'',
         imgCode:'',
         code:''
@@ -387,6 +401,9 @@ export default {
           {required:true,message:'请输入验证码',trigger:'blur'},
           {type:'string',message:'请正确输入6位验证码',len:4,pattern:/^\d{4}$/,trigger:'blur'}
         ],
+        country_code:[
+          {required:true,message:'请输入手机代码',trigger:'blur'}
+        ],
         new_tel:[
           {required:true,message:'请输入您的新手机号码。',trigger:'blur'},
           {type:'string',len:11,pattern:/^1[34578]\d{9}$/,message:'请输入合格的手机号码',trigger:'blur'}        
@@ -401,6 +418,9 @@ export default {
         ]
       },
       telSetRules:{
+        country_code:[
+          {required:true,message:'请输入电话代码',trigger:'blur'},
+        ],
         tel:[
           {required:true,message:'请输入手机号码',trigger:'blur'},
           {type:'string',min:11,max:11,message:'请输入正确的手机号码',trigger:'blur'}
@@ -473,7 +493,8 @@ export default {
     }
   },
   mounted(){
-    
+    this.getLanguage();
+    this.initCountry();
   },
   computed:{
     ...mapState({
@@ -537,6 +558,7 @@ export default {
         this.safeLevel = safeLevel;
         this.safeLevelStatus = safeLevelStatus;
         this.safeLevelInfo = safeLevelInfo;
+        this.country_codeold = info.country_codeold;
         return {
           email,nameAuth,phone,loginPass,tradePass,google
         }
@@ -551,6 +573,45 @@ export default {
     LoginRecord
   },
   methods:{
+    // 设置国家电话代码
+    getLanguage () {
+        var lang = '';
+        if (navigator.language) {
+          lang = navigator.language;
+        }else if (navigator.browserLanguage) {
+          lang = navigator.browserLanguage
+        }else if (navigator.userLanguage) {
+          lang = navigator.userLanguage
+        }
+        this.lang = lang;
+      },
+      initCountry () {
+        this.$ajax.post('/trade/tps/pbcol.do',{
+          is_page:0
+        }).then((res) => {
+          if (res.status == 200 && res.data.err_code == '1' && res.data && res.data.countries) {
+            console.log('国家----------------',res,res.data);
+            if (this.lang.match('zh-CN')) {
+              this.countryList = res.data.countries.map((item,index) => {
+                item.name = item.full_name;
+                return item;
+              });
+              this.telSetValidate.country_code = '86';
+              this.modifyTelValidate.country_code = '86';
+            }else {
+              this.countryList = res.data.countries.map((item,index) => {
+                item.name = item.desc_en;
+                return item;
+              })
+              this.telSetValidate.country_code = res.data.countries[0].phone_code;
+              this.modifyTelValidate.country_code = res.data.countries[0].phone_code;
+            }
+          }
+        }).catch((err) => {
+          console.log('获取国家列表失败',err);
+          this.message.error('网络请求似乎除了问题，请稍后重试');
+        })
+      },
     //设置手机
     sendSetTel(){
       if (this.setTelTimer) {
@@ -774,7 +835,7 @@ export default {
     tel_ok(){
       this.telLoading = false;
       var that = this;
-      var {code,tel,new_tel,new_code,imgCode } = this.modifyTelValidate;
+      var {code,tel,new_tel,new_code,imgCode, country_code } = this.modifyTelValidate;
       this.$refs['modifyTel'].validate((valid)=>{
         console.log('valid or not',valid);
         if (!valid) {
@@ -786,8 +847,8 @@ export default {
           region:'1',
           mobileold:tel,
           mobile:new_tel,
-          country_code:that.country,
-          country_codeold:that.country,
+          country_code,
+          country_codeold:that.country_codeold,
           mobilecodeold:code,
           mobilecode:new_code,
           code:imgCode,
@@ -823,7 +884,7 @@ export default {
     },
     confirmTelSet(){  //设置手机号码
       let that = this;
-      var { tel, imgCode , code } = this.telSetValidate;
+      var { tel, imgCode , code ,country_code } = this.telSetValidate;
       this.refreshTelImgUrl();
       this.$refs.telSet.validate((valid) => {
         console.log('valid or not',valid);
@@ -833,7 +894,7 @@ export default {
             type:'mobile',
             mobile:tel,
             region:1,
-            country_code:that.country,
+            country_code,
             mobilecode:code,
             code:imgCode,
             reqresource:1

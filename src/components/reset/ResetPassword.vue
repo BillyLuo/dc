@@ -4,7 +4,8 @@
       <Title text="请选择登录密码找回方式"/>
     </div>
     <div class="choose-reset-wrapper bg-2a2a2a">
-      <Row>
+      <Row style="padding: 0 10px">
+        <Col span="1"> </Col>
         <Col span="2">
           <span :class="{'choose-item':true,active:(active == 'ResetByPhone')}" @click="changeActive('ResetByPhone','ResetByPhone')">手机找回</span>
         </Col>
@@ -52,7 +53,7 @@ export default {
   .reset-password-wrapper {
     padding: 30px 0 40px;
     .choose-reset-wrapper {
-      padding: 0 10px;
+      padding: 0px;
       height: 60px;
       line-height: 60px;
       box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);

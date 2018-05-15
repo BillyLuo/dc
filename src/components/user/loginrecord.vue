@@ -93,6 +93,8 @@ import { Message } from '../../utils/message';
                         }
                         if (res.data && res.data.page) {
                             that.recordPageTotal = res.data.page.sum * 1;
+                        }else if (!that.recordPageTotal) {
+                            that.recordPageTotal = res.data.loginRecord.length;
                         }
                     }else if (res.data && res.data.err_code == '2' && res.data.msg) {
                         Message.warn('登录记录获取失败，请稍后重试');

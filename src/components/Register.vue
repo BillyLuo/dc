@@ -27,11 +27,14 @@
 					<div class="register-right">
 						<Tabs value="name1" :class="'register-right-tabs'" @on-click="registerTabs">
 							<TabPane label="手机注册" name="name1" :class="'register-right-tabs-tabpaneOne'">
+                <div class="register-label">国家</div>
+                <div class="register-input-item">
+                  <Select class="select-country" v-model="country">
+                    <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+                  </Select>
+                </div>
                 <div class="register-label">手机号码</div>
 								<div class="register-input-item">
-									<Select class="select-country" v-model="country">
-                    <Option v-for="(country,index) in countryList" :value="country.phone_code">{{country.full_name + '('+country.phone_code + ')'}}</Option>
-                  </Select>
 								  <input v-model="tel" size="large" :maxlength="11" placeholder="请输入手机号" class="register-input register-tel" :class="telErrorInput" @focus="telFocus" />
                   <p class="register-error-text">
                     {{errorTel}}
@@ -127,6 +130,12 @@
 								</div>
 							</TabPane>
 							<TabPane label="邮箱注册" maxLength="50" name="name2" :class="'register-right-tabs-tabpaneTwo'">
+                <div class="register-label">国家</div>
+                <div class="register-input-item">
+                  <Select class="select-country" v-model="country">
+                    <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+                  </Select>
+                </div>
                 <div class="register-label">邮箱</div>
 								<div class="register-input-item">
 								<input v-model="email" size="large" class="register-input" placeholder="请输入邮箱" :maxlength="50" :class="emailErrorInput"  @foucs="telFocus" />
@@ -241,6 +250,7 @@ export default {
   },
   data() {
     return {
+      lang:'',// 浏览器语言
       countryList:[],
       country:'',
       src: "/trade/tps/pbccs.do?t=" + Date.now(),
@@ -293,16 +303,41 @@ export default {
     });
   },
   mounted () {
+    this.getLanguage();
     this.initCountry();
   },
   methods: {
+    getLanguage () {
+      var lang = '';
+      if (navigator.language) {
+        lang = navigator.language;
+      }else if (navigator.browserLanguage) {
+        lang = navigator.browserLanguage
+      }else if (navigator.userLanguage) {
+        lang = navigator.userLanguage
+      }
+      this.lang = lang;
+    },
     initCountry () {
       this.$ajax.post('/trade/tps/pbcol.do',{
         is_page:0
       }).then((res) => {
         if (res.status == 200 && res.data.err_code == '1' && res.data && res.data.countries) {
-          this.countryList = res.data.countries;
           console.log('国家----------------',res,res.data);
+          if (this.lang.match('zh-CN')) {
+            this.countryList = res.data.countries.map((item,index) => {
+              item.name = item.full_name;
+              return item;
+            });
+            this.country = '86';
+          }else {
+            this.countryList = res.data.countries.map((item,index) => {
+              item.name = item.desc_en;
+              return item;
+            })
+            console.log(res.data.countries[0]);
+            this.country = res.data.countries[0].phone_code;
+          }
         }
       }).catch((err) => {
         console.log('获取国家列表失败',err);
@@ -890,10 +925,11 @@ $placeholder: #e1e1e1;
   width: 100%;
 }
 .register-box {
-  width: 1000px;
+  width: 1100px;
   margin: 0 auto;
   /* height: 580px; */
   position: relative;
+  margin-top: -30px;
 }
 .close-login {
   position: absolute;
@@ -913,15 +949,15 @@ $placeholder: #e1e1e1;
   }
 }
 .register-box > .register-left {
-  width: 500px;
+  width: 600px;
   box-sizing: border-box;
   /* height: 580px; */
   float: left;
-  height: 650px;
+  height: 780px;
   position: relative;
 }
 .register-box > .register-right {
-  height: 740px;
+  height: 780px;
   width: 500px;
   box-sizing: border-box;
   /* height: 580px; */
@@ -933,10 +969,10 @@ $placeholder: #e1e1e1;
 }
 .register-left .login-img {
   display: block;
-  width: 500px;
-  height: 650px;
+  width: 600px;
+  height: 780px;
   background: url(/static/img/login.jpg) no-repeat;
-  background-position: 0 -80px;
+  background-position: center;
   background-size: cover;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
@@ -1009,7 +1045,7 @@ $placeholder: #e1e1e1;
     bottom: 20px;
   }
   .register-tel {
-    padding-left: 110px;
+    // padding-left: 110px;
   }
 }
 
@@ -1168,10 +1204,12 @@ input.register-input::-webkit-input-placeholder{
   }
 }
 .select-country {
-  width: 100px;
+  width: 98%;
   position: absolute;
-  top: -1px;
+  top: 0px;
   left:0;
   border: 0;
+  height: 33px;
+  border-bottom: 1px solid #e1e1e1;
 }
 </style>

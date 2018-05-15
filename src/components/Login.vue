@@ -1,5 +1,5 @@
 <template>
-  <div :style="{marginTop:'500px'}">
+  <div class="login-wrapper">
     <div class="ivu-modal-mask"></div>
     <div class="ivu-modal-wrap"  @click.stop="closeModal($event)">
       <div class="ivu-modal">
@@ -37,6 +37,13 @@
                 <div style="height:38px;">
                   <Alert type="error" show-icon :class="loginError.length>0?'show':'hide'">{{loginError}}</Alert>
                 </div>
+                <FormItem prop="country_code">
+                  <div class="login-label">国家</div>
+                  <Select class="select-country" v-model="formInline.country_code">
+                    <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+                  </Select>
+                  </Input>
+                </FormItem>
                 <FormItem prop="user">
                   <div class="login-label">手机号码 / 邮箱</div>
                   <input @keyup.enter="handleSubmit('formInline')" type="text" :maxlength="50" v-model="formInline.user" placeholder="输入邮箱/手机号" :class="'login-input'">
@@ -75,7 +82,7 @@
                 <FormItem>
                   <Button type="primary" @click="handleSubmit('formInline')" :class="'login-form-button'">登录</Button>
                 </FormItem>
-                <div style="font-size: 12px;margin-top: 120px;">
+                <div style="font-size: 12px;margin-top: 60px;">
                   <a class="float-left reset-pass" style="margin-right: 20px" href="javascript:;" @click="resetpass">忘记密码？</a>
                   <span  class="register-btn" >还没有账号？ </span><a href="javascript:;" @click="goRigister"> 注册</a> 
                 </div>
@@ -98,7 +105,8 @@
       Form,FormItem
     },
     mounted(){
-      
+      this.getLanguage();
+      this.initCountry();
     },
     updated(){
     },
@@ -140,6 +148,7 @@
       }
       return {
         formInline: {
+          country_code:'',
           user: '',
           password: '',
           checkcode:'',
@@ -147,6 +156,8 @@
           verificationCode:'',
           reqresource:"1"
         },
+        lang:'',//浏览器语言
+        countryList:[],
         loginError:'',
         rememberpass:'记住密码',
         telCodeText:'发送验证码',
@@ -173,6 +184,42 @@
       }
     },
     methods: {
+      getLanguage () {
+        var lang = '';
+        if (navigator.language) {
+          lang = navigator.language;
+        }else if (navigator.browserLanguage) {
+          lang = navigator.browserLanguage
+        }else if (navigator.userLanguage) {
+          lang = navigator.userLanguage
+        }
+        this.lang = lang;
+      },
+      initCountry () {
+        this.$ajax.post('/trade/tps/pbcol.do',{
+          is_page:0
+        }).then((res) => {
+          if (res.status == 200 && res.data.err_code == '1' && res.data && res.data.countries) {
+            console.log('国家----------------',res,res.data);
+            if (this.lang.match('zh-CN')) {
+              this.countryList = res.data.countries.map((item,index) => {
+                item.name = item.full_name;
+                return item;
+              });
+              this.formInline.country_code = '86';
+            }else {
+              this.countryList = res.data.countries.map((item,index) => {
+                item.name = item.desc_en;
+                return item;
+              })
+              this.formInline.country_code = res.data.countries[0].phone_code;
+            }
+          }
+        }).catch((err) => {
+          console.log('获取国家列表失败',err);
+          this.message.error('网络请求似乎除了问题，请稍后重试');
+        })
+      },
       closeModal(e){
         var target = e.target;
         if (target && (target.className.match('ivu-modal-wrap') ||
@@ -270,11 +317,13 @@
         
       },
       handleSpinCustomShow () { 
+        console.log('zhuce--------',this.loginError);
         var that = this;
         var loginname = this.formInline.user.trim();
         var pwd = this.formInline.password.trim();
         var checkcode = this.formInline.checkcode.trim();
         var reqresource = this.formInline.reqresource.trim();
+        var country_code = this.formInline.country_code.trim();
         this.changeCode();
         this.$Spin.show({
           render: (h) => {
@@ -301,7 +350,8 @@
             loginname,
             pwd,
             checkcode,
-            reqresource
+            reqresource,
+            country_code
           }
         }).then((data)=>{
           console.log(data);
@@ -344,6 +394,11 @@
 
 <style lang="scss">
   $placeholder: #e1e1e1;
+  .login-wrapper {
+    .ivu-modal {
+      top: 80px;
+    }
+  }
   .wallet-box-background{
     width: 100%;
     /* background: #f9f9f9; */
@@ -532,5 +587,15 @@
   }
   .reset-pass,.register-btn {
     color: #D1D3D2;
+  }
+  //新增国家
+  .select-country {
+    width: 98%;
+    border: 0;
+    height: 33px;
+    border-bottom: 1px solid #e1e1e1;
+    .ivu-select-single .ivu-select-selection .ivu-select-placeholder {
+      padding-left: 0;
+    }
   }
 </style>

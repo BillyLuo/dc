@@ -6,12 +6,17 @@
     <div class="reset-form">
       <div class="reset-form-inner">
         <h3 class="reset-title">您正通过 <span>手机</span> 找回登录密码</h3>
-        <Form v-show="step == 1" ref="form1" :label-width="100" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
+        <Form v-show="step == 1" ref="form1" :label-width="110" :model="resetForm" :rules="resetRules" style="width: 500px; margin: 0 auto;">
+          <FormItem label="国家：" prop="country_code">
+            <Select class="reset-select-country" v-model="resetForm.country_code">
+              <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+            </Select>
+          </FormItem>
           <form-item label="手机号码：" prop="tel">
             <Input :class="'dark-mode'" type="text" size="large" placeholder="手机号码" v-model="resetForm.tel"/>
           </form-item>
           <form-item label="验证码：" prop="imgCode">
-            <Input :class="'dark-mode'" type="text" placeholder="验证码" size="large" class="no-radius-input" v-model="resetForm.imgCode" style="width: 300px;"/>
+            <Input :class="'dark-mode'" type="text" placeholder="验证码" size="large" class="no-radius-input" v-model="resetForm.imgCode" style="width: 290px;"/>
             <img :src="imgSrc" class="img-code" alt="验证码"/>
             <div class="text-right" :style="{height:'20px'}" >
               <a href="javascript:;" @click="changeImg">刷新</a>图片验证码
@@ -74,6 +79,9 @@ var telValidator = (rules,value,c)=> {
   c();
 }
 var resetRules = {
+  country_code:[
+    {required:true,message:'请输入手机代码',trigger:'blur'}
+  ],
   tel:[
     {required:true,message:'请输入手机号码',trigger:'blur'},
     {validator:telValidator,trigger:'blur'}
@@ -117,6 +125,8 @@ var imgSrc = '/trade/tps/pbccs.do?t='+Date.now();
 export default {
   data () {
     return {
+      lang:'',
+      countryList:[],
       userId:'',
       sendCodeText:'发送验证码',
       sendTimer:null,
@@ -129,7 +139,8 @@ export default {
         credentials:'1',
         credentialsNumber:'',
         imgCode:'',
-        textCode:''
+        textCode:'',
+        country_code:''
       },
       pwdForm:{
         username:'',
@@ -141,6 +152,9 @@ export default {
         username:[
           {required:true,message:'请输入用户名',trigger:'blur'},
           {pattern:telReg,message:'请输入合格的手机号码',trigger:'blur'}
+        ],
+        country_code:[
+          {required:true,message:'请输入手机代码',trigger:'blur'}
         ],
         pwd:[
           {required:true,message:'请输入密码',trigger:'blur'},
@@ -166,10 +180,50 @@ export default {
   components:{
     Form,FormItem,Step
   },
+  mounted () {
+    this.getLanguage();
+    this.initCountry();
+  },
   updated(){
     // this.changeImg();
   },
   methods:{
+    getLanguage () {
+      var lang = '';
+      if (navigator.language) {
+        lang = navigator.language;
+      }else if (navigator.browserLanguage) {
+        lang = navigator.browserLanguage
+      }else if (navigator.userLanguage) {
+        lang = navigator.userLanguage
+      }
+      this.lang = lang;
+    },
+    initCountry () {
+      this.$ajax.post('/trade/tps/pbcol.do',{
+        is_page:0
+      }).then((res) => {
+        if (res.status == 200 && res.data.err_code == '1' && res.data && res.data.countries) {
+          console.log('国家----------------',res,res.data);
+          if (this.lang.match('zh-CN')) {
+            this.countryList = res.data.countries.map((item,index) => {
+              item.name = item.full_name;
+              return item;
+            });
+            this.resetForm.country_code = '86';
+          }else {
+            this.countryList = res.data.countries.map((item,index) => {
+              item.name = item.desc_en;
+              return item;
+            })
+            this.resetForm.country_code = res.data.countries[0].phone_code;
+          }
+        }
+      }).catch((err) => {
+        console.log('获取国家列表失败',err);
+        this.message.error('网络请求似乎除了问题，请稍后重试');
+      })
+    },
     changeImg(){
       this.imgSrc = imgSrc + '?t=' + Date.now();
     },
@@ -246,9 +300,10 @@ export default {
       var mobileno = this.resetForm.tel.trim();
       var reqresource = 1;
       var checkcode = this.resetForm.imgCode;
+      var country_code = this.resetForm.country_code;
       var mobilecode = this.resetForm.textCode;
       this.$ajax.post('/trade/tps/pbrpw.do',{
-        modifytype,mobileno,reqresource,checkcode,mobilecode
+        modifytype,mobileno,reqresource,checkcode,mobilecode,country_code
       }).then((res)=>{
         if (res.data && res.data.err_code == '1' && res.data.userId){
           this.step = 2;
@@ -335,7 +390,9 @@ export default {
     border-radius: 0;
   }
   .reset-form {
-    padding: 0px 350px 60px;
+    width: 520px;
+    margin: 0 auto;
+    padding-bottom: 60px;
     .ivu-form-item {
       margin: 30px 0;
     }
