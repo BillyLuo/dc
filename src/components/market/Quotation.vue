@@ -227,7 +227,7 @@ export default {
                 {
                     title: ' ',
                     key: 'id',
-                    // width:"100",
+                    width:"80",
                     align:'left',
                     render: (h, params) => {
                         if(params.row.operate == "1"){
@@ -261,7 +261,7 @@ export default {
                     key: 'price',
                     render: (h,params)=>{
                         if(params.row.price){
-                            return  h("span",Number(params.row.price).toFixed(6))
+                            return  h("span",params.row.price)
                         }else{
                             return  h("span",Number(0).toFixed(6))
                         }
@@ -273,7 +273,7 @@ export default {
                     key: 'count',
                     render: (h,params)=>{
                         if(params.row.count){
-                            return  h("span",Number(params.row.count).toFixed(6))
+                            return  h("span",params.row.count)
                         }else{
                             return  h("span",Number(0).toFixed(6))
                         }
