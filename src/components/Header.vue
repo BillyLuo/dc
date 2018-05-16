@@ -504,7 +504,11 @@ export default {
           border:none;
           background: none;
           color:#fff;
+<<<<<<< HEAD
           font-size: 14px;
+=======
+          font-size:14px;
+>>>>>>> f27f08eaae661e70808c61df964b156fbe7ac992
       }
       .ivu-btn:focus {
           -webkit-box-shadow: none;

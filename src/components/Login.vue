@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrapper">
     <div class="ivu-modal-mask"></div>
-    <div class="ivu-modal-wrap"  @click.stop="closeModal($event)">
+    <div class="ivu-modal-wrap">
       <div class="ivu-modal">
         <div class="wallet-box-background">
           <div class="wallet-box clear">
