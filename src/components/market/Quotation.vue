@@ -1393,13 +1393,17 @@ export default {
                         }
                         .ivu-tabs-tab{
                             width:49%;
+                            font-size: 14px;
                             text-align: center;
                             padding:6px 16px;
                             color: #586c86;
-                            font-weight:400;
+                            font-weight:600;
+                            line-height: 30px;
+                            transition: 0.3s linear;
                         }
                         .ivu-tabs-tab-active{
                             color: #2d8cf0;
+                            font-size: 16px;
                         }
                     }
                 }

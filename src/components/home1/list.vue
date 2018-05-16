@@ -68,184 +68,11 @@ let menu=[
     {key:"USDT",name:"USDT"},
     // {key:"BTC",name:"BTC"}
 ];
-    // let list=[
-        //     {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8,3,4,5,3.4,4.3,5.3,3.8,3.6,4.9,5.0,6.0],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-
-        //      {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8,3,4,5,3.4,4.3,5.3,3.8,3.6,4.9,5.0,6.0],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //      {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8,3,4,5,3.4,4.3,5.3,3.8,3.6,4.9,5.0,6.0],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //      {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8,3,4,5,3.4,4.3,5.3,3.8,3.6,4.9,5.0,6.0],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //      {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8,3,4,5,3.4,4.3,5.3,3.8,3.6,4.9,5.0,6.0],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:0,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:0,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-20.33",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:0,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"10.38",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:0,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:0,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"3120.33",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:0,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:0,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     },
-        //     {
-        //         bi:"ETH",
-        //         star:1,
-        //         charts:[1.2,3.4,2,0.5,0.9,1.8,2.5,2.8],
-        //         zhangfu:"-0.3",
-        //         price:"23",
-        //         money:'334'
-
-        //     }
-    // ]
     import { Menu,MenuItem,ButtonGroup,AutoComplete } from 'iview';
     import echarts from 'echarts';
     import bus from '../../bus/bus';
-import index from 'vue';
+    import index from 'vue';
+    import cookies from 'cookies-js';
     export default {
         name:"list",
         components:{
@@ -256,6 +83,7 @@ import index from 'vue';
         },
         data(){
             return {
+                isLogined:false,
                 changed:false,
                 querycoin:"",
                 coinData:[],
@@ -369,9 +197,16 @@ import index from 'vue';
                 },100)
             }
             this.chushihua();
+            this.validateLogin();
         },
         
         methods:{
+            validateLogin() {
+                var loginName = cookies.get('name');
+                if (loginName) {
+                    this.isLogined = true;
+                }
+            },
             query(value,option) {
                 var coinArray = this.coinArray;
                 var that = this;
@@ -470,6 +305,11 @@ import index from 'vue';
                 let reqresource = '1';
                 if (item.star) {
                     type = 'delete';
+                }
+                let isLogined = this.isLogined;
+                if (!isLogined) {
+                    this.$Message.warning('请您先登录之后再收藏');
+                    return;
                 }
                 this.$ajax({
                     url:'/trade/tps/pbcct.do',
