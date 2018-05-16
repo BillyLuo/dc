@@ -1397,6 +1397,7 @@ export default {
                             padding:6px 16px;
                             color: #586c86;
                             font-weight:400;
+                            line-height: 20px;
                         }
                         .ivu-tabs-tab-active{
                             color: #2d8cf0;
