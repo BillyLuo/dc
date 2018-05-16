@@ -1,7 +1,7 @@
 <template>
 	<div :style="{marginBottom:'400px'}">
 		<div class="ivu-modal-mask"></div>
-    <div class="ivu-modal-wrap"  @click.stop="closeModal($event)">
+    <div class="ivu-modal-wrap">
       <div class="ivu-modal">
 				<div class="register-box-background">
 					<div class="register-box clear">
