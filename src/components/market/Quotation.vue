@@ -475,7 +475,7 @@ export default {
                     key: "totalbuynum",
                     render (h,row){
                         if(row.row.totalbuynum){
-                            return h("span",Number(row.row.totalbuynum).toFixed(10));
+                            return h("span",row.row.totalbuynum);
                         }else{
                             let numb=0;
                             return  h("span",numb.toFixed(10))
@@ -488,10 +488,10 @@ export default {
                     key: "avebuyprice",
                     render (h,row){
                         if(row.row.avebuyprice){
-                            return  h("span",Number(row.row.avebuyprice).toFixed(10));
+                            return  h("span",row.row.avebuyprice);
                         }else{
                             let numb=0;
-                            return  h("span",numb.toFixed(10))
+                            return  h("span",numb)
                         }
                         
                     }
@@ -501,10 +501,10 @@ export default {
                     key: "totalsellnum",
                     render (h,row){
                         if(row.row.totalsellnum){
-                            return  h("span",Number(row.row.totalsellnum).toFixed(10));
+                            return  h("span",row.row.totalsellnum);
                         }else{
                             let numb=0;
-                            return  h("span",numb.toFixed(10))
+                            return  h("span",numb)
                         }
                         
                     }
@@ -514,10 +514,10 @@ export default {
                     key: "avesellprice",
                     render (h,row){
                         if(row.row.avesellprice){
-                            return  h("span",Number(row.row.avesellprice).toFixed(10));
+                            return  h("span",row.row.avesellprice);
                         }else{
                             let numb=0;
-                            return  h("span",numb.toFixed(10))
+                            return  h("span",numb)
                         }
                         
                     }
@@ -664,35 +664,35 @@ export default {
                         title: '数量',
                         key: 'entrustcount',
                         render: (h,params)=>{
-                            return h("span",Number(params.row.entrustcount).toFixed(10))
+                            return h("span",params.row.entrustcount)
                         }
                     },
                     {
                         title: '价格',
                         key: 'tradeprice',
                         render: (h,params)=>{
-                            return h("span",Number(params.row.tradeprice).toFixed(10))
+                            return h("span",params.row.tradeprice)
                         }
                     },
                     {
                         title: '金额',
                         key: 'entrustamount',
                         render: (h,params)=>{
-                            return h("span",Number(params.row.entrustamount).toFixed(10)) 
+                            return h("span",params.row.entrustamount) 
                         }
                     },
                     {
                         title: '成交量',
                         key: 'tradecount',
                         render: (h,params)=>{
-                            return h("span",Number(params.row.tradecount).toFixed(10))
+                            return h("span",params.row.tradecount)
                         }
                     },
                     {
                         title: '成交金额',
                         key: 'tradeamount',
                         render: (h,params)=>{
-                            if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",Number(params.row.tradeamount).toFixed(10))
+                            if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",params.row.tradeamount)
                                 else return h("span","")
                         }
                     },
@@ -701,9 +701,9 @@ export default {
                         key: 'charge',
                         render: (h,params)=>{
                             if(this.order_record_cloumns_title != "jiaoyijilu"){
-                                return h("span",Number(params.row.charge))
+                                return h("span",params.row.charge)
                             }else{
-                                return h("span",Number(params.row.charge))
+                                return h("span",params.row.charge)
                             }
                         }
                     },
@@ -712,7 +712,7 @@ export default {
                         key: 'averageprice',
                         
                         render: (h,params)=>{
-                            return h("span",Number(params.row.averageprice).toFixed(10))
+                            return h("span",params.row.averageprice)
                         }
                     }
                     
@@ -1398,12 +1398,12 @@ export default {
                             padding:6px 16px;
                             color: #586c86;
                             font-weight:600;
-                            line-height: 30px;
+                            // line-height: 30px;
                             transition: 0.3s linear;
                         }
                         .ivu-tabs-tab-active{
                             color: #2d8cf0;
-                            font-size: 16px;
+                            font-size: 14px;
                         }
                     }
                 }

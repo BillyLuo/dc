@@ -49,12 +49,12 @@ axios.interceptors.response.use(function (response) {
   return response
 },function(err){
   console.log('请求失败了！！！！！！！',err);
-  // if(err.response && err.response.status == "406"){
-  //   cookies.set("name", "",{expires: 0});
-  //   router.push("/login");
-  //   return Promise.reject(err)
-  // }
-  // return Promise.reject(err);
+  if(err.response && err.response.status == "406"){
+    cookies.set("name", "",{expires: 0});
+    router.push("/login");
+    return Promise.reject(err)
+  }
+  return Promise.reject(err);
 }) 
 
 // axios.install = (Vue) => {
