@@ -446,10 +446,6 @@ export default {
     },
     send () {
       console.log(this.sendStatus);
-<<<<<<< HEAD
-=======
-      // var verifystr = '15178874695';
->>>>>>> 1a5de75f762a4a80f0920cb6ee1ad1e8e0d2a3a2
       if(this.sendStatus == 0 || this.sendStatus == 2) {
         var num = 60;
         var that = this;
@@ -469,11 +465,7 @@ export default {
         return;
       }
       this.$ajax.post('/trade/tps/pbaut.do',{
-<<<<<<< HEAD
         type:'2',
-=======
-        "type":"2",
->>>>>>> 1a5de75f762a4a80f0920cb6ee1ad1e8e0d2a3a2
         reqresource:1
       }).then((res) => {
         console.log('短信验证',res);
@@ -579,12 +571,7 @@ export default {
         return false;
       }
       this.$ajax.post('/trade/tps/pbaut.do',{
-<<<<<<< HEAD
         type:'2',
-=======
-        // verifystr,
-        "type":"2",
->>>>>>> 1a5de75f762a4a80f0920cb6ee1ad1e8e0d2a3a2
         reqresource:1
       }).then((res) => {
         console.log('短信验证',res);
