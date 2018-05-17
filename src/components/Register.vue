@@ -1114,7 +1114,7 @@ input.register-input::-webkit-input-placeholder{
   z-index: 10;
 }
 .tel-prompt {
-  top: 320px;
+  top: 400px;
 }
 .prompt p {
   font-size: 12px;
