@@ -130,12 +130,12 @@
 								</div>
 							</TabPane>
 							<TabPane label="邮箱注册" maxLength="50" name="name2" :class="'register-right-tabs-tabpaneTwo'">
-                <div class="register-label">国家</div>
+                <!-- <div class="register-label">国家</div>
                 <div class="register-input-item">
                   <Select class="select-country" v-model="country">
                     <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
                   </Select>
-                </div>
+                </div> -->
                 <div class="register-label">邮箱</div>
 								<div class="register-input-item">
 								<input v-model="email" size="large" class="register-input" placeholder="请输入邮箱" :maxlength="50" :class="emailErrorInput"  @foucs="telFocus" />

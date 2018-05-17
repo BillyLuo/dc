@@ -204,13 +204,13 @@ export default {
         }).then(function(data) {
           console.log(data);
           if (data.data.err_code == "1") {
-            $this.$Notice.success({
+            that.$Notice.success({
               title: "验证码发送成功，请注意查收。",
               desc: "",
               top: 100
             });
           } else {
-            $this.$Notice.error({
+            that.$Notice.error({
               title: "验证码发送失败，请重新发送。",
               top: 100
             });

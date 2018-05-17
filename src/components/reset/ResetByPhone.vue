@@ -133,7 +133,7 @@ export default {
       step:1,
       imgSrc,
       sendText:'发送验证码',
-      country:'086',
+      // country:'086',
       resetForm: {
         tel:'',
         credentials:'1',
@@ -264,7 +264,7 @@ export default {
             data:{
               "phone":tel,
               reqresource:1,
-              country_code:this.country,
+              country_code:this.resetForm.country_code,
               "type":"2"
               // "type":"mobile"
             }
