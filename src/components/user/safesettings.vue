@@ -1159,8 +1159,8 @@ export default {
         },1000);
         this.$ajax.post('/trade/tps/pbaut.do',{
             reqresource: 1,
-            country_code:that.country,
-            phone:tel,
+            // country_code:that.country,
+            // phone:tel,
             "type":"2"
         }).then((res) => {
           console.log('短信验证',res);
@@ -1186,8 +1186,8 @@ export default {
       }
       this.$ajax.post('/trade/tps/pbaut.do',{
             reqresource: 1,
-            country_code:that.country,
-            phone:tel,
+            // country_code:that.country,
+            // phone:tel,
             "type":"2"
       }).then((res) => {
         console.log('短信验证',res);

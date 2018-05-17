@@ -25,7 +25,7 @@
         <Input :class="'withdraw-item'" type="password" v-model="withdrawModel.trade_password" />
       </FormItem>
       <FormItem label="短信验证码" prop="text_code">
-        <Input :class="'withdraw-item'" v-model="withdrawModel.text_code">
+        <Input :class="'withdraw-item'" v-model="withdrawModel.text_code" maxlength="4">
           <span slot="append" style="width:100px; cursor: pointer; padding:6px;" @click="send">{{sendText}}</span>
         </Input>
       </FormItem>
@@ -65,7 +65,7 @@
           <Input v-model="addModal.trade_password" type="password"/>
         </FormItem>
         <FormItem prop="add_text_code" label="短信验证码：">
-          <Input v-model="addModal.add_text_code">
+          <Input v-model="addModal.add_text_code" maxlength="4">
             <span slot="append" style="cursor:pointer;padding: 6px 10px;" @click="addTextMsg">{{addText}}</span>
           </Input>
         </FormItem>
@@ -130,7 +130,7 @@ var withdrawRules = {
   ],
   text_code:[
     {required:true,trigger: 'blur',message:'请填写验证码'},
-    {type:'string',min:6,max:6,message:'请填写6位验证码',trigger:'blur'}
+    {type:'string',min:4,max:4,message:'请填写4位验证码',trigger:'blur'}
   ],
   pub:[
     { required: true, message: '公钥不能为空', trigger: 'blur' },
@@ -150,7 +150,7 @@ var addAddressRules = {
   ],
   add_text_code:[
     {required:true,message:'请输入验证码',trigger:'blur'},
-    {type:'string',min:6,max:6,message:'请输入6位验证码',trigger:'blur'}
+    {type:'string',min:4,max:4,message:'请输入4位验证码',trigger:'blur'}
   ],
   pub:[
     { required: true, message: '公钥不能为空', trigger: 'blur' },
@@ -446,7 +446,6 @@ export default {
     },
     send () {
       console.log(this.sendStatus);
-      var verifystr = '15178874695';
       if(this.sendStatus == 0 || this.sendStatus == 2) {
         var num = 60;
         var that = this;
@@ -465,8 +464,8 @@ export default {
         // console.log(this.sendStatus,'短信已经发送');
         return;
       }
-      this.$ajax.post('/trade/tps/pbscs.do',{
-        verifystr,
+      this.$ajax.post('/trade/tps/pbaut.do',{
+        type:'2',
         reqresource:1
       }).then((res) => {
         console.log('短信验证',res);
@@ -571,8 +570,8 @@ export default {
       if (this.addTextTimer) {
         return false;
       }
-      this.$ajax.post('/trade/tps/pbscs.do',{
-        // verifystr,
+      this.$ajax.post('/trade/tps/pbaut.do',{
+        type:'2',
         reqresource:1
       }).then((res) => {
         console.log('短信验证',res);
