@@ -410,7 +410,7 @@ export default {
         ],
         new_code:[
           {required:true,message:'请输入短信验证码',trigger:'blur'},
-          {type:'string',message:'请正确输入6位验证码',len:4,pattern:/^\d{4}$/,trigger:'blur'}
+          {type:'string',message:'请正确输入4位验证码',len:4,pattern:/^\d{4}$/,trigger:'blur'}
         ],
         imgCode:[
           {required:true,message:'请输入验证码',trigger:'blur'},
@@ -558,7 +558,8 @@ export default {
         this.safeLevel = safeLevel;
         this.safeLevelStatus = safeLevelStatus;
         this.safeLevelInfo = safeLevelInfo;
-        this.country_codeold = info.country_codeold;
+        this.country_codeold = info.country_code;
+        console.log(info.country_code)
         return {
           email,nameAuth,phone,loginPass,tradePass,google
         }
@@ -685,7 +686,7 @@ export default {
         this.$Message.warning('请输入正确的手机号码');
         return false;
       }else {
-        this.sendTextMsg(new_tel);
+        this.sendTextMsg1(new_tel);
         var num = 60;
         that.modifyTelTimer2 = setInterval(function () {
           if (num > 1) {
@@ -976,7 +977,7 @@ export default {
           }
           that.$Spin.show();
           that.$ajax.post('/trade/tps/pbvcs.do',{
-            type:'loginpwd',oldpwd,newpwd,confirmpwd,code,reqresource:1
+            type:'loginpwd',oldpwd,newpwd,confirmpwd,mobilecode:code,reqresource:1
           }).then((res)=>{
             that.$Spin.hide();
             if (res.status == 200 && res.data && res.data.err_code == '1') {
@@ -1033,7 +1034,7 @@ export default {
             type:'tradepwd',
             newpwd,
             confirmpwd,
-            code,
+            mobilecode:code,
             reqresource:1
           }).then((res)=>{
             console.log(res);
@@ -1091,7 +1092,7 @@ export default {
             newpwd,
             oldpwd,
             confirmpwd,
-            code,
+            mobilecode:code,
             reqresource:1
           }).then((res)=>{
             that.$Spin.hide();
@@ -1159,8 +1160,6 @@ export default {
         },1000);
         this.$ajax.post('/trade/tps/pbaut.do',{
             reqresource: 1,
-            country_code:that.country,
-            phone:tel,
             "type":"2"
         }).then((res) => {
           console.log('短信验证',res);
@@ -1186,7 +1185,31 @@ export default {
       }
       this.$ajax.post('/trade/tps/pbaut.do',{
             reqresource: 1,
-            country_code:that.country,
+            "type":"2"
+      }).then((res) => {
+        console.log('短信验证',res);
+        if (res.status == 200 && res.data && res.data.err_code == '1') {
+          that.$Message.success('短信已发送');
+        }else {
+          that.$Message.warning('短信发送失败，请稍后重试。');
+        }
+      }).catch((err) => {
+        console.log(err);
+        that.$Message.warning('短信发送失败，请稍后重试。');
+      })
+    },
+    sendTextMsg1(tel){
+      var that = this;
+      if (!tel) {
+        that.$Notice.warning({
+          title:'提示',
+          desc:'请输入手机号码。'
+        });
+        return;
+      }
+      this.$ajax.post('/trade/tps/pbaut.do',{
+            reqresource: 1,
+            country_code:this.modifyTelValidate.country_code,
             phone:tel,
             "type":"2"
       }).then((res) => {
@@ -1194,11 +1217,11 @@ export default {
         if (res.status == 200 && res.data && res.data.err_code == '1') {
           that.$Message.success('短信已发送');
         }else {
-          that.$Message.success('短信发送失败，请稍后重试。');
+          that.$Message.warning('短信发送失败，请稍后重试。');
         }
       }).catch((err) => {
         console.log(err);
-        that.$Message.success('短信发送失败，请稍后重试。');
+        that.$Message.warning('短信发送失败，请稍后重试。');
       })
     }
   }
