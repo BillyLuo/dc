@@ -6,7 +6,7 @@
       <FormItem label="  账户余额" prop="balance">
         <Input :class="'withdraw-item'" v-model="withdrawModel.balance" disabled/>
       </FormItem>
-      <FormItem label="提现地址" prop="address">
+      <FormItem label="提币地址" prop="address">
         <Select :class="'withdraw-item'" v-model="withdrawModel.address" @on-change="getpub" >
           <Option v-for="(item) in withdrawAddress" :value="item.adress"  :key="item.adress">{{item.adress}}</Option>
         </Select>
@@ -15,7 +15,7 @@
       <FormItem  v-if="withdrawType !='ETH'" label="公钥" prop="pub">
         <Input :class="'withdraw-item'" v-model="withdrawModel.pub" disabled/>
       </FormItem>
-      <FormItem label="提现数量" prop="account">
+      <FormItem label="提币数量" prop="account">
         <InputNumber :class="'withdraw-item'" :max="999999" @on-change="numberchange" v-model="withdrawModel.account"></InputNumber>
       </FormItem>
       <FormItem :label="'  '+withdrawType+'手续费比例'" prop="commission">
@@ -34,7 +34,7 @@
       <Button class="btn-block" type="primary" :disabled="disabled" @click="submitWithdraw('form')">立即提币</Button>
     </div>
     <div class="withdraw-note">
-      <div class="withdraw-note-title color-white">提现须知</div>
+      <div class="withdraw-note-title color-white">提币须知</div>
       <ul class="withdraw-note-content">
         <li>处理时间为09:00-0:00</li>
         <li>最小提币数量为0.4个,最大提币数量为99999.0个。</li>
@@ -80,11 +80,11 @@ import { Form, FormItem } from 'iview';
 let L = console.log;
 var record_column = [
   {
-    title: '提现时间',
+    title: '提币时间',
     key: 'withdrawtime'
   },
   {
-    title: '提现方式',
+    title: '提币方式',
     key: 'withdrawway',
     sortable: false
   },
@@ -97,7 +97,7 @@ var record_column = [
     key: 'commission',
   },
   {
-    title: '提现状态',
+    title: '提币状态',
     key: 'status',
   },
   {
@@ -108,7 +108,7 @@ var record_column = [
 var accountValidator = (rule,value,c) => {
   console.log('accout',value);
   if (!value) {
-    c('请输入提现数量')
+    c('请输入提币数量')
   }else if (value > 10000) {
     c();
   }else {
@@ -118,10 +118,10 @@ var accountValidator = (rule,value,c) => {
 var withdrawRules = {
   address:[
     {required:true,trigger: 'blur',message:'请填写地址'},
-    {type:'string',min:2,max:64,message:'请输入合法的提现地址。',trigger:'blur'}
+    {type:'string',min:2,max:64,message:'请输入合法的提币地址。',trigger:'blur'}
   ],
   account:[
-    {type:'number',required:'true',message:'请输入提现数量',trigger:'blur'},
+    {type:'number',required:'true',message:'请输入提币数量',trigger:'blur'},
     {validator:accountValidator,trigger:'blur'}
   ],
   trade_password:[
@@ -130,7 +130,7 @@ var withdrawRules = {
   ],
   text_code:[
     {required:true,trigger: 'blur',message:'请填写验证码'},
-    {type:'string',min:6,max:6,message:'请填写6位验证码',trigger:'blur'}
+    {type:'string',min:4,max:4,message:'请填写4位验证码',trigger:'blur'}
   ],
   pub:[
     { required: true, message: '公钥不能为空', trigger: 'blur' },
@@ -138,8 +138,8 @@ var withdrawRules = {
 }
 var addAddressRules = {
   address:[
-    {required:true,message:'请输入提现地址',trigger:'blur'},
-    {type:'string',pattern:/^\w{2,42}$/,message:'提现地址不应超过42位，且不含特殊字符',trigger:'blur'}
+    {required:true,message:'请输入提币地址',trigger:'blur'},
+    {type:'string',pattern:/^\w{2,42}$/,message:'提币地址不应超过42位，且不含特殊字符',trigger:'blur'}
   ],
   remark:[
     {type:'string',max:200,message:'备注不应超过200位',trigger:'blur'}
@@ -150,7 +150,7 @@ var addAddressRules = {
   ],
   add_text_code:[
     {required:true,message:'请输入验证码',trigger:'blur'},
-    {type:'string',min:6,max:6,message:'请输入6位验证码',trigger:'blur'}
+    {type:'string',min:4,max:4,message:'请输入4位验证码',trigger:'blur'}
   ],
   pub:[
     { required: true, message: '公钥不能为空', trigger: 'blur' },
@@ -446,7 +446,7 @@ export default {
     },
     send () {
       console.log(this.sendStatus);
-      var verifystr = '15178874695';
+      // var verifystr = '15178874695';
       if(this.sendStatus == 0 || this.sendStatus == 2) {
         var num = 60;
         var that = this;
@@ -465,8 +465,8 @@ export default {
         // console.log(this.sendStatus,'短信已经发送');
         return;
       }
-      this.$ajax.post('/trade/tps/pbscs.do',{
-        verifystr,
+      this.$ajax.post('/trade/tps/pbaut.do',{
+        "type":"2",
         reqresource:1
       }).then((res) => {
         console.log('短信验证',res);
@@ -481,7 +481,7 @@ export default {
       })
     },
     submitWithdraw(name){
-      console.log('立即提现',this.withdrawModel);
+      console.log('立即提币',this.withdrawModel);
       this.$refs[name].validate((valid) => {
         console.log('valid or not',valid);
         if (valid) {
@@ -499,14 +499,14 @@ export default {
       if(that.withdrawModel.account < 0.4){
         that.$Notice.warning({
           title:'温馨提示',
-          desc:'提现数量不能小于0.4'
+          desc:'提币数量不能小于0.4'
         })
         return false;
       }
       if(that.withdrawModel.account > that.withdrawModel.balance){
         that.$Notice.warning({
           title:'温馨提示',
-          desc:'提现数量不能大于账户余额'
+          desc:'提币数量不能大于账户余额'
         })
         return false;
       }
@@ -514,7 +514,7 @@ export default {
       if(that.withdrawModel.account > 99999){
         that.$Notice.warning({
           title:'温馨提示',
-          desc:'提现数量不能大于99999'
+          desc:'提币数量不能大于99999'
         })
         return false;
       }
@@ -537,7 +537,7 @@ export default {
           if(res.data && res.data.err_code =="1"){
             that.$Notice.success({
 							title:'温馨提示',
-							desc:'您已提现成功'
+							desc:'您已提币成功'
 						})
             that.withdrawModel={
                 address:'',
@@ -552,7 +552,7 @@ export default {
           }else{
             that.$Notice.warning({
 							title:'温馨提示',
-							desc:'提现失败,'+res.data.msg
+							desc:'提币失败,'+res.data.msg
 						})
           }
         
@@ -567,12 +567,13 @@ export default {
     addTextMsg() {
       var that = this;
       var num = 60;
-      var verifystr = '15178874695';
+      // var verifystr = '15178874695';
       if (this.addTextTimer) {
         return false;
       }
-      this.$ajax.post('/trade/tps/pbscs.do',{
+      this.$ajax.post('/trade/tps/pbaut.do',{
         // verifystr,
+        "type":"2",
         reqresource:1
       }).then((res) => {
         console.log('短信验证',res);
@@ -583,7 +584,7 @@ export default {
         }
       }).catch((err) => {
         console.log(err);
-        that.$Message.success('短信发送失败，请稍后重试。');
+        that.$Message.warning('短信发送失败，请稍后重试。');
       })
       this.addTextTimer = setInterval(function () {
         if (num > 1) {
