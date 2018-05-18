@@ -17,7 +17,7 @@
           </form-item>
           <form-item label="验证码：" prop="imgCode">
             <Input :class="'dark-mode'" type="text" placeholder="验证码" size="large" class="no-radius-input" v-model="resetForm.imgCode" style="width: 290px;"/>
-            <img :src="imgSrc" class="img-code" alt="验证码"/>
+            <img :src="imgSrc" @click="changeImg" class="img-code" alt="验证码"/>
             <div class="text-right" :style="{height:'20px'}" >
               <a href="javascript:;" @click="changeImg">刷新</a>图片验证码
             </div>

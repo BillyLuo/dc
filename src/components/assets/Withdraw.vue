@@ -25,7 +25,7 @@
         <Input :class="'withdraw-item'" type="password" v-model="withdrawModel.trade_password" />
       </FormItem>
       <FormItem label="短信验证码" prop="text_code">
-        <Input :class="'withdraw-item'" v-model="withdrawModel.text_code" maxlength="4">
+        <Input :class="'withdraw-item'" v-model="withdrawModel.text_code" :maxlength="4">
           <span slot="append" style="width:100px; cursor: pointer; padding:6px;" @click="send">{{sendText}}</span>
         </Input>
       </FormItem>
@@ -65,7 +65,7 @@
           <Input v-model="addModal.trade_password" type="password"/>
         </FormItem>
         <FormItem prop="add_text_code" label="短信验证码：">
-          <Input v-model="addModal.add_text_code" maxlength="4">
+          <Input v-model="addModal.add_text_code" :maxlength="4">
             <span slot="append" style="cursor:pointer;padding: 6px 10px;" @click="addTextMsg">{{addText}}</span>
           </Input>
         </FormItem>
