@@ -115,13 +115,13 @@
 									{{ errorPasswordAgain }}
 								</p>
 								</div>
-                <div class="register-label">邀请码</div>
+                <!-- <div class="register-label">邀请码</div>
 								<div class="register-input-item">
 								<input v-model="InvitationCode" class="register-input" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
 								<p class="register-error-text">
 									{{ errorInvitationCode }}
 								</p>
-								</div>
+								</div> -->
 								<div style="margin-top: 30px;margin-bottom: 10px;">
 								<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《币邦用户协议》</a></Checkbox>
 								</div>
@@ -138,10 +138,10 @@
                 </div> -->
                 <div class="register-label">邮箱</div>
 								<div class="register-input-item">
-								<input v-model="email" size="large" class="register-input" placeholder="请输入邮箱" :maxlength="50" :class="emailErrorInput"  @foucs="telFocus" />
-								<p class="register-error-text">
-									{{errorEmail}}
-								</p>
+								  <input v-model="email" size="large" :maxlength="50" placeholder="请输入邮箱" class="register-input register-tel" :class="emailErrorInput" @focus="telFocus" />
+                  <p class="register-error-text">
+                    {{errorEmail}}
+                  </p>
 								</div>
                 <div class="register-label">验证码</div>
 								<div class="register-input-item">
@@ -218,13 +218,13 @@
 									{{ errorPasswordAgain }}
 								</p>
 								</div>
-                <div class="register-label">邀请码</div>
+                <!-- <div class="register-label">邀请码</div>
 								<div class="register-input-item">
 								<input class="register-input" v-model="InvitationCode" size="large" placeholder="邀请码（选填）" :class="InvitationCodeErrorInput" />
 								<p class="register-error-text">
 									{{ errorInvitationCode }}
 								</p>
-								</div>
+								</div> -->
 								<div class="register-input-item">
 								<Checkbox v-model="single" >阅读并同意 <a href="javaScript:;">《币邦用户协议》</a></Checkbox>
 								</div>
@@ -881,6 +881,7 @@ export default {
       }
     },
     telFocus() {
+      // console.log("000")
       // 获得焦点  消除错误提示
       this.errorTel = "";
       this.errorEmail = "";

@@ -628,7 +628,7 @@ export default {
         });
         return;
       }else {
-        this.sendTextMsg(tel);
+        this.sendTextMsg2(tel);
       }
       var num = 60;
       var that = this;
@@ -1210,6 +1210,32 @@ export default {
       this.$ajax.post('/trade/tps/pbaut.do',{
             reqresource: 1,
             country_code:this.modifyTelValidate.country_code,
+            phone:tel,
+            "type":"2"
+      }).then((res) => {
+        console.log('短信验证',res);
+        if (res.status == 200 && res.data && res.data.err_code == '1') {
+          that.$Message.success('短信已发送');
+        }else {
+          that.$Message.warning('短信发送失败，请稍后重试。');
+        }
+      }).catch((err) => {
+        console.log(err);
+        that.$Message.warning('短信发送失败，请稍后重试。');
+      })
+    },
+    sendTextMsg2(tel){
+      var that = this;
+      if (!tel) {
+        that.$Notice.warning({
+          title:'提示',
+          desc:'请输入手机号码。'
+        });
+        return;
+      }
+      this.$ajax.post('/trade/tps/pbaut.do',{
+            reqresource: 1,
+            country_code:this.telSetValidate.country_code,
             phone:tel,
             "type":"2"
       }).then((res) => {
