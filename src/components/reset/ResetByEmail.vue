@@ -80,7 +80,7 @@ var resetRules = {
   ],
   emailCode:[
     {required:true,message:'请输入邮箱密码',trigger:'blur'},
-    {len:4,message:'请输入6位邮箱验证码',trigger:'blur'},
+    {len:4,message:'请输入4位邮箱验证码',trigger:'blur'},
     {pattern:/\w{4}/,message:'验证码不应包含特殊字符',trigger:'blur'}
   ],
   credentials:[
