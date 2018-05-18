@@ -698,7 +698,7 @@ export default {
           confirmpassword: this.passwordAgain,
           invitedcode: this.InvitationCode
         });
-        this.imgsrc();
+        
         this.$ajax({
           method: "post",
           url: "/trade/tps/pbrus.do",
@@ -725,11 +725,13 @@ export default {
               title: "提示",
               desc: "注册失败," + data.data.msg
             });
+            that.imgsrc();
           } else {
             that.$Notice.warning({
               title: "提示",
               desc: "注册失败,请稍后重试"
             });
+            that.imgsrc();
           }
         });
       }
@@ -845,7 +847,7 @@ export default {
           });
           return false;
         }
-        this.imgsrc();
+        
         this.$ajax({
           method: "post",
           url: "/trade/tps/pbrus.do",
@@ -871,11 +873,13 @@ export default {
               title: "提示",
               desc: "注册失败," + data.data.msg
             });
+            that.imgsrc();
           } else {
             that.$Notice.warning({
               title: "提示",
               desc: "注册失败,请稍后重试"
             });
+            that.imgsrc();
           }
         });
       }
