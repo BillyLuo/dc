@@ -165,9 +165,13 @@
         title="邮箱认证"
         v-model="emailModal"
         :loading="emailLoading">
-        <Input placeholder="邮箱地址" v-model="input_email"/>
+        <Input placeholder="邮箱地址" v-model="input_email">
+          <span slot="append" style="cursor: pointer;" @click="sendEmailCode">{{bindEmailText}}</span>
+        </Input>
         <div class="errmsg">{{emailErrMsg}}</div>
+        <Input placeholder="邮箱验证码" v-model="input_email_code"/>
         <Button :class="'btn-block'" slot="footer" type="primary" @click="email_ok">确定</Button>
+        <div class="errmsg">{{emailCodeErrMsg}}</div>
     </Modal>
     <Modal width="400"
       title="绑定手机"
@@ -333,10 +337,14 @@
 import { mapState } from "vuex";
 import { Form, FormItem, Icon, Progress } from 'iview';
 import LoginRecord from './loginrecord';
-var telReg = /^1[34578]\d{9}$/;
+import {telReg,emailReg} from '../constant/constant';
 export default {
   data () {
     return {
+      input_email_code:'',//绑定邮箱时的邮箱验证码
+      emailCodeErrMsg:'', //绑定邮箱时的邮箱验证码错误信息
+      emailTimer:null,
+      bindEmailText:'发送验证码',
       lang:'',
       countryList:[],
       safeLevelStatus:'',
@@ -501,7 +509,6 @@ export default {
       userinfo(state) {
         var info = state.userinfo;
         console.log('state-----!!!!!!',info);
-        
         var email = {bound:false,value:''},
         nameAuth = {bound:false,value:''},
         phone = {bound:false,value:''},
@@ -574,6 +581,66 @@ export default {
     LoginRecord
   },
   methods:{
+    //发送邮箱验证码
+    sendEmailCode () {
+      if (!this.input_email) {
+        this.emailErrMsg = "请输入邮箱";
+        return false;
+      } else {
+        if (
+          this.input_email &&
+          !emailReg.test(this.input_email)
+        ) {
+          this.emailErrMsg = "邮箱格式不正确";
+          // this.emailErrorInput = "errorInput";
+          return false;
+        }
+        let $this = this;
+        if (this.emailTimer) {
+          return;
+        }
+        var num = 60;
+        this.emailTimer = setInterval(function() {
+          num -= 1;
+          if (num <= 1) {
+            clearTimeout($this.emailTimer);
+            $this.bindEmailText = "重新获取";
+            $this.emailTimer = null;
+          }else {
+            $this.bindEmailText = num + ' s';
+          }
+        }, 1000);
+        this.$ajax({
+          method: "post",
+          url: "/trade/tps/pbsel.do",
+          data: {
+            email: this.input_email,
+            // reqresource: 1,
+            type:"1"
+          }
+        }).then(function(data) {
+          console.log(data);
+          if (data.data.err_code == "1") {
+            $this.$Notice.success({
+              title: "验证码发送成功，请注意查收。",
+              desc: "",
+              top: 100
+            });
+
+          } else {
+            $this.$Notice.error({
+              title: "验证码发送失败，请重新发送。",
+              top: 100
+            });
+          }
+        }).catch((err) => {
+          $this.$Notice.error({
+              title: "验证码发送失败，请稍后重试。",
+              top: 100
+            });
+        });
+      }
+    },
     // 设置国家电话代码
     getLanguage () {
         var lang = '';
@@ -783,12 +850,22 @@ export default {
     email_ok () {
       console.log('ok email',arguments);
       let email = this.input_email.trim();
-      var emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let mobilecode = this.input_email_code.trim();
+      if (!mobilecode) {
+        this.emailCodeErrMsg = '请输入邮箱验证码';
+        return;
+      }else if (!mobilecode.match(/^\d{4}$/)) {
+        this.emailCodeErrMsg = '请输入4位正确的邮箱验证码';
+        return ;
+      }else {
+        this.emailCodeErrMsg = '';
+      }
       if (emailReg.test(email)) {
         this.$Spin.show();
         this.$ajax.post('/trade/tps/pbvcs.do',{
           type:'email',
           email,
+          mobilecode,
           reqresource:1
         }).then((res)=>{
           this.$Spin.hide();
