@@ -32,6 +32,7 @@ const NewsDetail = ()=> import('@/components/news/newsDetail/NewsDetail');
 const Homes = ()=> import('@/components/home1/home');
 const Quotation = () => import("@/components/market/Quotation")
 const Cashrecharge = () => import("@/components/assets/Cashrecharge");
+const Aboutbibang = () => import("@/components/about/aboutbibang")
 Vue.use(Router)
 
 export default new Router({
@@ -52,6 +53,11 @@ export default new Router({
       path:'/home',
       name:'Home',
       component:Homes
+    },
+    {
+      path:'/about',
+      name:'About',
+      component:Aboutbibang
     },
     {
       path:'/login',

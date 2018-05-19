@@ -20,8 +20,8 @@
                   </div>
                   <div class="mask-line"></div>
                   <div class="mask-content">
-                    <h3>type something</h3>
-                    <h4>type something type</h4>
+                    <h3>全球领先的数字资产交易平台</h3>
+                    <h4>The Leading Global Digital Asset Exchange</h4>
                   </div>
                 </div>
               </div>

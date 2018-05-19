@@ -28,7 +28,7 @@
                 </div>
                 <Row>
                     <Col span="12">
-                        <p class="foot_p foot_p_first">Type something</p>
+                        <p class="foot_p foot_p_first"><a href="/#/about">《关于币邦》</a></p>
                         <p class="foot_p">Type something</p>
                         <p class="foot_p">Type something</p>
                         <p class="foot_p">Type something</p>
@@ -96,7 +96,12 @@
         padding:48px 47px 42px 47px;
         .footer{
             font-family:Helvetica;
-
+            a{
+                color:#fff;
+            }
+            a:hover{
+                color:#2D8cF0;
+            }
             .foot_title{
                 font-size:20px;
                 color:#ffffff;
