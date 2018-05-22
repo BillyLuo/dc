@@ -362,8 +362,11 @@
               expires: 1800
             })
             
-            location = '/';
+            // location = '/';
             // location.href = '/tradex';
+            that.$router.push({
+              path:'/'
+            })
           }else {
             this.formInline.checkcode = '';
             if (data && data.data && data.data.err_code == '2' && data.data.msg) {
