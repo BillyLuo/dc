@@ -99,6 +99,9 @@ export default {
   }
   .about-content {
     width: 980px;
+    background: #222222;
+    padding: 10px 20px 80px 20px;
+    color:rgb(197, 197, 197);
   }
   .ivu-menu-dark {
     background: #222222;
