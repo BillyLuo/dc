@@ -24,7 +24,7 @@ const loginrecord = () => import("@/components/user/loginrecord");
 const Api = () => import("@/components/user/api");
 const About = () => import('@/components/about/about');
 const AboutUs = () => import('@/components/about/aboutus/AboutUs');
-const Rate = ()=> import('@/components/about/rate/Rate');
+const Rate = ()=> import('@/components/about/rate/Rate.vue');
 const Apply = ()=> import('@/components/about/apply/Apply');
 const News = ()=> import('@/components/news/News');
 const NewsList = ()=> import('@/components/news/newsList/NewsList');
@@ -33,6 +33,8 @@ const Homes = ()=> import('@/components/home1/home');
 const Quotation = () => import("@/components/market/Quotation")
 const Cashrecharge = () => import("@/components/assets/Cashrecharge");
 const Aboutbibang = () => import("@/components/about/aboutbibang")
+const Notice = () => import("@/components/about/notice/Notice")
+const Law = ()=> import('@/components/about/law/law.vue');
 Vue.use(Router)
 
 export default new Router({
@@ -54,11 +56,11 @@ export default new Router({
       name:'Home',
       component:Homes
     },
-    {
-      path:'/about',
-      name:'About',
-      component:Aboutbibang
-    },
+    // {
+    //   path:'/about',
+    //   name:'About',
+    //   component:Aboutbibang
+    // },
     {
       path:'/login',
       name:'Login',
@@ -140,9 +142,11 @@ export default new Router({
       name:'About',
       component:About,
       children:[
-        {path:'/about/aboutus',component: AboutUs,name:'AboutUs'},
+        {path:'/about/aboutus',component: Aboutbibang,name:'AboutUs'},
+        {path:'notice',component:Notice,name:'Notice'},
+        {path:'apply',component:Apply,name:'Apply'},
         {path:'rate',component:Rate,name:'Rate'},
-        {path:'apply',component:Apply,name:'Apply'}
+        {path:'law',component:Law,name:'Law'}
       ]
     },
     {

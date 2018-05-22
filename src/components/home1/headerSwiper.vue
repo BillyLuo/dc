@@ -6,7 +6,7 @@
           <div class="hander-swiper-img hander-swiper-1">
           </div>
         </div>
-        <div class="swiper-slide">
+        <!-- <div class="swiper-slide">
           <div class="hander-swiper-img hander-swiper-2">
             <div class="wrapper">
               <h4>数字资产量化交易平台</h4>
@@ -20,7 +20,7 @@
         <div class="swiper-slide">
           <div class="hander-swiper-img hander-swiper-3">
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="swiper-pagination"></div>
     </div>

@@ -1,42 +1,57 @@
 <template>
     <div class="foot">
         <Row class="footer">
-            <Col span="8">
+            <Col span="6">
                 <div class="foot_title">
-                    Products
+                    Follow us
                 </div>
                 <Row>
                     <Col span="12">
-                        <p class="foot_p foot_p_first">Type something</p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
-                    </Col>
-                    <Col span="12">
-                        <p class="foot_p foot_p_first">Type something</p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
+                        <p class="foot_p foot_p_first">微信公众号</p>
+                        <p class="foot_p">微博</p>
+                        <p class="foot_p">Telegram</p>
+                        <p class="foot_p">Twitter</p>
+                        <p class="foot_p">Facebook</p>
                     </Col>
                 </Row>
             </Col>
-            <Col span="8">
+            <Col span="6">
                 <div class="foot_title">
-                    Company
+                    工具
                 </div>
                 <Row>
                     <Col span="12">
-                        <p class="foot_p foot_p_first"><a href="/#/about">《关于币邦》</a></p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
-                        <p class="foot_p">Type something</p>
+                        <p class="foot_p foot_p_first">帮助中心</p>
+                        <p class="foot_p">数字资产介绍</p>
                     </Col>
                 </Row>
             </Col>
-            <Col span="8">
+            <Col span="6">
+                <div class="foot_title">
+                    关于
+                </div>
+                <Row>
+                    <Col span="12">
+                        <p class="foot_p foot_p_first"><a href="/#/about/aboutus?active=aboutus">关于币邦</a></p>
+                        <p class="foot_p"><a href='/#/about/apply?active=apply'>上币申请</a></p>
+                        <p class="foot_p"><a href='/#/about/notice?active=notice'>公告</a></p>
+                    </Col>
+                </Row>
+            </Col>
+            <Col span="6">
+                <div class="foot_title">
+                    条款说明
+                </div>
+                <Row>
+                    <Col span="12">
+                        <p class="foot_p foot_p_first"><a href="/static/用户协议1.0-0522.pdf" target="_blank">用户协议</a></p>
+                        <p class="foot_p"><a href="/static/隐私条款1.0-0522.pdf" target="_blank">隐私条款</a></p>
+                        <p class="foot_p"><a href='/#/about/law?active=law'>法律声明</a></p>
+                        <p class="foot_p"><a href='/#/about/rate?active=rate'>费率</a></p>
+                    </Col>
+                </Row>
+            </Col>
+            <!-- <Col span="8">
                 <div class="foot_title">
                     CompanyCo  CompanyCompany  Co
                 </div>
@@ -49,14 +64,14 @@
                 <div class="links">
                     <p class="follow clear">Follow us</p>
                     <p class="follow_link clear">
-                        <Icon  type="ios-world-outline"></Icon>
+                        <Icon type="ios-world-outline"></Icon>
                         <Icon type="social-twitter"></Icon>
                         <Icon type="social-github-outline"></Icon>
                         <Icon type="social-facebook"></Icon>
                         <Icon type="social-pinterest"></Icon>
                     </p>
                 </div>
-            </Col>
+            </Col> -->
         </Row>
         <!-- <div class="login_info">
             <Row style="line-height:140px;">
@@ -112,7 +127,7 @@
             .foot_p{
                 font-size:10px;
                 color:#adb7b9;
-                margin-top:42px;
+                margin-top:18px;
             }
             .foot_p_first{
                 margin-top:28px;

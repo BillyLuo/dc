@@ -1,15 +1,34 @@
 <template>
-  <div>
-    <h3>费率说明</h3>
+  <div class="rates">
+    <Rate></Rate>
   </div>
 </template>
 
 <script>
+import Rate from './rate.md';
 export default {
+  components:{
+    Rate
+  },
 
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .rates{
+    table {
+        width: 100%; /*表格宽度*/
+        max-width: 65em; /*表格最大宽度，避免表格过宽*/
+        border: 1px solid #666; /*表格外边框设置*/
+        margin: 15px auto; /*外边距*/
+        border-collapse: collapse; /*使用单一线条的边框*/
+        empty-cells: show; /*单元格无内容依旧绘制边框*/
+    }
+    table th,
+    table td {
+      height: 35px; /*统一每一行的默认高度*/
+      border: 1px solid #666; /*内部边框样式*/
+      padding: 0 10px; /*内边距*/
+    }
+  }
 </style>

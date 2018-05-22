@@ -324,7 +324,7 @@
         var checkcode = this.formInline.checkcode.trim();
         var reqresource = this.formInline.reqresource.trim();
         var country_code = this.formInline.country_code.trim();
-        this.changeCode();
+        
         this.$Spin.show({
           render: (h) => {
             return h('div', [
@@ -362,7 +362,8 @@
               expires: 1800
             })
             
-            // location = '/';
+            location = '/';
+            this.changeCode();
             // location.href = '/tradex';
             that.$router.push({
               path:'/'

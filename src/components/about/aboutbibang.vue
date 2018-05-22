@@ -1,7 +1,10 @@
 <template>
-    <div class="wrapper about-bibang">
-        <about></about>
-    </div>
+    <!-- <div class="wrapper about-bibang"> -->
+        <div id="aboutUs" class="aobut-us">
+            <about></about>
+        </div>
+        
+    <!-- </div> -->
 </template>
 
 <style lang="scss">
