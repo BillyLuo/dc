@@ -39,7 +39,7 @@ Vue.use(Router)
 
 export default new Router({
   mode:'hash',
-  base:'tradex', 
+  // base:'tradex', 
   routes: [
     {
       path: '/',
