@@ -44,7 +44,7 @@
                 </div>
                 <Row>
                     <Col span="12">
-                        <p class="foot_p foot_p_first"><a href="/#/about/protocol?active=protocol" target="_blank">用户协议</a></p>
+                        <p class="foot_p foot_p_first"><a href="/#/about/protocol?active=protocol" >用户协议</a></p>
                         <p class="foot_p"><a href="/#/about/secrecy?active=secrecy">隐私条款</a></p>
                         <p class="foot_p"><a href='/#/about/law?active=law'>法律声明</a></p>
                         <p class="foot_p"><a href='/#/about/rate?active=rate'>费率</a></p>
