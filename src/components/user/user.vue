@@ -42,6 +42,12 @@ export default {
   computed:{
     ...mapState({
       userinfo(state) {
+        if (state.userinfo && !state.userinfo.uid) {
+          // Message.warn('您的登录超时，请重新登录。');
+          // this.$router.push({
+          //   name:"Login"
+          // })
+        }
         var isCertified = state.userinfo.identityset == '1' ? true : false;
         return {
           isCertified
@@ -57,13 +63,6 @@ export default {
       that.initActive(name);
     })
     this.initActive(activeName);
-    console.log(this.$store.state.userinfo,'userinfo--------');
-    if (!this.$store.state.userinfo.uid) {
-      Message.warn('您的登录超时，请重新登录。');
-      this.$router.push({
-        name:"Login"
-      })
-    }
   },
   updated () {
     var route = this.$route;
