@@ -328,14 +328,15 @@ export default {
         }),
         buymoney(){
             if(this.price > 0 && this.count > 0){
-                var price = new Big(this.price);
-                return price.times(this.count*1.002).toFixed(10);
+                var price = new Big(this.price*this.count*1.002);
+                return price.toFixed(10);
             }
         },
         sellmoney(){
             if(this.price1 > 0 && this.count1 > 0){
-                 var price1 = new Big(this.price1);
-                return price1.times(this.count1*0.998).toFixed(10);
+                 var price1 = new Big(this.price1 * this.count1*0.998);
+                 
+                return price1.toFixed(10);
             }
         },
     },

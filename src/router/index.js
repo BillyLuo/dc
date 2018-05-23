@@ -35,6 +35,8 @@ const Cashrecharge = () => import("@/components/assets/Cashrecharge");
 const Aboutbibang = () => import("@/components/about/aboutbibang")
 const Notice = () => import("@/components/about/notice/Notice")
 const Law = ()=> import('@/components/about/law/law.vue');
+const Protocol = ()=> import('@/components/about/protocol/protocol.vue');
+const Secrecy = ()=> import('@/components/about/secrecy/secrecy.vue');
 Vue.use(Router)
 
 export default new Router({
@@ -146,7 +148,9 @@ export default new Router({
         {path:'notice',component:Notice,name:'Notice'},
         {path:'apply',component:Apply,name:'Apply'},
         {path:'rate',component:Rate,name:'Rate'},
-        {path:'law',component:Law,name:'Law'}
+        {path:'law',component:Law,name:'Law'},
+        {path:'secrecy',component:Secrecy,name:'Secrecy'},
+        {path:'protocol',component:Protocol,name:'Protocol'}
       ]
     },
     {

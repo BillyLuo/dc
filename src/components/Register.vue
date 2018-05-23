@@ -123,7 +123,7 @@
 								</p>
 								</div> -->
 								<div style="margin-top: 30px;margin-bottom: 10px;">
-								<Checkbox v-model="single" >阅读并同意 <a href="/static/用户协议1.0-0522.pdf" target="_blank">《币邦用户协议》</a>和<a href="/static/隐私条款1.0-0522.pdf" target="_blank">《币邦隐私条款》</a></Checkbox>
+								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/secrecy?active=secrecy" >《币邦用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《币邦隐私条款》</a></Checkbox>
 								</div>
 								<div class="go-register">
 								<Button type="primary" size="large" @click="submitTel">注册</Button>
@@ -226,7 +226,7 @@
 								</p>
 								</div> -->
 								<div class="register-input-item">
-								<Checkbox v-model="single" >阅读并同意 <a href="/static/用户协议1.0-0522.pdf" target="_blank">《币邦用户协议》</a>和<a href="/static/隐私条款1.0-0522.pdf" target="_blank">《币邦隐私条款》</a></Checkbox>
+								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/secrecy?active=secrecy" >《币邦用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《币邦隐私条款》</a></Checkbox>
 								</div>
 								<div class="go-register">
 								<Button type="primary" size="large" @click="submitEmail">注册</Button>

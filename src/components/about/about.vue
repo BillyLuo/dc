@@ -31,8 +31,11 @@ var aboutMenu = [
   {name:'notice',label:'公告'},
 ];
 var aboutMenu1 = [
+  {name:'protocol',label:'用户协议'},
+  {name:'secrecy',label:'隐私条款'},
   {name:'law',label:'法律声明'},
-  {name:'rate',label:'费率'}
+  {name:'rate',label:'费率'},
+
 ];
 var activeName = aboutMenu[0].name;
 export default {
@@ -87,8 +90,8 @@ export default {
     padding: 30px 0;
     min-height: 400px;
     .ivu-menu-item-active{
-      color: #2d8cf0 !important;
-      border-right-color: #2d8cf0 !important;
+      color: #2d8cf0  !important;
+      border-right-color: #2d8cf0  !important;
     }
   }
   .ivu-menu-item{
@@ -104,7 +107,7 @@ export default {
     color:rgb(197, 197, 197);
   }
   .ivu-menu-dark {
-    background: #222222;
+    background: #222222  !important;
   }
   
 </style>
