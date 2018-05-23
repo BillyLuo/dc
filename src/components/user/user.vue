@@ -58,17 +58,12 @@ export default {
     })
     this.initActive(activeName);
     console.log(this.$store.state.userinfo,'userinfo--------');
-
-    setTimeout(()=>{
-      console.log('000')
-      if (!this.$store.state.userinfo.uid) {
-        Message.warn('您的登录超时，请重新登录。');
-        this.$router.push({
-          name:"Login"
-        })
-      }
-    },3000)
-    
+    if (!this.$store.state.userinfo.uid) {
+      Message.warn('您的登录超时，请重新登录。');
+      this.$router.push({
+        name:"Login"
+      })
+    }
   },
   updated () {
     var route = this.$route;
