@@ -125,12 +125,13 @@
             }
             
             .foot_p{
-                font-size:10px;
+                font-size:14px;
                 color:#adb7b9;
-                margin-top:18px;
+                margin-top:15px;
             }
             .foot_p_first{
                 margin-top:28px;
+
             }
             .enter_email{
                 margin-top:11px;

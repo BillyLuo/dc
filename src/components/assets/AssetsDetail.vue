@@ -18,7 +18,7 @@
         <Select :class="'dark-mode'" @on-change="changeType" :filterable="true" v-model="operation_type" style="width:200px;margin: 30px 0;">
           <Option v-for="(item) in typeList" :value="item.value+'-'+item.type" :key="item.value+'-'+item.type">{{ item.label }}</Option>
         </Select>
-        <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail">查询</Button>
+        <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail(1)">查询</Button>
       </div>
       <Table :class="'no-border-table dark-mode'" stripe :columns="account_detail_column" :data="account_detail_data" />
       <!-- <div class="pager"> -->
@@ -202,14 +202,17 @@ export default {
     },
     change(value){
       this.detailPageNo = value;
-      this.getAssetsDetail();
+      this.getAssetsDetail(value);
     },
     pageSizeChange(value) {
+      this.detailPageNo = 1;
       this.detailPageSize = value;
       this.getAssetsDetail();
     },
-    getAssetsDetail(){
-      var pageno = this.detailPageNo;
+    getAssetsDetail(val){
+      console.log('---===',val)
+      var pageno = val?val:this.detailPageNo;
+      console.log(pageno)
       var pagesize = this.detailPageSize;
       let that =this;
       let starttime = this.startDate;
