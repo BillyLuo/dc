@@ -43,6 +43,7 @@
 import { mapState } from "vuex";
 import { Page } from 'iview';
 import { pageSizeOpts } from '../constant/constant';
+var Big = require('big.js');
 export default {
   mounted () {
     this.getAccountList()
@@ -215,9 +216,9 @@ export default {
         let formatList = list.map((value, index) => {
           let result = {};
           result.name = value.currencyname;
-          result.useable =  Number(value.usablefund).toFixed(10);
-          result.freeze =  Number(value.frozenfund).toFixed(10);
-          result.total =  Number(value.total).toFixed(10);
+          result.useable =  new Big(Number(value.usablefund)).toFixed(10);
+          result.freeze =  new Big(Number(value.frozenfund)).toFixed(10);
+          result.total =  new Big(Number(value.total)).toFixed(10);
           return result;
         })
         this.account_list_data = formatList;

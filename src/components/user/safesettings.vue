@@ -165,13 +165,14 @@
         title="邮箱认证"
         v-model="emailModal"
         :loading="emailLoading">
-        <Input placeholder="邮箱地址" v-model="input_email">
+        <Input placeholder="邮箱地址" v-model="input_email" @on-focus="email_focus">
           <span slot="append" style="cursor: pointer;" @click="sendEmailCode">{{bindEmailText}}</span>
         </Input>
         <div class="errmsg">{{emailErrMsg}}</div>
-        <Input placeholder="邮箱验证码" v-model="input_email_code"/>
-        <Button :class="'btn-block'" slot="footer" type="primary" @click="email_ok">确定</Button>
+        <Input placeholder="邮箱验证码" v-model="input_email_code" @on-focus="emailcode_focus"/>
         <div class="errmsg">{{emailCodeErrMsg}}</div>
+        <Button :class="'btn-block'" slot="footer" type="primary" @click="email_ok">确定</Button>
+        
     </Modal>
     <Modal width="400"
       title="绑定手机"
@@ -581,6 +582,12 @@ export default {
     LoginRecord
   },
   methods:{
+    email_focus(){
+      this.emailErrMsg = "";
+    },
+    emailcode_focus(){
+      this.emailCodeErrMsg = "";
+    },  
     //发送邮箱验证码
     sendEmailCode () {
       if (!this.input_email) {
