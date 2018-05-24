@@ -151,9 +151,9 @@ export default {
       this.$ajax.post('/trade/tps/pbqrw.do',{
         coin:this.currencyType,
         reqresource:1,
-        operateType:1,
+        operation:1,
         pageno:1,
-        pagesize:100
+        pagesize:1000
       }).then((res)=>{
         console.log('-----detail',res);
         if (res.status == 200 && res.data.err_code == '1') {

@@ -311,9 +311,9 @@
         :label-width="100"
         ref="setTradePwd"
         :rules="setTradeRules">
-        <FormItem label="旧交易密码：" prop="oldpwd">
+        <!-- <FormItem label="旧交易密码：" prop="oldpwd">
           <Input v-model="setTradeValidate.oldpwd" placeholder="旧交易密码" type="password" />
-        </FormItem>
+        </FormItem> -->
         <FormItem label="新交易密码：" prop="newpwd">
           <Input v-model="setTradeValidate.newpwd" placeholder="新交易密码" type="password" />
         </FormItem>
@@ -395,7 +395,7 @@ export default {
         confirmpwd:'',
       },
       setTradeValidate:{
-        oldpwd:'',
+        // oldpwd:'',
         newpwd:'',
         confirmpwd:'',
         code:'',
@@ -481,10 +481,10 @@ export default {
         ]
       },
       setTradeRules:{
-        oldpwd:[
-          {required:true,message:'请输入交易密码',trigger:'blur'},
-          {type:'string',min:6,max:20,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
-        ],
+        // oldpwd:[
+        //   {required:true,message:'请输入交易密码',trigger:'blur'},
+        //   {type:'string',min:6,max:20,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
+        // ],
         newpwd:[
           {required:true,message:'请输入交易密码',trigger:'blur'},
           {type:'string',min:6,max:20,message:'交易密码应该在6-20位,且不应包含特殊字符',pattern:/^\w{6,20}$/,trigger:'blur'},
@@ -1167,7 +1167,7 @@ export default {
           that.$ajax.post('/trade/tps/pbvcs.do',{
             type:'tradepwd',
             newpwd,
-            oldpwd,
+            // oldpwd,
             confirmpwd,
             mobilecode:code,
             reqresource:1

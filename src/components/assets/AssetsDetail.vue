@@ -21,7 +21,7 @@
         <Button type="primary" :style="{width: '100px',fontSize:'14px',marginLeft:'20px'}" @click="getAssetsDetail">查询</Button>
       </div>
       <Table :class="'no-border-table dark-mode'" stripe :columns="account_detail_column" :data="account_detail_data" />
-      <div class="pager">
+      <!-- <div class="pager"> -->
         <div class="pager-inner">
           <Page  
             :total="detailPageTotal" 
@@ -34,7 +34,7 @@
             show-elevator
           />
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -156,7 +156,7 @@ export default {
         let list = (data.data && data.data.accountFund) ? data.data.accountFund : [];
         let formatList1 = list.map((value, index) => {
           let result = {};
-          result.label = value.currencyname+"提现";
+          result.label = value.currencyname+"提币";
           result.value = value.currencyname;
           result.type = "2"
           return result;
@@ -244,6 +244,7 @@ export default {
         coin,
         // starttime,
         // endtime,
+        operation:that.types?that.types.split('-')[1]:'',
         reqresource:1,
         pageno,
         pagesize
@@ -254,24 +255,26 @@ export default {
             console.log(res.data.recordDetail)
             console.log("------")
             console.log(that.types)
-            if(this.types.split('-')[1]){
-              console.log("------")
-              res.data.recordDetail.map((item)=>{
-                if(that.types.split('-')[1] == item.operateType){
-                  that.account_detail_data.push(item)
-                  console.log(item)
-                }
-              })
-            }else{
+            // if(this.types.split('-')[1]){
+            //   console.log("------")
+            //   res.data.recordDetail.map((item)=>{
+            //     if(that.types.split('-')[1] == item.operateType){
+            //       that.account_detail_data.push(item)
+            //       console.log(item)
+            //     }
+            //   })
+            //   // that.detailPageTotal = that.account_detail_data.length
+            // }else{
               that.account_detail_data = res.data.recordDetail
-            }
+              // that.detailPageTotal = res.data.page.sum*1
+            // }
             
             
             
           }
-          // if (res.data && res.data.page) {
-          //   that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;
-          // }
+          if (res.data && res.data.page) {
+            that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;
+          }
           // if(res.data.accountDetail && res.data.accountDetail.length){
           //   that.account_detail_data = res.data.accountDetail
           // }else {
@@ -323,5 +326,11 @@ export default {
     color: rgb(255, 255, 255);
     padding: 0px 20px;
     font-size: 16px;
+  }
+  .asset-detail{
+    .pager-inner{
+      margin-top: 20px;
+      text-align: right;
+    }
   }
 </style>

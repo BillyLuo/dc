@@ -306,7 +306,7 @@ export default {
       this.$ajax.post('/trade/tps/pbqrw.do',{
         coin:this.withdrawType,
         reqresource:1,
-        operateType:2,
+        operation:2,
         pageno:1,
         pagesize:100
       }).then((res)=>{
