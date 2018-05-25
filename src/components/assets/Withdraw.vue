@@ -352,6 +352,8 @@ export default {
         }else{
           this.disabled = false;
         }
+      }else{
+        this.disabled = false;
       }
       
       // var value = val;
@@ -726,7 +728,7 @@ export default {
 }
 .withdraw-note-title {
   font-size: 16px;
-  color: #333;
+  color: #fff;
   margin-bottom: 10px;
 }
 .withdraw-note-content {
