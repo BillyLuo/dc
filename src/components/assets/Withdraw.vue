@@ -15,8 +15,14 @@
       <FormItem  v-if="withdrawType !='ETH'" label="公钥" prop="pub">
         <Input :class="'withdraw-item'" v-model="withdrawModel.pub" disabled/>
       </FormItem>
-      <FormItem label="提币数量" prop="account">
-        <InputNumber :class="'withdraw-item'" :max="999999" @on-change="numberchange" v-model="withdrawModel.account"></InputNumber>
+      <FormItem label="提币数量" >
+        <!-- @on-change="numberchange"  -->
+        <input v-model="withdrawModel.account" class="withdraw-item ivu-input" @input="numberchange($event)" />
+        <!-- <InputNumber :class="'withdraw-item'" :max="99999" @blur="inputBlur($event)"
+        v-model="withdrawModel.account"
+        :precision="10"
+        :formatter="numberchange"
+        ></InputNumber> -->
       </FormItem>
       <FormItem :label="'  '+withdrawType+'手续费比例'" prop="commission">
         <Input :class="'withdraw-item'" v-model="withdrawModel.commission" disabled/>
@@ -77,6 +83,7 @@
 
 <script>
 import { Form, FormItem } from 'iview';
+var Big = require('big.js');
 let L = console.log;
 var record_column = [
   {
@@ -171,7 +178,8 @@ var numReg = function (m,n) {
         }
         return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}(\\.\\d{0,'+n+'})?))$');
     }
-var reg = numReg('5','1');
+var regs = numReg('5','10');
+import {BigNumber} from 'bignumber.js';
 export default {
   components:{
     Form: Form,
@@ -246,7 +254,7 @@ export default {
             }
           },
           render: (h,param) =>{
-            return h("span",Number(param.row.amount).toFixed(6))
+            return h("span",Number(param.row.amount).toFixed(10))
           }
         },
         {
@@ -261,7 +269,7 @@ export default {
             }
           },
           render: (h,param) =>{
-            return h("span",Number(param.row.serviceCharge).toFixed(6))
+            return h("span",Number(param.row.serviceCharge).toFixed(10))
           }
         },
         {
@@ -335,55 +343,25 @@ export default {
         that.$Message.warning('获取提币记录失败,请稍后重试');
       })
     },
-    numberchange(val){
-      var ss =  val.toString();
-      // if(ss.indexOf(".") !=-1){
-      //   var value =ss.split('.')[1];
-      //   console.log("==",value.length)
-      //   if(value.length>1){
-      //     console.log(value.substr(0,1))
-      //     this.withdrawModel.account = Number(ss.split('.')[0]+'.'+value.substr(0,1))
-      //     this.disabled = true;
-      //     this.$Notice.warning({
-      //       title:'温馨提示',
-      //       desc:"小数点后只能输入一位数"
-      //     })
-      //     return false;
-      //   }else{
-      //     this.disabled = false;
-      //   }
-      // }else{
-      //   this.disabled = false;
-      // }
-      
-      // var value = val;
-      // if (!value) {
-      //     this.withdrawModel.account = 0;
-      // }else {
-      //     value = value.toString();
-      //     console.log(typeof value,"=-=-=-=-=-=-=-")
-      //     // console.log(reg.test(value))
-      //     if (reg.test(value)) {
-      //         this.withdrawModel.account = Number(value);
-      //     }else {
-      //         value = value.slice(0,-1);
-      //         // console.log(value)
-      //         var matched = value.match(reg);
-      //         // console.log(matched)
-      //         if (matched && matched.length) {
-      //             this.withdrawModel.account = Number(matched[0]);
-      //         }else {
-      //             this.withdrawModel.account  = 0;
-      //         }
-      //     }
-      // }
-      if(val > 99999){
-        this.$Notice.warning({
-          title:'温馨提示',
-          desc:'最大数量不能超过99999'
-        })
-        return false;
+    numberchange(e){
+      var value = e.target.value;
+      if (!value) {
+          this.withdrawModel.account = '';
+      }else {
+          if (regs.test(value)) {
+              this.withdrawModel.account = value;
+          }else {
+              value = value.slice(0,-1);
+              var matched = value.match(regs);
+              if (matched && matched.length) {
+                  this.withdrawModel.account = matched[0];
+              }else {
+                 
+                      this.withdrawModel.account  = '';
+              }
+          }
       }
+       
     },
     getpub(val){
       console.log(val,"67890-=====================");
@@ -504,7 +482,8 @@ export default {
         })
         return false;
       }
-      if(that.withdrawModel.account > that.withdrawModel.balance){
+      console.log(that.withdrawModel.account)
+      if(Number(that.withdrawModel.account) > Number(that.withdrawModel.balance)){
         that.$Notice.warning({
           title:'温馨提示',
           desc:'提币数量不能大于账户余额'

@@ -329,16 +329,23 @@ export default {
         }),
         buymoney(){
             if(this.price > 0 && this.count > 0){
-                var price = new BigNumber(this.price*this.count*1.002);
+                // var price = new BigNumber(this.price*this.count*1.002);
+                let x = new BigNumber(this.price)
+                let y = x.multipliedBy(this.count)
+                let z = y.multipliedBy(1.002)
+                // console.log(x.toFixed(10)+'----'+y.toFixed(10)+'-----'+z.toFixed(10))
                 // console.log(price.times(this.count*1.002))
                 // var ss = new BigNumber(this.price*this.count*1.002)
-                return price.toFormat(10);
+                return z.toFormat(10);
             }
         },
         sellmoney(){
             if(this.price1 > 0 && this.count1 > 0){
                 var price1 = new BigNumber(this.price1*this.count1*0.998);
-                return price1.toFormat(10);
+                let a = new BigNumber(this.price1)
+                let b = a.multipliedBy(this.count1)
+                let c = b.multipliedBy(0.998)
+                return c.toFormat(10);
             }
         },
     },

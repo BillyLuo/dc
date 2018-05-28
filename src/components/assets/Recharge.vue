@@ -96,7 +96,7 @@ export default {
             }
           },
           render: (h,param) =>{
-            return h("span",Number(param.row.amount).toFixed(6))
+            return h("span",Number(param.row.amount).toFixed(10))
           }
         },
         {
@@ -111,7 +111,7 @@ export default {
             }
           },
           render: (h,param) =>{
-            return h("span",Number(param.row.serviceCharge).toFixed(6))
+            return h("span",Number(param.row.serviceCharge).toFixed(10))
           }
         },
         {
