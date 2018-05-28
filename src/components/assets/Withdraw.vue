@@ -337,24 +337,24 @@ export default {
     },
     numberchange(val){
       var ss =  val.toString();
-      if(ss.indexOf(".") !=-1){
-        var value =ss.split('.')[1];
-        console.log("==",value.length)
-        if(value.length>1){
-          console.log(value.substr(0,1))
-          this.withdrawModel.account = Number(ss.split('.')[0]+'.'+value.substr(0,1))
-          this.disabled = true;
-          this.$Notice.warning({
-            title:'温馨提示',
-            desc:"小数点后只能输入一位数"
-          })
-          return false;
-        }else{
-          this.disabled = false;
-        }
-      }else{
-        this.disabled = false;
-      }
+      // if(ss.indexOf(".") !=-1){
+      //   var value =ss.split('.')[1];
+      //   console.log("==",value.length)
+      //   if(value.length>1){
+      //     console.log(value.substr(0,1))
+      //     this.withdrawModel.account = Number(ss.split('.')[0]+'.'+value.substr(0,1))
+      //     this.disabled = true;
+      //     this.$Notice.warning({
+      //       title:'温馨提示',
+      //       desc:"小数点后只能输入一位数"
+      //     })
+      //     return false;
+      //   }else{
+      //     this.disabled = false;
+      //   }
+      // }else{
+      //   this.disabled = false;
+      // }
       
       // var value = val;
       // if (!value) {

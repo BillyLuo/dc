@@ -428,7 +428,7 @@ export default {
                                 style: {
                                         color: '#f22929'
                                     },
-                            },Number(params.row.tradeprice).toFixed(6))
+                            },Number(params.row.tradeprice).toFixed(8))
                             
                         }
                         if(params.row.tradetype == "2"){
@@ -436,7 +436,7 @@ export default {
                                 style: {
                                         color: '#1e9900'
                                     },
-                            },Number(params.row.tradeprice).toFixed(6))
+                            },Number(params.row.tradeprice).toFixed(8))
 
                             
                         }
@@ -450,7 +450,7 @@ export default {
                             style:{
                                 color:"#42b6f6"
                             }
-                        },Number(params.row.tradecount).toFixed(6))
+                        },params.row.tradecount)
                     }
                 }
             ]
@@ -646,11 +646,12 @@ export default {
                 {
                         title: "委托时间",
                         key: "entrusttime",
+                        width:100,
                     },
                     {
                         title: '类型',
                         key: 'tradetype',
-                        width:100,
+                        width:60,
                         render: (h,params) =>{
                             if(params.row.tradetype == "1"){
                                 return h("span",{style:{
@@ -666,6 +667,7 @@ export default {
                     {
                         title: '数量',
                         key: 'entrustcount',
+                        width:100,
                         render: (h,params)=>{
                             return h("span",params.row.entrustcount)
                         }
@@ -673,8 +675,9 @@ export default {
                     {
                         title: '价格',
                         key: 'tradeprice',
+                        width:100,
                         render: (h,params)=>{
-                            return h("span",params.row.tradeprice)
+                            return h("span",Number(params.row.tradeprice).toFixed(8))
                         }
                     },
                     {
@@ -687,6 +690,7 @@ export default {
                     {
                         title: '成交量',
                         key: 'tradecount',
+                        width:100,
                         render: (h,params)=>{
                             return h("span",params.row.tradecount)
                         }
@@ -694,8 +698,9 @@ export default {
                     {
                         title: '成交金额',
                         key: 'tradeamount',
+                        width:120,
                         render: (h,params)=>{
-                            if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",params.row.tradeamount)
+                            if (params.row.tradeamount && params.row.tradeamount!="null") return  h("span",Number(params.row.tradeamount).toFixed(10))
                                 else return h("span","")
                         }
                     },
@@ -704,9 +709,9 @@ export default {
                         key: 'charge',
                         render: (h,params)=>{
                             if(this.order_record_cloumns_title != "jiaoyijilu"){
-                                return h("span",params.row.charge)
+                                return h("span",Number(params.row.charge).toFixed(8))
                             }else{
-                                return h("span",params.row.charge)
+                                return h("span",Number(params.row.charge).toFixed(8))
                             }
                         }
                     },
@@ -715,7 +720,7 @@ export default {
                         key: 'averageprice',
                         
                         render: (h,params)=>{
-                            return h("span",params.row.averageprice)
+                            return h("span",Number(params.row.averageprice).toFixed(10))
                         }
                     }
                     
@@ -724,6 +729,7 @@ export default {
                 this.order_record_cloumns.push({
                         title: "操作",
                         key: 'status',
+                        width:100,
                         render: (h,params) =>{
                             // 0:已提交1:成交,2:撤销,3:部分成交,4:部分成交撤销
                             if(params.row.status == "1"){
@@ -757,6 +763,7 @@ export default {
                 this.order_record_cloumns.push({
                     title: "状态",
                     key: 'status',
+                    width:100,
                     render: (h,params) =>{
                         // 0:已提交1:成交,2:撤销,3:部分成交,4:部分成交撤销
                         if(params.row.status == "1"){
@@ -1551,6 +1558,7 @@ export default {
             .wwj{
                 .ivu-table-tbody .ivu-table-cell{
                     color:#fff;
+                    padding-right:0;
                 }
                 .dark-mode .ivu-table th {
                     background: #222222;
