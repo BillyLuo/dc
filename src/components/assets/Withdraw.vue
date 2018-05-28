@@ -193,7 +193,7 @@ export default {
       withdrawModel:{
         balance:'0.00',
         address:'1',
-        account:0,
+        account:'',
         commission:'0.002',
         trade_password:'',
         text_code:'',
