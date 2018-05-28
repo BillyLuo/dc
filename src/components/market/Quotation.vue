@@ -716,9 +716,9 @@ export default {
                         key: 'charge',
                         render: (h,params)=>{
                             if(this.order_record_cloumns_title != "jiaoyijilu"){
-                                return h("span",Number(params.row.charge).toFixed(8))
+                                return h("span",Number(params.row.charge).toFixed(10))
                             }else{
-                                return h("span",Number(params.row.charge).toFixed(8))
+                                return h("span",Number(params.row.charge).toFixed(10))
                             }
                         }
                     },
