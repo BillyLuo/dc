@@ -240,14 +240,14 @@ let menu=[
                             if (!collection || !collection.length) {
                                 that.array = market.map((item,index)=>{
                                     item.star = false;
-                                    item.charts = [1.2,3,3.3,2.2,2.2,2.0,1.9,4.3,5.4,3.2,2.5,2.7];
+                                    item.charts = item.dayclose;
                                     return item;
                                 })
                             }else {
                                 var result = [];
                                 result = market.map((item,index) => {
                                     item.star = false;
-                                    item.charts = [1.2,3,3.3,2.2,2.2,2.0,1.9,4.3,5.4,3.2,2.5,2.7];
+                                    item.charts = item.dayclose;
                                     for (var i =0;i<collection.length;i++) {
                                         if (item.currencyname == collection[i].currencyname ){
                                             item.star = true;
@@ -283,7 +283,7 @@ let menu=[
                 if (market.length) {
                     that.array = market.map((item,index)=>{
                         item.star = false;
-                        item.charts = [1.2,3,3.3,2.2,2.2,2.0,1.9,4.3,5.4,3.2,2.5,2.7];
+                        item.charts = item.dayclose;
                         return item;
                     })
                 }
@@ -658,11 +658,11 @@ let menu=[
                         top:12px;
                     }
                     .charts{
-                        width:103%;
+                        width:100%;
                         height:120px;
                         position: absolute;
-                        left:-5px;
-                        bottom: -5px;
+                        left:0px;
+                        bottom: 0px;
                         // background: #f00;
 
                     }
