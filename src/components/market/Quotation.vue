@@ -17,7 +17,8 @@
         </div>
         <Row class="qt_right">
             <Col span="18">
-                <div id="chart"> </div>
+                <!-- <div id="chart"> </div> -->
+                <div id="tv_chart_container"></div>
             </Col>
             <Col span="6">
                 <Table class="right-list"  @on-row-click="dbclick" :columns="columns1" :data="data1"></Table>
@@ -135,36 +136,117 @@
 </template>
 
 <script>
-import TradingView from './trading';
+// import TradingView from './trading';
 import {Tabs,TabPane,Table,Form,FormItem,Slider} from 'iview';
 var Big = require('big.js');
 import {BigNumber} from 'bignumber.js';
 import { mapState } from "vuex";
-function initCharts (symbol) {
-        new TradingView.widget({
-            "container_id":"chart",
-            "width": '100%',
-            "height": 660,
-            "symbol": 'BITFINEX:'+(symbol?''+symbol:"BTCUSD"),
-            "interval": "15",
-            "timezone": "Asia/Hong_Kong",
-            "theme": "Dark",
-            "style": "1",
-            fullscreen:true,
-            "locale": "zh_CN",
-            "toolbar_bg": "#f1f3f6",
-            "enable_publishing": false,
-            "withdateranges": false,
-            "hide_top_toolbar":false,
-            "hide_side_toolbar": false,
-            "allow_symbol_change": false,
-            "hideideasbutton": true,
-            "show_popup_button": false,
-            "popup_width": "1000",
-            "popup_height": "650",
-            "save_image":false
-        });
-} 
+import Datafeed from './datafeed.js'
+    let widget;
+    let buttonArr = [
+      {
+        value: "1F",
+        period: "1min",
+        text: "分时",
+      },
+      {
+        value: "1",
+        period: "1min",
+        text: "1min",
+        select:true,
+      },
+      {
+        value: "5",
+        period: "5min",
+        text: "5min",
+        select:false,
+      },
+      {
+        value: "15",
+        period: "15min",
+        text: "15min",
+        select:false,
+      },
+      {
+        value: "30",
+        period: "30min",
+        text: "30min",
+        select:false,
+      },
+      {
+        value: "60",
+        period: "1hour",
+        text: "1hour",
+        select:false,
+      },
+      {
+        value: "2H",
+        period: "2hour",
+        text: "2hour",
+        select:false,
+      },
+      {
+        value: "240",
+        period: "4hour",
+        text: "4hour",
+        select:false,
+      },
+      {
+        value: "360",
+        period: "6hour",
+        text: "6hour",
+        select:false,
+      },
+      {
+        value: "720",
+        period: "12hour",
+        text: "12hour",
+        select:false,
+      },
+      {
+        value: "1D",
+        period: "1D",
+        text: "日线",
+        select:false,
+      },
+      {
+        value: "1W",
+        period: "1W",
+        text: "周线",
+        select:false,
+      },
+      {
+        value: "1M",
+        period: "1M",
+        text: "月线",
+        select:false,
+      }
+    ]
+// function initCharts (symbol) {
+//         new TradingView.widget({
+//             "container_id":"chart",
+//             "width": '100%',
+//             "height": 660,
+//             "symbol": 'BITFINEX:'+(symbol?''+symbol:"BTCUSD"),
+//             "interval": "15",
+//             "timezone": "Asia/Hong_Kong",
+//             "theme": "Dark",
+//             "style": "1",
+//             fullscreen:true,
+//             "locale": "zh_CN",
+//             "toolbar_bg": "#f1f3f6",
+//             "enable_publishing": false,
+//             "withdateranges": false,
+//             "hide_top_toolbar":false,
+//             "hide_side_toolbar": false,
+//             "allow_symbol_change": false,
+//             "hideideasbutton": true,
+//             "show_popup_button": false,
+//             "popup_width": "1000",
+//             "popup_height": "650",
+//             "save_image":false
+//         });
+// } 
     var numReg = function (m,n) {
         // m=m.toString();
         // n=n.toString();
@@ -350,7 +432,8 @@ export default {
         },
     },
     mounted(){
-        initCharts(this.jichubizhong+""+this.jijiabizhong.split("T")[0]);
+        this.tradingViewGetReady();
+        // initCharts(this.jichubizhong+""+this.jijiabizhong.split("T")[0]);
         this.getRlist();
         this.getBalance(this.jijiabizhong);
         this.newPrice();
@@ -363,6 +446,107 @@ export default {
         this.hangqing();
     },
     methods:{
+        // tradeView准备
+        tradingViewGetReady() {
+            let that = this;
+            TradingView.onready((() => {
+                widget = window.widget = new TradingView.widget({
+                    debug:false,
+                    fullscreen: false,
+                    // autosize:true,
+                    width:"100%",
+                    height:"660px",
+                    symbol: this.jichubizhong+this.jijiabizhong,
+                    interval:'1D',
+                    container_id: "tv_chart_container",
+                    //	BEWARE: no trailing slash is expected in feed URL
+                    datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:that.jichubizhong,jijiabizhong:that.jijiabizhong},60000), //that.chartinit(),
+                    toolbar_bg: "#181b2b",
+                    library_path: "static/charting_library/charting_library/",
+                    locale: "zh",
+                    drawings_access: { type: 'black', tools: [ { name: "Regression Trend" } ] },
+                    // charts_storage_url: 'http://saveload.tradingview.com',
+                    charts_storage_api_version: "1.1",
+                    client_id: 'tradingview.com',
+                    user_id: 'public_user_id',
+                    loading_screen: { backgroundColor: "#181b2b",foregroundColor:"#fff"},
+                    disabled_features: [
+                        "header_symbol_search",
+                        "header_compare",
+                        'header_undo_redo',
+                        "caption_buttons_text_if_possible",
+                        "adaptive_logo",
+                        "main_series_scale_menu",
+                        "go_to_date",
+                        "show_dom_first_time",
+                        "header_interval_dialog_button",
+                        "header_screenshot",
+                        "hide_chart_type",
+                        "header_resolutions",
+                        "header_chart_type",
+                        "symbol_search_hot_key",
+                        "header_saveload",
+                        "go_to_date",
+                        "timeframes_toolbar",
+                        "volume_force_overlay"
+                    ],
+                    enabled_features: [
+                        'dont_show_boolean_study_arguments',
+                        "use_localstorage_for_settings",
+                        "remove_library_container_border",//tv-close-panel top
+                    ],
+                    drawings_access: {
+                        type: 'black',
+                        tools: [{name: "Regression Trend"}],//todo: moje
+                        tools: [
+                            {name: "Trend Line", grayed: true},
+                            {name: "Trend Angle", grayed: true}
+                        ] //todo: bb
+                    },
+                    overrides: {
+                        // "volumePaneSize": "medium",
+                        "symbolWatermarkProperties.color": "rgba(0, 0, 0, 0)",
+                        "paneProperties.background": "#181b2b",
+                        "paneProperties.vertGridProperties.color": "rgba(100, 100, 100, 0.1)",
+                        "paneProperties.horzGridProperties.color": "rgba(100, 100, 100, 0.1)",
+                        "paneProperties.crossHairProperties.color": "#ccc",
+                        "paneProperties.topMargin": 15,
+                        "paneProperties.bottomMargin": 15,
+                        "scalesProperties.lineColor ": "#ccc",
+                        "scalesProperties.textColor" : "#ccc"
+                    },
+                    studies_overrides: {
+                        
+                    },
+                    custom_css_url: 'chart.css'
+                });
+
+                widget.onChartReady(() => {
+                    let handleClick = (e, value) => {
+                        // console.log(widget.chart())
+                        if(value == "1F"){
+                            widget.chart().setChartType(3)
+                        }else{
+                            widget.chart().setChartType(1)
+                            widget.chart().setResolution(value,function(){});
+                        }
+                        that.time_type = value;
+                        $(e.target).addClass('select').closest('div.space-single').siblings('div.space-single').find('div.button').removeClass('select');
+                    }
+                    buttonArr.forEach((item,index)=>{
+                        let button = widget.createButton()
+                        button.parent().attr("style",'float:left')
+                        button.addClass(item.select?"select time_button_header":'time_button_header')
+                        .attr("style","background:none;border:none;color:#68696b;")
+                        .html("<span>"+item.text+"</span>")
+                        .on('click', function (e) {
+                            handleClick(e,item.value);
+                        })
+                    })
+                    
+                })
+            })());
+        },
         selectbi(val){
             let that=this;
             this.data.map((item)=>{
@@ -371,7 +555,7 @@ export default {
                     that.news_price = item.curprice;
                     that.jichubizhong = item.currencyname;
                     that.jijiabizhong = item.tradecurrency;
-                    initCharts(item.currencyname+""+item.tradecurrency.split("T")[0]);
+                    // initCharts(item.currencyname+""+item.tradecurrency.split("T")[0]);
                     that.getRlist();
                     that.getBalance(that.jijiabizhong);
                     that.newPrice();
@@ -382,6 +566,7 @@ export default {
                     that.hangqing();
                     that.buy_sell = "buy";
                     that.active_tab='wtcd';
+                    that.tradingViewGetReady();
                 }
                 
             })

@@ -37,6 +37,7 @@ const Notice = () => import("@/components/about/notice/Notice")
 const Law = ()=> import('@/components/about/law/law.vue');
 const Protocol = ()=> import('@/components/about/protocol/protocol.vue');
 const Secrecy = ()=> import('@/components/about/secrecy/secrecy.vue');
+const kline = ()=> import('@/components/market/kline');
 Vue.use(Router)
 
 export default new Router({
@@ -58,11 +59,11 @@ export default new Router({
       name:'Home',
       component:Homes
     },
-    // {
-    //   path:'/about',
-    //   name:'About',
-    //   component:Aboutbibang
-    // },
+    {
+      path:'/kline',
+      name:'kline',
+      component:kline
+    },
     {
       path:'/login',
       name:'Login',

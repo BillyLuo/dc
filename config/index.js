@@ -47,6 +47,10 @@ module.exports = {
         //   pathRewrite: {'^/trade' : ''}
         // },
         // 208
+        '/congig': {
+          target: 'http://localhost:9090/config',
+          pathRewrite: {'^/config' : ''}
+        },
         '/trade': {
           target: 'http://47.93.200.170:8002/txs',
           pathRewrite: {'^/trade' : ''}
