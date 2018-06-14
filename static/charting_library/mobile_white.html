@@ -65,8 +65,8 @@
 			if (r != null) return unescape(r[2]); return null; //返回参数值
 		}
 		var bizhong = getUrlParam("currency").toUpperCase();
-		var jijiabizhogn  = getUrlParam('val_currency').toUpperCase();
-		console.log(bizhong,jijiabizhogn)
+		var bizhong_jijia  = getUrlParam('val_currency').toUpperCase();
+		console.log(bizhong,bizhong_jijia)
 
 
 		let buttonArr = [
@@ -164,7 +164,7 @@
 				interval:'15',
 				container_id: "tv_chart_container",
 				//	BEWARE: no trailing slash is expected in feed URL
-				datafeed: new Datafff.UDFCompatibleDatafeed("http://47.93.200.170:8082",{jichubizhong:bizhong,jijiabizhong:jijiabizhong},180000), //that.chartinit(),
+				datafeed: new Datafff.UDFCompatibleDatafeed("http://47.93.200.170:8082",{jichubizhong:bizhong,jijiabizhong:bizhong_jijia},180000), //that.chartinit(),
 				toolbar_bg: "#181b2b",
 				library_path: "./charting_library/",
 				locale: "zh",
