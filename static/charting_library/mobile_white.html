@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>Coodex</title>
+
+		<!-- Fix for iOS Safari zooming bug -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<script src="https://cdn.bootcss.com/axios/0.18.0/axios.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+		<script type="text/javascript" src="charting_library/charting_library.min.js"></script>
+		<script type="text/javascript" src="charting_library/datafeed.js"></script>
+	</head>
+
+	<body style="margin:0px;">
+		<div id="tv_chart_container"></div>
+	</body>
+	<script type="text/javascript">
+		// import Datafeed from './datafeed.js' 
+		let buttonArr = [
+      {
+        value: "1F",
+        // period: "1min",
+        text: "分时",
+      },
+      {
+        value: "1",
+        period: "Min",
+        text: "1min",
+        select:false,
+      },
+      {
+        value: "5",
+        period: "5Min",
+        text: "5min",
+        select:false,
+      },
+      {
+        value: "15",
+        period: "15Min",
+        text: "15min",
+        select:true,
+      },
+      {
+        value: "30",
+        period: "30Min",
+        text: "30min",
+        select:false,
+      },
+      {
+        value: "60",
+        period: "1H",
+        text: "1hour",
+        select:false,
+      },
+      {
+        value: "120",
+        period: "2H",
+        text: "2hour",
+        select:false,
+      },
+      {
+        value: "240",
+        period: "4H",
+        text: "4hour",
+        select:false,
+      },
+      {
+        value: "360",
+        period: "6H",
+        text: "6hour",
+        select:false,
+      },
+      {
+        value: "720",
+        period: "12H",
+        text: "12hour",
+        select:false,
+      },
+      {
+        value: "1D",
+        period: "1D",
+        text: "日线",
+        select:false,
+      },
+      {
+        value: "1W",
+        period: "1W",
+        text: "周线",
+        select:false,
+      },
+      {
+        value: "1M",
+        period: "1M",
+        text: "月线",
+        select:false,
+      }
+    ]
+		let widget;
+		let that = this;
+		TradingView.onready((() => {
+			widget = window.widget = new TradingView.widget({
+				debug:false,
+				fullscreen: true,
+				// autosize:true,
+				// width:"100%",
+				// height:"400px",
+				symbol: "ETH"+"USDT",
+				interval:'15',
+				container_id: "tv_chart_container",
+				//	BEWARE: no trailing slash is expected in feed URL
+				datafeed: new Datafeeds.UDFCompatibleDatafeed("http://47.93.200.170:8082",{jichubizhong:"ETH",jijiabizhong:"USDT",timetype:'15Min'},180000), //that.chartinit(),
+				toolbar_bg: "#181b2b",
+				library_path: "./charting_library/",
+				locale: "zh",
+				// charts_storage_url: 'http://saveload.tradingview.com',
+				charts_storage_api_version: "1.1",
+				client_id: 'tradingview.com',
+				user_id: 'public_user_id',
+				loading_screen: { backgroundColor: "#181b2b",foregroundColor:"#fff"},
+				drawings_access: { type: 'black', tools: [ { name: "Regression Trend" } ] },
+				disabled_features: ["use_localstorage_for_settings"],
+				preset: "mobile",
+				disabled_features: [
+					"header_symbol_search",
+					"header_compare",
+					'header_undo_redo',
+					"caption_buttons_text_if_possible",
+					"adaptive_logo",
+					"main_series_scale_menu",
+					"go_to_date",
+					"show_dom_first_time",
+					"header_interval_dialog_button",
+					"header_screenshot",
+					"hide_chart_type",
+					"header_resolutions",
+					"header_chart_type",
+					"symbol_search_hot_key",
+					"header_saveload",
+					"go_to_date",
+					// "timeframes_toolbar",
+					"volume_force_overlay",
+					"left_toolbar"
+				],
+				enabled_features: [
+					"timeframes_toolbar",
+					'dont_show_boolean_study_arguments',
+					"use_localstorage_for_settings",
+					"remove_library_container_border",//tv-close-panel top
+				],
+				drawings_access: {
+					type: 'black',
+					tools: [{name: "Regression Trend"}],//todo: moje
+					tools: [
+						{name: "Trend Line", grayed: true},
+						{name: "Trend Angle", grayed: true}
+					] //todo: bb
+				},
+				overrides: {
+					// "volumePaneSize": "medium",
+					"symbolWatermarkProperties.color": "rgba(0, 0, 0, 0)",
+					"paneProperties.background": "#181b2b",
+					"paneProperties.vertGridProperties.color": "rgba(100, 100, 100, 0.1)",
+					"paneProperties.horzGridProperties.color": "rgba(100, 100, 100, 0.1)",
+					"paneProperties.crossHairProperties.color": "#ccc",
+					"paneProperties.topMargin": 15,
+					"paneProperties.bottomMargin": 0,
+					"scalesProperties.lineColor ": "#ccc",
+					"scalesProperties.textColor" : "#ccc",
+					"paneProperties.legendProperties.showLegend": false,
+					"scalesProperties.showLeftScale":false,
+				},
+				studies_overrides: {
+					
+				},
+				custom_css_url: 'chart.css'
+			});
+
+			widget.onChartReady(() => {
+				let handleClick = (e, value,pre) => {
+					// console.log(widget.chart())
+					if(value == "1F"){
+						widget.chart().setChartType(3)
+					}else{
+						widget.chart().setChartType(1)
+						widget.chart().setResolution(value,function(){});
+					}
+					that.time_type = pre;
+					$(e.target).addClass('select').closest('div.space-single').siblings('div.space-single').find('div.button').removeClass('select');
+				}
+				buttonArr.forEach((item,index)=>{
+					let button = widget.createButton()
+					button.parent().attr("style",'float:left')
+					button.addClass(item.select?"select time_button_header":'time_button_header')
+					.attr("style","background:none;border:none;color:#68696b;")
+					.html("<span>"+item.text+"</span>")
+					.on('click', function (e) {
+						handleClick(e,item.value,item.period);
+					})
+				})
+			})
+		})());
+
+	</script>
+</html>
+		
