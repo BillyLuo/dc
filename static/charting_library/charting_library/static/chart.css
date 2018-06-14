@@ -23,3 +23,6 @@
 .wrapper{
     display: none !important; 
 }
+.chart-controls-bar{
+    display: none;
+}
