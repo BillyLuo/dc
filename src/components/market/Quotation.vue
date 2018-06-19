@@ -448,6 +448,7 @@ export default {
     methods:{
         // tradeView准备
         tradingViewGetReady() {
+            let s5,s10,s15,s20;
             let that = this;
             let Datafeed = that.datafeeds();
             TradingView.onready((() => {
@@ -514,10 +515,12 @@ export default {
                         "paneProperties.topMargin": 15,
                         "paneProperties.bottomMargin": 0,
                         "scalesProperties.lineColor ": "#ccc",
-                        "scalesProperties.textColor" : "#ccc"
+                        "scalesProperties.textColor" : "#ccc",
+                        "paneProperties.legendProperties.showLegend": false,
+					    "scalesProperties.showLeftScale":false,
                     },
                     studies_overrides: {
-                        
+                        "volume.show ma": true
                     },
                     custom_css_url: 'chart.css'
                 });
@@ -527,9 +530,18 @@ export default {
                         // console.log(widget.chart())
                         if(value == "1F"){
                             widget.chart().setChartType(3)
+                            widget.chart().getStudyById(s5).setVisible(false)
+                            widget.chart().getStudyById(s10).setVisible(false)
+                            widget.chart().getStudyById(s15).setVisible(false)
+                            widget.chart().getStudyById(s20).setVisible(false)
+
                         }else{
                             widget.chart().setChartType(1)
                             widget.chart().setResolution(value,function(){});
+                            widget.chart().getStudyById(s5).setVisible(true)
+                            widget.chart().getStudyById(s10).setVisible(true)
+                            widget.chart().getStudyById(s15).setVisible(true)
+                            widget.chart().getStudyById(s20).setVisible(true)
                         }
                         console.log(pre)
                         that.time_type = pre;
@@ -546,6 +558,10 @@ export default {
                             handleClick(e,item.value,item.period);
                         })
                     })
+                    s5 = widget.chart().createStudy("Moving Average",false,false,[5],null,{"plot.color":'#07bd7f'});
+                    s10 = widget.chart().createStudy("Moving Average",false,false,[10],null,{"plot.color":'#540483'});
+                    s15 = widget.chart().createStudy("Moving Average",false,false,[30],null,{"plot.color":'#3d85e6'});
+                    s20 = widget.chart().createStudy("Moving Average",false,false,[60],null,{"plot.color":'#e5416b'});
                 })
             })());
         },
