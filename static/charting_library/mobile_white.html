@@ -67,12 +67,12 @@
 		var bizhong = getUrlParam("currency").toUpperCase();
 		var bizhong_jijia  = getUrlParam('val_currency').toUpperCase();
 		console.log(bizhong,bizhong_jijia)
-
+		var s5,s10,s15,s20;
 
 		let buttonArr = [
       {
         value: "1F",
-        period: "1min",
+        period: "1Min",
         text: "分时",
       },
       {
@@ -254,7 +254,7 @@
 			// 		})
 			// 	})
 			// })
-				
+			widget.onChartReady(() => {
 				buttonArr.forEach((item,index)=>{
 
 					$(".select_time").append("<div class="+(item.select == true?'selectedtime':'button-time')+" style='float:left;' data-val="+item.value+" data-type="+item.period+">"+item.text+"</div>");
@@ -268,16 +268,25 @@
 						if(val == "1F"){
 							widget.chart().setChartType(3)
 							widget.chart().setResolution(val,function(){});
+							widget.chart().getStudyById(s5).setVisible(false)
+							widget.chart().getStudyById(s10).setVisible(false)
+							widget.chart().getStudyById(s15).setVisible(false)
 						}else{
 							widget.chart().setChartType(1)
 							widget.chart().setResolution(val,function(){});
+							widget.chart().getStudyById(s5).setVisible(true)
+							widget.chart().getStudyById(s10).setVisible(true)
+							widget.chart().getStudyById(s15).setVisible(true)
 						}
 						timetype = type;
 						$(this).addClass("selectedtime").siblings('div').removeClass("selectedtime");
 						$(this).addClass("selectedtime").siblings('div').addClass("button-time")
 						// $(e.target).addClass('select').closest('div.space-single').siblings('div.space-single').find('div.button').removeClass('select');
 					})
-				
+					s5 = widget.chart().createStudy("Moving Average",false,false,[5],null,{"plot.color":'#07bd7f'});
+					s10 = widget.chart().createStudy("Moving Average",false,false,[10],null,{"plot.color":'#540483'});
+					s15 = widget.chart().createStudy("Moving Average",false,false,[30],null,{"plot.color":'#3d85e6'});
+			})
 		})());
 		function datafeed(){
 			"use strict";

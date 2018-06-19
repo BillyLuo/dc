@@ -136,17 +136,15 @@
 </template>
 
 <script>
-// import TradingView from './trading';
 import {Tabs,TabPane,Table,Form,FormItem,Slider} from 'iview';
 var Big = require('big.js');
 import {BigNumber} from 'bignumber.js';
 import { mapState } from "vuex";
-// import Datafeed from './datafeed.js'
     let widget;
     let buttonArr = [
       {
         value: "1F",
-        // period: "1min",
+        period: "1Min",
         text: "分时",
       },
       {
@@ -222,34 +220,7 @@ import { mapState } from "vuex";
         select:false,
       }
     ]
-// function initCharts (symbol) {
-//         new TradingView.widget({
-//             "container_id":"chart",
-//             "width": '100%',
-//             "height": 660,
-//             "symbol": 'BITFINEX:'+(symbol?''+symbol:"BTCUSD"),
-//             "interval": "15",
-//             "timezone": "Asia/Hong_Kong",
-//             "theme": "Dark",
-//             "style": "1",
-//             fullscreen:true,
-//             "locale": "zh_CN",
-//             "toolbar_bg": "#f1f3f6",
-//             "enable_publishing": false,
-//             "withdateranges": false,
-//             "hide_top_toolbar":false,
-//             "hide_side_toolbar": false,
-//             "allow_symbol_change": false,
-//             "hideideasbutton": true,
-//             "show_popup_button": false,
-//             "popup_width": "1000",
-//             "popup_height": "650",
-//             "save_image":false
-//         });
-// } 
     var numReg = function (m,n) {
-        // m=m.toString();
-        // n=n.toString();
         if (!m) {
             m = 15;
         }else if(!m.match(/^[1-9]\d*$/)) {
@@ -285,7 +256,6 @@ export default {
             news_price:"",
             jichubizhong:"ETH",
             jijiabizhong:"USDT",
-            //right 
             zhangfu:"",
             price:'',
             price_:'',
@@ -530,6 +500,7 @@ export default {
                         // console.log(widget.chart())
                         if(value == "1F"){
                             widget.chart().setChartType(3)
+                            widget.chart().setResolution(value,function(){});
                             widget.chart().getStudyById(s5).setVisible(false)
                             widget.chart().getStudyById(s10).setVisible(false)
                             widget.chart().getStudyById(s15).setVisible(false)
