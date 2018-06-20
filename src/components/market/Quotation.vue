@@ -2442,6 +2442,8 @@ export default {
             })
         },
         dbclick (row,index) {
+            this.getBalance(this.jichubizhong);
+            this.getBalance(this.jijiabizhong);
             if(row.operate == "2"){
                 this.count =  Number(row.count);
                 this.price =  Number(row.price);
@@ -2450,7 +2452,6 @@ export default {
                 this.count1 =  Number(row.count);
                 this.price1 =  Number(row.price);
                 this.buy_sell="sell";
-
             }
         },
     }
