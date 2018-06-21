@@ -203,19 +203,19 @@ import { mapState } from "vuex";
       },
       {
         value: "1D",
-        period: "1D",
+        period: "D",
         text: "日线",
         select:false,
       },
       {
         value: "1W",
-        period: "1W",
+        period: "W",
         text: "周线",
         select:false,
       },
       {
         value: "1M",
-        period: "1M",
+        period: "M",
         text: "月线",
         select:false,
       }
@@ -490,7 +490,7 @@ export default {
 					    "scalesProperties.showLeftScale":false,
                     },
                     studies_overrides: {
-                        "volume.show ma": true
+                        "volume.show ma": false
                     },
                     custom_css_url: 'chart.css'
                 });
@@ -974,6 +974,33 @@ export default {
                 console.log(rangeStartDate,rangeEndDate)
                 let ss = new Date(rangeStartDate*1000);
                 let aa = new Date(rangeEndDate*1000);
+                let s_month = (ss.getMonth()+1) >= 10?(ss.getMonth()+1):'0'+(ss.getMonth()+1);
+                let s_day = ss.getDate() >=10 ? ss.getDate() :'0'+ss.getDate();
+                let s_hour = ss.getHours() >=10 ? ss.getHours() :'0'+ss.getHours();
+                let s_min = ss.getMinutes() >=10 ? ss.getMinutes():'0'+ss.getMinutes();
+                let starttime = "";
+                let end_month = (aa.getMonth()+1) >= 10?(aa.getMonth()+1):'0'+(aa.getMonth()+1);
+                let end_day = aa.getDate() >=10 ? aa.getDate() :'0'+aa.getDate();
+                let end_hour = aa.getHours() >=10 ? aa.getHours() :'0'+aa.getHours();
+                let end_min = aa.getMinutes() >=10 ? aa.getMinutes():'0'+aa.getMinutes();
+                let endtime = "";
+                if(that_vue.time_type.indexOf('Min')!=-1){
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':'+s_min+':00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
+                }else if(that_vue.time_type.indexOf('H')!=-1){
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':00:00';
+                }else if(that_vue.time_type.indexOf('D')!=-1){
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
+                }else if(that_vue.time_type.indexOf('W')!=-1){
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
+                }else if(that_vue.time_type.indexOf('M')!=-1){
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
+                }
+                
                 that_vue.$ajax({
                     method:"post",
                     url:"/trade/tps/pbklin.do",
@@ -982,8 +1009,8 @@ export default {
                         tradecoin:that.data_info.jijiabizhong,//交易币种
                         //klinetime: "1",
                         timetype:that_vue.time_type,
-                        starttime:ss.getFullYear()+'-'+(ss.getMonth()+1)+'-'+ss.getDate()+" "+ss.getHours()+':'+ss.getMinutes()+':'+ss.getSeconds(),
-                        endtime:aa.getFullYear()+'-'+(aa.getMonth()+1)+'-'+aa.getDate()+" "+aa.getHours()+':'+aa.getMinutes()+':'+aa.getSeconds(),
+                        starttime:starttime,
+                        endtime:endtime
                     }
                 })
                 .then((data)=>{
