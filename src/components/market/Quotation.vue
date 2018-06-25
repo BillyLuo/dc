@@ -1602,6 +1602,7 @@ export default {
         },
         selectbi(val){
             let that=this;
+            that.time_type = '15Min';
             this.data.map((item)=>{
                 if(item.currencyname == val){
                     that.zhangfu = Number(item.range).toFixed(2);
