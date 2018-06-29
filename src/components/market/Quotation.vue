@@ -440,6 +440,7 @@ export default {
                     // charts_storage_url: 'http://saveload.tradingview.com',
                     charts_storage_api_version: "1.1",
                     client_id: 'tradingview.com',
+                    timezone:"Asia/Shanghai",
                     user_id: 'public_user_id',
                     loading_screen: { backgroundColor: "#181b2b",foregroundColor:"#fff"},
                     disabled_features: [
@@ -1620,6 +1621,7 @@ export default {
                     that.hangqing();
                     that.buy_sell = "buy";
                     that.active_tab='wtcd';
+                    widget.remove();
                     that.tradingViewGetReady();
                 }
                 
