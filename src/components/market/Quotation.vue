@@ -24,7 +24,7 @@
                 <Table class="right-list"  @on-row-click="dbclick" :columns="columns1" :data="data1"></Table>
                 <div class="table_qt">
                     <Col class="db_table" span="6">
-                        <span :style="zhangfu <=0 ?'color:#e55541;':'color:#1e9900;'">{{ news_price }}</span>
+                        <span :style="zhangfu <=0 ?'color:#e55541;':'color:#1e9900;'">{{ Number(news_price).toFixed(4) }}</span>
                     </Col>
                     <Col class="db_table rose" span="12">
                         <span :style="zhangfu <=0 ?'color:#e55541;':'color:#1e9900;'">{{ zhangfu +"%" }} <Icon :type="zhangfu > 0 ? 'arrow-up-a' :'arrow-down-a'"/></span>
@@ -144,7 +144,7 @@ import { mapState } from "vuex";
     let buttonArr = [
       {
         value: "1F",
-        period: "1Min",
+        period: "Min",
         text: "分时",
       },
       {
@@ -173,7 +173,7 @@ import { mapState } from "vuex";
       },
       {
         value: "60",
-        period: "1H",
+        period: "H",
         text: "1hour",
         select:false,
       },
