@@ -962,7 +962,7 @@ export default {
 
             Datafeeds.UDFCompatibleDatafeed.prototype.getBars = function(symbolInfo, resolution, rangeStartDate, rangeEndDate, onDataCallback, onErrorCallback) {
 
-            console.log("========rangeStartDate"+rangeStartDate+"---------------rangeEndDate"+rangeEndDate)
+                console.log("========rangeStartDate"+rangeStartDate+"---------------rangeEndDate"+rangeEndDate)
                 //	timestamp sample: 1399939200
                 if (rangeStartDate > 0 && (rangeStartDate + "").length > 10) {
                     throw ["Got a JS time instead of Unix one.", rangeStartDate, rangeEndDate];
@@ -986,8 +986,8 @@ export default {
                 let end_min = aa.getMinutes() >=10 ? aa.getMinutes():'0'+aa.getMinutes();
                 let endtime = "";
                 if(that_vue.time_type.indexOf('Min')!=-1){
-                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':'+s_min+':00';
-                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':00:00';
                 }else if(that_vue.time_type.indexOf('H')!=-1){
                     starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
                     endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':00:00';
