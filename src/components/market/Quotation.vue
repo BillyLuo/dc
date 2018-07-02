@@ -730,6 +730,7 @@ export default {
 
             Datafeeds.UDFCompatibleDatafeed.prototype.getMarks = function (symbolInfo, rangeStart, rangeEnd, onDataCallback, resolution) {
                 if (this._configuration.supports_marks) {
+                // 这个是在图标中给当个数据添加标注的，可以参考官方的demo看A，B，C，D
                     // onDataCallback({"id":[0,1,2,3,4,5],
                     // "time":[1455148800,1455235200,1454976000,1454976000,1454284800,1452988800],
                     // "color":["red","blue","green","red","blue","green"],
@@ -905,7 +906,7 @@ export default {
                     }
 
                     if (!that._configuration.supports_group_request) {
-                        
+                        // 这块是配置交易所的基本信息
                         onResultReady({
                             "name":that.data_info.jichubizhong + that.data_info.jijiabizhong,//币种名称加计价币种
                             "exchange-traded":"COODEX",//交易所名称
@@ -913,7 +914,7 @@ export default {
                             "timezone":"Asia/Shanghai",//时区
                             "minmov":1,
                             "minmov2":0,
-                            "pricescale":10000,
+                            "pricescale":10000,//这个应该是控制小数点位数的
                             "pointvalue":1,
                             "session": "24x7",//24x7表示不间断的
                             "has_intraday":true,
@@ -973,6 +974,7 @@ export default {
 
                 var requestStartTime = Date.now();
                 console.log(rangeStartDate,rangeEndDate)
+                //开始时间rangeStartDate结束时间rangeEndDate（这个是直接用的tradingview获取到的时间）
                 let ss = new Date(rangeStartDate*1000);
                 let aa = new Date(rangeEndDate*1000);
                 let s_month = (ss.getMonth()+1) >= 10?(ss.getMonth()+1):'0'+(ss.getMonth()+1);
@@ -1004,12 +1006,12 @@ export default {
                 
                 that_vue.$ajax({
                     method:"post",
-                    url:"/trade/tps/pbklin.do",
+                    url:"/trade/tps/pbklin.do",//获取k线数据的接口 
                     data:{
                         coin :that.data_info.jichubizhong,//币种
                         tradecoin:that.data_info.jijiabizhong,//交易币种
                         //klinetime: "1",
-                        timetype:that_vue.time_type,
+                        timetype:that_vue.time_type,//时间类型分钟（1分：Min，5分：5Min），小时（1小时：H，2小时：2H），天：D，周：W，月：M
                         starttime:starttime,
                         endtime:endtime
                     }
