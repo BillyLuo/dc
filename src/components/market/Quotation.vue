@@ -549,7 +549,7 @@ export default {
             let that_vue =this;
             var Datafeeds = {};
 
-            Datafeeds.UDFCompatibleDatafeed = function(datafeedURL,data_info, updateFrequency, protocolVersion) {
+            Datafeeds.UDFCompatibleDatafeed = function(datafeedURL,data_info/*接收传过来的币种*/, updateFrequency, protocolVersion) {
                 
                 this._datafeedURL = datafeedURL;
                 this._configuration = undefined;
@@ -579,7 +579,7 @@ export default {
                 };
             };
 
-            Datafeeds.UDFCompatibleDatafeed.prototype.getServerTime = function(callback) {
+            Datafeeds.UDFCompatibleDatafeed.prototype.getServerTime = function(callback) {//获取服务器时间
                 // if (this._configuration.supports_time) {
                 // 	this._send(this._datafeedURL + "/time", {})
                 // 		.done(function (response) {
@@ -629,7 +629,7 @@ export default {
             };
 
 
-            Datafeeds.UDFCompatibleDatafeed.prototype._send = function(url, params) {
+            Datafeeds.UDFCompatibleDatafeed.prototype._send = function(url, params) {//
                 var request = url;
                 if (params) {
                     for (var i = 0; i < Object.keys(params).length; ++i) {
@@ -907,22 +907,22 @@ export default {
                     if (!that._configuration.supports_group_request) {
                         
                         onResultReady({
-                            "name":that.data_info.jichubizhong + that.data_info.jijiabizhong,
-                            "exchange-traded":"COODEX",
+                            "name":that.data_info.jichubizhong + that.data_info.jijiabizhong,//币种名称加计价币种
+                            "exchange-traded":"COODEX",//交易所名称
                             "exchange-listed":"COODEX",
-                            "timezone":"Asia/Shanghai",
+                            "timezone":"Asia/Shanghai",//时区
                             "minmov":1,
                             "minmov2":0,
                             "pricescale":10000,
                             "pointvalue":1,
-                            "session": "24x7",
+                            "session": "24x7",//24x7表示不间断的
                             "has_intraday":true,
                             "has_no_volume":false,
-                            "has_weekly_and_monthly": true,
+                            "has_weekly_and_monthly": true,//打开周线月线，打开后能接受W和M这两个值
                             "ticker":"COODEX",
                             "description":that.data_info.jichubizhong + that.data_info.jijiabizhong,
                             "type":"stock",
-                            "regular_session": "24x7",
+                            "regular_session": "24x7",//24x7表示不间断的
                             "supported_resolutions":['1','5','15', '30', '60', '120','240','360','720', '1D','1W', '1M']}
                     );
                         // this._send(this._datafeedURL + this._symbolResolveURL, {
@@ -959,7 +959,7 @@ export default {
 
 
             Datafeeds.UDFCompatibleDatafeed.prototype._historyURL = "/history";
-
+            // 获取渲染k线数据的方法
             Datafeeds.UDFCompatibleDatafeed.prototype.getBars = function(symbolInfo, resolution, rangeStartDate, rangeEndDate, onDataCallback, onErrorCallback) {
 
             console.log("========rangeStartDate"+rangeStartDate+"---------------rangeEndDate"+rangeEndDate)
