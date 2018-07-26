@@ -18,7 +18,7 @@
                 style="width:200px">
             </AutoComplete>
             <ButtonGroup class="list_style clear">
-                <Button :class="{jgg_show:true,l_show:true,list_style_active:chart_active}" @click="showstyle('1')" icon="android-apps"></Button>
+                <!-- <Button :class="{jgg_show:true,l_show:true,list_style_active:chart_active}" @click="showstyle('1')" icon="android-apps"></Button> -->
                 <Button :class="{list_show:true,l_show:true,list_style_active:list_active}" icon="navicon-round"  @click="showstyle('2')"></Button>
             </ButtonGroup>
         </div>
@@ -95,8 +95,8 @@ let menu=[
                 queryArrray:[],
                 button_info:"See All",
                 animate:"fadeInDown",
-                chart_active:true,
-                list_active:false,
+                chart_active: false,
+                list_active: true,
                 columns_list:[],
                 data:[
                 ],
@@ -725,7 +725,6 @@ let menu=[
         }
         .list_table{
             margin-top: 34px;
-            margin-bottom: 50px;
             .ivu-table:after{
                 width:0;
             }

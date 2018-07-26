@@ -195,6 +195,12 @@ ul,ul li {
 //   background-repeat: no-repeat;
 //   background-size: 100% 26px;
 // }
+.link, .link * {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
 @import './media.scss';
 @import './assets/icomoon/style.css';
 @import './css/message.scss';

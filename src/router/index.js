@@ -12,6 +12,7 @@ const AssetsDetail = ()=> import('@/components/assets/AssetsDetail');
 const CoinAddress = ()=> import('@/components/assets/CoinAddress');
 const Recharge = ()=> import('@/components/assets/Recharge')
 const Withdraw = ()=> import('@/components/assets/Withdraw')
+const subscribe = () => import('@/components/assets/subscribe');
 const Trade = ()=> import('@/components/Trade')
 const User = ()=> import('@/components/user/user')
 const safeSettings = ()=> import('@/components/user/safesettings');
@@ -38,6 +39,9 @@ const Law = ()=> import('@/components/about/law/law.vue');
 const Protocol = ()=> import('@/components/about/protocol/protocol.vue');
 const Secrecy = ()=> import('@/components/about/secrecy/secrecy.vue');
 const kline = ()=> import('@/components/market/kline');
+
+const stocklist = () => import('@/components/stock/stocklist');
+const stockdetail = () => import('@/components/stock/stockdetail');
 Vue.use(Router)
 
 export default new Router({
@@ -85,7 +89,8 @@ export default new Router({
         {path:'/assets/coinaddress',component:CoinAddress},
         {path:'/assets/recharge',name:'Recharge',component:Recharge},
         {path:'/assets/withdraw',name:'Withdraw',component:Withdraw},
-        {path:'/assets/cashrecharge',name:'Cashrecharge',component:Cashrecharge}
+        {path:'/assets/cashrecharge',name:'Cashrecharge',component:Cashrecharge},
+        {path: 'subscribe', name: 'subscribe', component: subscribe}
       ]
     },
     {
@@ -161,6 +166,16 @@ export default new Router({
         {path:'/',component:NewsList,name:'News'},
         {path:'detail',component:NewsDetail,name:'NewsDetail'}
       ]
+    },
+    {
+      path: '/stock',
+      component: stocklist,
+      name: 'stocklist'
+    },
+    {
+      path: '/stock/detail',
+      component: stockdetail,
+      name: 'stockdetail'
     }
   ],
   scrollBehavior (to, from, savedPosition) {

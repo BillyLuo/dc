@@ -6,7 +6,7 @@
         </MenuItem>
       </Menu>
       <div class="header-right header-user">
-        <div v-if="isLogined" class="logined">
+        <div v-if="isLogined" class="logined clear">
           <div class="user-name float-left">{{userInfo.username}}</div>
           <div class="user-level float-left">
             <!-- <span class="user-vip">VIP{{userInfo.userLevel}}</span> -->
@@ -31,11 +31,25 @@
           <span class="login-in" @click="route('login')">登录</span>|
           <span class="register" @click="route('register')">注册</span>
         </div> -->
+        <div class="choose-lang">
+          <Dropdown @on-click="chooseLang">
+            <a href="javascript:void(0)">
+              {{lang}}<Icon type="arrow-down-b"></Icon>
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem v-for="(item) in langs" :key="item.lang" :name="item.value">{{item.label}}</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
+let langs = [
+  {value: 'zh-CN',label: '简体中文'},
+  {value: 'en-US', label: 'English'}
+]
 import bus from '../bus/bus.js';
 import cookies from 'cookies-js';
 import { mapState } from 'vuex';
@@ -48,7 +62,7 @@ function scroll (e) {
   this.scroll = scroll;
 }
 import router from '../router/index';
-import { Menu,MenuItem,Row,Col } from 'iview';
+import { Menu,MenuItem,Row,Col,DropdownMenu,DropdownItem,Dropdown } from 'iview';
 router.afterEach(route => {
     // console.log('------------',this)
 });
@@ -66,14 +80,16 @@ export default {
     Menu,
     MenuItem,
     Row,
-    Col
+    Col,Dropdown,DropdownMenu,DropdownItem
   },
   data(){
     return {
+      lang: '简体中文',
+      langs,
       scroll:false,
       activeName:'home',
       isLogined:false,
-      isCertified:false,
+      isCertified: false,
       menu,
       height:"",
       userInfo:{
@@ -107,6 +123,7 @@ export default {
     // this.getLoginName();
     this.getUserInfo();
     this.getPath();
+    this.initLang();
     var that = this;
     window.onscroll = scroll.bind(this);
     bus.$on('login',(value) => {
@@ -350,6 +367,30 @@ export default {
       //   }
       // })
     },
+    chooseLang(value) {
+      var that = this;
+      langs.forEach((item,index) => {
+        console.log(item,index);
+        if (value === item.value) {
+          that.lang = item.label;
+          localStorage.setItem('lang',value);
+          location.reload();
+        }
+      })
+    },
+    initLang() {
+      var lang = localStorage.getItem('lang');
+      if (!lang) {
+        return;
+      }
+      var that = this;
+      langs.forEach((item,index) => {
+        console.log(item,index);
+        if (lang === item.value) {
+          that.lang = item.label;
+        }
+      })
+    }
   }
 }
 </script>
@@ -454,9 +495,9 @@ export default {
   //   }
   // }
   .logined {
-    width:200px;
+    width:100px;
     position: absolute;
-    right: 0px;
+    right: 150px;
     line-height: 40px;
     text-align: center;
     color: #fff;
@@ -495,7 +536,7 @@ export default {
       // width:200px;
       position: absolute;
       top:0;
-      right:40px;
+      right:100px;
       line-height: 80px;
       height:80px;
       color:#fff;
@@ -557,9 +598,10 @@ export default {
     display: none;
     background: #2a2b2d;
     position: absolute;
-    width: 300px;
-    left: -60%;
-    top: 80px;
+    width: 280px;
+    right: -65px;
+    top: 60px;
+    z-index: 999999999;
     border: 1px solid #404448;
     box-shadow: 0 4px 4px rgba(0,0,0,.1);
     font-size: 12px;
@@ -594,7 +636,7 @@ export default {
       height: 48px;
       line-height: 48px;
       color: #fff;
-      padding: 0 20px;
+      padding: 0 10px;
     }
     .login-out-btn {
       width: 100%;
@@ -608,5 +650,12 @@ export default {
         background: rgba(190, 203, 245,.3);
       }
     }
+  }
+  .choose-lang {
+    position: absolute;
+    top: 30px;
+    height: 20px;
+    line-height: 20px;
+    right: 30px;
   }
 </style>

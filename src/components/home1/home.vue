@@ -2,7 +2,9 @@
 <div>
     <header-swiper />
     <List/>
-    <Calculator/>
+    <!-- <Calculator/> -->
+    <subscription />
+    <stockannouncement />
     <Foot/>
 </div>
     
@@ -13,9 +15,11 @@ import List from "./list";
 import Calculator from './Calculator';
 import Foot from './footer';
 import HeaderSwiper from './headerSwiper';
+import subscription from './subscription';
+import stockannouncement from '../stock/stockannouncement';
     export default {
         components:{
-            List,Calculator,Foot,HeaderSwiper
+            List,Calculator,Foot,HeaderSwiper,subscription,stockannouncement
         },
         data() {
           return {

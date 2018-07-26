@@ -125,6 +125,9 @@
                         <Table class="no-border-table dark-mode"  :data="weituo_data1" :columns="weituo_columns" stripe></Table>
                         <Table  class="no-border-table dark-mode" height="600" :loading="loading" :data="order_record_data1" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                     </TabPane>
+                    <TabPane label="公告通知" name="notification">
+                      <div class="no-notification">暂无公告通知</div>
+                    </TabPane>
                 </Tabs>
             </Col>
             <Col span="6" class="list_jyls">
@@ -423,13 +426,13 @@ export default {
             let Datafeed = that.datafeeds();
             TradingView.onready((() => {
                 widget = window.widget = new TradingView.widget({
-                    debug:false,
+                    debug: false,
                     fullscreen: false,
                     // autosize:true,
                     width:"100%",
                     height:"660px",
-                    symbol: this.jichubizhong+this.jijiabizhong,
-                    interval:'15',
+                    symbol: this.jichubizhong + '/' + this.jijiabizhong,
+                    interval:'1000',
                     container_id: "tv_chart_container",
                     //	BEWARE: no trailing slash is expected in feed URL
                     datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:that.jichubizhong,jijiabizhong:that.jijiabizhong,timetype:that.time_type},180000), //that.chartinit(),
@@ -461,10 +464,12 @@ export default {
                         "header_saveload",
                         "go_to_date",
                         "timeframes_toolbar",
-                        "volume_force_overlay"
+                        "volume_force_overlay",
+                        "left_toolbar"
                     ],
                     enabled_features: [
                         'dont_show_boolean_study_arguments',
+                        'hide_left_toolbar_by_default',
                         "use_localstorage_for_settings",
                         "remove_library_container_border",//tv-close-panel top
                     ],
@@ -515,9 +520,9 @@ export default {
                             widget.chart().getStudyById(s15).setVisible(true)
                             widget.chart().getStudyById(s20).setVisible(true)
                         }
-                        console.log(pre)
+                        console.log(value,pre)
                         that.time_type = pre;
-                        widget.chart().resetData()
+                        widget.chart().resetData();
                         $(e.target).addClass('select').closest('div.space-single').siblings('div.space-single').find('div.button').removeClass('select');
                     }
                     buttonArr.forEach((item,index)=>{
@@ -828,10 +833,9 @@ export default {
                         })
                         .done(function (response) {
                             var data = JSON.parse(response);
-
                             for (var i = 0; i < data.length; ++i) {
                                 if (!data[i].params) {
-                                    data[i].params = [];
+                                  data[i].params = [];
                                 }
                             }
 
@@ -963,14 +967,12 @@ export default {
             // 获取渲染k线数据的方法
             Datafeeds.UDFCompatibleDatafeed.prototype.getBars = function(symbolInfo, resolution, rangeStartDate, rangeEndDate, onDataCallback, onErrorCallback) {
 
-            console.log("========rangeStartDate"+rangeStartDate+"---------------rangeEndDate"+rangeEndDate)
+            console.warn("========rangeStartDate"+rangeStartDate+"---------------rangeEndDate"+rangeEndDate,symbolInfo)
                 //	timestamp sample: 1399939200
                 if (rangeStartDate > 0 && (rangeStartDate + "").length > 10) {
                     throw ["Got a JS time instead of Unix one.", rangeStartDate, rangeEndDate];
                 }
-
                 var that = this;
-                console.log(that)
 
                 var requestStartTime = Date.now();
                 console.log(rangeStartDate,rangeEndDate)
@@ -1005,10 +1007,10 @@ export default {
                 }
                 
                 that_vue.$ajax({
-                    method:"post",
+                  method:"post",
                     url:"/trade/tps/pbklin.do",//获取k线数据的接口 
                     data:{
-                        coin :that.data_info.jichubizhong,//币种
+                      coin :that.data_info.jichubizhong,//币种
                         tradecoin:that.data_info.jijiabizhong,//交易币种
                         //klinetime: "1",
                         timetype:that_vue.time_type,//时间类型分钟（1分：Min，5分：5Min），小时（1小时：H，2小时：2H），天：D，周：W，月：M
@@ -1017,67 +1019,60 @@ export default {
                     }
                 })
                 .then((data)=>{
-                    console.log(data)
-                    var nodata="";
+                  var nodata = false;
+                  console.log('-------kline--data',data)
                     if(data && data.data && data.data.err_code){
-                        console.log("-----")
-                        if(data.data.err_code != "1"){
-                            nodata = false ;
-                        }else{
-                            if( !data.data.kline || data.data.kline.lenght == 0){
-                                nodata = true;
-                            }
+                      if(data.data.err_code != "1"){
+                          nodata = false;
+                      }else{
+                        if( !data.data.kline || data.data.kline.length == 0){
+                          nodata = true;
                         }
-                        
-                        console.log(nodata)
-                        if (data.data.err_code != "1" && !nodata) {
-                            if (!!onErrorCallback) {
-                                onErrorCallback(data.data.err_code != "1"?"no_date":"ok");
-                            }
-                            return;
-                        }
-
-                        var bars = [];
-                        var barsCount = nodata ? 0 : data.data.kline.length;
-                        console.log(barsCount)
-                        // var volumePresent = typeof data.v != "undefined";
-                        // var ohlPresent = typeof data.o != "undefined";
-                        
-                        for (var i = 0; i < barsCount; ++i) {
-                            
-                            var barValue = {
-                                // time: data.data.kline[i].klinetime,
-                                time: Number(data.data.kline[i].klinetime),
-                                close: Number(data.data.kline[i].close),
-                                open : Number(data.data.kline[i].open),
-                                high : Number(data.data.kline[i].high),
-                                low : Number(data.data.kline[i].low),
-                                volume : Number(data.data.kline[i].volume)
-                            };
-
-                            // if (ohlPresent) {
-                            // 	barValue.open = data.o[i];
-                            // 	barValue.high = data.h[i];
-                            // 	barValue.low = data.l[i];
-                            // }
-                            // else {
-                            // 	barValue.open = barValue.high = barValue.low = barValue.close;
-                            // }
-
-                            // if (volumePresent) {
-                            // 	barValue.volume = data.v[i];
-                            // }
-
-                            bars.push(barValue);
-                        }
-                        console.log(bars)
-                        
+                      }
+                      console.log('---------nodata-----------',nodata)
+                      if (data.data.err_code != "1" && !nodata) {
+                          if (!!onErrorCallback) {
+                              onErrorCallback(data.data.err_code != "1"?"no_date":"ok");
+                          }
+                          return;
+                      }
+                      var bars = [];
+                      var barsCount = nodata ? 0 : data.data.kline.length;
+                      console.log('---barcount----------',barsCount)
+                      // will 模拟数据
+                      // var data = {};
+                      // data.data = {};
+                      // barsCount = 11;
+                      // data.data.kline = [
+                      //   {klinetime: 1490198401000,close: 333,open: 200,high: 400,low: 222,volume: 21},
+                      //   {klinetime: 1490198462000,close: 232,open: 90,high: 300,low: 111,volume: 9},
+                      //   {klinetime: 1490198513000,close: 100,open: 324,high: 420,low: 333,volume: 12},
+                      //   {klinetime: 1490198574000,close: 134,open: 90,high: 450,low: 332,volume: 23},
+                      //   {klinetime: 1490198835000,close: 33,open: 303,high: 360,low: 122,volume: 25},
+                      //   {klinetime: 1490198896000,close: 456,open: 300,high: 310,low: 233,volume: 16},
+                      //   {klinetime: 1490198956000,close: 300,open: 134,high: 420,low: 277,volume: 17},
+                      //   {klinetime: 1490199016000,close: 232,open: 200,high: 370,low: 222,volume: 18},
+                      //   {klinetime: 1490199066000,close: 145,open: 323,high: 380,low: 265,volume: 21},
+                      //   {klinetime: 1490199126000,close: 203,open: 99,high: 290,low: 233,volume: 23},
+                      //   {klinetime: 1490199186000,close: 421,open: 231,high: 500,low: 241,volume: 18}
+                      // ]
+                      for (var i = 0; i < barsCount; ++i) {
+                        var barValue = {
+                          time: Number(data.data.kline[i].klinetime),
+                          close: Number(data.data.kline[i].close),
+                          open : Number(data.data.kline[i].open),
+                          high : Number(data.data.kline[i].high),
+                          low : Number(data.data.kline[i].low),
+                          volume : Number(data.data.kline[i].volume)
+                        };
+                        bars.push(barValue);
+                      }
+                      console.log(bars)
                     }else{
-                        nodata = true;
+                      nodata = true;
                     }
                     onDataCallback(bars, {version: that._protocolVersion, noData: nodata});
-                })
-                .catch((arg)=>{
+                }).catch((arg)=>{
                     console.warn(["getBars(): HTTP error", arg]);
                     if (!!onErrorCallback) {
                         onErrorCallback("network error: " + JSON.stringify(arg));
@@ -1158,24 +1153,24 @@ export default {
 
             Datafeeds.UDFCompatibleDatafeed.prototype.getQuotes = function(symbols, onDataCallback, onErrorCallback) {
                 this._send(this._datafeedURL + "/quotes", { symbols: symbols })
-                    .done(function (response) {
-                        var data = JSON.parse(response);
-                        if (data.s == "ok") {
-                            //	JSON format is {s: "status", [{s: "symbol_status", n: "symbol_name", v: {"field1": "value1", "field2": "value2", ..., "fieldN": "valueN"}}]}
-                            if (onDataCallback) {
-                                onDataCallback(data.d);
-                            }
-                        } else {
-                            if (onErrorCallback) {
-                                onErrorCallback(data.errmsg);
-                            }
-                        }
-                    })
-                    .fail(function (arg) {
-                        if (onErrorCallback) {
-                            onErrorCallback("network error: " + arg);
-                        }
-                    });
+                  .done(function (response) {
+                      var data = JSON.parse(response);
+                      if (data.s == "ok") {
+                          //	JSON format is {s: "status", [{s: "symbol_status", n: "symbol_name", v: {"field1": "value1", "field2": "value2", ..., "fieldN": "valueN"}}]}
+                          if (onDataCallback) {
+                              onDataCallback(data.d);
+                          }
+                      } else {
+                          if (onErrorCallback) {
+                              onErrorCallback(data.errmsg);
+                          }
+                      }
+                  })
+                  .fail(function (arg) {
+                      if (onErrorCallback) {
+                          onErrorCallback("network error: " + arg);
+                      }
+                  });
             };
 
             Datafeeds.UDFCompatibleDatafeed.prototype.subscribeQuotes = function(symbols, fastSymbols, onRealtimeCallback, listenerGUID) {
@@ -2501,7 +2496,7 @@ export default {
             height:80px;
             position: absolute;
             top:0;
-            right:240px;
+            right:280px;
             z-index: 1000;
             background: #222;
             .title_hq{
@@ -2854,5 +2849,11 @@ export default {
 
             
         }
+    }
+    .ivu-tabs-tabpane {
+      background: #222222;
+    }
+    .no-notification {
+      padding: 20px;
     }
 </style>

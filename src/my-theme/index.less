@@ -65,9 +65,13 @@
 }
 .dark-mode.ivu-table-wrapper {
   border-top: 0px;
+  border-left: 0px;
 }
 .dark-mode .ivu-table {
-  background: @background
+  background: @background;
+  &::after{
+    background: none;
+  }
 }
 .dark-mode .ivu-table::before {
   height:0;
@@ -77,4 +81,8 @@
 }
 .dark-mode .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td{
   background-color: #414448;
+}
+// form disabled
+.ivu-input[disabled], fieldset[disabled] .ivu-input {
+  color: #666;
 }

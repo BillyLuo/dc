@@ -44,11 +44,9 @@ axios.interceptors.response.use(function (response) {
         expires: 1800
     })
   }else {
-    console.log('请求失败了！！！！！！！',err);
   }
   return response
 },function(err){
-  console.log('请求失败了！！！！！！！',err);
   if(err.response && err.response.status == "406"){
     cookies.set("name", "",{expires: 0});
     router.push("/login");
@@ -74,7 +72,6 @@ Vue.prototype.$Notice = Notice;
 
 import VueI18n from 'vue-i18n'
 Vue.use(VueI18n);
-console.log('---store----',store);
 /*---------基本使用-----------*/
 const i18n = new VueI18n({
   locale: 'cn',    // 语言标识
@@ -88,7 +85,6 @@ var VueScrollTo = require('vue-scrollto');
 Vue.use(VueScrollTo);
 router.beforeEach((to, from, next) => {
     LoadingBar.start();
-    console.log('to,from,',to,from);
     next();
 });
 
@@ -99,7 +95,6 @@ router.afterEach(route => {
 Vue.config.productionTip = false;
 // axios.interceptors.request.use(  
 //   config => {  
-//     console.log(config)
 //       // var xtoken = getXtoken()  
 //       // if(xtoken != null){  
 //       //     config.headers['X-Token'] = xtoken  
