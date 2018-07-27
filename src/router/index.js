@@ -42,6 +42,17 @@ const kline = ()=> import('@/components/market/kline');
 
 const stocklist = () => import('@/components/stock/stocklist');
 const stockdetail = () => import('@/components/stock/stockdetail');
+//DC
+const dcindex = () => import('@/components/dc/index');
+const dcdetail = () => import('@/components/dc/detail');
+//数字货币中心
+const digit = () => import('@/components/digit/index')
+const digitdetail = () => import('@/components/digit/detail')
+//subscription
+const subscription = () => import('@/components/subscription/index')
+
+//account
+const account = () => import('@/components/account/index');
 Vue.use(Router)
 
 export default new Router({
@@ -176,6 +187,40 @@ export default new Router({
       path: '/stock/detail',
       component: stockdetail,
       name: 'stockdetail'
+    },
+    //dc
+    {
+      path: '/dc',
+      component: dcindex,
+      name: 'dc'
+    },
+    {
+      path: '/dc/dcdetail',
+      component: dcdetail,
+      name: 'dcdetail'
+    },
+    //数字货币中心
+    {
+      path: '/digit',
+      component: digit,
+      name: 'digit'
+    },
+    {
+      path: '/digit/detail',
+      component: digitdetail,
+      name: 'digitdetail'
+    },
+    //subscription
+    {
+      path: '/subscription',
+      component: subscription,
+      name: 'subscription'
+    },
+    // account
+    {
+      path: '/account',
+      component: account,
+      name: 'account'
     }
   ],
   scrollBehavior (to, from, savedPosition) {

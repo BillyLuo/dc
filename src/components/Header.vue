@@ -13,7 +13,7 @@
           </div>
           <div class="login-out">
             <div>
-              <div class="login-out-title" :style="{cursor:'pointer'}" @click="route('user')">个人中心</div>
+              <div class="login-out-title" :style="{cursor:'pointer',width: '100%'}" @click="route('user')">个人中心</div>
               <div class="divide"></div>
               <!-- <div class="all-asset">账户总资产：<span>{{userInfo.amount}}  CNYT</span></div> -->
               <div class="divide"></div>
@@ -69,10 +69,14 @@ router.afterEach(route => {
 let menu = [
   {name:'home',text:'',className:'menu-logo'},
   {name:'home',text:'首页'},
-  // {name:'trading',text:'交易中心'},
-  {name:'assets',text:'数字资产'},
-  {name:'user',text:'个人中心'},
-  {name:'market',text:'行情中心'},
+  {name: 'stock', text: '股票中心'},
+  {name: 'dc', text: 'DC中心'},
+  {name: 'digit', text: '数字货币'},
+  {name: 'subscription', text: '新股认购'},
+  {name: 'account', text: '账户中心'},
+  // {name:'assets',text:'数字资产'},
+  // {name:'user',text:'个人中心'},
+  // {name:'market',text:'行情中心'}
 ]
 export default {
   name:'Header',
@@ -205,7 +209,6 @@ export default {
           this.userInfo.username = username;
         }
       }
-      console.log(this.userInfo.username);
     },
     init() {
       if (!this.isLogined) {
@@ -230,13 +233,12 @@ export default {
       }
 
       console.log("======",path =='/home')
-      // console.log(path)
       this.$refs.main_menu.currentActiveName = 'home';
       let that =this;
       menu.map(function(item){
-          if(item.name==path.split("/")[1]){
+          if(path.split("/")[1] && path.split("/")[1].match(item.name)){
             // console.log(path.split("/")[1])
-            that.$refs.main_menu.currentActiveName = path.split("/")[1];
+            that.$refs.main_menu.currentActiveName = item.name;
           }
       })
 
@@ -615,6 +617,9 @@ export default {
       height: 50px;
       line-height: 50px;
       padding: 0 20px;
+      &:hover {
+        color: #2d8cf0;
+      }
     }
     .all-asset {
       height: 50px;
@@ -646,8 +651,9 @@ export default {
       background: #2a2b2d;
       letter-spacing: 2px;
       outline: none;
+      cursor: pointer;
       &:hover {
-        background: rgba(190, 203, 245,.3);
+        color: #2d8cf0;
       }
     }
   }

@@ -1,22 +1,29 @@
 <template>
-  <div class="stockdetail">
+  <div class="dc-detail">
     <div>
-      <Quotation />
+      <div>
+        <Quotation />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Quotation from '../market/Quotation';
+import Quotation from '@/components/market/Quotation';
 export default {
-  name: 'stockDetail',
   components: {
     Quotation
   },
   data () {
     return {
-      
+
     }
+  },
+  mounted() {
+
+  },
+  methods: {
+
   }
 }
 </script>

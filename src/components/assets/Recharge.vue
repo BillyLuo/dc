@@ -5,9 +5,9 @@
     <div class="recharge-address clear">
       <div class="float-left color-586c86">充值地址</div>
       <input :value="rechargeAddress" readonly :class="'float-left recharge-address-detail'" />
-      <Button class="yy-button" @click="bespoke" type="primary">预约</Button>
+      <!-- <Button class="yy-button" @click="bespoke" type="primary">预约</Button> -->
     </div>
-    <div v-show="currencyType == 'ETH'?false:true" class="recharge-address clear">
+    <div v-if="false" v-show="currencyType == 'ETH'?false:true" class="recharge-address clear">
       <div class="float-left color-586c86">公钥</div>
       <input :value="public_pas" readonly :class="'float-left recharge-address-detail'" />
     </div>
@@ -177,7 +177,11 @@ export default {
       // 取到路由带过来的参数 
       let routerParams = this.$route.query
       console.log("=======routerParams======",routerParams)
-      this.currencyType = routerParams.name;
+      var currencyType = routerParams.name;
+      if (currencyType && typeof currencyType == 'string') {
+        currencyType = currencyType.toUpperCase();
+      }
+      this.currencyType = currencyType;
       let that=this;
       this.$ajax({
           method:"post",

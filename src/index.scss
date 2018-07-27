@@ -198,6 +198,7 @@ ul,ul li {
 .link, .link * {
   cursor: pointer;
   &:hover {
+    color: #eee;
     text-decoration: underline;
   }
 }

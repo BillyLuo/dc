@@ -14,8 +14,8 @@
 export default {
   data() {
     let columns = [
-      {key: 'stockname', title: '股票名称'},
-      {key: 'stockcode', title: '股票代码'},
+      {key: 'stockname', className: 'link', title: '股票名称'},
+      {key: 'stockcode', className: 'link', title: '股票代码'},
       {key: 'rise', title: '涨幅'},
       {key: 'current', title: '现价'},
       {key: 'up', title: '最高价'},
