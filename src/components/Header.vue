@@ -278,6 +278,7 @@ export default {
       }else{
         this.height = "height:0px;position:absolute;top:0px;";
       }
+      console.log('name---name',name);
       if(!cookies.get("name")  && (name == "trading" || name == "assets" || name == "user" || name == "market")){
           this.$refs.main_menu.currentActiveName = 'user';
           this.$Notice.warning({
@@ -299,19 +300,19 @@ export default {
           this.isLogined = false;
           return false
       }else {
-        if (!this.isCertified && name != 'home' && name !='login' && name != 'register' && name != 'user') {
-          this.$Notice.warning({
-            title:'提示',
-            desc:'请先完成实名认证'
-          })
-          this.$router.push({
-            name:'authentication',
-            query:{
-              name:'authentication'
-            }
-          })
-          return;
-        }
+        // if (!this.isCertified && name != 'home' && name !='login' && name != 'register' && name != 'user') {
+        //   this.$Notice.warning({
+        //     title:'提示',
+        //     desc:'请先完成实名认证'
+        //   })
+        //   this.$router.push({
+        //     name:'authentication',
+        //     query:{
+        //       name:'authentication'
+        //     }
+        //   })
+        //   return;
+        // }
         this.$router.push({
           path:'/'+name
         });
@@ -319,27 +320,32 @@ export default {
 
 
       var isLogined = this.isLogined;
-      if (!this.isLogined && name != 'register' && name && name!='home') {
+      // if (!this.isLogined && name != 'register' && name && name!='home') {
+      //   this.$refs.main_menu.currentActiveName = 'home';
+      //   if (name != 'home' && name != 'login' && name != 'register') {
+      //     this.$Notice.warning({
+      //       title:'提示',
+      //       desc:'请您先登录'
+      //     });
+      //   } 
+      //   this.$router.push({
+      //     name:'Login'
+      //   })
+      //   cookies.set("name", "",{expires: 0})    
+      // }else {
+
+      // }
+      if (!this.isLogined && name == 'account') {
         this.$refs.main_menu.currentActiveName = 'home';
-        if (name != 'home' && name != 'login' && name != 'register') {
-          this.$Notice.warning({
-            title:'提示',
-            desc:'请您先登录'
-          });
-        } 
         this.$router.push({
-          name:'Login'
+          name: 'Login'
         })
-        cookies.set("name", "",{expires: 0})    
-      }else {
-        this.$router.push({
-          path:'/'+name
-        });
+        cookies.set("name", "",{expires: 0});
+        return;
       }
-      console.log("--------",name)
-
-      
-
+      this.$router.push({
+        path:'/'+name
+      });
     },
     loginOut () {
       this.isLogined = false;
@@ -361,6 +367,8 @@ export default {
             isLogined:false
           }
         })
+      }).catch((err) => {
+        this.$Message.warning('登出失败，请稍后重试');
       })
       // this.$router.push({
       //   path:'/login',

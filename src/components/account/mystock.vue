@@ -1,5 +1,5 @@
 <template>
-  <div class="my-wallet-table">
+  <div class="my-stock-table">
     <Table stripe :data="data" :columns="columns" :class="'no-border-table dark-mode'"/>
   </div>
 </template>
@@ -8,35 +8,32 @@
 export default {
   data () {
     var columns = [
-      { key: 'coinname', title: '币种名称'},
+      { key: 'stockname', title: '股票名称'},
+      { key: 'stockcode', title: '股票代码'},
       { key: 'available', title: '可用资产'},
       { key: 'frozen', title: '冻结资产'},
       { key: 'total', title: '总量'},
       { key: 'operation',title: '操作', render: (h,params) => {
         return h ('div',{},[
-          h('a',{'class': 'wallet-address',on:{
+          h('a',{'class': 'stock-address',on:{
             click: () => {
               if(params.row) {
                 this.$router.push({
-                  name: 'Recharge',
+                  name: 'accountstockdetail',
                   query: {
                     name: params.row.coinname
                   }
                 })
               }
             }
-          }},'钱包地址'),
-          h('a',{'class': 'coin-transfer',on:{
-            click: ()=> {
-              console.log(params,this.$router.push);
+          }},'账号地址'),
+          h('a',{'class': 'stock-transfer',on: {
+            click: () => {
               this.$router.push({
-                name: 'cointransfer',
-                query: {
-                  coin: params.row.coinname
-                }
+                name:'stocktransfer'
               })
             }
-          }},'转账')
+          }},'权益转移')
         ])
       }}
     ]
@@ -51,8 +48,8 @@ export default {
   methods: {
     init() {
       this.data = [
-        {coinname:'BTC', available: '22.00000000', frozen: '0', total: '22.00000000'},
-        {coinname:'ETH', available: '38.23000000', frozen: '0', total: '38.23000000'}
+        {stockname: '股票名称',stockcode: '0241', available: '22.00000000', frozen: '0', total: '22.00000000'},
+        {stockname: '一个股票', stockcode:'9023', available: '38.23000000', frozen: '0', total: '38.23000000'}
       ]
     }
   }
@@ -60,10 +57,9 @@ export default {
 </script>
 
 <style lang="scss">
-  .my-wallet-table {
-    .wallet-address,.coin-transfer {
+  .my-stock-table {
+    .stock-address,.stock-transfer {
       margin: 0 10px;
     }
-    margin-bottom: 20px;
   }
 </style>

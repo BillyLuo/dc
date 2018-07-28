@@ -5,15 +5,22 @@
         <h3>我的钱包</h3>
       </div>
       <mywallet />
+      <div>
+        <div class="my-stock-title">
+          <h3>我的股票</h3>
+        </div>
+        <mystock />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import mywallet from './mywallet';
+import mystock from './mystock'
 export default {
   components: {
-    mywallet
+    mywallet, mystock
   },
   data() {
     return {
@@ -32,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .my-wallet-title {
+  .my-wallet-title, .my-stock-title {
     padding: 20px;
     h3 {
       color: #eee;

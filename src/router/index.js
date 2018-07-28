@@ -53,6 +53,9 @@ const subscription = () => import('@/components/subscription/index')
 
 //account
 const account = () => import('@/components/account/index');
+const accountstockdetail = () => import('@/components/account/stockaddress')
+const cointransfer = () => import('@/components/account/cointransfer');
+const stocktransfer = () => import('@/components/account/stocktransfer');
 Vue.use(Router)
 
 export default new Router({
@@ -221,6 +224,21 @@ export default new Router({
       path: '/account',
       component: account,
       name: 'account'
+    },
+    {
+      path: '/account/stockdetail',
+      component: accountstockdetail,
+      name: 'accountstockdetail'
+    },
+    {
+      path: '/account/cointransfer',
+      component: cointransfer,
+      name: 'cointransfer'
+    },
+    {
+      path: '/account/stocktransfer',
+      component: stocktransfer,
+      name: 'stocktransfer'
     }
   ],
   scrollBehavior (to, from, savedPosition) {

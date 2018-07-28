@@ -435,7 +435,8 @@ export default {
                     interval:'1000',
                     container_id: "tv_chart_container",
                     //	BEWARE: no trailing slash is expected in feed URL
-                    datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:that.jichubizhong,jijiabizhong:that.jijiabizhong,timetype:that.time_type},180000), //that.chartinit(),
+                    // datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:that.jichubizhong,jijiabizhong:that.jijiabizhong,timetype:that.time_type},180000),
+                    datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",180000), //that.chartinit(),
                     toolbar_bg: "#181b2b",
                     library_path: "static/charting_library/charting_library/",
                     locale: "zh",
