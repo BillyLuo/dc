@@ -621,17 +621,14 @@ export default {
             };
 
             Datafeeds.UDFCompatibleDatafeed.prototype.onInitialized = function() {
-                this._initializationFinished = true;
-                this._fireEvent("initialized");
+              this._initializationFinished = true;
+              this._fireEvent("initialized");
             };
-
-
-
             Datafeeds.UDFCompatibleDatafeed.prototype._logMessage = function(message) {
-                if (this._enableLogging) {
-                    var now = new Date();
-                    console.log(now.toLocaleTimeString() + "." + now.getMilliseconds() + "> " + message);
-                }
+              if (this._enableLogging) {
+                var now = new Date();
+                console.log(now.toLocaleTimeString() + "." + now.getMilliseconds() + "> " + message);
+              }
             };
 
 
@@ -1041,22 +1038,22 @@ export default {
                       var barsCount = nodata ? 0 : data.data.kline.length;
                       console.log('---barcount----------',barsCount)
                       // will 模拟数据
-                      // var data = {};
-                      // data.data = {};
-                      // barsCount = 11;
-                      // data.data.kline = [
-                      //   {klinetime: 1490198401000,close: 333,open: 200,high: 400,low: 222,volume: 21},
-                      //   {klinetime: 1490198462000,close: 232,open: 90,high: 300,low: 111,volume: 9},
-                      //   {klinetime: 1490198513000,close: 100,open: 324,high: 420,low: 333,volume: 12},
-                      //   {klinetime: 1490198574000,close: 134,open: 90,high: 450,low: 332,volume: 23},
-                      //   {klinetime: 1490198835000,close: 33,open: 303,high: 360,low: 122,volume: 25},
-                      //   {klinetime: 1490198896000,close: 456,open: 300,high: 310,low: 233,volume: 16},
-                      //   {klinetime: 1490198956000,close: 300,open: 134,high: 420,low: 277,volume: 17},
-                      //   {klinetime: 1490199016000,close: 232,open: 200,high: 370,low: 222,volume: 18},
-                      //   {klinetime: 1490199066000,close: 145,open: 323,high: 380,low: 265,volume: 21},
-                      //   {klinetime: 1490199126000,close: 203,open: 99,high: 290,low: 233,volume: 23},
-                      //   {klinetime: 1490199186000,close: 421,open: 231,high: 500,low: 241,volume: 18}
-                      // ]
+                      var data = {};
+                      data.data = {};
+                      barsCount = 11;
+                      data.data.kline = [
+                        {klinetime: 1490198401000,close: 333,open: 200,high: 400,low: 222,volume: 21},
+                        {klinetime: 1490198462000,close: 232,open: 90,high: 300,low: 111,volume: 9},
+                        {klinetime: 1490198513000,close: 100,open: 324,high: 420,low: 333,volume: 12},
+                        {klinetime: 1490198574000,close: 134,open: 90,high: 450,low: 332,volume: 23},
+                        {klinetime: 1490198835000,close: 33,open: 303,high: 360,low: 122,volume: 25},
+                        {klinetime: 1490198896000,close: 456,open: 300,high: 310,low: 233,volume: 16},
+                        {klinetime: 1490198956000,close: 300,open: 134,high: 420,low: 277,volume: 17},
+                        {klinetime: 1490199016000,close: 232,open: 200,high: 370,low: 222,volume: 18},
+                        {klinetime: 1490199066000,close: 145,open: 323,high: 380,low: 265,volume: 21},
+                        {klinetime: 1490199126000,close: 203,open: 99,high: 290,low: 233,volume: 23},
+                        {klinetime: 1490199186000,close: 421,open: 231,high: 500,low: 241,volume: 18}
+                      ]
                       for (var i = 0; i < barsCount; ++i) {
                         var barValue = {
                           time: Number(data.data.kline[i].klinetime),
