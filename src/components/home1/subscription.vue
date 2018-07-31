@@ -11,19 +11,19 @@
       >
         <Form :label-width="120">
           <FormItem label="股票名称：">
-            <Input v-model="active.stockname" disabled placeholder=""></Input>
+            <Input v-model="active.currencyname" disabled placeholder=""></Input>
           </FormItem>
           <FormItem label="股票代码：">
-            <Input v-model="active.stockcode" disabled placeholder=""></Input>
+            <Input v-model="active.currencycode" disabled placeholder=""></Input>
           </FormItem>
           <FormItem label="行业：">
             <Input v-model="active.industry" disabled placeholder=""></Input>
           </FormItem>
           <FormItem label="预售截止日期：">
-            <Input v-model="active.preselldeaddate" disabled placeholder=""></Input>
+            <Input v-model="active.endtime" disabled placeholder=""></Input>
           </FormItem>
           <FormItem label="预售价格（DC）：">
-            <Input v-model="active.presellprice" disabled placeholder=""></Input>
+            <Input v-model="active.presellprince" disabled placeholder=""></Input>
           </FormItem>
           <FormItem label="DC余额：">
             <Input v-model="dcbalance" disabled placeholder=""></Input>
@@ -42,11 +42,11 @@
       <Modal v-model="detailVisible" title="股票详情" class="detail-modal">
         <Row>
           <Col :span="6">股票名称：</Col>
-          <Col :span="18">{{active.stockname}}</Col>
+          <Col :span="18">{{active.currencyname}}</Col>
         </Row>
         <Row>
           <Col :span="6">股票代码：</Col>
-          <Col :span="18">{{active.stockcode}}</Col>
+          <Col :span="18">{{active.currencycode}}</Col>
         </Row>
         <Row>
           <Col :span="6">行业：</Col>
@@ -54,15 +54,15 @@
         </Row>
         <Row>
           <Col :span="6">预售价格(DC)：</Col>
-          <Col :span="18">{{active.presellprice}}</Col>
+          <Col :span="18">{{active.presellprince}}</Col>
         </Row>
         <Row>
           <Col :span="6">预售截止日期：</Col>
-          <Col :span="18">{{active.preselldeaddate}}</Col>
+          <Col :span="18">{{active.endtime}}</Col>
         </Row>
         <Row>
           <Col :span="24">股票描述：</Col>
-          <Col :span="24">{{ active.desc }}</Col>
+          <Col :span="24">{{ active.currencydesc }}</Col>
         </Row>
       </Modal>
     </div>
@@ -78,11 +78,11 @@ export default {
   },
   data () {
     var columns = [
-      {key: 'stockname',title: '股票名称'},
-      {key: 'stockcode', title: '股票代码'},
+      {key: 'currencyname',title: '股票名称'},
+      {key: 'currencycode', title: '股票代码'},
       {key: 'industry', title: '行业'},
-      {key: 'presellprice', title: '预售价格(DC)'},
-      {key: 'preselldeaddate', title: '预售截止日期'},
+      {key: 'presellprince', title: '预售价格(DC)'},
+      {key: 'endtime', title: '预售截止日期'},
       {key: 'option', title: '操作',
       render: (h,param) => {
         let that = this;
@@ -95,7 +95,6 @@ export default {
                 console.log(param);
                 if (param.row) {
                   that.active = param.row;
-                  that.active.desc = '一些股票的描述，一些股票的描述，一些股票的描述，一些股票的描述，一些股票的描述。';
                 }
               }
             }
@@ -104,10 +103,10 @@ export default {
             'class': 'stock-btn stock-subscription',
              on: {
                click: function () {
-                 console.log(that);
                  that.visible = true;
                  if (param.row) {
-                   that.active = param.row;
+                   that.active = Object.assign(that.active,param.row);
+                   that.active.stockamount = 1;
                  }
                }
              }}, '认购')
@@ -122,18 +121,18 @@ export default {
       dcbalance: 200,
       modalLoading: false,
       active: {
-        stockname: '',
-        stockcode: '',
-        preselldeaddate: '',
-        presellprice: '',
+        currencyname: '',
+        currencycode: '',
+        endtime: '',
+        presellprince: '',
         stockamount: 0,
-        desc: ''
+        currencydesc: ''
       },
     }
   },
   computed: {
     dctotal () {
-      var total = this.active.presellprice * this.active.stockamount;
+      var total = this.active.presellprince * this.active.stockamount;
       return total ? Number(total).toFixed(2) : 0;
     }
   },
@@ -142,21 +141,69 @@ export default {
   },
   methods: {
     init() {
-      this.data = [
-        {stockname: '名称',stockcode: '9029',industry: '能源',presellprice: '32.23',preselldeaddate: '2018-09-0 09:00:00'},
-        {stockname: '化工',stockcode: '2323',industry: '化工',presellprice: '12.21',preselldeaddate: '2018-09-0 09:00:00'}
-      ]
+      // this.data = [
+      //   {stockname: '名称',stockcode: '9029',industry: '能源',presellprice: '32.23',preselldeaddate: '2018-09-0 09:00:00'},
+      //   {stockname: '化工',stockcode: '2323',industry: '化工',presellprice: '12.21',preselldeaddate: '2018-09-0 09:00:00'}
+      // ]
+      this.$ajax.post('/trade/tps/pbfct.do',{
+        status: '3'
+      }).then((res) => {
+        console.log('fct',res);
+        var data = res.data || {};
+        if (data.err_code == '1' && data.currencys instanceof Array && data.currencys.length) {
+          this.data = data.currencys;
+        }
+      }).catch((err) => {
+        this.$Message.error('网络查询出错了');
+      })
     },
     confirm() {
+      var coinid = this.active.bizcurrencyid;
+      var count = this.active.stockamount;
+      if (!coinid ) {
+        this.modalLoading = false;
+        return;
+      }
+      if (!count) {
+        this.modalLoading = false;
+        this.$Message.warning('请输入申购数量');
+        return;
+      }
       this.modalLoading = true;
-      setTimeout(() => {
-        this.submit();
-      }, 2000);
+      this.submit();
     },
     submit() {
-      this.$Message.success('认购成功');
-      this.visible = false;
-      this.modalLoading = false;
+      var coinid = this.active.bizcurrencyid;
+      var count = this.active.stockamount;
+      if (!coinid ) {
+        this.modalLoading = false;
+        return;
+      }
+      if (!count) {
+        this.modalLoading = false;
+        this.$Message.warning('请输入申购数量');
+        return;
+      }
+      var reqresource = 1;
+      this.$ajax.post('/trade/tdc/pbpss.do',{
+        coinid,reqresource,count
+      }).then((res) => {
+        var data = res.data;
+        this.visible = false;
+        this.modalLoading = false;
+        if (data.retCode == '1') {
+          this.$Message.success('认购成功');
+        }else if (data.retMsg ) {
+          this.$Message.error(data.retMsg + ',认购失败');
+        }else {
+          this.$Message.error('认购失败');
+        }
+      }).catch((err) => {
+        this.visible = false;
+        this.modalLoading = false;
+        this.$Message.error('认购失败');
+      })
+      
     }
   }
 }

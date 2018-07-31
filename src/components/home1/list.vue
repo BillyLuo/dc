@@ -375,8 +375,9 @@ let menu=[
                     method: "post",
                     url: "/trade/tps/pbfcd.do",
                     data:{
-                    'tradecurrency':"USDT",
-                    reqresource:1
+                      type: '2',
+                      'tradecurrency':"USDT",
+                      reqresource:1
                     }
                 }).then((data)=>{
                     console.log("shouye ====== ",data.data)

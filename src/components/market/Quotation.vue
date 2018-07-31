@@ -289,11 +289,11 @@ export default {
                         if(params.row.operate == "1"){
                             return h('span',{
                                 style: {
-                                        color: '#1e9900',
-                                        textAlign: 'center',
-                                        display: 'inline-block',
-                                        width: '100%'
-                                    },
+                                  color: '#1e9900',
+                                  textAlign: 'center',
+                                  display: 'inline-block',
+                                  width: '100%'
+                                },
                             },'买'+params.row.xuhao)
 
                            
@@ -435,8 +435,7 @@ export default {
                     interval:'1000',
                     container_id: "tv_chart_container",
                     //	BEWARE: no trailing slash is expected in feed URL
-                    // datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:that.jichubizhong,jijiabizhong:that.jijiabizhong,timetype:that.time_type},180000),
-                    datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",180000), //that.chartinit(),
+                    datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:that.jichubizhong,jijiabizhong:that.jijiabizhong,timetype:that.time_type},100000),
                     toolbar_bg: "#181b2b",
                     library_path: "static/charting_library/charting_library/",
                     locale: "zh",
@@ -559,7 +558,7 @@ export default {
                 
                 this._datafeedURL = datafeedURL;
                 this._configuration = undefined;
-
+                console.log(updateFrequency);
                 this._symbolSearch = null;
                 this._symbolsStorage = null;
                 this._barsPulseUpdater = new Datafeeds.DataPulseUpdater(this, updateFrequency || 10 * 1000);
@@ -965,7 +964,7 @@ export default {
             // 获取渲染k线数据的方法
             Datafeeds.UDFCompatibleDatafeed.prototype.getBars = function(symbolInfo, resolution, rangeStartDate, rangeEndDate, onDataCallback, onErrorCallback) {
 
-            console.warn("========rangeStartDate"+rangeStartDate+"---------------rangeEndDate"+rangeEndDate,symbolInfo)
+            console.warn("========rangeStartDate"+rangeStartDate+"---------------rangeEndDate"+rangeEndDate,symbolInfo,resolution)
                 //	timestamp sample: 1399939200
                 if (rangeStartDate > 0 && (rangeStartDate + "").length > 10) {
                     throw ["Got a JS time instead of Unix one.", rangeStartDate, rangeEndDate];
@@ -1038,22 +1037,22 @@ export default {
                       var barsCount = nodata ? 0 : data.data.kline.length;
                       console.log('---barcount----------',barsCount)
                       // will 模拟数据
-                      var data = {};
-                      data.data = {};
-                      barsCount = 11;
-                      data.data.kline = [
-                        {klinetime: 1490198401000,close: 333,open: 200,high: 400,low: 222,volume: 21},
-                        {klinetime: 1490198462000,close: 232,open: 90,high: 300,low: 111,volume: 9},
-                        {klinetime: 1490198513000,close: 100,open: 324,high: 420,low: 333,volume: 12},
-                        {klinetime: 1490198574000,close: 134,open: 90,high: 450,low: 332,volume: 23},
-                        {klinetime: 1490198835000,close: 33,open: 303,high: 360,low: 122,volume: 25},
-                        {klinetime: 1490198896000,close: 456,open: 300,high: 310,low: 233,volume: 16},
-                        {klinetime: 1490198956000,close: 300,open: 134,high: 420,low: 277,volume: 17},
-                        {klinetime: 1490199016000,close: 232,open: 200,high: 370,low: 222,volume: 18},
-                        {klinetime: 1490199066000,close: 145,open: 323,high: 380,low: 265,volume: 21},
-                        {klinetime: 1490199126000,close: 203,open: 99,high: 290,low: 233,volume: 23},
-                        {klinetime: 1490199186000,close: 421,open: 231,high: 500,low: 241,volume: 18}
-                      ]
+                      // var data = {};
+                      // data.data = {};
+                      // barsCount = 11;
+                      // data.data.kline = [
+                      //   {klinetime: 1490198401000,close: 333,open: 200,high: 400,low: 222,volume: 21},
+                      //   {klinetime: 1490198462000,close: 232,open: 90,high: 300,low: 111,volume: 9},
+                      //   {klinetime: 1490198513000,close: 100,open: 324,high: 420,low: 333,volume: 12},
+                      //   {klinetime: 1490198574000,close: 134,open: 90,high: 450,low: 332,volume: 23},
+                      //   {klinetime: 1490198835000,close: 33,open: 303,high: 360,low: 122,volume: 25},
+                      //   {klinetime: 1490198896000,close: 456,open: 300,high: 310,low: 233,volume: 16},
+                      //   {klinetime: 1490198956000,close: 300,open: 134,high: 420,low: 277,volume: 17},
+                      //   {klinetime: 1490199016000,close: 232,open: 200,high: 370,low: 222,volume: 18},
+                      //   {klinetime: 1490199066000,close: 145,open: 323,high: 380,low: 265,volume: 21},
+                      //   {klinetime: 1490199126000,close: 203,open: 99,high: 290,low: 233,volume: 23},
+                      //   {klinetime: 1490199186000,close: 421,open: 231,high: 500,low: 241,volume: 18}
+                      // ]
                       for (var i = 0; i < barsCount; ++i) {
                         var barValue = {
                           time: Number(data.data.kline[i].klinetime),
@@ -1069,6 +1068,7 @@ export default {
                     }else{
                       nodata = true;
                     }
+                    // bars = [];
                     onDataCallback(bars, {version: that._protocolVersion, noData: nodata});
                 }).catch((arg)=>{
                     console.warn(["getBars(): HTTP error", arg]);
@@ -1408,7 +1408,6 @@ export default {
                     if (that._requestsPending > 0) {
                         return;
                     }
-
                     for (var listenerGUID in that._subscribers) {
                         var subscriptionRecord = that._subscribers[listenerGUID];
                         var resolution = subscriptionRecord.resolution;
@@ -1633,9 +1632,9 @@ export default {
                 }    
                 
             }).then((data)=>{
-                console.log(data);
+                console.log('fcdfcdfcdfcdfcdfcdfcdfcfcdfcdfxdfcdfcdfcdfcdfcd',data);
                 if(data.data && data.data.err_code == "1"){
-                    that.data = data.data.currencyDetail;
+                    that.data = data.data.currencyDetail || [];
                    that.data.map((item)=>{
                         if(item.currencyname == that.model){
                             that.zhangfu = Number(item.range).toFixed(2);

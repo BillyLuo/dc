@@ -11,6 +11,7 @@ import {LoadingBar,Input,InputNumber,Button,RadioGroup,Row,Col,Radio,Checkbox,Sw
     Card,Message,Notice,Modal,Progress,Badge,Tag,Tooltip,Poptip, Breadcrumb,Circle,BackTop,Spin,Icon,Table
 } from 'iview';
 import axios from 'axios';
+import { Spinner } from '@/components/spin/spin';
 Vue.component('LoadingBar',LoadingBar);
 Vue.component('Input',Input);
 Vue.component('InputNumber',InputNumber);
@@ -36,7 +37,25 @@ Vue.component('Icon',Icon);
 Vue.component('Tooltip',Tooltip);
 Vue.component('Table',Table);
 
-
+var spinner = (function () {
+  var target = document.body;
+  var opts = {
+    color: '#fff',
+    lines:10,
+    width:4
+  }
+  var spinner = new Spinner(opts);
+  var spin = {
+    start: function () {
+      spinner.spin(target);
+    },
+    stop:function () {
+      spinner.stop();
+    }
+  }
+  return spin;
+})();
+Vue.prototype.spinner = spinner;
 
 axios.interceptors.response.use(function (response) {  
   if (response.status== 200 && response.statusText == "OK"){  
