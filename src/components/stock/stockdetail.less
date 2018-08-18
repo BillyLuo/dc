@@ -1,0 +1,381 @@
+.quotation{
+  min-width:1360px;
+  // margin-top:80px;
+  background:#222222;
+  .title{
+      width:390px;
+      height:80px;
+      position: absolute;
+      top:0;
+      right:280px;
+      z-index: 1000;
+      background: #222;
+      .title_hq{
+          float: left;
+          text-align: center;
+          height:80px;
+          border-right:1px solid #000;
+          .news_p{
+              padding-top:20px;
+              height:40px;
+              font-size:12px;
+              vertical-align: bottom;
+              color:#586c86;
+          }
+      }
+      .bod_left{
+          border-left:1px solid #000;
+      }
+      
+      .select_usd{
+          height: 80px;
+          color:#08b3ff;
+          font-size:16px;
+          
+          .ivu-select-selection{
+              height:80px;
+              background: none;
+              border:none;
+              .ivu-select-placeholder{
+                  height:80px;
+                  line-height: 80px;
+                  font-size:16px;
+              }
+              .ivu-select-selected-value{
+                  height: 80px;
+                  line-height:80px;
+                  color:#08b3ff;
+                  font-size:16px;
+              }
+              .ivu-select-arrow{
+                  color:#08b3ff;
+              }
+          }
+      }
+      .ivu-select:focus .ivu-select-selection {
+          border:none;
+          outline: 0;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+      }
+      .ivu-select-visible .ivu-select-selection {
+          border:none;
+          outline: 0;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+      }
+  }
+  .ivu-col{
+      padding:0;
+      background:#222222;
+  }
+  .qt_right{
+      height:660px;
+      .right-list{
+          border:none;
+      }
+      .right-list2{
+          border:none;
+          .ivu-table-header{
+              display: none;
+          }
+      }
+      .ivu-table-header{
+          width:100%;
+          box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+          background: #2a2a2a;
+      }
+      .ivu-table-body{
+          background: #000;
+          min-height:158px;
+      }
+      .ivu-table{
+          table{
+              width:100% !important;
+          }
+          .ivu-table-tip{
+              width: 100%;
+              background: #000;
+              min-height:158px;
+          }
+      }
+      .ivu-table:before{
+          height:0px;
+      }
+      .ivu-table:after{
+          width:0px;
+      }
+      
+      .ivu-table th {
+          background-color: #2a2a2a;
+          color: #586c86;
+      }
+      .ivu-table th{
+          border-bottom:none;
+      }
+      .ivu-table td{
+          background-color: #000;
+          border-bottom:none;
+          height:31px;
+          color:#989898;
+      }
+      .ivu-table-cell{
+          padding:0;
+          cursor: default;
+      }
+      .table_qt{
+          background:#2a2a2a;
+          box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);
+          width:100%;
+          height:54px;
+          .db_table{
+              text-align: center;
+              font-size:16px;
+              font-weight:600;
+              line-height: 54px;
+              color:#1e9900;
+          }
+          
+          .rose{
+              font-size:20px;
+              // text-align: left;
+              // padding-left:5px;
+          }
+      }
+      .buy_sell{
+          width:100%;
+          height:250px;
+          background: #272626;
+          // padding:5px 15px 0;
+          .buy_bi{
+              padding:0 15px;
+          }
+          .ivu-tabs-bar{
+              margin-bottom: 3px;
+              border-bottom-color:#2a2a2a;
+              .ivu-tabs-nav{
+                  width:100%;
+                  .ivu-tabs-ink-bar{
+                      display: none !important;
+                  }
+                  .ivu-tabs-tab{
+                      width:49%;
+                      font-size: 14px;
+                      text-align: center;
+                      padding:6px 16px;
+                      color: #586c86;
+                      font-weight:600;
+                      // line-height: 30px;
+                      transition: 0.3s linear;
+                  }
+                  .ivu-tabs-tab-active{
+                      color: #2d8cf0;
+                      font-size: 14px;
+                  }
+              }
+          }
+          
+          .keyong{
+              color:#586c86;
+              font-size:12px;
+              &>p{
+                  width: 49%;
+                  display: inline-block;
+              }
+          }
+          .price{
+              color:#fff;
+              position: relative;
+              margin-bottom: 10px;
+              span{
+                  position: absolute;
+                  display: block;
+                  width:120px;
+                  height:40px;
+                  line-height: 40px;
+                  top:0;
+                  left:0;
+                  padding-left: 10px;
+              }
+          }
+          .input-number{
+              text-align: right;
+              width:100%;
+              height:40px;
+              line-height:40px;
+              border-radius: 0;
+              color:#666;
+              outline: none;
+              position: relative;
+              background: none;
+              border:none;
+              border:1px solid rgba(255,255,255,0.20);
+              padding: 0 15px 0 100px;
+              color: #fff;
+              font-weight: 400;
+          }
+          .slides_sty{
+              padding-left:3px;
+              .ivu-slider-wrap{
+                  height: 9px;
+                  margin: 5px 0;
+                  border: 1px solid rgba(255,255,255,0.20);
+                  border-radius: 9px;
+                  background:none;
+                  .ivu-slider-bar{
+                      height:7px;
+                      border-radius: 7px;
+                  } 
+                  .ivu-slider-button{
+                      background:#ffffff;
+                      border:1px solid #979797;
+                      border-radius:64px;
+                      width:10px;
+                      height:10px;
+                  }
+              }
+          }
+          .ammont{
+              color:#fff;
+          }
+          .button_sell_buy{
+              padding:10px 0;
+              width:100%;
+              button{
+                  width:100%;
+                  height:40px;
+                  border:none;
+                  color:#fff;
+                  font-size:16px;
+              }
+              .sell{
+                  // float: right;
+                  // border:1px solid #979797;
+                  background: #1e9900;
+              }
+              .buy{
+                  background: #2584ff;
+                 
+
+              }
+          }
+      }
+  }
+  .weituo{
+      .ivu-table-header{
+          width:100%;
+         
+      }
+      .ivu-table{
+          table{
+              width:100% !important;
+          }
+          .ivu-table-tip{
+              width: 100%;
+          }
+      }
+      .ivu-table td{
+          background: #222222;
+      }
+      .ivu-table:after{
+          width:0px;
+      }
+      .ivu-table-wrapper{
+          border:none;
+      }
+      .dark-mode .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td{
+          background: #2a2a2a;
+      }
+      .ivu-tabs-bar{
+          margin-bottom: 0px;
+          border-bottom: none;
+          box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);
+          background: #2a2a2a;
+          .ivu-tabs-nav-container{
+              font-size: 16px;
+          }
+          
+          .ivu-tabs-nav{
+              width:100%;
+              .ivu-tabs-ink-bar{
+                  display: none !important;
+              }
+              .ivu-tabs-tab{
+                  width:100px;
+                  text-align: center;
+                  padding:25px 16px;
+                  color: #586c86;
+                  font-weight:400;
+              }
+              .ivu-tabs-tab-active{
+                  color: #fff;
+              }
+          }
+      }
+      .wwj{
+          .ivu-table-tbody .ivu-table-cell{
+              color:#fff;
+              padding-right:0;
+          }
+          .dark-mode .ivu-table th {
+              background: #222222;
+              color: #596980;
+              border-bottom: 0px;
+              height: 70px;
+          }
+      }
+      .list_jyls{
+          .dark-mode .ivu-table th {
+              background: #222222;
+              color: #596980;
+              border-bottom: 0px;
+              height: 50px;
+          }
+          .ivu-table-body{
+              background: #222222;
+          }
+          .right_scroll{
+              .ivu-table-body::-webkit-scrollbar{
+                  width: 8px;
+                  height: 0px;
+                  background-color: #f8f8f800;
+              }
+              /*定义滚动条的轨道，内阴影及圆角*/
+              .ivu-table-body::-webkit-scrollbar-track{
+                  -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
+                  border-radius: 10px;
+                  background-color:none;
+                  opacity: 0;
+              }
+              /*定义滑块，内阴影及圆角*/
+              .ivu-table-body::-webkit-scrollbar-thumb{
+                  /*width: 10px;*/
+                  height: 20px;
+                  border-radius: 10px;
+                  -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
+                  background-color: rgba(145, 145, 145, 0.178);
+              }
+          }
+      }
+
+      
+  }
+}
+.quotation {
+  .ivu-tabs-tabpane {
+    background: #222222;
+  }
+}
+.no-notification {
+padding: 20px;
+}
+.stock-info {
+height: 40px;
+color: #fff;
+background: #181B2A;
+line-height: 40px;
+padding: 0 20px;
+}
+.quotation .stock-info .ivu-col {
+background: #181b2a;
+}

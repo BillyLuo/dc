@@ -1,6 +1,6 @@
 <template>
     <div class="quotation">
-        <div class="title">
+        <!-- <div class="title">
             <div class="title_hq bod_left"  style="width:125px;">
                 <p class="news_p">最新价</p>
                 <span :style="zhangfu <=0 ?'color:#e55541;':'color:#1e9900;'">{{ news_price }}</span>
@@ -14,13 +14,18 @@
                     <Option v-for="item in data" :value="item.currencyname" :key="item.currencyname">{{ item.currencyname+"/"+item.tradecurrency }}</Option>
                 </Select>
             </div>
-        </div>
+        </div> -->
         <Row class="qt_right">
             <Col span="18">
                 <!-- <div id="chart"> </div> -->
                 <div id="tv_chart_container"></div>
             </Col>
             <Col span="6">
+                <div style="padding: 10px 0;">
+                  <Select v-model="jichubizhong" class="dark-mode" style="width: 100%;" @on-change="coinChange">
+                      <Option v-for="item in coinList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </div>
                 <Table class="right-list"  @on-row-click="dbclick" :columns="columns1" :data="data1"></Table>
                 <div class="table_qt">
                     <Col class="db_table" span="6">
@@ -38,16 +43,16 @@
                     <Tabs size="small" v-model="buy_sell"  @on-click="changeTab">
                         <TabPane label="买入" name='buy' class="buy_bi">
                             <div class="keyong">
-                                <p>可用 {{ jijia_keyong }}</p>
-                                <p>冻结 {{ jijia_dongjie }}</p>
+                                <p>可用 {{ jichu_keyong }}</p>
+                                <p>冻结 {{ jichu_dongjie }}</p>
                             </div>
                             <div class="price" style="margin-top:2px;">
                                 <input v-model="price"  @input="inputBuyPrice($event,'price')" @blur="inputBlur($event,'price')" class="input-number" />
-                                <span> {{ '限价 '+jijiabizhong }}</span>
+                                <span> {{ '限价 '+jichubizhong }}</span>
                             </div>
                             <div class="price">
                                 <input v-model="count"  @input="inputBuyPrice($event,'count')" @blur="inputBlur($event,'count')" class="input-number" />
-                                <span> {{ '仓位 '+jichubizhong }}</span>
+                                <span> {{ '仓位 '+jijiabizhong }}</span>
                             </div>
                             <div class="slides_sty">
                                 <Slider v-model="slides_value" @on-input="sliderchange" :tip-format="hideFormat"></Slider>
@@ -62,16 +67,16 @@
                         </TabPane>
                         <TabPane label="卖出" name='sell' class="buy_bi">
                             <div class="keyong">
-                                <p>可用 {{ jichu_keyong }} </p>
-                                <p>冻结 {{ jichu_dongjie }} </p>
+                                <p>可用 {{ jijia_keyong }} </p>
+                                <p>冻结 {{ jijia_dongjie }} </p>
                             </div>
                             <div class="price" style="margin-top:2px;">
                                 <input v-model="price1"  @input="inputBuyPrice($event,'price1')" @blur="inputBlur($event,'price1')" class="input-number" />
-                                <span> {{ '限价 '+jijiabizhong }}</span>
+                                <span> {{ '限价 '+jichubizhong }}</span>
                             </div>
                             <div class="price">
                                 <input v-model="count1"  @input="inputBuyPrice($event,'count1')" @blur="inputBlur($event,'count1')" class="input-number" />
-                                <span> {{ '仓位 '+jichubizhong }}</span>
+                                <span> {{ '仓位 '+jijiabizhong }}</span>
                             </div>
                             <div class="slides_sty">
                                 <Slider v-model="slides_value1" @on-input="slidersellchange" :tip-format="hideFormat"></Slider>
@@ -111,7 +116,7 @@
                 </div>
             </Col>
         </Row>
-        <Row class="weituo">
+        <Row class="weituo" style="margin-top: 60px;">
             <Col span="18" class="wwj" style="padding-right:2px; background:#353535;">
                 <Tabs v-model="active_tab" @on-click="cdTab">
                     <TabPane label="委托撤单" name='wtcd'>
@@ -125,9 +130,9 @@
                         <Table class="no-border-table dark-mode"  :data="weituo_data1" :columns="weituo_columns" stripe></Table>
                         <Table  class="no-border-table dark-mode" height="600" :loading="loading" :data="order_record_data1" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                     </TabPane>
-                    <TabPane label="公告通知" name="notification">
+                    <!-- <TabPane label="公告通知" name="notification">
                       <div class="no-notification">暂无公告通知</div>
-                    </TabPane>
+                    </TabPane> -->
                 </Tabs>
             </Col>
             <Col span="6" class="list_jyls">
@@ -142,6 +147,7 @@
 import {Tabs,TabPane,Table,Form,FormItem,Slider} from 'iview';
 var Big = require('big.js');
 import {BigNumber} from 'bignumber.js';
+import cookies from 'cookies-js';
 import { mapState } from "vuex";
     let widget;
     let buttonArr = [
@@ -255,10 +261,10 @@ export default {
     name:"Quotation",
     data() {
         return {
-            model:"ETH",
+            coinList: [],//和DC的交易对
             news_price:"",
-            jichubizhong:"ETH",
-            jijiabizhong:"USDT",
+            jichubizhong:"",
+            jijiabizhong:"DC",
             zhangfu:"",
             price:'',
             price_:'',
@@ -406,19 +412,82 @@ export default {
         },
     },
     mounted(){
-        this.tradingViewGetReady();
+      this.initCoinList();
+      this.tradingViewGetReady();
+      this.getRlist();
+      this.getBalance(this.jijiabizhong);
+      this.newPrice();
+      this.query_entrust();
+      this.query_entrust2();
+      this.query_entrust3();
+      this.wt_title();
+      this.weituolist ();
+      this.listcolumns2();
+    },
+    watch: {
+      jichubizhong:function (n,o) {
         this.getRlist();
-        this.getBalance(this.jijiabizhong);
-        this.newPrice();
-        this.query_entrust();
-        this.query_entrust2();
-        this.query_entrust3();
-        this.wt_title();
-        this.weituolist ();
-        this.listcolumns2();
-        this.hangqing();
+        if (o) {
+          location.reload();
+        }
+      }
     },
     methods:{
+      coinChange(value) {
+        console.log(value);
+        this.$router.push({
+          name:'dcdetail',
+          query: {
+            coin: value
+          }
+        })
+        // setTimeout(() => {
+        //   location.reload();
+        // }, 20);
+      },
+      initCoinList(){
+        var query = this.$route.query;
+        var coin = query.coin;
+        coin = coin ? coin.toUpperCase() : '';
+        var flag = false;
+        var that = this;
+        var defaultCoin = '';
+        this.spinner.start();
+        var that = this;
+        this.$ajax.post('/trade/tdc/pbfcd.do',{
+          type: '3',
+          reqresource: '1',
+          // currencytype: coin,
+          tradecurrency: "DC"
+        }).then((res) => {
+          this.spinner.stop();
+          res = res.data || {};
+          if (res.err_code == '1' && res.currencyDetail instanceof Array && res.currencyDetail.length) {
+            that.coinList = res.currencyDetail.map((item,index) => {
+              item.value = item.currencycode;
+              item.label = 'DC/' + item.currencyname;
+              if (index == 0) {
+                defaultCoin = item.value ? item.value : '';
+              }
+              console.warn('goodgood',item);
+              if (item.value == coin) {
+                that.jichubizhong = coin.toUpperCase();
+                that.news_price = item.curprice;
+                that.zhangfu = Number(item.range).toFixed(2);
+                that.query_entrust();
+                flag = true;
+              }
+              return item;
+            })
+            if (!flag) {
+              that.jichubizhong = defaultCoin;
+              that.query_entrust();
+            }
+          }
+        }).catch((err) => {
+          this.spinner.stop();
+        })
+      },
         // tradeView准备
         tradingViewGetReady() {
             let s5,s10,s15,s20;
@@ -579,7 +648,7 @@ export default {
                     supported_resolutions: ['1','5','15', '30', '60', '120','240','360','720', '1D','1W', '1M'],
                     supports_marks: false,
                     supports_timescale_marks: false,
-                    exchanges: ['COODEX'],
+                    exchanges: ['钻石交易所'],
                     supports_time:false
                 };
             };
@@ -910,8 +979,8 @@ export default {
                         // 这块是配置交易所的基本信息
                         onResultReady({
                             "name":that.data_info.jichubizhong + that.data_info.jijiabizhong,//币种名称加计价币种
-                            "exchange-traded":"COODEX",//交易所名称
-                            "exchange-listed":"COODEX",
+                            "exchange-traded":"钻石交易所",//交易所名称
+                            "exchange-listed":"钻石交易所",
                             "timezone":"Asia/Shanghai",//时区
                             "minmov":1,
                             "minmov2":0,
@@ -921,7 +990,7 @@ export default {
                             "has_intraday":true,
                             "has_no_volume":false,
                             "has_weekly_and_monthly": true,//打开周线月线，打开后能接受W和M这两个值
-                            "ticker":"COODEX",
+                            "ticker":"钻石交易所",
                             "description":that.data_info.jichubizhong + that.data_info.jijiabizhong,
                             "type":"stock",
                             "regular_session": "24x7",//24x7表示不间断的
@@ -1632,7 +1701,6 @@ export default {
                 }    
                 
             }).then((data)=>{
-                console.log('fcdfcdfcdfcdfcdfcdfcdfcfcdfcdfxdfcdfcdfcdfcdfcd',data);
                 if(data.data && data.data.err_code == "1"){
                     that.data = data.data.currencyDetail || [];
                    that.data.map((item)=>{
@@ -2081,90 +2149,97 @@ export default {
         buycurrency(){
             console.log(this.userinfo.validationAmount)
             let that = this;
-            
             if(this.userinfo.validationAmount< 5){
+              if (!cookies.get('name')) {
+                this.$Notice.warning({
+                    title:"温馨提示",
+                    desc: "请先登录"
+                })
+                this.$router.push({
+                  name: 'Login'
+                })
+                return;
+              }
                 this.$Notice.warning({
                     title:"温馨提示",
                     desc: "请先到个人中心完成安全设置"
                 })
                 return false;
             }
-            if(Number(this.count*this.price) < 150){
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "买入数量不能小于150 USDT且不包括手续费"
-                })
-                return false;
-            }
+            // if(Number(this.count*this.price) < 150){
+            //     this.$Notice.warning({
+            //         title:"温馨提示",
+            //         desc: "买入数量不能小于150 USDT且不包括手续费"
+            //     })
+            //     return false;
+            // }
             if(Number(this.buymoney) > Number(this.jijia_keyong)){
                 this.$Notice.warning({
                     title:"温馨提示",
                     desc: "账户可用资金不足，请到数字资产充值"
                 })
-               
                 return false;
             }
             if(that.count > 0 && that.price > 0){
-                this.$Modal.confirm({
-                    title:"请输入交易密码",
-                    render: (h) => {
-                        return h('Input', {
-                            props: {
-                                value: that.tradepwd,
-                                autofocus: true,
-                                placeholder: '请输入交易密码',
-                                type:'password'
-                            },
-                            style:{
-                                marginTop: '30px'
-                            },
-                            on: {
-                                input: (val) => {
-                                   this.tradepwd = val;
-                                }
-                            }
-                        })
-                    },
-                    onOk: () => {
-                        this.$ajax({
-                            method:"post",
-                            url:"/trade/tps/pbces.do",
-                            data:{
-                                "entrusttype":"1",
-                                "operate":"1",
-                                "entrustcoin":that.jichubizhong,
-                                "tradecoin":that.jijiabizhong,
-                                "entrustnum":that.count,
-                                "entrustprice":that.price,
-                                "reqresource":"1",
-                                "tradepwd":that.tradepwd
-                            }
-                        }).then((res)=>{
-                            console.log(res)
-                            if(res.data && res.data.err_code == "1"){
-                                this.$Notice.success({
-                                    title:"温馨提示",
-                                    desc: "创建委托成功"
-                                })
-                                
-                                that.count = 0;
-                                that.active_tab='wtcd';
-                                that.query_entrust();
-                                that.getBalance(this.jijiabizhong);
-                                that.newPrice();
-                                that.tradepwd ="";
-                            }else{
-                                this.$Notice.error({
-                                    title:"温馨提示",
-                                    desc: "创建委托失败，"+res.data.msg
-                                })
-                            }
-                        })
+                // this.$Modal.confirm({
+                //     title:"请输入交易密码",
+                //     render: (h) => {
+                //         return h('Input', {
+                //             props: {
+                //                 value: that.tradepwd,
+                //                 autofocus: true,
+                //                 placeholder: '请输入交易密码',
+                //                 type:'password'
+                //             },
+                //             style:{
+                //                 marginTop: '30px'
+                //             },
+                //             on: {
+                //                 input: (val) => {
+                //                    this.tradepwd = val;
+                //                 }
+                //             }
+                //         })
+                //     },
+                //     onOk: () => {
+                        
                        
-                    },
+                //     },
+                // })
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbces.do",
+                    data:{
+                        "entrusttype":"1",
+                        "operate":"1",
+                        "entrustcoin":that.jichubizhong,
+                        "tradecoin":that.jijiabizhong,
+                        "entrustnum":that.count,
+                        "entrustprice":that.price,
+                        "reqresource":"1",
+                        "tradepwd":that.tradepwd
+                    }
+                }).then((res)=>{
+                    console.log(res)
+                    if(res.data && res.data.err_code == "1"){
+                        this.$Notice.success({
+                            title:"温馨提示",
+                            desc: "创建委托成功"
+                        })
+                        
+                        that.count = 0;
+                        that.active_tab='wtcd';
+                        that.query_entrust();
+                        that.getBalance(this.jijiabizhong);
+                        that.newPrice();
+                        that.tradepwd ="";
+                    }else{
+                        this.$Notice.error({
+                            title:"温馨提示",
+                            desc: "创建委托失败，"+res.data.msg
+                        })
+                    }
                 })
-
-                
             }else{
                 this.$Notice.warning({
                     title:"温馨提示",
@@ -2175,6 +2250,16 @@ export default {
         sellcurrency(){
             let that = this;
             if(this.userinfo.validationAmount< 5){
+              if (!cookies.get('name')) {
+                this.$Notice.warning({
+                    title:"温馨提示",
+                    desc: "请先登录"
+                })
+                this.$router.push({
+                  name: 'Login'
+                })
+                return;
+              }
                 this.$Notice.warning({
                     title:"温馨提示",
                     desc: "请先到个人中心完成安全设置"
@@ -2189,61 +2274,61 @@ export default {
                 return false;
             }
             if(that.count1 > 0 && that.price1 > 0){
-                this.$Modal.confirm({
-                    title:"请输入交易密码",
-                    render: (h) => {
-                        return h('Input', {
-                            props: {
-                                value: that.tradepwd,
-                                autofocus: true,
-                                placeholder: '请输入交易密码',
-                                type:'password'
-                            },
-                            style:{
-                                marginTop: '30px'
-                            },
-                            on: {
-                                input: (val) => {
-                                   this.tradepwd = val;
-                                }
-                            }
+                // this.$Modal.confirm({
+                //     title:"请输入交易密码",
+                //     render: (h) => {
+                //         return h('Input', {
+                //             props: {
+                //                 value: that.tradepwd,
+                //                 autofocus: true,
+                //                 placeholder: '请输入交易密码',
+                //                 type:'password'
+                //             },
+                //             style:{
+                //                 marginTop: '30px'
+                //             },
+                //             on: {
+                //                 input: (val) => {
+                //                    this.tradepwd = val;
+                //                 }
+                //             }
+                //         })
+                //     },
+                //     onOk: () => {
+                          
+                //     },
+                // })
+                this.$ajax({
+                    method:"post",
+                    url:"/trade/tps/pbces.do",
+                    data:{
+                        "entrusttype":"1",
+                        "operate":"2",
+                        "entrustcoin":that.jichubizhong,
+                        "tradecoin":that.jijiabizhong,
+                        "entrustnum":that.count1,
+                        "entrustprice":that.price1,
+                        "reqresource":"1",
+                        "tradepwd":that.tradepwd
+                    }
+                }).then((res)=>{
+                    if(res.data && res.data.err_code == "1"){
+                        this.$Notice.success({
+                            title:"温馨提示",
+                            desc: "创建委托成功"
                         })
-                    },
-                    onOk: () => {
-                        this.$ajax({
-                            method:"post",
-                            url:"/trade/tps/pbces.do",
-                            data:{
-                                "entrusttype":"1",
-                                "operate":"2",
-                                "entrustcoin":that.jichubizhong,
-                                "tradecoin":that.jijiabizhong,
-                                "entrustnum":that.count1,
-                                "entrustprice":that.price1,
-                                "reqresource":"1",
-                                "tradepwd":that.tradepwd
-                            }
-                        }).then((res)=>{
-                            if(res.data && res.data.err_code == "1"){
-                                this.$Notice.success({
-                                    title:"温馨提示",
-                                    desc: "创建委托成功"
-                                })
-                                that.count1 =0;
-                                that.active_tab='wtcd';
-                                that.query_entrust();
-                                that.getBalance(this.jichubizhong);
-                                that.newPrice();
-                                that.tradepwd ="";
-                            }else{
-                                this.$Notice.error({
-                                    title:"温馨提示",
-                                    desc: "创建委托失败，"+res.data.msg
-                                })
-                            }
+                        that.count1 =0;
+                        that.active_tab='wtcd';
+                        that.query_entrust();
+                        that.getBalance(this.jichubizhong);
+                        that.newPrice();
+                        that.tradepwd ="";
+                    }else{
+                        this.$Notice.error({
+                            title:"温馨提示",
+                            desc: "创建委托失败，"+res.data.msg
                         })
-                       
-                    },
+                    }
                 })
                 
             }else{
@@ -2343,25 +2428,25 @@ export default {
                     that.price =res.data.currencyDetail[0].curprice;
                     that.price1 = res.data.currencyDetail[0].curprice;
                 }else if(res.data && res.data.err_code != '1' && res.data.msg){
-                    this.$Notice.warning({
-                        title:'提示',
-                        desc:'查询出错了，'+res.data.msg
-                    })
+                    // this.$Notice.warning({
+                    //     title:'提示',
+                    //     desc:'查询出错了，'+res.data.msg
+                    // })
                     that.price = '';
                     that.price1 = '';
                 }else {
-                    this.$Notice.warning({
-                        title:'提示',
-                        desc:'查询出错了，请稍后重试'
-                    })
+                    // this.$Notice.warning({
+                    //     title:'提示',
+                    //     desc:'查询出错了，请稍后重试'
+                    // })
                     that.price = '';
                     that.price1 = '';
                 }
             }).catch((res)=>{
-                this.$Notice.warning({
-                    title:'提示',
-                    desc:'查询出错了，请稍后重试'
-                })
+                // this.$Notice.warning({
+                //     title:'提示',
+                //     desc:'查询出错了，请稍后重试'
+                // })
             })
         },
         hideFormat(val){
@@ -2382,9 +2467,16 @@ export default {
         },
         getBalance(type) {
             var that = this;
+            var pairstype = '';
+            if (type == 'DC') {
+              pairstype = '1';
+            }else {
+              pairstype = '3';
+            }
             this.$ajax.post('/trade/tps/pblaf.do',{
                 reqresource:1,
-                currencytype:type
+                currencytype:type,
+                pairstype
             }).then((res) => {
                 // console.log(res);
                 if (res.status == 200 && res.data && res.data.err_code == '1') {
@@ -2469,388 +2561,18 @@ export default {
             this.getBalance(this.jichubizhong);
             this.getBalance(this.jijiabizhong);
             if(row.operate == "2"){
-                this.count =  Number(row.count);
-                this.price =  Number(row.price);
-                this.buy_sell="buy";
-            }else{
-                this.count1 =  Number(row.count);
                 this.price1 =  Number(row.price);
                 this.buy_sell="sell";
+            }else{
+                this.price =  Number(row.price);
+                this.buy_sell="buy";
             }
-        },
+        }
     }
 }
     
 </script>
 
 <style lang="scss">
-    .quotation{
-        min-width:1440px;
-        // margin-top:80px;
-        background:#222222;
-        .title{
-            width:390px;
-            height:80px;
-            position: absolute;
-            top:0;
-            right:280px;
-            z-index: 1000;
-            background: #222;
-            .title_hq{
-                float: left;
-                text-align: center;
-                height:80px;
-                border-right:1px solid #000;
-                .news_p{
-                    padding-top:20px;
-                    height:40px;
-                    font-size:12px;
-                    vertical-align: bottom;
-                    color:#586c86;
-                }
-            }
-            .bod_left{
-                border-left:1px solid #000;
-            }
-            
-            .select_usd{
-                height: 80px;
-                color:#08b3ff;
-                font-size:16px;
-                
-                .ivu-select-selection{
-                    height:80px;
-                    background: none;
-                    border:none;
-                    .ivu-select-placeholder{
-                        height:80px;
-                        line-height: 80px;
-                        font-size:16px;
-                    }
-                    .ivu-select-selected-value{
-                        height: 80px;
-                        line-height:80px;
-                        color:#08b3ff;
-                        font-size:16px;
-                    }
-                    .ivu-select-arrow{
-                        color:#08b3ff;
-                    }
-                }
-            }
-            .ivu-select:focus .ivu-select-selection {
-                border:none;
-                outline: 0;
-                -webkit-box-shadow: none;
-                box-shadow: none;
-            }
-            .ivu-select-visible .ivu-select-selection {
-                border:none;
-                outline: 0;
-                -webkit-box-shadow: none;
-                box-shadow: none;
-            }
-        }
-        .ivu-col{
-            padding:0;
-            background:#222222;
-        }
-        .qt_right{
-            height:660px;
-            .right-list{
-                border:none;
-            }
-            .right-list2{
-                border:none;
-                .ivu-table-header{
-                    display: none;
-                }
-            }
-            .ivu-table-header{
-                width:100%;
-                box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-                background: #2a2a2a;
-            }
-            .ivu-table-body{
-                background: #000;
-                min-height:158px;
-            }
-            .ivu-table{
-                table{
-                    width:100% !important;
-                }
-                .ivu-table-tip{
-                    width: 100%;
-                    background: #000;
-                    min-height:158px;
-                }
-            }
-            .ivu-table:before{
-                height:0px;
-            }
-            .ivu-table:after{
-                width:0px;
-            }
-            
-            .ivu-table th {
-                background-color: #2a2a2a;
-                color: #586c86;
-            }
-            .ivu-table th{
-                border-bottom:none;
-            }
-            .ivu-table td{
-                background-color: #000;
-                border-bottom:none;
-                height:31px;
-                color:#989898;
-            }
-            .ivu-table-cell{
-                padding:0;
-                cursor: default;
-            }
-            .table_qt{
-                background:#2a2a2a;
-                box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);
-                width:100%;
-                height:54px;
-                .db_table{
-                    text-align: center;
-                    font-size:16px;
-                    font-weight:600;
-                    line-height: 54px;
-                    color:#1e9900;
-                }
-                
-                .rose{
-                    font-size:20px;
-                    // text-align: left;
-                    // padding-left:5px;
-                }
-            }
-            .buy_sell{
-                width:100%;
-                height:250px;
-                background: #272626;
-                // padding:5px 15px 0;
-                .buy_bi{
-                    padding:0 15px;
-                }
-                .ivu-tabs-bar{
-                    margin-bottom: 3px;
-                    border-bottom-color:#2a2a2a;
-                    .ivu-tabs-nav{
-                        width:100%;
-                        .ivu-tabs-ink-bar{
-                            display: none !important;
-                        }
-                        .ivu-tabs-tab{
-                            width:49%;
-                            font-size: 14px;
-                            text-align: center;
-                            padding:6px 16px;
-                            color: #586c86;
-                            font-weight:600;
-                            // line-height: 30px;
-                            transition: 0.3s linear;
-                        }
-                        .ivu-tabs-tab-active{
-                            color: #2d8cf0;
-                            font-size: 14px;
-                        }
-                    }
-                }
-                
-                .keyong{
-                    color:#586c86;
-                    font-size:12px;
-                    &>p{
-                        width: 49%;
-                        display: inline-block;
-                    }
-                }
-                .price{
-                    color:#fff;
-                    position: relative;
-                    margin-bottom: 10px;
-                    span{
-                        position: absolute;
-                        display: block;
-                        width:100px;
-                        height:40px;
-                        line-height: 40px;
-                        text-align: center;
-                        top:0;
-                        left:0
-                    }
-                }
-                .input-number{
-                    text-align: right;
-                    width:100%;
-                    height:40px;
-                    line-height:40px;
-                    border-radius: 0;
-                    color:#666;
-                    outline: none;
-                    position: relative;
-                    background: none;
-                    border:none;
-                    border:1px solid rgba(255,255,255,0.20);
-                    padding: 0 15px 0 100px;
-                    color: #fff;
-                    font-weight: 400;
-                }
-                .slides_sty{
-                    padding-left:3px;
-                    .ivu-slider-wrap{
-                        height: 9px;
-                        margin: 5px 0;
-                        border: 1px solid rgba(255,255,255,0.20);
-                        border-radius: 9px;
-                        background:none;
-                        .ivu-slider-bar{
-                            height:7px;
-                            border-radius: 7px;
-                        } 
-                        .ivu-slider-button{
-                            background:#ffffff;
-                            border:1px solid #979797;
-                            border-radius:64px;
-                            width:10px;
-                            height:10px;
-                        }
-                    }
-                }
-                .ammont{
-                    color:#fff;
-                }
-                .button_sell_buy{
-                    padding:10px 0;
-                    width:100%;
-                    button{
-                        width:100%;
-                        height:40px;
-                        border:none;
-                        color:#fff;
-                        font-size:16px;
-                    }
-                    .sell{
-                        // float: right;
-                        // border:1px solid #979797;
-                        background: #1e9900;
-                    }
-                    .buy{
-                        background: #2584ff;
-                       
-
-                    }
-                }
-            }
-        }
-        .weituo{
-            .ivu-table-header{
-                width:100%;
-               
-            }
-            .ivu-table{
-                table{
-                    width:100% !important;
-                }
-                .ivu-table-tip{
-                    width: 100%;
-                }
-            }
-            .ivu-table td{
-                background: #222222;
-            }
-            .ivu-table:after{
-                width:0px;
-            }
-            .ivu-table-wrapper{
-                border:none;
-            }
-            .dark-mode .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td{
-                background: #2a2a2a;
-            }
-            .ivu-tabs-bar{
-                margin-bottom: 0px;
-                border-bottom: none;
-                box-shadow:0 2px 4px 0 rgba(0,0,0,0.50);
-                background: #2a2a2a;
-                .ivu-tabs-nav-container{
-                    font-size: 16px;
-                }
-                
-                .ivu-tabs-nav{
-                    width:100%;
-                    .ivu-tabs-ink-bar{
-                        display: none !important;
-                    }
-                    .ivu-tabs-tab{
-                        width:100px;
-                        text-align: center;
-                        padding:25px 16px;
-                        color: #586c86;
-                        font-weight:400;
-                    }
-                    .ivu-tabs-tab-active{
-                        color: #fff;
-                    }
-                }
-            }
-            .wwj{
-                .ivu-table-tbody .ivu-table-cell{
-                    color:#fff;
-                    padding-right:0;
-                }
-                .dark-mode .ivu-table th {
-                    background: #222222;
-                    color: #596980;
-                    border-bottom: 0px;
-                    height: 70px;
-                }
-            }
-            .list_jyls{
-                .dark-mode .ivu-table th {
-                    background: #222222;
-                    color: #596980;
-                    border-bottom: 0px;
-                    height: 50px;
-                }
-                .ivu-table-body{
-                    background: #222222;
-                }
-                .right_scroll{
-                    .ivu-table-body::-webkit-scrollbar{
-                        width: 8px;
-                        height: 0px;
-                        background-color: #f8f8f800;
-                    }
-                    /*定义滚动条的轨道，内阴影及圆角*/
-                    .ivu-table-body::-webkit-scrollbar-track{
-                        -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
-                        border-radius: 10px;
-                        background-color:none;
-                        opacity: 0;
-                    }
-                    /*定义滑块，内阴影及圆角*/
-                    .ivu-table-body::-webkit-scrollbar-thumb{
-                        /*width: 10px;*/
-                        height: 20px;
-                        border-radius: 10px;
-                        -webkit-box-shadow: inset 0 0 6px rgba(17, 17, 17, 0.116);
-                        background-color: rgba(145, 145, 145, 0.178);
-                    }
-                }
-            }
-
-            
-        }
-    }
-    .ivu-tabs-tabpane {
-      background: #222222;
-    }
-    .no-notification {
-      padding: 20px;
-    }
+  @import '../stock/stockdetail.less'
 </style>

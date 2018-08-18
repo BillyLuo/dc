@@ -26,8 +26,36 @@ export default {
   components: {receiverecord},
   data() {
     return {
-      stockname: '长城股份',
-      stockaddress: 'oxhfajfowadfsfeafdfeghe2'
+      stockname: '',
+      stockaddress: ''
+    }
+  },
+  mounted(){
+    this.init();
+  },
+  methods: {
+    init() {
+      var {coincode, type} = this.$route.query;
+      var pairstype = type;
+      if (!coincode || !pairstype) {
+        return;
+      }
+      console.log(coincode,type);
+      this.$ajax.post('/trade/tps/pblaf.do',{
+        reqresource: '1',
+        currencytype:coincode,
+        pairstype
+      }).then((res) => {
+        console.log('resres',res);
+        var data = res.data;
+        if (data.err_code == '1' && data.accountFund && data.accountFund.length) {
+          var account = data.accountFund[0];
+          this.stockname = account.currencyname;
+          this.stockaddress = account.address;
+        } 
+      }).catch((err) => {
+        this.$Message.error('网络请求出错了，请稍后重试');
+      })
     }
   }
 }

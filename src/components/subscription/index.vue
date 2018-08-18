@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import subscription from '@/components/home1/subscription';
+import subscription from '@/components/home/subscription';
 export default {
   components: {
     subscription

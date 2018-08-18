@@ -15,12 +15,21 @@
 export default {
   data () {
     var columns = [
-      {key: 'currency',className: 'link',title: '币种'},
-      {key: 'price',title: '现价'},
-      {key: 'increase',title: '涨幅'},
+      {key: 'currencyname',className: 'link',title: '币种',render:(h,param)=> {
+        var row = param.row;
+        if (row) {
+          return h('span',{},row.currencyname + '/' + row.tradecurrency)
+        }
+      }},
+      {key: 'curprice',title: '现价'},
+      {key: 'range',title: '涨幅'},
       {key: 'high',title: '最高价'},
       {key: 'low',title: '最低价'},
-      {key: 'turnover',title: '成交额'},
+      {key: 'vol',title: '成交额'},
+      {key: 'opt', title: '操作',className: 'go-trade', render: (h,param)=> {
+        return h('a',{
+        }, '去交易')
+      }}
     ]
     return {
       columns,
@@ -32,6 +41,30 @@ export default {
   },
   methods: {
     init() {
+      this.getStockList();
+    },
+    getStockList(){
+      this.spinner.start();
+      var that = this;
+      this.$ajax.post('/trade/tdc/pbfcd.do',{
+        type: '1',
+        reqresource: '1',
+        tradecurrency: 'DC'
+      }).then((res) => {
+        this.spinner.stop();
+        res = res.data || {};
+        if (res.err_code == '1' && res.currencyDetail instanceof Array && res.currencyDetail.length) {
+          that.data = res.currencyDetail.map((item,index) => {
+            item.range = Number(item.range * 100).toFixed(2) + '%';
+            item.swing = Number(item.swing * 100).toFixed(2) + '%';
+            return item;
+          })
+        }
+      }).catch((err) => {
+        this.spinner.stop();
+      })
+    },
+    fake () {
       this.data = [
         {
           currency: 'BTC/DC',
@@ -67,9 +100,12 @@ export default {
         }
       ]
     },
-    rowClick() {
+    rowClick(obj) {
       this.$router.push({
-        name: 'digitdetail'
+        name: 'digitdetail',
+        query: {
+          coin: obj.currencycode
+        }
       })
     }
   }

@@ -3,7 +3,7 @@ html{
 }
 html body {
   font-size: 14px;
-  min-width: 1200px;
+  min-width: 1360px;
   // overflow-x: scroll;
   color: #586c86;
   background: #343538;
@@ -120,14 +120,6 @@ ul,ul li {
   display: block;
   width: 100%;
 }
-.pager {
-  .pager-inner {
-    margin: 20px;
-    ul {
-      float: right;
-    }
-  }
-}
 .select-country {
   height: 36px;
   box-shadow: none !important;
@@ -202,7 +194,7 @@ ul,ul li {
     text-decoration: underline;
   }
 }
-//spinner
+//spinner样式
 @keyframes spinner-line-fade-more {
   0%, 100% {
     opacity: 0; /* minimum opacity */
@@ -227,6 +219,59 @@ ul,ul li {
   }
   1% {
     opacity: 1;
+  }
+}
+/* pager公共样式 */
+.pager {
+	.pager-inner {
+		padding: 20px;
+		float: right;
+		.ivu-page-item {
+			background: transparent;
+			color: #f1f1f1;
+      border: 1px solid #3e4042;
+      a {
+        color: #8796b7;
+      }
+      &:hover a,a:hover {
+        color: #fff;
+      }
+		}
+		.ivu-page-prev, .ivu-page-next, .ivu-page-item-jump-prev, .ivu-page-item-jump-next {
+			color: #fff;
+			border: 1px solid #3e4042;
+			background: transparent;
+		}
+		.ivu-page-item-active {
+			color: #fff;
+      background: #3e4042;
+      a {
+        color: #fff;
+      }
+    }
+    .ivu-page-options-elevator input{
+      background: transparent;
+      border: 1px solid #3e4042;
+      color: #fff;
+      &:focus {
+        border: 1px solid #3e4042;
+        outline: 0;
+        box-shadow: 0;
+      }
+    }
+	}
+}
+.go-trade {
+  a {
+    display: inline-block;
+    padding: 2px 14px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    color: #fff;
+    &:hover {
+      color: #2D8cF0;
+      border-color: #2D8cF0;
+    }
   }
 }
 @import './media.scss';

@@ -30,7 +30,7 @@ const Apply = ()=> import('@/components/about/apply/Apply');
 const News = ()=> import('@/components/news/News');
 const NewsList = ()=> import('@/components/news/newsList/NewsList');
 const NewsDetail = ()=> import('@/components/news/newsDetail/NewsDetail');
-const Homes = ()=> import('@/components/home1/home');
+const Homes = ()=> import('@/components/home/home');
 const Quotation = () => import("@/components/market/Quotation")
 const Cashrecharge = () => import("@/components/assets/Cashrecharge");
 const Aboutbibang = () => import("@/components/about/aboutbibang")

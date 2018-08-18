@@ -12,13 +12,13 @@
             <!-- <span class="user-vip">VIP{{userInfo.userLevel}}</span> -->
           </div>
           <div class="login-out">
-            <div>
+            <div style="line-height: 32px;">
               <div class="login-out-title" :style="{cursor:'pointer',width: '100%'}" @click="route('user')">个人中心</div>
               <div class="divide"></div>
               <!-- <div class="all-asset">账户总资产：<span>{{userInfo.amount}}  CNYT</span></div> -->
-              <div class="divide"></div>
-              <div class="uid">UID: <span>{{userInfo.uid}}</span></div>
-              <div class="divide"></div>
+              <!-- <div class="divide"></div> -->
+              <!-- <div class="uid">UID: <span>{{userInfo.uid}}</span></div> -->
+              <!-- <div class="divide"></div> -->
               <button class="login-out-btn" @click="loginOut">登出</button>
             </div>
           </div>
@@ -32,12 +32,12 @@
           <span class="register" @click="route('register')">注册</span>
         </div> -->
         <div class="choose-lang">
-          <Dropdown @on-click="chooseLang">
+          <Dropdown @on-click="chooseLang" :class="'dark-mode'">
             <a href="javascript:void(0)">
               {{lang}}<Icon type="arrow-down-b"></Icon>
             </a>
             <DropdownMenu slot="list">
-              <DropdownItem v-for="(item) in langs" :key="item.lang" :name="item.value">{{item.label}}</DropdownItem>
+              <DropdownItem class="lang-item" v-for="(item) in langs" :key="item.lang" :name="item.value">{{item.label}}</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
@@ -67,7 +67,7 @@ router.afterEach(route => {
     // console.log('------------',this)
 });
 let menu = [
-  {name:'home',text:'',className:'menu-logo'},
+  {name:'home',type: 'diamond',text:'',className:'menu-logo'},
   {name:'home',text:'首页'},
   {name: 'stock', text: '股票中心'},
   {name: 'dc', text: 'DC中心'},
@@ -221,7 +221,7 @@ export default {
       let path = this.$route.path;
       if(path != '/home' || path != '/'){
         if(path == '/market'){
-          this.height = "height:80px;background:#222222;min-width:1440px;position:relative";
+          this.height = "height:80px;background:#222222;min-width:1360px;position:relative";
         }else{
           this.height = "height:80px;background:#222222;";
         }
@@ -232,7 +232,6 @@ export default {
         this.height = "height:0px;position:absolute;top:0px;";
       }
 
-      console.log("======",path =='/home')
       this.$refs.main_menu.currentActiveName = 'home';
       let that =this;
       menu.map(function(item){
@@ -242,7 +241,7 @@ export default {
           }
       })
 
-      if(!cookies.get("name") && (path == "/trading" || path == "/assets" || path == "/user" || path == "/market")){
+      if(!cookies.get("name") && (path == "/trading" || path == "/assets" || path == "/user" || path == "")){
           this.$Notice.warning({
             title:'提示',
             desc:'请您先登录'
@@ -270,7 +269,7 @@ export default {
     route(name){
       if(name != 'home'){
         if(name == 'market'){
-          this.height = "height:80px;background:#222222;min-width:1440px;position:relative";
+          this.height = "height:80px;background:#222222;min-width:1360px;position:relative";
         }else{
           this.height = "height:80px;background:#222222;";
         }
@@ -409,7 +408,7 @@ export default {
   @import '../my-theme/mixin.scss';
   .home-header {
     margin-top: 30px;
-    min-width: 1200px;
+    min-width: 1360px;
     width: 100%;
     left: auto;
     right: auto;
@@ -439,14 +438,17 @@ export default {
         background: none;
         .menu-logo{
             display: block;
-            width:34px;
+            width:120px;
             height:39px;
+            line-height: 39px;
+            padding-left: 38px;
             position: absolute;
             left:70px;
             top:50%;
+            color: #EAC84A !important;
             margin-top: -19.5px;
-            text-align: center;
             background: url('/static/img/logo.png') no-repeat;
+            background-size: 36px;
         }
         .ivu-menu-item{
             color:#fff;
@@ -507,7 +509,7 @@ export default {
   .logined {
     width:100px;
     position: absolute;
-    right: 150px;
+    right: 100px;
     line-height: 40px;
     text-align: center;
     color: #fff;
@@ -608,8 +610,8 @@ export default {
     display: none;
     background: #2a2b2d;
     position: absolute;
-    width: 280px;
-    right: -65px;
+    width: 120px;
+    right: -15px;
     top: 60px;
     z-index: 999999999;
     border: 1px solid #404448;
@@ -622,8 +624,8 @@ export default {
       font-size: 14px;
       display: inline-block;
       // border-bottom: 2px solid #404448;
-      height: 50px;
-      line-height: 50px;
+      height: 30px;
+      line-height: 30px;
       padding: 0 20px;
       &:hover {
         color: #2d8cf0;
@@ -653,7 +655,8 @@ export default {
     }
     .login-out-btn {
       width: 100%;
-      height: 40px;
+      height: 24px;
+      line-height: 24px;
       border: none;
       color: #fff;
       background: #2a2b2d;
@@ -671,5 +674,12 @@ export default {
     height: 20px;
     line-height: 20px;
     right: 30px;
+  }
+  .lang-item {
+    color: #eee;
+    &:hover {
+      background: #2a2b2d;
+      color: #fff;
+    }
   }
 </style>

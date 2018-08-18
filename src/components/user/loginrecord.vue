@@ -1,7 +1,7 @@
 <template>
     <div class="broker">
         <Tabs value="name1">
-            <TabPane label="最近登陆历史" name="name1">
+            <TabPane label="最近登录历史" name="name1">
                 <div class="ext-table">
                     <Table :data="data1" :class="'no-border-table dark-mode'" no-data-text="<img class='wujilu' src='/static/img/icon-wujilu.png'/><br/><span class='tishixinxi'>您暂时没有登录历史</span>" :columns="columns1" stripe></Table>
                     <div class="pager">
@@ -42,7 +42,7 @@ import { Message } from '../../utils/message';
                 data2:[],
                 columns1: [
                     {
-                        title: "登陆时间",
+                        title: "登录时间",
                         key: "logintime",
                     },
                     {
@@ -54,7 +54,7 @@ import { Message } from '../../utils/message';
                 columns2: [
                    
                     {
-                        title: '登陆时间',
+                        title: '登录时间',
                         key: 'logintime'
                     },
                     {

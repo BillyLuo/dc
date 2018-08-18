@@ -1,7 +1,7 @@
 <template>
     <div class="hq-list-sidebar">
         <!-- <div class="to-login">
-            <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
+            <a href="/login">登录 </a> 或 <a href="/register"> 注册 </a> 开始交易
         </div> -->
         <Tabs size="small" @on-click="getname">
             <TabPane label="USDT" name='USDT'>

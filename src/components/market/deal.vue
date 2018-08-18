@@ -9,7 +9,7 @@
                                 <div class="currency-balance">可用 {{usdtBalance}} {{params.bizhong}} <span @click="recharge(params.bizhong)">充币</span></div>
                                 <div class="currency-balance">冻结 {{usdtBalance1}} {{params.bizhong}}</div>
                                 <!-- <div class="to-login">
-                                    <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
+                                    <a href="/login">登录 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
                                 <div style="padding:20px 0px 0 0;">
                                     <Form  label-position="top">
@@ -39,7 +39,7 @@
                             </Col>
                             <Col span='12' style="padding-left:10px;">
                                 <!-- <div class="to-login">
-                                    <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
+                                    <a href="/login">登录 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div> -->
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
                                 <div class="currency-balance">冻结 {{changeCurrenyBalance1}} {{changeCurreny}} </div>
@@ -71,7 +71,7 @@
                         <!-- <TabPane label="市价交易" name='sjjy' class='jiaoyi'>
                             <Col span='12' style="padding:0 10px;">
                                 <div class="to-login">
-                                    <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
+                                    <a href="/login">登录 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div>
                                 <div class="currency-balance">可用 {{usdtBalance}} USDT <span @click="recharge('USDT')">充币</span></div>
                                 <div style="padding:20px 0px 0 0;">
@@ -92,7 +92,7 @@
                             </Col>
                             <Col span='12' style="padding-left:10px;">
                                 <div class="to-login">
-                                    <a href="/login">登陆 </a> 或 <a href="/register"> 注册 </a> 开始交易
+                                    <a href="/login">登录 </a> 或 <a href="/register"> 注册 </a> 开始交易
                                 </div>
                                 <div class="currency-balance">可用 {{changeCurrenyBalance}} {{changeCurreny}} <span @click="recharge(changeCurreny)">充币</span></div>
                                 <div style="padding:20px 10px 0 0;">

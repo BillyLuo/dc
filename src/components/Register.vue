@@ -1,7 +1,7 @@
 <template>
 	<div :style="{marginBottom:'400px'}">
 		<div class="ivu-modal-mask"></div>
-    <div class="ivu-modal-wrap">
+    <div class="ivu-modal-wrap" @click.stop="closeModal($event)">
       <div class="ivu-modal">
 				<div class="register-box-background">
 					<div class="register-box clear">
@@ -14,7 +14,7 @@
               <div class="mask-inner">
                 <div class="mask-logo">
                   <img src="/static/img/logo.png"/>
-                  <h2>币邦</h2>
+                  <h2>钻石</h2>
                 </div>
                 <div class="mask-line"></div>
                 <div class="mask-content">
@@ -123,7 +123,7 @@
 								</p>
 								</div> -->
 								<div style="margin-top: 30px;margin-bottom: 10px;">
-								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/secrecy?active=secrecy" >《币邦用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《币邦隐私条款》</a></Checkbox>
+								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/secrecy?active=secrecy" >《钻石用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《钻石隐私条款》</a></Checkbox>
 								</div>
 								<div class="go-register">
 								<Button type="primary" size="large" @click="submitTel">注册</Button>
@@ -226,7 +226,7 @@
 								</p>
 								</div> -->
 								<div class="register-input-item">
-								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/secrecy?active=secrecy" >《币邦用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《币邦隐私条款》</a></Checkbox>
+								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/secrecy?active=secrecy" >《钻石用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《钻石隐私条款》</a></Checkbox>
 								</div>
 								<div class="go-register">
 								<Button type="primary" size="large" @click="submitEmail">注册</Button>
@@ -686,7 +686,7 @@ export default {
         }
         if (!this.single) {
           this.$Modal.info({
-            content: "请同意《币邦用户协议》和《币邦隐私条款》。"
+            content: "请同意《钻石用户协议》和《钻石隐私条款》。"
           });
           return false;
         }
@@ -843,7 +843,7 @@ export default {
         if (!this.single) {
           this.$Notice.warning({
             title: "提示",
-            desc: "请同意《币邦用户协议》和《币邦隐私条款》。"
+            desc: "请同意《钻石用户协议》和《钻石隐私条款》。"
           });
           return false;
         }

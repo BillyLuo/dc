@@ -2240,7 +2240,7 @@
             //             supported_resolutions: ['1','3','5','15', '30', '60', '240', '1D', '1M'],
             //             supports_marks: true,
             //             supports_timescale_marks: true,
-            //             exchanges: ['COODEX'],
+            //             exchanges: ['钻石交易所'],
             //             supports_time:true
             //         },
             //         onReady : function(callback) {
@@ -2268,7 +2268,7 @@
             //                 onSymbolResolvedCallback({
             //                     name: that.jichubizhong+that.jijiabizhong,
             //                     ticker: that.jichubizhong+that.jijiabizhong,
-            //                     exchange:'COODEX',
+            //                     exchange:'钻石交易所',
             //                     type:"bitcoin",
             //                     timezone:'Asia/Shanghai',
             //                     pricescale:pricescale(),

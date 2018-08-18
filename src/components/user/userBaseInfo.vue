@@ -1,9 +1,10 @@
 <template>
   <div class="wrapper">
-    <div class="account">
+    <div class="user-base-center">
       <Row>
         <Col span="1"></Col>
-        <Col span="11" :style="{borderRight:'1px solid #414448'}">
+        <!-- <Col span="11" :style="{borderRight:'1px solid #414448'}"> -->
+        <Col span="11">
         <div class="user-info clear">
           <div class="user-portrait">
 
@@ -20,16 +21,16 @@
           </div>
         </div>
         </Col>
-        <Col span="11">
-        <div class="total-assets text-center">
-          <div>
-            <p :style="{color:'#cdcdcd','font-size':'14px','line-height':'1.5em'}">预估总资产</p>
-            <div class="color-white"  :style="{fontSize:'20px'}">
-              <span>{{estimateassets}}</span><span class="asset-count"> / USDT</span>
+        <!-- <Col span="11">
+          <div class="total-assets text-center">
+            <div>
+              <p :style="{color:'#cdcdcd','font-size':'14px','line-height':'1.5em'}">预估总资产</p>
+              <div class="color-white"  :style="{fontSize:'20px'}">
+                <span>{{estimateassets}}</span><span class="asset-count"> / USDT</span>
+              </div>
             </div>
           </div>
-        </div>
-        </Col>
+        </Col> -->
         <Col span="1"></Col>
         <!-- <Col span="8">
         <div class="safe-settings">
@@ -159,7 +160,7 @@ export default {
 </script>
 
 <style lang="scss">
-.account {
+.user-base-center {
   padding: 20px 20px;
   margin-bottom: 20px;
   background: #222222;

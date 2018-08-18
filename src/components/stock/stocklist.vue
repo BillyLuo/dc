@@ -22,7 +22,10 @@ export default {
       {key: 'high', title: '最高价'},
       {key: 'low', title: '最低价'},
       {key: 'vol', title: '成交额'},
-      {key: 'swing', title: '振幅'}
+      {key: 'swing', title: '振幅'},
+      {key: 'opt', title: '操作',className: 'go-trade', render: (h)=>{
+        return h('a','去交易')
+      }}
     ]
     return {
       columns,
@@ -65,7 +68,11 @@ export default {
     },
     gotodetail(row) {
       this.$router.push({
-        name: 'stockdetail'
+        name: 'stockdetail',
+        query: {
+          code: row.currencycode,
+          type: row.cointype
+        }
       })
     }
   }

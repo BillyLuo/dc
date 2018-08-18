@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrapper">
     <div class="ivu-modal-mask"></div>
-    <div class="ivu-modal-wrap">
+    <div class="ivu-modal-wrap" @click.stop="closeModal($event)">
       <div class="ivu-modal">
         <div class="wallet-box-background">
           <div class="wallet-box clear">
@@ -16,7 +16,7 @@
                 <div class="mask-inner">
                   <div class="mask-logo">
                     <img src="/static/img/logo.png"/>
-                    <h2>币邦</h2>
+                    <h2>钻石</h2>
                   </div>
                   <div class="mask-line"></div>
                   <div class="mask-content">

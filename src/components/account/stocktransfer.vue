@@ -15,39 +15,39 @@
           <FormItem label="转出钱包地址：" prop="address">
             <Input v-model="transferForm.address" placeholder="转出钱包地址" />
           </FormItem>
-          <FormItem label="转出账户名：" prop="account_name">
-            <Input v-model="transferForm.account_name" placeholder="转出账户名"/>
+          <FormItem label="转出账户名：" prop="name">
+            <Input v-model="transferForm.name" placeholder="转出用户名"/>
           </FormItem>
           <FormItem label="转出数量：" prop="amount">
             <Input v-model="transferForm.amount" placeholder="转出数量"/>
           </FormItem>
-          <FormItem label="交易密码：" prop="trade_pwd">
-            <Input v-model="transferForm.trade_pwd" placeholder="请输入交易密码" type="password"/>
+          <FormItem label="交易密码：" prop="pwd">
+            <Input v-model="transferForm.pwd" placeholder="请输入交易密码" type="password"/>
           </FormItem>
-          <FormItem label="短信验证码：" prop="text_code">
-            <Input v-model="transferForm.text_code" placeholder="请输入短信验证码">
+          <FormItem label="短信验证码：" prop="smscode">
+            <Input v-model="transferForm.smscode" placeholder="请输入短信验证码">
               <span class="" slot="append" style="cursor: pointer;">{{getCodeText}}</span>
             </Input>
           </FormItem>
-          <FormItem label="转账附言：" prop="comment">
-            <Input type="textarea" :rows="4" v-model="transferForm.comment" />
+          <FormItem label="转账附言：" prop="remark">
+            <Input type="textarea" :rows="4" v-model="transferForm.remark" />
           </FormItem>
         </Form>
         <div>
-          <Button type="primary" long @click="confirm">转让权益</Button>
+          <Button :loading="loading" type="primary" long @click="confirm">转让权益</Button>
         </div>
       </div>
       <div class="stock-transfer-record">
-        <div class="transfer-notification">
+        <!-- <div class="transfer-notification">
           <h3>转让须知</h3>
           <ul>
             <li>转让须知1</li>
             <li>转让须知2</li>
           </ul>
-        </div>
+        </div> -->
         <div>
           <h3 class="stock-record-title">转让记录</h3>
-          <stocktransfertable />
+          <stocktransfertable :coincode="transferForm.stockcode" />
         </div>
       </div>
     </div>
@@ -63,18 +63,19 @@ export default {
   },
   data() {
     var transferForm = {
-      stockname: '长城股份',
-      stockcode: '9023',
-      available: '23.33',
-      address: '0x243423432423434jflesjlfj',
+      stockname: '',
+      stockcode: '',
+      available: '',
+      address: '',
       account_name: '',
-      amount: 32,
-      trade_pwd: '',
+      amount: 0,
+      pwd: '',
       text_code: '',
-      comment: '一些附言'
+      comment: ''
     }
     var transferRules = {};
     return {
+      loading: false,
       transferForm,
       transferRules,
       getCodeText: '获取验证码'
@@ -85,11 +86,55 @@ export default {
   },
   methods: {
     init() {
-
+      var {coincode, type} = this.$route.query;
+      var pairstype = type;
+      if (!coincode || !pairstype) {
+        return;
+      }
+      console.log(coincode,type);
+      this.$ajax.post('/trade/tps/pblaf.do',{
+        reqresource: '1',
+        currencytype:coincode,
+        pairstype
+      }).then((res) => {
+        console.log('resres',res);
+        var data = res.data;
+        if (data.err_code == '1' && data.accountFund && data.accountFund.length) {
+          var account = data.accountFund[0];
+          this.transferForm.stockname = account.currencyname;
+          this.transferForm.stockcode = account.coincode;
+          this.transferForm.available = account.usablefund;
+        } 
+      }).catch((err) => {
+        this.$Message.error('网络请求出错了，请稍后重试');
+      })
     },
     confirm() {
-      console.log('转账')
-    }
+      var reqresource = 1;
+      let { amount, address, pwd, remark,smscode, name} = this.transferForm;
+      let coin = this.transferForm.stockcode;
+      if (amount <= 0) {
+        this.$Message.warning('转出的数量需要大于0');
+        return;
+      }
+      this.loading = true;
+      this.$ajax.post('/trade/tdc/pbtas.do',{
+        reqresource,amount,address,pwd,coin,remark,smscode,name
+      }).then((res) => {
+        this.loading = false;
+        let data = res.data || {};
+        if (data.retCode == '1') {
+          this.$Message.success('转账成功');
+        }else if (data.retMsg) {
+          this.$Message.error(data.retMsg + ',转账失败，请稍后重试');
+        }else {
+         this.$Message.error('转账失败，请稍后重试'); 
+        }
+      }).catch((err) => {
+        this.loading = false;
+        this.$Message.error('转账失败，请稍后重试');
+      })
+    },
   }
 }
 </script>

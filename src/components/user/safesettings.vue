@@ -158,6 +158,31 @@
           </div>
         </div>
       </Col>
+      <!-- <Col span="24">
+        <div class="setting-item bind-bank">
+          <div class="clear">
+            <div class="item-pic float-left">
+              <i></i>
+            </div>
+             <div class="item-content float-left">
+              <h3>
+                <i v-if="userinfo.tradePass.bound" class="icon-status icon-setted">
+                  <Icon type="checkmark-round"></Icon>
+                </i>
+                <i v-else class="icon-status icon-to-be-set">
+                  <Icon type="alert"></Icon>
+                </i> 
+                银行账户设置</h3>
+              <a v-if="userinfo.tradePass.bound" class="active">
+                已设置
+              </a>
+              <a v-else href="javascript:;" @click="openTradePassModal">未设置</a>
+             </div>
+             <a v-if="!userinfo.tradePass.bound" href="javascript:;" class="item-status item-status-active">绑定</a>
+             <a v-else href="javascript:;" class="item-status" @click="()=>{return;this.setTradePwdModal=true}">修改</a>
+          </div>
+        </div>
+      </Col> -->
     </Row>
     <LoginRecord />
     <Modal
