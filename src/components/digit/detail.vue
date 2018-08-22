@@ -405,7 +405,7 @@ export default {
         },
         sellmoney(){
             if(this.price1 > 0 && this.count1 > 0){
-                var price1 = new BigNumber(this.price1*this.count1*0.998);
+                var price1 = new BigNumber(this.price1*this.count1*0.998).toFxied(8);
                 let a = new BigNumber(this.price1)
                 let b = a.multipliedBy(this.count1)
                 let c = b.multipliedBy(0.998)
@@ -425,12 +425,12 @@ export default {
       this.query_entrust3();
       this.wt_title();
       this.weituolist ();
-      this.listcolumns2();
     },
     watch: {
       'jichubizhong': function (n,o) {
         this.getRlist();
         this.query_entrust();
+        this.listcolumns2();
         if (o) {
           location.reload();
         }
@@ -476,8 +476,8 @@ export default {
               if (item.value == coin) {
                 that.jichubizhong = coin.toUpperCase();
                 that.news_price = item.curprice;
-                that.price = Number(item.curprice).toFixed(2);
-                that.price1 = Number(item.curprice).toFixed(2);
+                that.price = Number(item.curprice).toFixed(8);
+                that.price1 = Number(item.curprice).toFixed(8);
                 that.zhangfu = Number(item.range).toFixed(2) + '%';
                 flag = true;
               }
@@ -2227,6 +2227,7 @@ export default {
                         that.query_entrust();
                         that.getBalance(this.jijiabizhong);
                         that.newPrice();
+                        that.getRlist();
                         that.tradepwd ="";
                     }else{
                         this.$Notice.error({
@@ -2308,6 +2309,7 @@ export default {
                           that.query_entrust();
                           that.getBalance(this.jichubizhong);
                           that.newPrice();
+                          that.getRlist();
                           that.tradepwd ="";
                       }else{
                           this.$Notice.error({
@@ -2531,7 +2533,7 @@ export default {
                             sell_data.push(item);
                         }
                     })
-                    that.data1.sort(compare1('price'))
+                    that.data1 = that.data1.sort(compare('price'))
                     sell_data.sort(compare('price'))
 
 

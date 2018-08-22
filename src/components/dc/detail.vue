@@ -422,11 +422,13 @@ export default {
       this.query_entrust3();
       this.wt_title();
       this.weituolist ();
-      this.listcolumns2();
     },
     watch: {
       jichubizhong:function (n,o) {
         this.getRlist();
+        this.listcolumns2();
+        this.newPrice();
+        this.getBalance(this.jichubizhong);
         if (o) {
           location.reload();
         }
@@ -2232,6 +2234,7 @@ export default {
                         that.query_entrust();
                         that.getBalance(this.jijiabizhong);
                         that.newPrice();
+                        this.getRlist();
                         that.tradepwd ="";
                     }else{
                         this.$Notice.error({
@@ -2322,6 +2325,7 @@ export default {
                         that.query_entrust();
                         that.getBalance(this.jichubizhong);
                         that.newPrice();
+                        this.getRlist();
                         that.tradepwd ="";
                     }else{
                         this.$Notice.error({
@@ -2544,7 +2548,7 @@ export default {
                             sell_data.push(item);
                         }
                     })
-                    that.data1.sort(compare1('price'))
+                    that.data1 = that.data1.sort(compare('price'))
                     sell_data.sort(compare('price'))
 
 

@@ -437,7 +437,6 @@ export default {
         this.query_entrust3();
         this.wt_title();
         this.weituolist();
-        this.listcolumns2();
         this.hangqing();
     },
     watch:{
@@ -446,6 +445,10 @@ export default {
         var jichubizhong = this.jichubizhong;
         this.getBalance(jichubizhong);
         this.getRlist();
+        this.listcolumns2();
+      },
+      'jijiabizhong':function () {
+        
       },
       stockinfo: function (n,o) {
         this.weituolist();
@@ -2255,6 +2258,7 @@ export default {
                                 that.getBalance(this.jijiabizhong);
                                 that.newPrice();
                                 that.tradepwd ="";
+                                that.getRlist();
                             }else{
                                 this.$Notice.error({
                                     title:"温馨提示",
@@ -2355,6 +2359,7 @@ export default {
                         that.query_entrust();
                         that.getBalance(this.jichubizhong);
                         that.newPrice();
+                        that.getRlist();
                         that.tradepwd ="";
                     }else{
                         this.$Notice.error({
@@ -2571,8 +2576,7 @@ export default {
                             sell_data.push(item);
                         }
                     })
-                    that.data1.sort(compare1('price'))
-                    sell_data.sort(compare('price'))
+                    that.data1 = that.data1.sort(compare('price'))
 
 
                     sell_data.map((item,index)=>{
@@ -2601,5 +2605,5 @@ export default {
 </script>
 
 <style lang="scss">
-  @import './stockdetail.less';
+  @import './stockdetail.less'
 </style>

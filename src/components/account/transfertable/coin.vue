@@ -16,7 +16,7 @@ export default {
       {key: 'coincode', title: '币种'},
       {key: 'createtime', title: '时间'},
       {key: 'transtype', title: '类型'},
-      {key: 'amount', sortable: true, title: '金额'},
+      {key: 'amount', sortable: true, title: '数量'},
       {key: 'charge', title: '手续费'},
       {key: 'status', title: '状态'}
     ]
