@@ -21,7 +21,7 @@ export default {
       {key: 'curprice', title: '现价'},
       {key: 'high', title: '最高价'},
       {key: 'low', title: '最低价'},
-      {key: 'vol', title: '成交额'},
+      {key: 'amount', title: '成交额'},
       {key: 'swing', title: '振幅'},
       {key: 'opt', title: '操作',className: 'go-trade', render: (h)=>{
         return h('a','去交易')

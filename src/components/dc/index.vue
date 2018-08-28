@@ -23,7 +23,7 @@ export default {
       {key: 'range',title: '涨幅'},
       {key: 'high',title: '最高价'},
       {key: 'low',title: '最低价'},
-      {key: 'vol',title: '成交额'},
+      {key: 'amount',title: '成交额'},
       {key: 'opt', title: '操作',className: 'go-trade', render: (h,param) => {
         return h('a','去交易');
       }}

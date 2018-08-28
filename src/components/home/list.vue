@@ -30,7 +30,7 @@
                     </div>
                     <div class="info_chart">
                         <p class="bizhong" style=""><img :class="'icon-'+item.currencyname.toLowerCase()" :src="'/static/img/coin/'+item.currencyname+'_mid.png'"/>{{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
-                        <p class="price">{{ item.open }} {{ item.tradecurrency }}<span></span></p>
+                        <p class="price">{{ item.close }} {{ item.tradecurrency }}<span></span></p>
                     </div>
                 </div>
                 <div  v-for="(item,index) in array"  v-if="index >= 12" v-show='show_list' :key="index" :name='index' :class=" (index+1)%4 !== 0?'need_margin clear  animated '+animate:'clear  animated '+animate" >
@@ -40,7 +40,7 @@
                     </div>
                     <div class="info_chart">
                         <p class="bizhong" style=""><img :class="'icon-'+item.currencyname.toLowerCase()" :src="'/static/img/coin/'+item.currencyname+'_mid.png'"/>{{item.currencyname }} <span :class="item.range  >0?'span1 green':'span1 red'">{{item.range >0?"+"+item.range +"%":item.range +'%'}}</span></p>
-                        <p class="price">{{ item.open }} {{ item.tradecurrency }}<span></span></p>
+                        <p class="price">{{ item.close }} {{ item.tradecurrency }}<span></span></p>
                     </div>
                 </div>
                 <div :class="'showall '+animate" v-if="array.length > 12" style="width:100%;">
@@ -150,7 +150,7 @@ let menu=[
                 },
                 {
                     title: '价格',
-                    key: 'open',
+                    key: 'close',
                     align:'center',
                     sortable: true,
                     sortMethod(a,b,type){
@@ -175,9 +175,9 @@ let menu=[
                     },
                     render:(h,param)=>{
                         if(param.row.range < 0 ){
-                            return  h('span',{class:'range_die ranges',style:"color:#f04516"}, Number(param.row.range).toFixed(2) + '%')
+                            return  h('span',{class:'range_die ranges',style:"color:#f04516"}, Number(param.row.range*100).toFixed(2) + '%')
                         }else if(param.row.range > 0 ){
-                            return  h('span',{class:'range_zhang ranges',style:"color:#3ec47b"}, "+"+ Number(param.row.range).toFixed(2) + '%')
+                            return  h('span',{class:'range_zhang ranges',style:"color:#3ec47b"}, "+"+ Number(param.row.range*100).toFixed(2) + '%')
                         }else{
                             return  h('span',{class:''}, Number(param.row.range).toFixed(2) + '%')
                         }
@@ -199,7 +199,7 @@ let menu=[
                 ,
                 {
                   title: '成交额',
-                  key: 'vol',
+                  key: 'amount',
                   align:'center'
                 },
                 {

@@ -2524,18 +2524,21 @@ export default {
                     var sortObj = latestDeal.sort(compare("price"));
                     // 最新成交价格
                     var sell_data= [];
+                    var buy_data = [];
                     sortObj.map((item,index)=>{
                         if(item.operate =="1"){
-                            item["xuhao"] = index+1;
-                            that.data1.push(item);
+                          buy_data.push(item);
                         }
                         if(item.operate =="2"){
                             sell_data.push(item);
                         }
                     })
-                    that.data1 = that.data1.sort(compare('price'))
-                    sell_data.sort(compare('price'))
-
+                    buy_data.sort(compare('price'))
+                    var len = buy_data.length;
+                    buy_data.map((item,index)=>{
+                      item['xuhao'] = len - index;
+                      that.data1.push(item);
+                    })
 
                     sell_data.map((item,index)=>{
                         item['xuhao'] = index+1;

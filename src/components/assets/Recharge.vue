@@ -32,8 +32,9 @@ export default {
     return {
       title:'ETH充值',
       currencyType:'ETH',
-      rechargeAddress:'0x530cfe432ddbe331dc30be39480d2ede8e32ee1f',
+      rechargeAddress:'',
       public_pas:"",
+      addressInfo: {},
       // record_column:[
       //   {
       //     title: '最后更新',
@@ -143,6 +144,7 @@ export default {
   mounted(){
     this.getParams();
     this.detaillist();
+    this.getAddress();
   },
   methods:{
     detaillist(){
@@ -155,7 +157,6 @@ export default {
         pageno:1,
         pagesize:1000
       }).then((res)=>{
-        console.log('-----detail',res);
         if (res.status == 200 && res.data.err_code == '1') {
           if(res.data.recordDetail){
               res.data.recordDetail.map((item)=>{
@@ -176,19 +177,20 @@ export default {
     getParams () {
       // 取到路由带过来的参数 
       let routerParams = this.$route.query
-      console.log("=======routerParams======",routerParams)
-      var currencyType = routerParams.name;
-      if (currencyType && typeof currencyType == 'string') {
-        currencyType = currencyType.toUpperCase();
+      var currencytype = routerParams.code;
+      var pairstype = routerParams.type || '';
+      if (currencytype && typeof currencytype == 'string') {
+        currencytype = currencytype.toUpperCase();
       }
-      this.currencyType = currencyType;
+      this.currencyType = currencytype;
       let that=this;
       this.$ajax({
           method:"post",
           url:"/trade/tps/pblaf.do",
           data:{
               reqresource:1,
-              currencytype: that.currencyType
+              pairstype,
+              currencytype
           }
       }).then((res)=>{
           if(res.data.accountFund && res.data&&res.data.err_code=="1"){
@@ -196,32 +198,17 @@ export default {
               that.public_pas = res.data.accountFund[0].pub;
           }
       })
-      
     },
-    bespoke(){
-      let that = this;
-      this.$ajax({
-          method:"post",
-          url:"/trade/tps/pbrcd.do",
-          data:{
-              reqresource:1,
-              coin: that.currencyType
-          }
-      }).then((res)=>{
-          console.log(res.data)
-          if(res.data && res.data.err_code =="1"){
-            that.$Notice.success({
-							title:'温馨提示',
-							desc:'您已预约成功'
-						})
-          }else{
-            that.$Notice.error({
-							title:'错误提示',
-							desc: res.data.msg
-						})
-          }
-            
-      })
+    getAddress() {
+      // this.$ajax.post('/trade/tps/pblaf.do',{
+      //   reqresource:1,
+      //   pairstype: '1'
+      // }).then((res)=> {
+      //   var accountFund = res.data.accountFund;
+      //   if (res.data.err_code == '1' && accountFund && accountFund.length) {
+      //     this.addressInfo = accountFund[0];
+      //   }
+      // })
     }
   }
 }

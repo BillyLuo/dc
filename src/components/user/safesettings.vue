@@ -835,6 +835,21 @@ export default {
     sendSetTrade(){
       let that = this;
       let tel = this.userinfo.phone.value.trim();
+      let {newpwd,confirmpwd,code,oldpwd} = this.setTradeValidate;
+      let err_new, err_confirm;
+      this.$refs.setTradePwd.validateField('newpwd',function (value) {
+        err_new = value;
+      })
+      this.$refs.setTradePwd.validateField('confirmpwd',function (value) {
+        err_confirm = value;
+      })
+      if ( err_new || err_confirm ) {
+        return;
+      }
+      if (newpwd != confirmpwd) {
+        this.$Message.warning('两次密码输入不一致');
+        return;
+      }
       if (this.sendTradeTimer) {
         return false;
       }
@@ -1244,6 +1259,26 @@ export default {
     },
     sendLoginMessage(){
       let tel = this.userinfo.phone.value.trim();
+      var err_old = '';
+      var err_new = '';
+      var err_confirm = '';
+      let {oldpwd,newpwd,confirmpwd} = this.modifyLoginValidate;
+      this.$refs.modifyLogin.validateField('oldpwd',function (value) {
+        err_old = value;
+      })
+      this.$refs.modifyLogin.validateField('newpwd',function (value) {
+        err_new = value;
+      })
+      this.$refs.modifyLogin.validateField('confirmpwd',function (value) {
+        err_confirm = value;
+      })
+      if (err_old || err_new || err_confirm) {
+        return;
+      }
+      if (newpwd != confirmpwd) {
+        that.$Message.warning('两次密码输入不一致');
+        return ;
+      }
       if (!tel) {
         this.$Notice.warning({
           title:'提示',

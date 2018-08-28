@@ -138,7 +138,6 @@ export default {
       }
     })
     bus.$on('certify',(value) => {
-      console.log('certify',value);
       if (value) {
         that.isCertified = true;
       }
@@ -179,11 +178,9 @@ export default {
           }
           that.userInfo.amount = res.data.estimatedfund ? res.data.estimatedfund : '0';
         } else {
-          console.log('没有获取到相应的用户信息');
         }
       })
       .catch(err => {
-        console.log("获取用户认证信息出错", err);
       });
       this.$ajax
       .post("/trade/tps/pbpis.do",{
@@ -197,7 +194,6 @@ export default {
         }
       })
       .catch(err => {
-        console.log("获取用户信息出错", err);
       });
     },
     getLoginName(){
@@ -277,7 +273,6 @@ export default {
       }else{
         this.height = "height:0px;position:absolute;top:0px;";
       }
-      console.log('name---name',name);
       if(!cookies.get("name")  && (name == "trading" || name == "assets" || name == "user" || name == "market")){
           this.$refs.main_menu.currentActiveName = 'user';
           this.$Notice.warning({
@@ -379,7 +374,6 @@ export default {
     chooseLang(value) {
       var that = this;
       langs.forEach((item,index) => {
-        console.log(item,index);
         if (value === item.value) {
           that.lang = item.label;
           localStorage.setItem('lang',value);
@@ -394,7 +388,6 @@ export default {
       }
       var that = this;
       langs.forEach((item,index) => {
-        console.log(item,index);
         if (lang === item.value) {
           that.lang = item.label;
         }

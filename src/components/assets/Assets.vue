@@ -244,7 +244,6 @@
             key: 'tradetype',
             sortable: true,
             render: (h,param) =>{
-              console.log(param.row)
               if(param.row.tradetype == "1"){
                 return h("span","买入")
               }else if(param.row.tradetype == "2"){
@@ -322,8 +321,6 @@
     computed:{
       ...mapState({
         estimateassets (state) {
-          console.log('state---------',state);
-
           if (state.userinfo.estimateassets) {
             return state.userinfo.estimateassets;
           }
@@ -353,9 +350,7 @@
             reqresource:1
           }
         }).then((res)=>{
-          console.log(res)
           if(res.data.currencys && res.data.err_code == "1" && res.data){
-            console.log(res.data.currencys)
             that.fund_account_lists = res.data.currencys
           }
         }).catch((err)=>{
@@ -372,13 +367,11 @@
       },
       deleteaddress(value){//删除地址
         let that=this;
-        console.log("deleteaddress======",value)
         this.$Modal.confirm({
             title: '确认删除',
             content: '<p>是否删除该地址？</p>',
             loading: true,
             onOk: () => {
-              console.log("onOK")
                 that.$ajax({
                   method: "post",
                   url:"/trade/tps/pbwam.do",
@@ -401,12 +394,9 @@
         });
       },
       handleSubmit (name) {//添加地址
-          console.log("name======",name)
           let that = this;
-          console.log(that.formValidate)
           that.formValidate['coin'] = that.fund_account_active;
           that.formValidate['reqresource'] =1;
-          console.log(that.formValidate)
           this.$refs[name].validate((valid) => {
             if (valid) {
                 that.$ajax({
@@ -448,14 +438,12 @@
             }
           },1000);
         }else{
-          console.log("多次点击 ==========")
           return false;
         }
 
         this.$ajax.post('/trade/tps/pbscs.do',{
           reqresource:1
         }).then((res) => {
-          console.log('短信验证',res);
           if (res.status == 200 && res.data && res.data.err_code == '1') {
             that.$Message.success('短信已发送');
           }else {
@@ -463,7 +451,6 @@
             that.err_msg =  res.data.msg;
           }
         }).catch((err) => {
-          console.log(err);
           that.$Message.success('短信发送失败，请稍后重试。');
         })
         
@@ -477,8 +464,6 @@
       },
       changeFundAccount(value) {//选择币种
         this.fund_account_active = value;
-        console.log("a---click",value)
-        console.log(this.fund_account_active)
         this.selectaddress()
       },
       selectaddress() {//查询地址
@@ -491,20 +476,17 @@
               coin:that.fund_account_active
             }
           }).then((data)=>{
-            console.log('address---list---',data)
             if(data.data && data.data.err_code == "1"){
               that.addresslist = data.data.walletAdress
             }
           })
       },
       changeType(value) {
-        console.log(value);
       },
       chooseStartDate(value) {
         this.startDate = value;
       },
       chooseEndDate(value) {
-        console.log(value);
         this.endDate = value;
       },
       chooseDate(value) {
@@ -514,14 +496,12 @@
         this.endDate = endDate;
         if (value == 0 ) {
           this.startDate = this.endDate;
-          console.log(this.startDate);
         }else if (value) {
           var day = moment(endDate).subtract(value, 'days').toDate();
           this.startDate = day;
         }
       },
       tabClick(name) {//点击侧菜单
-        // console.log('name---',name,this.currentTab);
         let that =this;
         if (name == 'accountAssets') {
           this.$router.push({
@@ -555,11 +535,6 @@
           // endDate = moment().format('YYYY-MM-DD');
           this.endDate = ""
         }
-        console.log({
-          operation,
-          startDate,
-          endDate
-        });
         this.dateErr = '';
         if (startDate && endDate) {
           if (moment(endDate).isBefore(startDate)) {
@@ -575,7 +550,6 @@
           pageno,
           pagesize
         }).then((res)=>{
-          console.log('-----detail',res.data.accountDetail);
           if (res.status == 200 && res.data.err_code == '1') {
             if (res.data && res.data.page) {
               that.detailPageTotal = res.data.page.sum*1 ? res.data.page.sum*1 : 0 ;

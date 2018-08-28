@@ -35,7 +35,8 @@ export default {
                 this.$router.push({
                   name: 'Recharge',
                   query: {
-                    name: params.row.currencyname
+                    code: params.row.coincode,
+                    type: params.row.type
                   }
                 })
               }

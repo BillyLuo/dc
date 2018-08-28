@@ -738,14 +738,6 @@ export default {
     },
     submitEmail() {
       // 邮箱注册
-      console.log("邮箱");
-      console.log(
-        this.email,
-        this.vsCode,
-        this.telCode,
-        this.password,
-        this.passwordAgain
-      );
       let that = this;
       if (
         !this.email &&
