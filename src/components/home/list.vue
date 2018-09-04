@@ -175,9 +175,9 @@ let menu=[
                     },
                     render:(h,param)=>{
                         if(param.row.range < 0 ){
-                            return  h('span',{class:'range_die ranges',style:"color:#f04516"}, Number(param.row.range*100).toFixed(2) + '%')
+                            return  h('span',{class:'range_die ranges',style:"color:#f04516"}, Number(param.row.range).toFixed(2) + '%')
                         }else if(param.row.range > 0 ){
-                            return  h('span',{class:'range_zhang ranges',style:"color:#3ec47b"}, "+"+ Number(param.row.range*100).toFixed(2) + '%')
+                            return  h('span',{class:'range_zhang ranges',style:"color:#3ec47b"}, "+"+ Number(param.row.range).toFixed(2) + '%')
                         }else{
                             return  h('span',{class:''}, Number(param.row.range).toFixed(2) + '%')
                         }

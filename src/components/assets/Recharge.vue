@@ -11,15 +11,7 @@
       <div class="float-left color-586c86">公钥</div>
       <input :value="public_pas" readonly :class="'float-left recharge-address-detail'" />
     </div>
-    <!-- <div class="recharge-note">
-      <div class="recharge-note-title color-586c86">充值须知</div>
-      <ul class="recharge-note-content">
-        <li>冲币备注。</li>
-        <li>您充值{{currencyType}}上述地址后，需要整个{{currencyType}}网络节点的确认，为了快速到账，您可以向{{currencyType}}网络支付少量的手续费。</li>
-        <li>最小充值金额是：0.0001 您的{{currencyType}}地址不会改变，可以重复充值，如有更改，我们会通过网站公告或邮件通知您。</li>
-      </ul>
-    </div> -->
-    <div class="recharge-record">
+    <div class="recharge-record" v-if="false">
       <h3 class="color-white">{{currencyType}}充值记录</h3>
       <Table :class="'no-border-table dark-mode'" stripe :columns="record_column" :data="record_data" />
     </div>

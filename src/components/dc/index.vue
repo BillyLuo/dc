@@ -53,8 +53,8 @@ export default {
         res = res.data || {};
         if (res.err_code == '1' && res.currencyDetail instanceof Array && res.currencyDetail.length) {
           that.data = res.currencyDetail.map((item,index) => {
-            item.range = Number(item.range * 100).toFixed(2) + '%';
-            item.swing = Number(item.swing * 100).toFixed(2) + '%';
+            item.range = Number(item.range ).toFixed(2) + '%';
+            item.swing = Number(item.swing ).toFixed(2) + '%';
             return item;
           })
         }

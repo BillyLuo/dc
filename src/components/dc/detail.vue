@@ -43,16 +43,16 @@
                     <Tabs size="small" v-model="buy_sell"  @on-click="changeTab">
                         <TabPane label="买入" name='buy' class="buy_bi">
                             <div class="keyong">
-                                <p>可用 {{ jichu_keyong }}</p>
-                                <p>冻结 {{ jichu_dongjie }}</p>
+                                <p>可用 {{ jijia_keyong }}</p>
+                                <p>冻结 {{ jijia_dongjie }}</p>
                             </div>
                             <div class="price" style="margin-top:2px;">
                                 <input v-model="price"  @input="inputBuyPrice($event,'price')" @blur="inputBlur($event,'price')" class="input-number" />
-                                <span> {{ '限价 '+jichubizhong }}</span>
+                                <span> {{ '限价 '+jijiabizhong }}</span>
                             </div>
                             <div class="price">
                                 <input v-model="count"  @input="inputBuyPrice($event,'count')" @blur="inputBlur($event,'count')" class="input-number" />
-                                <span> {{ '仓位 '+jijiabizhong }}</span>
+                                <span> {{ '仓位 '+jichubizhong }}</span>
                             </div>
                             <div class="slides_sty">
                                 <Slider v-model="slides_value" @on-input="sliderchange" :tip-format="hideFormat"></Slider>
@@ -67,16 +67,16 @@
                         </TabPane>
                         <TabPane label="卖出" name='sell' class="buy_bi">
                             <div class="keyong">
-                                <p>可用 {{ jijia_keyong }} </p>
-                                <p>冻结 {{ jijia_dongjie }} </p>
+                                <p>可用 {{ jichu_keyong }} </p>
+                                <p>冻结 {{ jichu_dongjie }} </p>
                             </div>
                             <div class="price" style="margin-top:2px;">
                                 <input v-model="price1"  @input="inputBuyPrice($event,'price1')" @blur="inputBlur($event,'price1')" class="input-number" />
-                                <span> {{ '限价 '+jichubizhong }}</span>
+                                <span> {{ '限价 '+jijiabizhong }}</span>
                             </div>
                             <div class="price">
                                 <input v-model="count1"  @input="inputBuyPrice($event,'count1')" @blur="inputBlur($event,'count1')" class="input-number" />
-                                <span> {{ '仓位 '+jijiabizhong }}</span>
+                                <span> {{ '仓位 '+jichubizhong }}</span>
                             </div>
                             <div class="slides_sty">
                                 <Slider v-model="slides_value1" @on-input="slidersellchange" :tip-format="hideFormat"></Slider>
@@ -413,7 +413,6 @@ export default {
     },
     mounted(){
       this.initCoinList();
-      this.tradingViewGetReady();
       this.getRlist();
       this.getBalance(this.jijiabizhong);
       this.newPrice();
@@ -485,6 +484,7 @@ export default {
               that.jichubizhong = defaultCoin;
               that.query_entrust();
             }
+            that.tradingViewGetReady();
           }
         }).catch((err) => {
           this.spinner.stop();
@@ -2488,7 +2488,7 @@ export default {
                        if(type == that.jichubizhong){
                            that.jichu_keyong = Number(res.data.accountFund[0].usablefund).toFixed(10);
                            that.jichu_dongjie = Number(res.data.accountFund[0].frozenfund).toFixed(10);
-                       }else{
+                       }else if (type == that.jijiabizhong){
                            that.jijia_keyong = Number(res.data.accountFund[0].usablefund).toFixed(10);
                            that.jijia_dongjie = Number(res.data.accountFund[0].frozenfund).toFixed(10);
                        }
@@ -2496,7 +2496,7 @@ export default {
                        if(type == that.jichubizhong){
                            that.jichu_keyong = 0;
                            that.jichu_dongjie = 0;
-                       }else{
+                       }else if(type == that.jijiabizhong){
                            that.jijia_keyong = 0;
                            that.jijia_dongjie = 0;
                        }

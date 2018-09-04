@@ -12,9 +12,9 @@
       </div>
       <div class="stock-receive-record">
         <div class="stock-address-title">
-          <h3>{{stockname}}接收记录</h3>
+          <h3>{{stockname}}交易记录</h3>
         </div>
-        <receiverecord />
+        <receiverecord :coincode="coincode"/>
       </div>
     </div>
   </div>
@@ -27,7 +27,8 @@ export default {
   data() {
     return {
       stockname: '',
-      stockaddress: ''
+      stockaddress: '',
+      coincode: ''
     }
   },
   mounted(){
@@ -40,6 +41,7 @@ export default {
       if (!coincode || !pairstype) {
         return;
       }
+      this.coincode = coincode;
       console.log(coincode,type);
       this.$ajax.post('/trade/tps/pblaf.do',{
         reqresource: '1',

@@ -1014,7 +1014,7 @@ export default {
                   item.low = data.l[i];
                   bars.push(item)
                 }
-                if (num > 2) {
+                if (num  % 2 == 1 && num >= 2) {
                   bars = [];
                   noData = true;
                 }

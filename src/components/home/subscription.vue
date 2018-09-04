@@ -221,9 +221,9 @@ export default {
         this.modalLoading = false;
         return;
       }
-      if (!count) {
+      if (!count || count <= 0) {
         this.modalLoading = false;
-        this.$Message.warning('请输入申购数量');
+        this.$Message.error('请输入正确的申购数量');
         return;
       }
       var reqresource = 1;

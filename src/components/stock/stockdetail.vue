@@ -427,10 +427,9 @@ export default {
     },
     mounted(){
         this.getStockList();
-        this.tradingViewGetReady();
         this.getRlist();
         this.getBalance(this.jijiabizhong);
-        this.getBalance(this.jichubizhong);
+        // this.getBalance(this.jichubizhong);
         this.newPrice();
         this.query_entrust();
         this.query_entrust2();
@@ -448,7 +447,7 @@ export default {
         this.listcolumns2();
       },
       'jijiabizhong':function () {
-        
+        this.getBalance(this.jijiabizhong);
       },
       stockinfo: function (n,o) {
         this.weituolist();
@@ -480,6 +479,7 @@ export default {
               that.basic_price = res.currencyDetail[0].close;
               that.query_entrust();
               this.newPrice();
+              this.tradingViewGetReady();
             }
           }
         }).catch((err) => {
@@ -487,127 +487,127 @@ export default {
         })
       },
         // tradeView准备
-        tradingViewGetReady() {
-            let s5,s10,s15,s20;
-            let that = this;
-            let Datafeed = that.datafeeds();
-            TradingView.onready((() => {
-                widget = window.widget = new TradingView.widget({
-                    debug: false,
-                    fullscreen: false,
-                    // autosize:true,
-                    width:"100%",
-                    height:"660px",
-                    symbol: this.jichubizhong + '/' + this.jijiabizhong,
-                    interval:'1000',
-                    container_id: "tv_chart_container",
-                    //	BEWARE: no trailing slash is expected in feed URL
-                    datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:that.jichubizhong,jijiabizhong:that.jijiabizhong,timetype:that.time_type},100000),
-                    toolbar_bg: "#181b2b",
-                    library_path: "static/charting_library/charting_library/",
-                    locale: "zh",
-                    drawings_access: { type: 'black', tools: [ { name: "Regression Trend" } ] },
-                    // charts_storage_url: 'http://saveload.tradingview.com',
-                    charts_storage_api_version: "1.1",
-                    client_id: 'tradingview.com',
-                    timezone:"Asia/Shanghai",
-                    user_id: 'public_user_id',
-                    loading_screen: { backgroundColor: "#181b2b",foregroundColor:"#fff"},
-                    disabled_features: [
-                        "header_symbol_search",
-                        "header_compare",
-                        'header_undo_redo',
-                        "caption_buttons_text_if_possible",
-                        "adaptive_logo",
-                        "main_series_scale_menu",
-                        "go_to_date",
-                        "show_dom_first_time",
-                        "header_interval_dialog_button",
-                        "header_screenshot",
-                        "hide_chart_type",
-                        "header_resolutions",
-                        "header_chart_type",
-                        "symbol_search_hot_key",
-                        "header_saveload",
-                        "go_to_date",
-                        "timeframes_toolbar",
-                        "volume_force_overlay",
-                        "left_toolbar"
-                    ],
-                    enabled_features: [
-                        'dont_show_boolean_study_arguments',
-                        'hide_left_toolbar_by_default',
-                        "use_localstorage_for_settings",
-                        "remove_library_container_border",//tv-close-panel top
-                    ],
-                    drawings_access: {
-                        type: 'black',
-                        tools: [{name: "Regression Trend"}],//todo: moje
-                        tools: [
-                            {name: "Trend Line", grayed: true},
-                            {name: "Trend Angle", grayed: true}
-                        ] //todo: bb
-                    },
-                    overrides: {
-                        // "volumePaneSize": "medium",
-                        "symbolWatermarkProperties.color": "rgba(0, 0, 0, 0)",
-                        "paneProperties.background": "#181b2b",
-                        "paneProperties.vertGridProperties.color": "rgba(100, 100, 100, 0.1)",
-                        "paneProperties.horzGridProperties.color": "rgba(100, 100, 100, 0.1)",
-                        "paneProperties.crossHairProperties.color": "#ccc",
-                        "paneProperties.topMargin": 15,
-                        "paneProperties.bottomMargin": 0,
-                        "scalesProperties.lineColor ": "#ccc",
-                        "scalesProperties.textColor" : "#ccc",
-                        "paneProperties.legendProperties.showLegend": false,
-					    "scalesProperties.showLeftScale":false,
-                    },
-                    studies_overrides: {
-                        "volume.show ma": false
-                    },
-                    custom_css_url: 'chart.css'
-                });
+      tradingViewGetReady() {
+          let s5,s10,s15,s20;
+          let that = this;
+          let Datafeed = that.datafeeds();
+          TradingView.onready((() => {
+              widget = window.widget = new TradingView.widget({
+                  debug: false,
+                  fullscreen: false,
+                  // autosize:true,
+                  width:"100%",
+                  height:"660px",
+                  symbol: this.jichubizhong + '/' + this.jijiabizhong,
+                  interval:'1000',
+                  container_id: "tv_chart_container",
+                  //	BEWARE: no trailing slash is expected in feed URL
+                  datafeed: new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:that.jichubizhong,jijiabizhong:that.jijiabizhong,timetype:that.time_type},100000),
+                  toolbar_bg: "#181b2b",
+                  library_path: "static/charting_library/charting_library/",
+                  locale: "zh",
+                  drawings_access: { type: 'black', tools: [ { name: "Regression Trend" } ] },
+                  // charts_storage_url: 'http://saveload.tradingview.com',
+                  charts_storage_api_version: "1.1",
+                  client_id: 'tradingview.com',
+                  timezone:"Asia/Shanghai",
+                  user_id: 'public_user_id',
+                  loading_screen: { backgroundColor: "#181b2b",foregroundColor:"#fff"},
+                  disabled_features: [
+                      "header_symbol_search",
+                      "header_compare",
+                      'header_undo_redo',
+                      "caption_buttons_text_if_possible",
+                      "adaptive_logo",
+                      "main_series_scale_menu",
+                      "go_to_date",
+                      "show_dom_first_time",
+                      "header_interval_dialog_button",
+                      "header_screenshot",
+                      "hide_chart_type",
+                      "header_resolutions",
+                      "header_chart_type",
+                      "symbol_search_hot_key",
+                      "header_saveload",
+                      "go_to_date",
+                      "timeframes_toolbar",
+                      "volume_force_overlay",
+                      "left_toolbar"
+                  ],
+                  enabled_features: [
+                      'dont_show_boolean_study_arguments',
+                      'hide_left_toolbar_by_default',
+                      "use_localstorage_for_settings",
+                      "remove_library_container_border",//tv-close-panel top
+                  ],
+                  drawings_access: {
+                      type: 'black',
+                      tools: [{name: "Regression Trend"}],//todo: moje
+                      tools: [
+                          {name: "Trend Line", grayed: true},
+                          {name: "Trend Angle", grayed: true}
+                      ] //todo: bb
+                  },
+                  overrides: {
+                      // "volumePaneSize": "medium",
+                      "symbolWatermarkProperties.color": "rgba(0, 0, 0, 0)",
+                      "paneProperties.background": "#181b2b",
+                      "paneProperties.vertGridProperties.color": "rgba(100, 100, 100, 0.1)",
+                      "paneProperties.horzGridProperties.color": "rgba(100, 100, 100, 0.1)",
+                      "paneProperties.crossHairProperties.color": "#ccc",
+                      "paneProperties.topMargin": 15,
+                      "paneProperties.bottomMargin": 0,
+                      "scalesProperties.lineColor ": "#ccc",
+                      "scalesProperties.textColor" : "#ccc",
+                      "paneProperties.legendProperties.showLegend": false,
+            "scalesProperties.showLeftScale":false,
+                  },
+                  studies_overrides: {
+                      "volume.show ma": false
+                  },
+                  custom_css_url: 'chart.css'
+              });
 
-                widget.onChartReady(() => {
-                    let handleClick = (e, value,pre) => {
-                        // console.log(widget.chart())
-                        if(value == "1F"){
-                            widget.chart().setChartType(3)
-                            widget.chart().setResolution(value,function(){});
-                            widget.chart().getStudyById(s5).setVisible(false)
-                            widget.chart().getStudyById(s10).setVisible(false)
-                            widget.chart().getStudyById(s15).setVisible(false)
-                            widget.chart().getStudyById(s20).setVisible(false)
+              widget.onChartReady(() => {
+                  let handleClick = (e, value,pre) => {
+                      // console.log(widget.chart())
+                      if(value == "1F"){
+                          widget.chart().setChartType(3)
+                          widget.chart().setResolution(value,function(){});
+                          widget.chart().getStudyById(s5).setVisible(false)
+                          widget.chart().getStudyById(s10).setVisible(false)
+                          widget.chart().getStudyById(s15).setVisible(false)
+                          widget.chart().getStudyById(s20).setVisible(false)
 
-                        }else{
-                            widget.chart().setChartType(1)
-                            widget.chart().setResolution(value,function(){});
-                            widget.chart().getStudyById(s5).setVisible(true)
-                            widget.chart().getStudyById(s10).setVisible(true)
-                            widget.chart().getStudyById(s15).setVisible(true)
-                            widget.chart().getStudyById(s20).setVisible(true)
-                        }
-                        that.time_type = pre;
-                        widget.chart().resetData();
-                        $(e.target).addClass('select').closest('div.space-single').siblings('div.space-single').find('div.button').removeClass('select');
-                    }
-                    buttonArr.forEach((item,index)=>{
-                        let button = widget.createButton()
-                        button.parent().attr("style",'float:left')
-                        button.addClass(item.select?"select time_button_header":'time_button_header')
-                        .attr("style","background:none;border:none;color:#68696b;")
-                        .html("<span>"+item.text+"</span>")
-                        .on('click', function (e) {
-                            handleClick(e,item.value,item.period);
-                        })
-                    })
-                    s5 = widget.chart().createStudy("Moving Average",false,false,[5],null,{"plot.color":'#07bd7f'});
-                    s10 = widget.chart().createStudy("Moving Average",false,false,[10],null,{"plot.color":'#540483'});
-                    s15 = widget.chart().createStudy("Moving Average",false,false,[30],null,{"plot.color":'#3d85e6'});
-                    s20 = widget.chart().createStudy("Moving Average",false,false,[60],null,{"plot.color":'#e5416b'});
-                })
-            })());
-        },
+                      }else{
+                          widget.chart().setChartType(1)
+                          widget.chart().setResolution(value,function(){});
+                          widget.chart().getStudyById(s5).setVisible(true)
+                          widget.chart().getStudyById(s10).setVisible(true)
+                          widget.chart().getStudyById(s15).setVisible(true)
+                          widget.chart().getStudyById(s20).setVisible(true)
+                      }
+                      that.time_type = pre;
+                      widget.chart().resetData();
+                      $(e.target).addClass('select').closest('div.space-single').siblings('div.space-single').find('div.button').removeClass('select');
+                  }
+                  buttonArr.forEach((item,index)=>{
+                      let button = widget.createButton()
+                      button.parent().attr("style",'float:left')
+                      button.addClass(item.select?"select time_button_header":'time_button_header')
+                      .attr("style","background:none;border:none;color:#68696b;")
+                      .html("<span>"+item.text+"</span>")
+                      .on('click', function (e) {
+                          handleClick(e,item.value,item.period);
+                      })
+                  })
+                  s5 = widget.chart().createStudy("Moving Average",false,false,[5],null,{"plot.color":'#07bd7f'});
+                  s10 = widget.chart().createStudy("Moving Average",false,false,[10],null,{"plot.color":'#540483'});
+                  s15 = widget.chart().createStudy("Moving Average",false,false,[30],null,{"plot.color":'#3d85e6'});
+                  s20 = widget.chart().createStudy("Moving Average",false,false,[60],null,{"plot.color":'#e5416b'});
+              })
+          })());
+      },
         datafeeds(){
             "use strict";
             /*
@@ -1056,8 +1056,8 @@ export default {
                     starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
                     endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
                 }else if(that_vue.time_type.indexOf('H')!=-1){
-                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
-                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':00:00';
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00'+':00:00';
                 }else if(that_vue.time_type.indexOf('D')!=-1){
                     starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
                     endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
@@ -2517,15 +2517,15 @@ export default {
                        if(type == that.jichubizhong){
                            that.jichu_keyong = Number(res.data.accountFund[0].usablefund).toFixed(10);
                            that.jichu_dongjie = Number(res.data.accountFund[0].frozenfund).toFixed(10);
-                       }else{
-                           that.jijia_keyong = Number(res.data.accountFund[0].usablefund).toFixed(10);
-                           that.jijia_dongjie = Number(res.data.accountFund[0].frozenfund).toFixed(10);
+                       }else if (type == that.jijiabizhong){
+                        that.jijia_keyong = Number(res.data.accountFund[0].usablefund).toFixed(10);
+                        that.jijia_dongjie = Number(res.data.accountFund[0].frozenfund).toFixed(10);
                        }
                     }else {
                        if(type == that.jichubizhong){
                            that.jichu_keyong = 0;
                            that.jichu_dongjie = 0;
-                       }else{
+                       }else if (type == that.jijiabizhong){
                            that.jijia_keyong = 0;
                            that.jijia_dongjie = 0;
                        }

@@ -392,24 +392,26 @@ export default {
         buymoney(){
             if(this.price > 0 && this.count > 0){
                 // var price = new BigNumber(this.price*this.count*1.002);
-                let x = new BigNumber(this.price)
-                let y = x.multipliedBy(this.count)
-                let z = y.multipliedBy(1.002)
+                let x = new BigNumber(this.price);
+                let y = x.multipliedBy(this.count);
+                let z = y.multipliedBy(1.002);
+                var money = z.toFixed(10);
                 // console.log(x.toFixed(10)+'----'+y.toFixed(10)+'-----'+z.toFixed(10))
                 // console.log(price.times(this.count*1.002))
                 // var ss = new BigNumber(this.price*this.count*1.002)
-                return z.toFormat(10);
+                return money;
             } else {
               return 0;
             }
         },
         sellmoney(){
             if(this.price1 > 0 && this.count1 > 0){
-                var price1 = new BigNumber(this.price1*this.count1*0.998).toFxied(8);
+                var price1 = new BigNumber(this.price1*this.count1*0.998);
+                price1 = price1.toFixed(8);
                 let a = new BigNumber(this.price1)
                 let b = a.multipliedBy(this.count1)
                 let c = b.multipliedBy(0.998)
-                return c.toFormat(10);
+                return c.toFixed(10);
             }else {
               return 0;
             }
@@ -417,7 +419,6 @@ export default {
     },
     mounted(){
       this.initCoinList();
-      this.tradingViewGetReady();
       this.getRlist();
       this.getBalance(this.jijiabizhong);
       this.query_entrust();
@@ -478,7 +479,7 @@ export default {
                 that.news_price = item.curprice;
                 that.price = Number(item.curprice).toFixed(8);
                 that.price1 = Number(item.curprice).toFixed(8);
-                that.zhangfu = Number(item.range).toFixed(2) + '%';
+                that.zhangfu = Number(item.range).toFixed(2);
                 flag = true;
               }
               return item;
@@ -486,6 +487,7 @@ export default {
             if (!flag) {
               that.jichubizhong = defaultCoin;
             }
+            that.tradingViewGetReady();
           }
         }).catch((err) => {
           this.spinner.stop();
@@ -1062,8 +1064,8 @@ export default {
                     starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
                     endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
                 }else if(that_vue.time_type.indexOf('H')!=-1){
-                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
-                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':00:00';
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
                 }else if(that_vue.time_type.indexOf('D')!=-1){
                     starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
                     endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
