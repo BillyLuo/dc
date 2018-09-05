@@ -147,6 +147,7 @@ import Entrusth from "./Entrusthistory";
 import Transaction from "./Transaction";
 import bus from '../../bus/bus';
 import { mapState } from "vuex";
+import cookies from 'cookies-js';
 var numReg = function (m,n) {
     m=m.toString();
     n=n.toString();
@@ -601,13 +602,23 @@ export default {
                     },
                     onOk: () => {
                         console.log("---------------------",that.userinfo.validationAmount)
-                        if(that.userinfo.validationAmount < 5){
-                            console.log("21432143214")
-                            that.$Notice.warning({
-                                title:'提示',
-                                desc:'请先到个人中心完成安全设置。'
-                            })
-                            return false;
+                        // if(that.userinfo.validationAmount < 5){
+                        //     console.log("21432143214")
+                        //     that.$Notice.warning({
+                        //         title:'提示',
+                        //         desc:'请先到个人中心完成安全设置。'
+                        //     })
+                        //     return false;
+                        // }
+                        if (!cookies.get('name')) {
+                          this.$Notice.warning({
+                              title:"温馨提示",
+                              desc: "请先登录"
+                          })
+                          this.$router.push({
+                            name: 'Login'
+                          })
+                          return;
                         }
                         if (type == 1) {
                             // "entrustcoin":that.jichubizhong,

@@ -143,6 +143,7 @@ import {Tabs,TabPane,Table,Form,FormItem,Slider} from 'iview';
 var Big = require('big.js');
 import {BigNumber} from 'bignumber.js';
 import { mapState } from "vuex";
+import cookies from 'cookies-js';
     let widget;
     let buttonArr = [
       {
@@ -2081,21 +2082,30 @@ export default {
         buycurrency(){
             console.log(this.userinfo.validationAmount)
             let that = this;
-            
-            if(this.userinfo.validationAmount< 5){
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先到个人中心完成安全设置"
-                })
-                return false;
+            if (!cookies.get('name')) {
+              this.$Notice.warning({
+                  title:"温馨提示",
+                  desc: "请先登录"
+              })
+              this.$router.push({
+                name: 'Login'
+              })
+              return;
             }
-            if(Number(this.count*this.price) < 150){
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "买入数量不能小于150 USDT且不包括手续费"
-                })
-                return false;
-            }
+            // if(this.userinfo.validationAmount< 5){
+            //     this.$Notice.warning({
+            //         title:"温馨提示",
+            //         desc: "请先到个人中心完成安全设置"
+            //     })
+            //     return false;
+            // }
+            // if(Number(this.count*this.price) < 150){
+            //     this.$Notice.warning({
+            //         title:"温馨提示",
+            //         desc: "买入数量不能小于150 USDT且不包括手续费"
+            //     })
+            //     return false;
+            // }
             if(Number(this.buymoney) > Number(this.jijia_keyong)){
                 this.$Notice.warning({
                     title:"温馨提示",
@@ -2174,12 +2184,22 @@ export default {
         },
         sellcurrency(){
             let that = this;
-            if(this.userinfo.validationAmount< 5){
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先到个人中心完成安全设置"
-                })
-                return false;
+            // if(this.userinfo.validationAmount< 5){
+            //     this.$Notice.warning({
+            //         title:"温馨提示",
+            //         desc: "请先到个人中心完成安全设置"
+            //     })
+            //     return false;
+            // }
+            if (!cookies.get('name')) {
+              this.$Notice.warning({
+                  title:"温馨提示",
+                  desc: "请先登录"
+              })
+              this.$router.push({
+                name: 'Login'
+              })
+              return;
             }
             if(Number(this.count1) > Number(this.jichu_keyong)){
                 this.$Notice.warning({

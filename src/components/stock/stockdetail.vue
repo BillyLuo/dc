@@ -147,7 +147,6 @@
                 <Table class="no-border-table dark-mode right_scroll" :columns='columns2' height='795' :data='datas2' stripe></Table>
             </Col>
         </Row>
-        
     </div>
 </template>
 

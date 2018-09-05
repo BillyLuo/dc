@@ -6,8 +6,11 @@
 
 <script>
 var Big = require('big.js');
+import cookies from 'cookies-js';
+import { mapState } from 'vuex';
 export default {
   data () {
+    var that = this;
     var columns = [
       { key: 'currencyname', title: '股票名称'},
       { key: 'coincode', title: '股票代码'},
@@ -31,6 +34,37 @@ export default {
           }},'账号地址'),
           h('a',{'class': 'stock-transfer',on: {
             click: () => {
+              var userinfo = that.userinfo;
+              if (userinfo && userinfo.uid) {
+                if (!userinfo.nameAuth.bound) {
+                  that.$Notice.warning({
+                    title: '提示',
+                    desc: '请先完成实名认证'
+                  })
+                  that.$router.push({
+                    name: 'safeSettings'
+                  })
+                  return;
+                }
+                if (!userinfo.tradePass.bound) {
+                  that.$Notice.warning({
+                    title: '提示',
+                    desc: '请先设置交易密码'
+                  })
+                  that.$router.push({
+                    name: 'safeSettings'
+                  })
+                  return;
+                }
+              } else {
+                if (!cookies.get('name')) {
+                  that.$Notice.warning({
+                    title: '提示',
+                    desc: '请登录'
+                  })
+                }
+                return;
+              }
               this.$router.push({
                 name:'stocktransfer',
                 query: {
@@ -47,6 +81,53 @@ export default {
       columns,
       data: []
     }
+  },
+  computed: {
+    ...mapState({
+      userinfo(state) {
+        var info = state.userinfo;
+        console.log('state-----!!!!!!',info);
+        var email = {bound:false,value:''},
+        nameAuth = {bound:false,value:''},
+        phone = {bound:false,value:''},
+        loginPass = {bound:false,value:''},
+        tradePass = {bound:false,value:''},
+        google = {bound:false,value:''};
+        var num = 0;
+        if (state.userinfo.emailset ==1) {
+          email.bound = true;
+          email.value = info.email;
+          num += 1;
+        }
+        if (info.identityset ==1) {
+          nameAuth.bound = true;
+          num += 1;
+        }
+        if (info.mobileset ==1) {
+          num += 1;
+          phone.bound = true;
+          phone.value = info.mobile;
+        }
+        if (info.googlecodeset ==1 ) {
+          num += 1;
+          google.bound = true;
+        }
+        if (info.loginpasswordset == 1) {
+          num += 1;
+          loginPass.bound = true;
+        }
+        if (info.tradepasswordset == 1) {
+          num += 1;
+          tradePass.bound = true;
+        }
+        console.log('------userinfo-------',{
+          email,nameAuth,phone,loginPass,tradePass,google
+        },this);
+        return {
+          email,nameAuth,phone,loginPass,tradePass,google,uid:info.uid
+        }
+      }
+    })
   },
   mounted() {
     this.init()

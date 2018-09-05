@@ -183,6 +183,7 @@
     import { Menu,MenuItem,DatePicker,Table,Slider,Page } from 'iview';
     import step from './step';
     import { mapState } from "vuex";
+    import cookies from 'cookies-js';
     var numReg = function (m,n) {
         // m=m.toString();
         // n=n.toString();
@@ -495,36 +496,46 @@
             buy(){//买入
                 console.log(this.userinfo.validationAmount)
                 let that = this;
-                if(this.userinfo.validationAmount< 5){
-                    this.$Modal.error({
-                        render(h){
-                            return h('p',[
-                                    "请先到",
-                                    h('a',
-                                        {
-                                            domProps: {
-                                                innerHTML: '个人中心'
-                                            },
-                                            on:{
-                                                click:()=>{
+                // if(this.userinfo.validationAmount< 5){
+                //     this.$Modal.error({
+                //         render(h){
+                //             return h('p',[
+                //                     "请先到",
+                //                     h('a',
+                //                         {
+                //                             domProps: {
+                //                                 innerHTML: '个人中心'
+                //                             },
+                //                             on:{
+                //                                 click:()=>{
                                                    
-                                                    that.safe("1")
-                                                }
-                                            }
-                                        }
-                                    ),
-                                    '完成安全设置'
-                                ])
-                        }
-                    })
-                    return false;
-                }
-                if(Number(this.buycount*this.buyprice) < 150){
-                    this.$Modal.warning({
-                        title:"温馨提示",
-                        content:"买入数量不能小于150 USDT且不包括手续费"
-                    })
-                    return false;
+                //                                     that.safe("1")
+                //                                 }
+                //                             }
+                //                         }
+                //                     ),
+                //                     '完成安全设置'
+                //                 ])
+                //         }
+                //     })
+                //     return false;
+                // }
+                // if(Number(this.buycount*this.buyprice) < 150){
+                //     this.$Modal.warning({
+                //         title:"温馨提示",
+                //         content:"买入数量不能小于150 USDT且不包括手续费"
+                //     })
+                //     return false;
+                // }
+                if (!cookies.get('name')) {
+                  this.$Notice.warning({
+                      title:"温馨提示",
+                      desc: "请先登录"
+                  })
+                  this.$router.push({
+                    name: 'Login'
+                  })
+                  return;
                 }
                 if(Number(this.buymoney) > Number(this.buy_keyong)){
                     this.$Modal.warning({
@@ -592,29 +603,39 @@
             },
             sell(){//卖出 
                 let that = this;
-                if(this.userinfo.validationAmount< 5){
-                    this.$Modal.error({
-                        render(h){
-                            return h('p',[
-                                    "请先到",
-                                    h('a',
-                                        {
-                                            domProps: {
-                                                innerHTML: '个人中心'
-                                            },
-                                            on:{
-                                                click:()=>{
+                // if(this.userinfo.validationAmount< 5){
+                //     this.$Modal.error({
+                //         render(h){
+                //             return h('p',[
+                //                     "请先到",
+                //                     h('a',
+                //                         {
+                //                             domProps: {
+                //                                 innerHTML: '个人中心'
+                //                             },
+                //                             on:{
+                //                                 click:()=>{
                                                    
-                                                    that.safe("1")
-                                                }
-                                            }
-                                        }
-                                    ),
-                                    '完成安全设置'
-                                ])
-                        }
-                    })
-                    return false;
+                //                                     that.safe("1")
+                //                                 }
+                //                             }
+                //                         }
+                //                     ),
+                //                     '完成安全设置'
+                //                 ])
+                //         }
+                //     })
+                //     return false;
+                // }
+                if (!cookies.get('name')) {
+                  this.$Notice.warning({
+                      title:"温馨提示",
+                      desc: "请先登录"
+                  })
+                  this.$router.push({
+                    name: 'Login'
+                  })
+                  return;
                 }
                 if(Number(this.sellcount) > Number(this.sell_keyong)){
                     this.$Modal.error({

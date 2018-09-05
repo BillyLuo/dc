@@ -2151,23 +2151,23 @@ export default {
         buycurrency(){
             console.log(this.userinfo.validationAmount)
             let that = this;
-            if(this.userinfo.validationAmount< 5){
-              if (!cookies.get('name')) {
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先登录"
-                })
-                this.$router.push({
-                  name: 'Login'
-                })
-                return;
-              }
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先到个人中心完成安全设置"
-                })
-                return false;
+            if (!cookies.get('name')) {
+              this.$Notice.warning({
+                  title:"温馨提示",
+                  desc: "请先登录"
+              })
+              this.$router.push({
+                name: 'Login'
+              })
+              return;
             }
+            // if(this.userinfo.validationAmount < 5){
+            //     this.$Notice.warning({
+            //         title:"温馨提示",
+            //         desc: "请先到个人中心完成安全设置"
+            //     })
+            //     return false;
+            // }
             // if(Number(this.count*this.price) < 150){
             //     this.$Notice.warning({
             //         title:"温馨提示",
@@ -2252,23 +2252,23 @@ export default {
         },
         sellcurrency(){
             let that = this;
-            if(this.userinfo.validationAmount< 5){
-              if (!cookies.get('name')) {
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先登录"
-                })
-                this.$router.push({
-                  name: 'Login'
-                })
-                return;
-              }
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先到个人中心完成安全设置"
-                })
-                return false;
+            if (!cookies.get('name')) {
+              this.$Notice.warning({
+                  title:"温馨提示",
+                  desc: "请先登录"
+              })
+              this.$router.push({
+                name: 'Login'
+              })
+              return;
             }
+            // if(this.userinfo.validationAmount< 5){
+            //     this.$Notice.warning({
+            //         title:"温馨提示",
+            //         desc: "请先到个人中心完成安全设置"
+            //     })
+            //     return false;
+            // }
             if(Number(this.count1) > Number(this.jichu_keyong)){
                 this.$Notice.warning({
                     title:"温馨提示",
