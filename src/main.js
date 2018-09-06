@@ -59,9 +59,13 @@ Vue.prototype.spinner = spinner;
 
 axios.interceptors.response.use(function (response) {  
   if (response.status== 200 && response.statusText == "OK"){  
-    cookies.set("name",cookies.get("name"),{
-        expires: 1800
-    })
+    cookies.set("name",cookies.get("name"));
+    if (response.data && response.data.msg && response.data.msg.match('session timeout')) {
+      cookies.set("name",'');
+      router.push({
+        name: 'Login'
+      })
+    }
   }else {
   }
   return response

@@ -244,6 +244,8 @@ import { mapState } from "vuex";
         }
         if (!n) {
             n = 10;
+        } else if (n == '0') {
+          return new RegExp('^(((0(\\.\\d{0,' + n + '})?))|([1-9]\\d{0,'+(m-1)+'}))$');
         }else if (!n.match(/^[1-9]\d*$/)) {
             n = 10;
         }
@@ -251,7 +253,7 @@ import { mapState } from "vuex";
     }
     let i=0;
     var reg = numReg('8','8');
-    var regs = numReg('10','3');
+    var regs = numReg('10','0');
     var decimal = function(a,b){
         let s = a.toString()
         if(s.indexOf('.') != -1){
@@ -2164,23 +2166,23 @@ export default {
         },
         buycurrency(){
             let that = this;
-            if(this.userinfo.validationAmount< 5){
-              if (!cookies.get('name')) {
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先登录"
-                })
-                this.$router.push({
-                  name: 'Login'
-                })
-                return;
-              }
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先到个人中心完成安全设置"
-                })
-                return false;
+            if (!cookies.get('name')) {
+              this.$Notice.warning({
+                  title:"温馨提示",
+                  desc: "请先登录"
+              })
+              this.$router.push({
+                name: 'Login'
+              })
+              return;
             }
+            // if(this.userinfo.validationAmount< 5){
+            //     this.$Notice.warning({
+            //         title:"温馨提示",
+            //         desc: "请先到个人中心完成安全设置"
+            //     })
+            //     return false;
+            // }
             // if(Number(this.count*this.price) < 150){
             //     this.$Notice.warning({
             //         title:"温馨提示",
@@ -2274,23 +2276,23 @@ export default {
         },
         sellcurrency(){
             let that = this;
-            if(this.userinfo.validationAmount< 5){
-              if (!cookies.get('name')) {
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先登录"
-                })
-                this.$router.push({
-                  name: 'Login'
-                })
-                return;
-              }
-                this.$Notice.warning({
-                    title:"温馨提示",
-                    desc: "请先到个人中心完成安全设置"
-                })
-                return false;
+            if (!cookies.get('name')) {
+              this.$Notice.warning({
+                  title:"温馨提示",
+                  desc: "请先登录"
+              })
+              this.$router.push({
+                name: 'Login'
+              })
+              return;
             }
+            // if(this.userinfo.validationAmount< 5){
+            //     this.$Notice.warning({
+            //         title:"温馨提示",
+            //         desc: "请先到个人中心完成安全设置"
+            //     })
+            //     return false;
+            // }
             if(Number(this.count1) > Number(this.jichu_keyong)){
                 this.$Notice.warning({
                     title:"温馨提示",
@@ -2393,6 +2395,7 @@ export default {
             var value = e.target.value;
             var oldValue = this[priceType+'_'];
             if(priceType=="count" || priceType == "count1"){
+              console.log(value,regs);
                 if (!value) {
                     this[priceType] = '';
                     this[priceType+'_'] = '';
