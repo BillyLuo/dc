@@ -1,0 +1,28 @@
+.left .group span,a{
+    background: none !important;
+    border:none !important;
+}
+.header-chart-panel .button::before{
+    border:none !important;
+    
+}
+.time_button_header span{
+    font-weight: normal;
+}
+.header-chart-panel-content .select,.header-chart-panel-content .select span{
+    color:#f1f2f3;
+    background: #20334d !important;
+}
+
+.header-chart-panel-content .header-group-fullscreen{
+    float:right;
+}
+.layout__area--center .chart-container{
+    border:none;
+}
+.wrapper{
+    display: none !important; 
+}
+.chart-controls-bar{
+    display: none;
+}

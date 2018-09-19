@@ -1065,17 +1065,20 @@ export default {
                     starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
                     endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
                 }else if(that_vue.time_type.indexOf('H')!=-1){
-                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
-                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
                 }else if(that_vue.time_type.indexOf('D')!=-1){
-                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
-                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
                 }else if(that_vue.time_type.indexOf('W')!=-1){
-                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
-                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
                 }else if(that_vue.time_type.indexOf('M')!=-1){
-                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
-                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
+                    starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+s_hour+':00:00';
+                    endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+end_hour+':'+end_min+':00';
+                }
+                if (that_vue.time_type == 'H' ) {
+                  that_vue.time_type = "1H";
                 }
                 
                 that_vue.$ajax({

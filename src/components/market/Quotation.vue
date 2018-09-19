@@ -1003,7 +1003,9 @@ export default {
                     starttime = ss.getFullYear()+'-'+s_month+'-'+s_day+" "+'00:00:00';
                     endtime = aa.getFullYear()+'-'+end_month+'-'+end_day+" "+'00:00:00';
                 }
-                
+                if (that_vue.time_type == 'H' ) {
+                  that_vue.time_type = "1H";
+                }
                 that_vue.$ajax({
                   method:"post",
                     url:"/trade/tps/pbklin.do",//获取k线数据的接口 

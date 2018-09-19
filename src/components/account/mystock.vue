@@ -18,8 +18,8 @@ export default {
       { key: 'frozenfund', title: '冻结资产'},
       { key: 'total', title: '总量'},
       { key: 'operation',title: '操作', render: (h,params) => {
-        return h ('div',{},[
-          h('a',{'class': 'stock-address',on:{
+          var opts = [];
+          var address = h('a',{'class': 'stock-address',on:{
             click: () => {
               if(params.row) {
                 this.$router.push({
@@ -31,51 +31,57 @@ export default {
                 })
               }
             }
-          }},'账号地址'),
-          h('a',{'class': 'stock-transfer',on: {
-            click: () => {
-              var userinfo = that.userinfo;
-              if (userinfo && userinfo.uid) {
-                if (!userinfo.nameAuth.bound) {
-                  that.$Notice.warning({
-                    title: '提示',
-                    desc: '请先完成实名认证'
-                  })
-                  that.$router.push({
-                    name: 'safeSettings'
-                  })
+          }},'账号地址');
+            var trans = h('a',{'class': 'stock-transfer',on: {
+              click: () => {
+                var userinfo = that.userinfo;
+                if (userinfo && userinfo.uid) {
+                  if (!userinfo.nameAuth.bound) {
+                    that.$Notice.warning({
+                      title: '提示',
+                      desc: '请先完成实名认证'
+                    })
+                    that.$router.push({
+                      name: 'safeSettings'
+                    })
+                    return;
+                  }
+                  if (!userinfo.tradePass.bound) {
+                    that.$Notice.warning({
+                      title: '提示',
+                      desc: '请先设置交易密码'
+                    })
+                    that.$router.push({
+                      name: 'safeSettings'
+                    })
+                    return;
+                  }
+                } else {
+                  if (!cookies.get('name')) {
+                    that.$Notice.warning({
+                      title: '提示',
+                      desc: '请登录'
+                    })
+                  }
                   return;
                 }
-                if (!userinfo.tradePass.bound) {
-                  that.$Notice.warning({
-                    title: '提示',
-                    desc: '请先设置交易密码'
-                  })
-                  that.$router.push({
-                    name: 'safeSettings'
-                  })
-                  return;
-                }
-              } else {
-                if (!cookies.get('name')) {
-                  that.$Notice.warning({
-                    title: '提示',
-                    desc: '请登录'
-                  })
-                }
-                return;
+                this.$router.push({
+                  name:'stocktransfer',
+                  query: {
+                    coincode: params.row.coincode,
+                    type: params.row.type
+                  }
+                })
               }
-              this.$router.push({
-                name:'stocktransfer',
-                query: {
-                  coincode: params.row.coincode,
-                  type: params.row.type
-                }
-              })
-            }
-          }},'权益转移')
-        ])
-      }}
+            }},'权益转移')
+          opts.push(address);
+          console.log(params);
+          if (params.row && params.row.istransfer == '0') {
+            opts.push(trans);
+          }
+          return h ('div',{}, opts)
+        }
+      }
     ]
     return {
       columns,
@@ -167,6 +173,7 @@ export default {
           result.total =  new Big(Number(value.total)).toFixed(10);
           result.coincode = value.coincode;
           result.type = value.type;
+          result.istransfer = value.istransfer;
           return result;
         })
         this.data = formatList;

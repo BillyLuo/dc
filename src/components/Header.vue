@@ -71,7 +71,7 @@ let menu = [
   {name:'home',text:'首页'},
   {name: 'stock', text: '股票中心'},
   {name: 'dc', text: 'DC中心'},
-  {name: 'digit', text: '数字货币'},
+  // {name: 'digit', text: '数字货币'},
   {name: 'subscription', text: '新股认购'},
   {name: 'account', text: '账户中心'},
   // {name:'assets',text:'数字资产'},
