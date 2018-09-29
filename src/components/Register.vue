@@ -30,7 +30,7 @@
                 <div class="register-label">国家</div>
                 <div class="register-input-item">
                   <Select class="select-country" v-model="country">
-                    <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+                    <Option v-for="(country,index) in countryList" :disabled="country.status == '0'" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
                   </Select>
                 </div>
                 <div class="register-label">手机号码</div>

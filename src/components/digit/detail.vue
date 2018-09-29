@@ -1910,7 +1910,7 @@ export default {
                     "pageno":that.pageno,
                     "pagesize":that.pagesize,
                     "reqresource":"1",
-                    "status":"1,2,4",
+                    "status":"1,2,3,4",
                     "tradecurrency": that.jijiabizhong
                 }
             })

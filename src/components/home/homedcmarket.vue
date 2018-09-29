@@ -35,7 +35,7 @@ console.log('-----------',data);
         value: "15",
         period: "15Min",
         text: "15min",
-        select:false,
+        select:true,
       },
       {
         value: "30",
@@ -77,7 +77,7 @@ console.log('-----------',data);
         value: "1D",
         period: "D",
         text: "日线",
-        select: true,
+        select: false,
       },
       {
         value: "1W",
@@ -123,8 +123,8 @@ export default {
         return {
             model:"DC",
             news_price:"",
-            jichubizhong:"DC",
-            jijiabizhong:"CNY",
+            jichubizhong:"CNY",
+            jijiabizhong:"DC",
             zhangfu:"",
             price:'',
             price_:'',
@@ -219,7 +219,7 @@ export default {
             order_record_cloumns1:[],
             columns2:[],
             datas2:[],
-            time_type:"1D"
+            time_type:"15Min"
         }
     },
     computed:{
@@ -789,7 +789,7 @@ export default {
                             "has_no_volume":false,
                             "has_weekly_and_monthly": true,//打开周线月线，打开后能接受W和M这两个值
                             "ticker":"钻石交易所",
-                            "description":that.data_info.jichubizhong + that.data_info.jijiabizhong,
+                            "description":that.data_info.jichubizhong + '/' + that.data_info.jijiabizhong,
                             "type":"stock",
                             "regular_session": "24x7",//24x7表示不间断的
                             "supported_resolutions":['1','5','15', '30', '60', '120','240','360','720', '1D','1W', '1M']}
@@ -871,157 +871,62 @@ export default {
                 if (that_vue.time_type == 'H' ) {
                   that_vue.time_type = "1H";
                 }
-                // that_vue.$ajax({
-                //   method:"post",
-                //     url:"/trade/tps/pbklin.do",//获取k线数据的接口 
-                //     data:{
-                //       coin :that.data_info.jichubizhong,//币种
-                //         tradecoin:that.data_info.jijiabizhong,//交易币种
-                //         //klinetime: "1",
-                //         timetype:that_vue.time_type,//时间类型分钟（1分：Min，5分：5Min），小时（1小时：H，2小时：2H），天：D，周：W，月：M
-                //         starttime:starttime,
-                //         endtime:endtime
-                //     }
-                // })
-                // .then((data)=>{
-                //   var nodata = false;
-                //   console.log('-------kline--data',data)
-                //     if(data && data.data && data.data.err_code){
-                //       if(data.data.err_code != "1"){
-                //           nodata = false;
-                //       }else{
-                //         if( !data.data.kline || data.data.kline.length == 0){
-                //           nodata = true;
-                //         }
-                //       }
-                //       console.log('---------nodata-----------',nodata)
-                //       if (data.data.err_code != "1" && !nodata) {
-                //           if (!!onErrorCallback) {
-                //               onErrorCallback(data.data.err_code != "1"?"no_date":"ok");
-                //           }
-                //           return;
-                //       }
-                //       var bars = [];
-                //       var barsCount = nodata ? 0 : data.data.kline.length;
-                //       console.log('---barcount----------',barsCount)
-                //       // will 模拟数据
-                //       // var data = {};
-                //       // data.data = {};
-                //       // barsCount = 11;
-                //       // data.data.kline = [
-                //       //   {klinetime: 1490198401000,close: 333,open: 200,high: 400,low: 222,volume: 21},
-                //       //   {klinetime: 1490198462000,close: 232,open: 90,high: 300,low: 111,volume: 9},
-                //       //   {klinetime: 1490198513000,close: 100,open: 324,high: 420,low: 333,volume: 12},
-                //       //   {klinetime: 1490198574000,close: 134,open: 90,high: 450,low: 332,volume: 23},
-                //       //   {klinetime: 1490198835000,close: 33,open: 303,high: 360,low: 122,volume: 25},
-                //       //   {klinetime: 1490198896000,close: 456,open: 300,high: 310,low: 233,volume: 16},
-                //       //   {klinetime: 1490198956000,close: 300,open: 134,high: 420,low: 277,volume: 17},
-                //       //   {klinetime: 1490199016000,close: 232,open: 200,high: 370,low: 222,volume: 18},
-                //       //   {klinetime: 1490199066000,close: 145,open: 323,high: 380,low: 265,volume: 21},
-                //       //   {klinetime: 1490199126000,close: 203,open: 99,high: 290,low: 233,volume: 23},
-                //       //   {klinetime: 1490199186000,close: 421,open: 231,high: 500,low: 241,volume: 18}
-                //       // ]
-                //       for (var i = 0; i < barsCount; ++i) {
-                //         var barValue = {
-                //           time: Number(data.data.kline[i].klinetime),
-                //           close: Number(data.data.kline[i].close),
-                //           open : Number(data.data.kline[i].open),
-                //           high : Number(data.data.kline[i].high),
-                //           low : Number(data.data.kline[i].low),
-                //           volume : Number(data.data.kline[i].volume)
-                //         };
-                //         bars.push(barValue);
-                //       }
-                //       console.log(bars)
-                //     }else{
-                //       nodata = true;
-                //     }
-                //     // bars = [];
-                //     onDataCallback(bars, {version: that._protocolVersion, noData: nodata});
-                // }).catch((arg)=>{
-                //     console.warn(["getBars(): HTTP error", arg]);
-                //     if (!!onErrorCallback) {
-                //         onErrorCallback("network error: " + JSON.stringify(arg));
-                //     }
-                // })
-                // this._send(this._datafeedURL + this._historyURL, {
-                // 		symbol: symbolInfo.ticker.toUpperCase(),
-                // 		resolution: resolution,
-                // 		from: rangeStartDate,
-                // 		to: rangeEndDate
-                // })
-                // .done(function (response) {
-
-                                // var nodata = data.s == "no_data";
-
-                                // if (data.s != "ok" && !nodata) {
-                                // 	if (!!onErrorCallback) {
-                                // 		onErrorCallback(data.s);
-                                // 	}
-                                // 	return;
-                                // }
-
-                                // var bars = [];
-
-                                // //	data is JSON having format {s: "status" (ok, no_data, error),
-                                // //  v: [volumes], t: [times], o: [opens], h: [highs], l: [lows], c:[closes], nb: "optional_unixtime_if_no_data"}
-                                // var barsCount = nodata ? 0 : data.t.length;
-
-                                // var volumePresent = typeof data.v != "undefined";
-                                // var ohlPresent = typeof data.o != "undefined";
-
-                                // for (var i = 0; i < barsCount; ++i) {
-
-                                // 	var barValue = {
-                                // 		time: data.t[i] * 1000,
-                                // 		close: data.c[i]
-                                // 	};
-
-                                // 	if (ohlPresent) {
-                                // 		barValue.open = data.o[i];
-                                // 		barValue.high = data.h[i];
-                                // 		barValue.low = data.l[i];
-                                // 	}
-                                // 	else {
-                                // 		barValue.open = barValue.high = barValue.low = barValue.close;
-                                // 	}
-
-                                // 	if (volumePresent) {
-                                // 		barValue.volume = data.v[i];
-                                // 	}
-
-                                // 	bars.push(barValue);
-                                // }
-                                // console.log(bars)
-                                
-                                // onDataCallback(bars, {version: that._protocolVersion, noData: nodata, nextTime: data.nb || data.nextTime});
-                // })
-                // .fail(function (arg) {
-                // 	console.warn(["getBars(): HTTP error", arg]);
-
-                // 	if (!!onErrorCallback) {
-                // 		onErrorCallback("network error: " + JSON.stringify(arg));
-                // 	}
-                // });
-                var noData = false;
-                num ++;
-                var count = data.t.length || 0;
-                var bars = [];
-                for (var i = 0;i<count;i++) {
-                  var item = {};
-                  item.time = data.t[i] * 1000;
-                  item.high = data.h[i];
-                  item.open = data.o[i];
-                  item.close = data.c[i];
-                  item.volume = data.o[i];
-                  item.low = data.l[i];
-                  bars.push(item)
-                }
-                if (num  % 2 == 1 && num >= 2) {
-                  bars = [];
-                  noData = true;
-                }
-                onDataCallback(bars,{noData});
+                that_vue.$ajax({
+                  method:"post",
+                    url:"/trade/tps/pbklin.do",//获取k线数据的接口 
+                    data:{
+                      coin :that.data_info.jichubizhong,//币种
+                        tradecoin:that.data_info.jijiabizhong,//交易币种
+                        //klinetime: "1",
+                        timetype:that_vue.time_type,//时间类型分钟（1分：Min，5分：5Min），小时（1小时：H，2小时：2H），天：D，周：W，月：M
+                        starttime:starttime,
+                        endtime:endtime
+                    }
+                })
+                .then((data)=>{
+                  var nodata = false;
+                  console.log('-------kline--data',data)
+                    if(data && data.data && data.data.err_code){
+                      if(data.data.err_code != "1"){
+                          nodata = false;
+                      }else{
+                        if( !data.data.kline || data.data.kline.length == 0){
+                          nodata = true;
+                        }
+                      }
+                      console.log('---------nodata-----------',nodata)
+                      if (data.data.err_code != "1" && !nodata) {
+                          if (!!onErrorCallback) {
+                              onErrorCallback(data.data.err_code != "1"?"no_date":"ok");
+                          }
+                          return;
+                      }
+                      var bars = [];
+                      var barsCount = nodata ? 0 : data.data.kline.length;
+                      console.log('---barcount----------',barsCount)
+                      for (var i = 0; i < barsCount; ++i) {
+                        var barValue = {
+                          time: Number(data.data.kline[i].klinetime),
+                          close: Number(data.data.kline[i].close),
+                          open : Number(data.data.kline[i].open),
+                          high : Number(data.data.kline[i].high),
+                          low : Number(data.data.kline[i].low),
+                          volume : Number(data.data.kline[i].volume)
+                        };
+                        bars.push(barValue);
+                      }
+                      console.log(bars)
+                    }else{
+                      nodata = true;
+                    }
+                    // bars = [];
+                    onDataCallback(bars, {version: that._protocolVersion, noData: nodata});
+                }).catch((arg)=>{
+                    console.warn(["getBars(): HTTP error", arg]);
+                    if (!!onErrorCallback) {
+                        onErrorCallback("network error: " + JSON.stringify(arg));
+                    }
+                })
             };
 
 

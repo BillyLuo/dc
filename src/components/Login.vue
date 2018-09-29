@@ -40,7 +40,7 @@
                 <FormItem prop="country_code">
                   <div class="login-label">国家</div>
                   <Select class="select-country" v-model="formInline.country_code">
-                    <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+                    <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :disabled="country.status == '0'" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
                   </Select>
                   </Input>
                 </FormItem>

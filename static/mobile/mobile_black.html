@@ -474,7 +474,7 @@
                             "timezone":"Asia/Shanghai",//时区
                             "minmov":1,
                             "minmov2":0,
-                            "pricescale":1000000,//这个应该是控制小数点位数的
+                            "pricescale":10000,//这个应该是控制小数点位数的
                             "pointvalue":1,
                             "session": "24x7",//24x7表示不间断的
                             "has_intraday":true,
@@ -1065,12 +1065,13 @@
       var datafeed =  new Datafeed.UDFCompatibleDatafeed("http://localhost:8080",{jichubizhong:coin,jijiabizhong:tradecoin,timetype:'15'},60000);
 			TradingView.onready(function() {
 				var containerHeight = height || 400;
-				var fullscreen = !!fullscreen || false;
+				var fullscreens = !!fullscreen || false;
 				var widget = new TradingView.widget({
-					fullscreen: fullscreen,
+					fullscreen: fullscreens,
 					width: '100%',
 					height: containerHeight,
-					symbol: 'AAPL',
+					// symbol: 'AAPL',
+          "timezone":"Asia/Shanghai",//时区
 					interval: '15',
 					toolbar_bg: "#2A2B31",
 					container_id: "tv_chart_container",
@@ -1110,12 +1111,12 @@
             "timeframes_toolbar",
             "volume_force_overlay",
             "use_localstorage_for_settings",
+            "header_fullscreen_button"
           ],
 					enabled_features: [
             "hide_left_toolbar_by_default",
             'dont_show_boolean_study_arguments',
             "remove_library_container_border",
-            "header_fullscreen-button"
           ],
 					overrides: {
 						"mainSeriesProperties.style": 1,
@@ -1153,7 +1154,7 @@
           user_id: 'public_user',
           custom_css_url: 'chart.css',
           favorites:{
-          		intervals:['5','15','30','60']
+            intervals:['1','5','15','30','60','120','240','720','D','W','M','1D','1W','1M']
           }
 				});
 			var savedWidgetContent = null;

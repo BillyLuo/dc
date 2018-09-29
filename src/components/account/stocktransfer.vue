@@ -27,8 +27,8 @@
             <Input v-model="transferForm.pwd" placeholder="请输入交易密码" type="password"/>
           </FormItem>
           <FormItem label="短信验证码：" prop="smscode">
-            <Input v-model="transferForm.smscode" placeholder="请输入短信验证码">
-              <span class="" slot="append" style="cursor: pointer;">{{getCodeText}}</span>
+            <Input v-model="transferForm.smscode" :maxlength="4" placeholder="请输入短信验证码">
+              <a class="" slot="append" style="cursor: pointer;user-select: none; display: block; width: 80px;" @click="send">{{getCodeText}}</a>
             </Input>
           </FormItem>
           <FormItem label="转账附言：" prop="remark">
@@ -106,7 +106,7 @@ export default {
           email,nameAuth,phone,loginPass,tradePass,google
         },this);
         return {
-          email,nameAuth,phone,loginPass,tradePass,google,uid:info.uid
+          email,nameAuth,phone,loginPass,tradePass,google,uid:info.uid,country_code:info.country_code
         }
       }
     })
@@ -121,7 +121,8 @@ export default {
       amount: 0,
       pwd: '',
       text_code: '',
-      comment: ''
+      comment: '',
+      timer: null
     }
     var transferRules = {};
     return {
@@ -135,6 +136,63 @@ export default {
     this.init()
   },
   methods: {
+    send() {
+      if (!this.userinfo.phone.value) {
+        return;
+      }
+      if (!this.timer) {
+        this.getCode();
+        var num = 60;
+        this.timer = setInterval(()=>{
+          num -- ;
+          if (num >= 1) {
+            this.getCodeText = num + 's';
+          } else {
+            this.getCodeText = '重新获取';
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        },1*1000)
+      }else {
+        
+      }
+      
+    },
+    getCode() {
+      this.$ajax({
+        method: "post",
+        url: "/trade/tps/pbaut.do",
+        data: {
+          // verifystr: this.tel,
+          reqresource: 1,
+          country_code:this.userinfo.country_code,
+          phone:this.userinfo.phone.value,
+          "type":"2"
+          // "type":"mobile"
+        }
+      }).then((data)=>{
+        if (data.data.err_code == "1") {
+          this.$Notice.success({
+            title: "验证码发送成功，请注意查收。",
+            desc: "",
+            top: 100
+          });
+          // $this.$Modal.info({
+          // 	content:'验证码发送成功，请注意查收。'
+          // })
+        } else {
+          this.$Notice.error({
+            title: "验证码发送失败，请重新发送。",
+            top: 100
+          });
+        }
+      }).catch((err)=>{
+        this.$Notice.error({
+          top: 100,
+          title: '验证码发送错误，请重新发送'
+        })
+      })
+    },
     init() {
       var {coincode, type} = this.$route.query;
       var pairstype = type;

@@ -210,7 +210,7 @@
       > 
         <FormItem label="国家：" prop="country_code">
           <Select class="" v-model="telSetValidate.country_code">
-            <Option v-for="(country,index) in countryList" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
+            <Option v-for="(country,index) in countryList" :disabled="country.status == '0'" :key="country.phone_code+index" :value="country.phone_code">{{country.name + '（'+country.phone_code + '）'}}</Option>
           </Select>
         </FormItem>
         <FormItem label="手机号码：" prop="tel">
