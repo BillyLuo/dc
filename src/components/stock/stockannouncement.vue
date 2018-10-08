@@ -103,7 +103,7 @@ export default {
     h3 {
       color: #fff;
       font-size: 28px;
-      text-align: center;
+      // text-align: center;
       margin-bottom: 20px;
     }
   }

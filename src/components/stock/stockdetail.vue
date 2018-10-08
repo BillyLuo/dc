@@ -139,7 +139,14 @@
                         <Table  class="no-border-table dark-mode" height="600" :loading="loading" :data="order_record_data1" no-data-text="<span class='tishixinxi'>您暂时没有订单记录</span>" :columns="order_record_cloumns" stripe></Table>
                     </TabPane>
                     <TabPane label="个股资讯" name="notification">
-                      <div class="no-notification">暂无公告通知</div>
+                      <div class="no-notification" v-if="!notification.length">暂无公告通知</div>
+                      <div v-else class="stock-notification">
+                        <ul>
+                          <li v-for="(item,index) in notification" :key="item.announcementid" @click="showannouncement(index)">
+                            <a href="javascript:;">{{item.announcementtitle}}</a>
+                          </li>
+                        </ul>
+                      </div>
                     </TabPane>
                 </Tabs>
             </Col>
@@ -147,6 +154,21 @@
                 <Table class="no-border-table dark-mode right_scroll" :columns='columns2' height='795' :data='datas2' stripe></Table>
             </Col>
         </Row>
+        <Modal class="notification-modal" v-model="announcementvisible" title="个股咨询详情" width="600">
+          <div>
+            <Row>
+              <Col :span="12">股票名称： {{active.coinname}}</Col>
+              <Col :span="12">发布时间： {{active.creattime}}</Col>
+            </Row>
+            <div class="announcement-title" style="text-align: left;padding: 10px 0; font-weight: 600;">{{active.announcementtitle}}</div>
+            <div class="announcement-desc">
+              {{active.announcementdesc}}
+            </div>
+          </div>
+          <div slot="footer">
+            <Button type="primary" @click="closeModal">关闭</Button>
+          </div>
+        </Modal>
     </div>
 </template>
 
@@ -270,6 +292,7 @@ export default {
     name:"Quotation",
     data() {
         return {
+            announcementvisible: false, //个股咨询显示与否
             pricelimit: '', //涨跌幅限制
             model:"DC",
             news_price:"",
@@ -374,7 +397,9 @@ export default {
               currencyname: '',
               currencycode: '',
               industry: ''
-            }
+            },
+            notification: '', //个股咨询
+            active: {}
         }
     },
     computed:{
@@ -441,11 +466,11 @@ export default {
     },
     watch:{
       'jichubizhong': function () {
-        console.warn('0000000000watch',);
         var jichubizhong = this.jichubizhong;
         this.getBalance(jichubizhong);
         this.getRlist();
         this.listcolumns2();
+        this.getNotification();
       },
       'jijiabizhong':function () {
         this.getBalance(this.jijiabizhong);
@@ -455,6 +480,31 @@ export default {
       }
     },
     methods:{
+      showannouncement(index) {
+        this.announcementvisible = true;
+        this.active = this.notification[index];
+      },
+      closeModal() {
+        this.announcementvisible = false;
+      },
+      //获取资讯
+      getNotification() {
+        let cointype = this.jichubizhong;
+        this.$ajax.post('/trade/tps/pbacm.do',{
+          cointype,
+          type: 'query'
+        }).then((res)=>{
+          let data = res.data || {};
+          if (data.err_code == '1') {
+            this.notification = data.announcement || [];
+            console.error(this.notification);
+          }else {
+            this.notification = [];
+          }
+        }).cacth((err)=> {
+          this.notification = [];
+        })
+      },
       getStockList(){
         let query = this.$route.query;
         let { code, type } = query;

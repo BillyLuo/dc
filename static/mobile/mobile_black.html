@@ -37,55 +37,55 @@
 			  {
 			    value: "1",
 			    period: "Min",
-			    text: "1min",
+			    text: "1分钟",
 			    select:false,
 			  },
 			  {
 			    value: "5",
 			    period: "5Min",
-			    text: "5min",
+			    text: "5分钟",
 			    select:false,
 			  },
 			  {
 			    value: "15",
 			    period: "15Min",
-			    text: "15min",
+			    text: "15分钟",
 			    select: true,
 			  },
 			  {
 			    value: "30",
 			    period: "30Min",
-			    text: "30min",
+			    text: "30分钟",
 			    select:false,
 			  },
 			  {
 			    value: "60",
 			    period: "1H",
-			    text: "1hour",
+			    text: "1小时",
 			    select:false,
 			  },
 			  {
 			    value: "120",
 			    period: "2H",
-			    text: "2hour",
+			    text: "2小时",
 			    select:false,
 			  },
 			  {
 			    value: "240",
 			    period: "4H",
-			    text: "4hour",
+			    text: "4小时",
 			    select:false,
 			  },
 			  {
 			    value: "360",
 			    period: "6H",
-			    text: "6hour",
+			    text: "6小时",
 			    select:false,
 			  },
 			  {
 			    value: "720",
 			    period: "12H",
-			    text: "12hour",
+			    text: "12小时",
 			    select:false,
 			  },
 			  {
@@ -1103,7 +1103,7 @@
             "header_interval_dialog_button",
             "header_screenshot",
             "hide_chart_type",
-//          "header_resolutions",
+            "header_resolutions",
             "header_chart_type",
             "symbol_search_hot_key",
             "header_saveload",
@@ -1163,6 +1163,7 @@
 			widget.onChartReady(function() {
         let s5,s10,s15,s20;
         let handleClick = (e, value,pre) => {
+        	var tagname = e.target.tagName ||'';
           if(value == "1F"){
             widget.chart().setChartType(3)
             widget.chart().setResolution(value,function(){});
@@ -1180,20 +1181,24 @@
             widget.chart().getStudyById(s20).setVisible(true)
           }
           time_type = pre;
-          alert(time_type);
-          $(e.target).addClass('select').closest('.space-single').siblings('div.space-single').find('div.button').removeClass('select');
+          if (tagname.toLowerCase() == 'span') {
+          		$(e.target).closest('.space-single').siblings().find('.button').removeClass('select');
+          		$(e.target).parent().addClass('select');
+          }else {
+          		$(e.target).closest('.space-single').siblings().find('.button').removeClass('select');
+          		$(e.target).addClass('select');
+          }
           widget.chart().resetData();
         }
         buttonArr.forEach(function (item,index){
-//        var button = widget.createButton()
-//        button.parent().attr("style",'float:left');
-//        button.addClass(item.select?"select time_button_header":'time_button_header')
-//          .attr("style","background:none;border:none;color:#68696b;")
-//          .html("<span>"+item.text+"</span>")
-//          .on('click', function (e) {
-//              handleClick(e,item.value,item.period);
-//          })
-
+          var button = widget.createButton()
+          button.parent().css({float:'left'});
+          button.addClass(item.select?"select time_button_header":'time_button_header')
+            .attr("style","background:none;border:none;color:#68696b;")
+            .html("<span>"+item.text+"</span>")
+            .on('click', function (e) {
+                handleClick(e,item.value,item.period);
+            })
           })
           s5 = widget.chart().createStudy("Moving Average",false,false,[5],null,{"plot.color":'#07bd7f'});
           s10 = widget.chart().createStudy("Moving Average",false,false,[10],null,{"plot.color":'#540483'});

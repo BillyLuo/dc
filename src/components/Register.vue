@@ -517,7 +517,6 @@ export default {
             country_code:this.country,
             phone:this.tel,
             "type":"2"
-
             // "type":"mobile"
           }
         }).then(function(data) {

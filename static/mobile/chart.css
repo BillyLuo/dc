@@ -31,3 +31,6 @@
 .chart-controls-bar{
     display: none;
 }
+.header-chart-panel-content .button span{
+	padding: 6px 8px !important;
+}

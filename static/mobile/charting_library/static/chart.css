@@ -26,3 +26,7 @@
 .chart-controls-bar{
     display: none;
 }
+.header-chart-panel-content .button{
+	padding: 6px 8px !important;
+}
+}
