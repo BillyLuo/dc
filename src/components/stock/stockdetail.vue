@@ -154,7 +154,7 @@
                 <Table class="no-border-table dark-mode right_scroll" :columns='columns2' height='795' :data='datas2' stripe></Table>
             </Col>
         </Row>
-        <Modal class="notification-modal" v-model="announcementvisible" title="个股咨询详情" width="600">
+        <Modal class="notification-modal" v-model="announcementvisible" title="个股资讯详情" width="600">
           <div>
             <Row>
               <Col :span="12">股票名称： {{active.coinname}}</Col>
@@ -292,7 +292,7 @@ export default {
     name:"Quotation",
     data() {
         return {
-            announcementvisible: false, //个股咨询显示与否
+            announcementvisible: false, //个股资讯显示与否
             pricelimit: '', //涨跌幅限制
             model:"DC",
             news_price:"",
@@ -398,7 +398,7 @@ export default {
               currencycode: '',
               industry: ''
             },
-            notification: '', //个股咨询
+            notification: '', //个股资讯
             active: {}
         }
     },
