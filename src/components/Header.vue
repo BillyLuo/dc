@@ -500,7 +500,7 @@ export default {
   //   }
   // }
   .logined {
-    width:100px;
+    width:150px;
     position: absolute;
     right: 100px;
     line-height: 40px;

@@ -32,7 +32,7 @@
                 </div>
                 <Row>
                     <Col span="12">
-                        <p class="foot_p foot_p_first"><a href="/#/about/aboutus?active=aboutus">关于钻石</a></p>
+                        <p class="foot_p foot_p_first"><a href="/#/about/aboutus?active=aboutus">关于非交所</a></p>
                         <p class="foot_p"><a href='/#/about/apply?active=apply'>上币申请</a></p>
                         <p class="foot_p"><a href='/#/about/notice?active=notice'>公告</a></p>
                     </Col>

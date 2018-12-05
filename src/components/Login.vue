@@ -16,7 +16,7 @@
                 <div class="mask-inner">
                   <div class="mask-logo">
                     <img src="/static/img/logo.png"/>
-                    <h2>钻石</h2>
+                    <h2>非交所</h2>
                   </div>
                   <div class="mask-line"></div>
                   <div class="mask-content">

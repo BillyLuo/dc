@@ -34,22 +34,22 @@ export default {
                 {
                     name: '客服1',
                     qq: '100000',
-                    jianjie: '钻石金牌客服'
+                    jianjie: '非交所金牌客服'
                 },
                 {
                     name: '客服2',
                     qq: '100001',
-                    jianjie: '钻石金牌客服'
+                    jianjie: '非交所金牌客服'
                 },
                 {
                     name: '客服3',
                     qq: '100002',
-                    jianjie: '钻石金牌客服'
+                    jianjie: '非交所金牌客服'
                 },
                 {
                     name: '客服4',
                     qq: '100003',
-                    jianjie: '钻石金牌客服'
+                    jianjie: '非交所金牌客服'
                 }
           ]
       }

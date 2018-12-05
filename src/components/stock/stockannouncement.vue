@@ -15,7 +15,7 @@
           <Col :span="12">发布时间： {{active.creattime}}</Col>
         </Row>
         <div class="announcement-title">{{active.announcementtitle}}</div>
-        <div class="announcement-desc">
+        <div class="announcement-desc" v-html="active.announcementdesc">
           {{active.announcementdesc}}
         </div>
       </div>

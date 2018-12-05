@@ -115,18 +115,18 @@ let menu=[
                         return  h('div',{
                           class:"list_imgs",
                         },[
-                            h("img",
-                                {
-                                    attrs:{
-                                        src:param.row.star ? "/static/img/xzwjx.png" : "/static/img/wjx.png"
-                                    },
-                                    on:{
-                                        click:(e)=>{
-                                            this.collect(e,param.row,param.index);
-                                        }
-                                    }
-                                }
-                            ),
+                            // h("img",
+                            //     {
+                            //         attrs:{
+                            //             src:param.row.star ? "/static/img/xzwjx.png" : "/static/img/wjx.png"
+                            //         },
+                            //         on:{
+                            //             click:(e)=>{
+                            //                 this.collect(e,param.row,param.index);
+                            //             }
+                            //         }
+                            //     }
+                            // ),
                             h('span',{
                               on: {
                                 click:()=> {

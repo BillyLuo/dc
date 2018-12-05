@@ -33,7 +33,7 @@ Datafeeds.UDFCompatibleDatafeed.prototype.defaultConfiguration = function() {
 		supported_resolutions: ['1','5','15', '30', '60', '120','240','360','720', '1D','1W', '1M'],
 		supports_marks: false,
 		supports_timescale_marks: false,
-		exchanges: ['钻石交易所'],
+		exchanges: ['非交所'],
 		supports_time:false
 	};
 };
@@ -367,8 +367,8 @@ Datafeeds.UDFCompatibleDatafeed.prototype.resolveSymbol = function(symbolName, o
 			
 			onResultReady({
 				"name":that.data_info.jichubizhong + that.data_info.jijiabizhong,
-				"exchange-traded":"钻石交易所",
-				"exchange-listed":"钻石交易所",
+				"exchange-traded":"非交所",
+				"exchange-listed":"非交所",
 				"timezone":"Asia/Shanghai",
 				"minmov":1,
 				"minmov2":0,
@@ -378,7 +378,7 @@ Datafeeds.UDFCompatibleDatafeed.prototype.resolveSymbol = function(symbolName, o
 				"has_intraday":true,
 				"has_no_volume":false,
 				"has_weekly_and_monthly": true,
-				"ticker":"钻石交易所",
+				"ticker":"非交所",
 				"description":that.data_info.jichubizhong + that.data_info.jijiabizhong,
 				"type":"stock",
 				"regular_session": "24x7",
