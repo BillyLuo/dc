@@ -1,5 +1,22 @@
 <template>
   <div class="safe-settings">
+    <div v-if="userinfo.nameAuth.bound">
+      <div :style="{background:'#2A2A2A',marginBottom:'3px',fontSize:'18px',color:'#fff',height:'76px',lineHeight:'76px',boxShadow:'1px 2px 3px 0px #000'}">
+        <h4 class="text-left" :style="{paddingLeft:'10px',fontWeight:'500'}">
+          实名认证信息
+        </h4>
+      </div>
+      <div class="certify-info">
+        <Row style="border-bottom: 1px solid #383A3D;">
+          <Col :span="4">姓名:</Col>
+          <Col :span="20">{{formatname(userinfo.realname)}}</Col>
+        </Row>
+        <Row>
+          <Col :span="4">身份证号：</Col>
+          <Col :span="20">{{formatcerno(userinfo.certificateno)}}</Col>  
+        </Row>
+      </div>
+    </div>
     <div :style="{background:'#2A2A2A',marginBottom:'3px',fontSize:'18px',color:'#fff',height:'76px',lineHeight:'76px',boxShadow:'1px 2px 3px 0px #000'}">
       <h4 class="text-left" :style="{paddingLeft:'10px',fontWeight:'500'}">
         账户安全
@@ -364,6 +381,26 @@ import { mapState } from "vuex";
 import { Form, FormItem, Icon, Progress } from 'iview';
 import LoginRecord from './loginrecord';
 import {telReg,emailReg} from '../constant/constant';
+function formatname(value) {
+  var result = '';
+  if (value) {
+    if (value.length == 2) {
+      result = value.slice(0,1) + '*';
+    }else if (value.length == 3) {
+      result = value.slice(0,1) + '*' + value.slice(-1);
+    }else if (value.length >= 4) {
+      result = value.slice(0,1) + '**' + value.slice(-1);
+    }
+  }
+  return result;
+}
+function formatcerno(no) {
+  var result = '';
+  if (no && no.length >= 15) {
+    result = no.slice(0,4) + '****' + no.slice(-4);
+  }
+  return result;
+}
 export default {
   data () {
     return {
@@ -594,7 +631,8 @@ export default {
         this.country_codeold = info.country_code;
         console.log(info.country_code)
         return {
-          email,nameAuth,phone,loginPass,tradePass,google
+          email,nameAuth,phone,loginPass,tradePass,google,
+          realname: info.realname,certificateno: info.certificateno
         }
       }
     })
@@ -607,6 +645,8 @@ export default {
     LoginRecord
   },
   methods:{
+    formatname,
+    formatcerno,
     email_focus(){
       this.emailErrMsg = "";
     },
@@ -1399,5 +1439,14 @@ export default {
 </script>
 
 <style lang="scss">
-  
+  .certify-info {
+    line-height: 2.5em;
+    margin-bottom: 20px;
+    text-align: left;
+    background: #222222;
+    &>div {
+      padding: 10px 0;
+      margin: 0 10px;      
+    }
+  }
 </style>

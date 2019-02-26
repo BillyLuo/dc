@@ -17,7 +17,7 @@ export default {
     var columns = [
       {key: 'currencyname',className: 'link',title: '币种',render:(h,param)=>{
         var {row} = param;
-        return h('span',{},row.tradecurrency + '/' + row.currencyname)
+        return h('span',{},row.currencyname + '/' + row.tradecurrency)
       }},
       {key: 'curprice',title: '现价'},
       {key: 'range',title: '涨幅'},
@@ -61,50 +61,6 @@ export default {
       }).catch((err) => {
         this.spinner.stop();
       })
-    },
-    fake() {
-      this.data = [
-        {
-          currency: 'DC/人民币',
-          price: '22',
-          increase: '45%',
-          high: '26',
-          low: '18',
-          turnover: '99992'
-        },
-        {
-          currency: 'DC/美元',
-          price: '22',
-          increase: '45%',
-          high: '26',
-          low: '18',
-          turnover: '99992'
-        },
-        {
-          currency: 'DC/欧元',
-          price: '22',
-          increase: '45%',
-          high: '26',
-          low: '18',
-          turnover: '99992'
-        },
-        {
-          currency: 'DC/日元',
-          price: '22',
-          increase: '45%',
-          high: '26',
-          low: '18',
-          turnover: '99992'
-        },
-        {
-          currency: 'DC/港币',
-          price: '22',
-          increase: '45%',
-          high: '26',
-          low: '18',
-          turnover: '99992'
-        }
-      ]
     },
     rowClick(obj) {
       this.$router.push({

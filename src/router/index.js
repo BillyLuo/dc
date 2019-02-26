@@ -51,9 +51,11 @@ const digitdetail = () => import('@/components/digit/detail')
 //subscription
 const subscription = () => import('@/components/subscription/index')
 
-//account
+//account 
 const account = () => import('@/components/account/index');
 const accountstockdetail = () => import('@/components/account/stockaddress')
+const rechargemoney = () => import('@/components/account/rechargemoney');
+const withdrawmoney = () => import('@/components/account/withdrawmoney');
 const cointransfer = () => import('@/components/account/cointransfer');
 const stocktransfer = () => import('@/components/account/stocktransfer');
 Vue.use(Router)
@@ -229,6 +231,16 @@ export default new Router({
       path: '/account/stockdetail',
       component: accountstockdetail,
       name: 'accountstockdetail'
+    },
+    {
+      path: '/account/rechargemoney',
+      component: rechargemoney,
+      name: 'rechargemoney'
+    },
+    {
+      path: '/account/withdrawmoney',
+      component: withdrawmoney,
+      name: 'withdrawmoney'
     },
     {
       path: '/account/cointransfer',

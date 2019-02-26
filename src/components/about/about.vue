@@ -27,14 +27,14 @@
 import { Menu, MenuItem,MenuGroup } from 'iview';
 var aboutMenu = [
   {name:'aboutus',label:'关于我们'},
-  {name:'apply',label:'上币申请'},
-  {name:'notice',label:'公告'},
+  // {name:'apply',label:'上币申请'},
+  // {name:'notice',label:'公告'},
 ];
 var aboutMenu1 = [
   {name:'protocol',label:'用户协议'},
   {name:'secrecy',label:'隐私条款'},
-  {name:'law',label:'法律声明'},
-  {name:'rate',label:'费率'},
+  // {name:'law',label:'法律声明'},w
+  // {name:'rate',label:'费率'},
 
 ];
 var activeName = aboutMenu[0].name;

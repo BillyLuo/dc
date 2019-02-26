@@ -3,7 +3,11 @@
     <div class="swiper-container header-swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
-          <div class="hander-swiper-img hander-swiper-1">
+          <div class="hander-swiper-img slide-1">
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="hander-swiper-img slide-2">
           </div>
         </div>
         <!-- <div class="swiper-slide">
@@ -53,55 +57,14 @@
 .header-swiper-box{
   .hander-swiper-img{
     width: 100%;
-    height: 480px;
-    background-size: 100% 100%;
+    height: 600px;
+    background-size: 100% 600px;
   }
-  .hander-swiper-1{
-    background-image: url("/static/img/banner.jpeg");
+  .slide-1{
+    background-image: url("/static/img/banner/cepl.png");
   }
-  .hander-swiper-2{
-    background-image: url("/static/img/banner1.png");
-      .wrapper{
-        width: 100%;
-        margin: 0 auto;
-        padding-top: 160px;
-        color: #fff;
-        text-align: center;
-        font-family: AvertaStdBold,"Microsoft Yahei",arial,Helvetica;
-        h4{
-          font-size: 32px;
-          margin-bottom: 5px;
-        }
-        h3{
-          font-size: 20px;
-          margin-bottom: 20px;
-        }
-        .line{
-          width: 50px;
-          height: 6px;
-          background: #fff;
-          margin: 0 auto 25px auto;
-        }
-        .understanding{
-          height: 35px;
-          padding: 0 25px;
-          line-height: 32px;
-          font-size: 14px;
-          text-align: center;
-          border: 1px solid rgba(255, 255, 255, 0.61);
-          border-radius: 50px;
-          width: 120px;
-          margin: 0 auto;
-          cursor: pointer;
-          &:hover{
-            background: #fff;
-            color: #007aff;
-          }
-        }
-      }
-    }
+  .slide-2{
+    background-image: url("/static/img/banner/sutu.png");
   }
-  .hander-swiper-3{
-    background-image: url("/static/img/banner2.jpg");
 }
 </style>

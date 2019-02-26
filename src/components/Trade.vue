@@ -66,7 +66,7 @@
                                 ≈ $ <span>{{buymoney}}</span>
                             </p>
                             <!-- <Slider v-model="value" :max="1000" @on-change="ss"></Slider> -->
-                            <Slider v-model="sliderbuy" :tip-format="sliderformat" @on-input="sliderchange"></Slider>
+                            <!-- <Slider v-model="sliderbuy" :tip-format="sliderformat" @on-input="sliderchange"></Slider> -->
                             <Button class="buy-button buy-button1" @click="buy">
                                 买入 {{jichubizhong}}
                             </Button>
@@ -112,7 +112,7 @@
                             <p>
                                 ≈ $ <span>{{sellmoney}}</span>
                             </p>
-                            <Slider v-model="slidersell" :tip-format="sliderformat" @on-input="slidersellchange"></Slider>
+                            <!-- <Slider v-model="slidersell" :tip-format="sliderformat" @on-input="slidersellchange"></Slider> -->
                             <Button class="buy-button buy-button1" @click="sell">
                                 卖出 {{jichubizhong}}
                             </Button>

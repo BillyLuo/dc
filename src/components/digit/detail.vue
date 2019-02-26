@@ -55,7 +55,7 @@
                                 <span> {{ '仓位 '+jichubizhong }}</span>
                             </div>
                             <div class="slides_sty">
-                                <Slider v-model="slides_value" @on-input="sliderchange" :tip-format="hideFormat"></Slider>
+                                <!-- <Slider v-model="slides_value" @on-input="sliderchange" :tip-format="hideFormat"></Slider> -->
                             </div>
                             <div class="ammont">
                                 预计交易额：{{ buymoney }} {{jijiabizhong}}
@@ -79,7 +79,7 @@
                                 <span> {{ '仓位 '+jichubizhong }}</span>
                             </div>
                             <div class="slides_sty">
-                                <Slider v-model="slides_value1" @on-input="slidersellchange" :tip-format="hideFormat"></Slider>
+                                <!-- <Slider v-model="slides_value1" @on-input="slidersellchange" :tip-format="hideFormat"></Slider> -->
                             </div>
                             <div class="ammont">
                                 预计交易额：{{ sellmoney }} {{jijiabizhong}}

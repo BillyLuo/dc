@@ -7,7 +7,7 @@
       </Menu>
       <div class="header-right header-user">
         <div v-if="isLogined" class="logined clear">
-          <div class="user-name float-left">{{userInfo.username}}</div>
+          <div class="user-name float-left">{{userInfo.username}}&nbsp;<Icon type="arrow-down-b"></Icon></div>
           <div class="user-level float-left">
             <!-- <span class="user-vip">VIP{{userInfo.userLevel}}</span> -->
           </div>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div v-else class="login">
-            <Button class="log-in-out" @click="route('login')">登录</Button>or<Button @click="route('register')" class="log-in-out">注册</Button>
+            <Button class="log-in-out" @click="route('login')">登录</Button><Button @click="route('register')" class="log-in-out">注册</Button>
             <!-- <img src="/static/img/language.png" alt=""> -->
         </div>
         <!-- <div  class="login">
@@ -422,6 +422,7 @@ export default {
       cursor: default;
       font-size: 14px;
       line-height: 80px;
+      margin-right: 10px;
     }
     .header-menu{
         position: absolute;
@@ -500,7 +501,7 @@ export default {
   //   }
   // }
   .logined {
-    width:150px;
+    // width:150px;
     position: absolute;
     right: 100px;
     line-height: 40px;
@@ -551,6 +552,7 @@ export default {
           background: none;
           color:#fff;
           font-size:14px;
+          padding: 6px 10px;
       }
       .ivu-btn:focus {
           -webkit-box-shadow: none;
@@ -604,7 +606,7 @@ export default {
     background: #2a2b2d;
     position: absolute;
     width: 120px;
-    right: -15px;
+    right: 10px;
     top: 60px;
     z-index: 999999999;
     border: 1px solid #404448;

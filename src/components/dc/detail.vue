@@ -18,7 +18,7 @@
         <Row class="qt_right">
             <Col span="18">
                 <!-- <div id="chart"> </div> -->
-                <div id="tv_chart_container"></div>
+                <div id="tv_chart_container" style="min-height: 660px;"></div>
             </Col>
             <Col span="6">
                 <div style="padding: 10px 0;">
@@ -55,13 +55,13 @@
                                 <span> {{ '仓位 '+jichubizhong }}</span>
                             </div>
                             <div class="slides_sty">
-                                <Slider v-model="slides_value" @on-input="sliderchange" :tip-format="hideFormat"></Slider>
+                                <!-- <Slider v-model="slides_value" @on-input="sliderchange" :tip-format="hideFormat"></Slider> -->
                             </div>
                             <div class="ammont">
                                 预计交易额：{{ buymoney }}
                             </div>
                             <div class="button_sell_buy">
-                                <Button class="buy" @click="buycurrency">买入</Button>
+                                <Button class="buy" @click="buycurrency">{{buyLabel}}</Button>
                                 <!-- <Button class="sell clear">卖出</Button> -->
                             </div>
                         </TabPane>
@@ -79,13 +79,13 @@
                                 <span> {{ '仓位 '+jichubizhong }}</span>
                             </div>
                             <div class="slides_sty">
-                                <Slider v-model="slides_value1" @on-input="slidersellchange" :tip-format="hideFormat"></Slider>
+                                <!-- <Slider v-model="slides_value1" @on-input="slidersellchange" :tip-format="hideFormat"></Slider> -->
                             </div>
                             <div class="ammont">
                                 预计交易额：{{ sellmoney }}
                             </div>
                             <div class="button_sell_buy">
-                                <Button class="sell clear" @click="sellcurrency" >卖出</Button>
+                                <Button class="sell clear" @click="sellcurrency" >{{sellLabel}}</Button>
                             </div>
                         </TabPane>
                     </Tabs>
@@ -282,6 +282,9 @@ export default {
             jijia_dongjie:'',
             loading:false,
             buy_sell:"buy",
+            // 买入卖出按钮文字
+            buyLabel: '买入',
+            sellLabel: '卖出',
             data:[],
             data1:[],
             data2:[],
@@ -466,7 +469,7 @@ export default {
           if (res.err_code == '1' && res.currencyDetail instanceof Array && res.currencyDetail.length) {
             that.coinList = res.currencyDetail.map((item,index) => {
               item.value = item.currencycode;
-              item.label = 'DC/' + item.currencyname;
+              item.label = item.currencyname + '/DC';
               if (index == 0) {
                 defaultCoin = item.value ? item.value : '';
               }
@@ -477,6 +480,10 @@ export default {
                 that.zhangfu = Number(item.range).toFixed(2);
                 that.query_entrust();
                 flag = true;
+              }
+              if (that.jichubizhong == item.currencyid) {
+                that.buyLabel = '买入'+item.currencyname;
+                that.sellLabel = '卖出'+item.currencyname;
               }
               return item;
             })
@@ -980,7 +987,7 @@ export default {
                     if (!that._configuration.supports_group_request) {
                         // 这块是配置交易所的基本信息
                         onResultReady({
-                            "name":that.data_info.jichubizhong + that.data_info.jijiabizhong,//币种名称加计价币种
+                            "name":that.data_info.jichubizhong + '/' + that.data_info.jijiabizhong,//币种名称加计价币种
                             "exchange-traded":"非交所",//交易所名称
                             "exchange-listed":"非交所",
                             "timezone":"Asia/Shanghai",//时区
@@ -993,7 +1000,7 @@ export default {
                             "has_no_volume":false,
                             "has_weekly_and_monthly": true,//打开周线月线，打开后能接受W和M这两个值
                             "ticker":"非交所",
-                            "description":that.data_info.jichubizhong + that.data_info.jijiabizhong,
+                            "description":that.data_info.jichubizhong + '/' + that.data_info.jijiabizhong,
                             "type":"stock",
                             "regular_session": "24x7",//24x7表示不间断的
                             "supported_resolutions":['1','5','15', '30', '60', '120','240','360','720', '1D','1W', '1M']}

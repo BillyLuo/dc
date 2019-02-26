@@ -78,7 +78,7 @@ export default {
       { key: 'frozenfund', title: '冻结资产'},
       { key: 'total', title: '总量'},
       { key: 'operation',title: '操作', render: (h,params) => {
-        var row = params.row;
+        var row = params.row || {};
         var address = h('a',{'class': 'wallet-address',on:{
             click: () => {
               if(params.row) {
@@ -92,54 +92,86 @@ export default {
               }
             }
           }},'钱包地址');
-        if (row && row.currencyname != "DC") {
-          return address;
-        }
-        return h ('div',{},[
-          address,
-          h('a',{'class': 'coin-transfer',on:{
-            click: ()=> {
-              var userinfo = that.userinfo;
-              if (userinfo && userinfo.uid) {
-                if (!userinfo.nameAuth.bound) {
-                  that.$Notice.warning({
-                    title: '提示',
-                    desc: '请先完成实名认证'
-                  })
-                  that.$router.push({
-                    name: 'safeSettings'
-                  })
-                  return;
-                }
-                if (!userinfo.tradePass.bound) {
-                  that.$Notice.warning({
-                    title: '提示',
-                    desc: '请先设置交易密码'
-                  })
-                  that.$router.push({
-                    name: 'safeSettings'
-                  })
-                  return;
-                }
-              } else {
-                if (!cookies.get('name')) {
-                  that.$Notice.warning({
-                    title: '提示',
-                    desc: '请登录'
-                  })
-                }
+          var recharge = h('a',{
+            'class': 'coin-recharge',
+            on: {
+              click: ()=>{
+                this.$router.push({
+                  name: 'rechargemoney',
+                  query: {
+                    code: row.coincode,
+                    type: row.type
+                  }
+                })
+              }
+            }
+          },'充值')
+          var withdraw = h('a',{
+            'class': 'coin-withdraw',
+            on: {
+              click: ()=>{
+                this.$router.push({
+                  name: 'withdrawmoney',
+                  query: {
+                    code: row.coincode,
+                    type: row.type
+                  }
+                })
+              }
+            }
+          },'提现')
+        var trans = h('a',{'class': 'coin-transfer',on:{
+          click: ()=> {
+            var userinfo = that.userinfo;
+            if (userinfo && userinfo.uid) {
+              if (!userinfo.nameAuth.bound) {
+                that.$Notice.warning({
+                  title: '提示',
+                  desc: '请先完成实名认证'
+                })
+                that.$router.push({
+                  name: 'safeSettings'
+                })
                 return;
               }
-              this.$router.push({
-                name: 'cointransfer',
-                query: {
-                  coincode: params.row.coincode,
-                  type: params.row.type
-                }
-              })
+              if (!userinfo.tradePass.bound) {
+                that.$Notice.warning({
+                  title: '提示',
+                  desc: '请先设置交易密码'
+                })
+                that.$router.push({
+                  name: 'safeSettings'
+                })
+                return;
+              }
+            } else {
+              if (!cookies.get('name')) {
+                that.$Notice.warning({
+                  title: '提示',
+                  desc: '请登录'
+                })
+              }
+              return;
             }
-          }},'转账')
-        ])
+            this.$router.push({
+              name: 'cointransfer',
+              query: {
+                coincode: params.row.coincode,
+                type: params.row.type
+              }
+            })
+          }
+        }},'转账')
+        if (row && row.currencyname != "DC") {
+          if (row.coincode == 'CNY' || row.coincode == 'USD') {
+            return h ('div',{},[
+              recharge, withdraw])
+          } else {
+            return address;
+          }
+        }
+        return h ('div',{},[
+          address,trans])
       }}
     ]
     return {
@@ -226,11 +258,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
   .my-wallet-table {
-    .wallet-address,.coin-transfer {
-      margin: 0 10px;
+    .wallet-address {
+      margin-right: 10px;
     }
     margin-bottom: 20px;
+  }
+  .coin-recharge {
+    margin-right: 10px;
   }
 </style>

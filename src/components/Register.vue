@@ -14,12 +14,12 @@
               <div class="mask-inner">
                 <div class="mask-logo">
                   <img src="/static/img/logo.png"/>
-                  <h2>非交所</h2>
+                  <!-- <h2>非交所</h2> -->
                 </div>
-                <div class="mask-line"></div>
+                <!-- <div class="mask-line"></div> -->
                 <div class="mask-content">
-                  <h3>全球领先的数字资产交易平台</h3>
-                  <h4>The Leading Global Digital Asset Exchange</h4>
+                  <h3>全球领先的证券交易平台</h3>
+                  <h4>Global Leading Stock Exchange Platform</h4>
                 </div>
               </div>
             </div>
@@ -123,7 +123,7 @@
 								</p>
 								</div> -->
 								<div style="margin-top: 30px;margin-bottom: 10px;">
-								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/secrecy?active=secrecy" >《非交所用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《非交所隐私条款》</a></Checkbox>
+								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/protocol?active=protocol" >《非交所用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《非交所隐私条款》</a></Checkbox>
 								</div>
 								<div class="go-register">
 								<Button type="primary" size="large" @click="submitTel">注册</Button>
@@ -226,7 +226,7 @@
 								</p>
 								</div> -->
 								<div class="register-input-item">
-								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/secrecy?active=secrecy" >《非交所用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《非交所隐私条款》</a></Checkbox>
+								<Checkbox v-model="single" >阅读并同意 <a href="/#/about/protocol?active=protocol" >《非交所用户协议》</a>和<a href="/#/about/secrecy?active=secrecy">《非交所隐私条款》</a></Checkbox>
 								</div>
 								<div class="go-register">
 								<Button type="primary" size="large" @click="submitEmail">注册</Button>
@@ -986,12 +986,14 @@ $placeholder: #e1e1e1;
 }
 .mask {
   .mask-inner {
-    padding: 140px 80px;
+    padding: 220px 80px;
     text-align: right;
     color: #fff;
     img {
+      display: block;
       width: 80px;
-      height: 90px;
+      height: 80px;
+      margin: 0 auto;
     }
     h2 {
       font-size: 30px;
@@ -1003,10 +1005,12 @@ $placeholder: #e1e1e1;
       font-size: 26px;
       font-weight: 400;
       padding: 30px 0;
+      text-align: center;
     }
     h4 {
       font-size: 30px;
       font-weight: 500;
+      text-align: center;
     }
     .mask-line {
       height: 1px;

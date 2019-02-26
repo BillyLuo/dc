@@ -30,7 +30,7 @@
                                         </FormItem>
                                         <p class="count-money">交易额 ≈ <i>{{buymoney}}</i> <span>USDT</span></p>
                                         <div style="padding-right:12px;padding-left:5px;">
-                                            <Slider v-model="sliderbuy" :tip-format="sliderformat" @on-input="sliderchange"></Slider>
+                                            <!-- <Slider v-model="sliderbuy" :tip-format="sliderformat" @on-input="sliderchange"></Slider> -->
                                         </div>
                                         
                                         <Button class="mairu" @click="trade(1)">买入{{ params.currency }}</Button>
@@ -61,7 +61,7 @@
                                         </FormItem>
                                         <p class="count-money">交易额 ≈ <i>{{ sellmoney }}</i> <span>USDT</span></p>
                                         <div style="padding-right:12px;padding-left:5px;">
-                                            <Slider v-model="slidersell" :tip-format="sliderformat" @on-input="slidersellchange"></Slider>
+                                            <!-- <Slider v-model="slidersell" :tip-format="sliderformat" @on-input="slidersellchange"></Slider> -->
                                         </div>
                                         <Button class="mairu" @click="trade(2)">卖出{{ params.currency }}</Button>
                                     </Form>

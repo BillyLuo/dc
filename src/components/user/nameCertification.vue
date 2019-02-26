@@ -96,11 +96,17 @@ export default {
         return false;
       }
       if (certificatetype == 1) {
-        if (certificateno && certificateno.match(/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/)){
-          this.errorMsg = '';
+        // if (certificateno && certificateno.match(/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/)){
+        //   this.errorMsg = '';
+        // }else {
+        //   this.errorMsg = '请输入合格的身份证号码';
+        //   return false;
+        // }
+        if (!certificateno) {
+          this.errorMsg = '请输入身份证号码';
+          return;
         }else {
-          this.errorMsg = '请输入合格的身份证号码';
-          return false;
+          this.errorMsg = '';
         }
       }else if (certificatetype == 2) {
 
@@ -126,12 +132,14 @@ export default {
               name:'safesettings'
             }
           })
+          this.errorMsg = '';
           // location.reload();
-        }else {
+        }else if (res.data.msg){
           that.$Notice.warning({
             title:'提示',
-            desc:'认证失败，请稍后重试'
+            desc:res.data.msg + ',请重试'
           })
+          this.errorMsg = res.data.msg;
         }
       }).catch((err)=>{
         console.log(err);
