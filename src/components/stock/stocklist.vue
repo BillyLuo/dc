@@ -15,7 +15,7 @@
 export default {
   data() {
     let columns = [
-      {key: 'currencyname', className: 'link', title: '股票名称'},
+      {key: 'currencyname', className: 'link', width: 200, title: '股票名称'},
       {key: 'currencycode', className: 'link', title: '股票代码'},
       {key: 'range', title: '涨幅'},
       {key: 'curprice', title: '现价'},
